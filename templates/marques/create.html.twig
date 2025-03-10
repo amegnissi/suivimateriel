@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une Marque{% endblock %}
+
+{% block breadcrumb %}MARQUES > AJOUTER{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-12">
+            <h4>Ajouter une Nouvelle Marque</h4>
+            <div class="card my-4">
+                <div class="card-body">
+                        {{ form_start(form) }}
+                        
+                        <div class="input-group input-group-outline mb-4">
+                            {{ form_label(form.libelle, 'Nom de la Marque', { 'label_attr': {'class': 'form-label' } }) }}
+                            {{ form_widget(form.libelle, {'attr': {'class': 'form-control' } }) }}
+                            <div class="invalid-feedback">
+                                {{ form_errors(form.libelle) }}
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            {{ form_label(form.estVehicule, 'Est un Véhicule ?', { 'label_attr': {'class': 'ms-0' } }) }}
+                            {{ form_widget(form.estVehicule, {'attr': {'class': 'form-control' } }) }}
+                            <div class="invalid-feedback">
+                                {{ form_errors(form.estVehicule) }}
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        <a href="{{ path('marques_index') }}" class="btn btn-secondary">Annuler</a>
+
+                        {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

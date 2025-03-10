@@ -1,0 +1,107 @@
+<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-start bg-white">
+    <div class="sidenav-header">
+        <a class="navbar-brand px-4 py-3 m-0" href="#">
+            <!--    <img src="{{ asset('assets/img/logo-ct-dark.png') }}" class="navbar-brand-img" alt="main_logo">     -->
+            <span class="ms-1 text-sm text-dark">GESTION MATERIEL</span>
+        </a>
+    </div>
+    <hr class="horizontal dark mt-0 mb-2">
+    <div class="collapse navbar-collapse w-auto">
+        <ul class="navbar-nav">
+
+            {# Section Dashboard #} 
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.get('_route') == 'dashboard' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" href="{{ path('dashboard') }}">
+                    <i class="material-symbols-rounded opacity-5">dashboard</i>
+                    <span class="nav-link-text ms-1">Dashboard</span>
+                </a>
+            </li>
+            
+            {# Section Postes #} 
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.attributes.get('_route') starts with 'postes' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
+                    href="{{ path('postes_index') }}">
+                    <i class="material-symbols-rounded opacity-5">badge</i>
+                    <span class="nav-link-text ms-1">Postes</span>
+                </a>
+            </li>
+
+            {# Section Employés #} 
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.attributes.get('_route') starts with 'employes' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
+                    href="{{ path('employes_index') }}">
+                    <i class="material-symbols-rounded opacity-5">groups</i>
+                    <span class="nav-link-text ms-1">Employés</span>
+                </a>
+            </li>
+
+            {# Section Marques #}                                            
+            <li class="nav-item">
+            <a class="nav-link {% if app.request.attributes.get('_route') starts with 'marques' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
+                href="{{ path('marques_index') }}">
+                    <i class="material-symbols-rounded opacity-5">branding_watermark</i>
+                    <span class="nav-link-text ms-1">Marques</span>
+                </a>
+            </li>        
+
+            {# Section Matériels #}  
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle {% if app.request.attributes.get('_route') starts with 'materiels' or app.request.attributes.get('_route') starts with 'types_materiels' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
+                    id="materielDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="material-symbols-rounded opacity-5">inventory</i>
+                    <span class="nav-link-text ms-1">Matériels</span>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="materielDropdown">
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center {% if app.request.attributes.get('_route') starts with 'types_materiels' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
+                            href="{{ path('types_materiels_index') }}">
+                            <i class="material-symbols-rounded opacity-5 me-2">category</i> Types Matériels
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center{% if app.request.attributes.get('_route') starts with 'materiels' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
+                            href="{{ path('materiels_index') }}">
+                            <i class="material-symbols-rounded opacity-5 me-2">inventory</i> Matériels
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            
+            {# Section Sociétés de Service #}  
+            <li class="nav-item">
+            <a class="nav-link {% if app.request.attributes.get('_route') starts with 'societe_service' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
+                href="{{ path('societe_service_index') }}">
+                    <i class="material-symbols-rounded opacity-5">apartment</i>
+                    <span class="nav-link-text ms-1">Sociétés de Service</span>
+                </a>
+            </li>
+
+            {# Section Affectations #} 
+            <li class="nav-item">
+            <a class="nav-link {% if app.request.attributes.get('_route') starts with 'affectations' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
+                href="{{ path('affectations_index') }}">
+                    <i class="material-symbols-rounded opacity-5">assignment</i>
+                    <span class="nav-link-text ms-1">Affectations</span>
+                </a>
+            </li>
+
+            {# Section Maintenance #} 
+            <li class="nav-item">
+            <a class="nav-link {% if app.request.attributes.get('_route') starts with 'maintenances' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
+                href="{{ path('maintenances_index') }}">
+                    <i class="material-symbols-rounded opacity-5">build</i>
+                    <span class="nav-link-text ms-1">Maintenance</span>
+                </a>
+            </li>
+
+            {# Section Départs Employés #} 
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="#">
+                    <i class="material-symbols-rounded opacity-5">logout</i>
+                    <span class="nav-link-text ms-1">Départs Employés</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+</aside>

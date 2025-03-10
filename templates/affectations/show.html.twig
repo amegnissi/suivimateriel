@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de l'Affectation{% endblock %}
+
+{% block breadcrumb %}AFFECTATIONS > DETAILS{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-12">
+            <h4>Détails de l'Affectation</h4>
+            <div class="card my-4">
+                <div class="card-body">
+                    <p><strong>Date d'Affectation:</strong> {{ affectation.dateAffectation|date('d-m-Y') }}</p>
+                    <p><strong>Lieu d'Affectation:</strong> {{ affectation.materiel.lieuAffactation }}</p>
+                    <p><strong>Matériel:</strong> {{ affectation.materiel.libelle }}</p>
+                    <p><strong>Employé:</strong> 
+                        {% if affectation.employe %}
+                            {{ affectation.employe.nom }} {{ affectation.employe.prenom }}
+                        {% else %}
+                            Aucun
+                        {% endif %}
+                    </p>
+                    <p><strong>Société:</strong> 
+                        {% if affectation.societe %}
+                            {{ affectation.societe.nom }}
+                        {% else %}
+                            Aucune
+                        {% endif %}
+                    </p>
+
+                    <a href="{{ path('affectations_index') }}" class="btn btn-secondary">Retour</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une Société{% endblock %}
+
+{% block breadcrumb %}SOCIETES SERVICES > AJOUTER{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-12">
+            <h4>Ajouter une Société de Service</h4>
+            <div class="card my-4">
+                <div class="card-body">
+                    {{ form_start(form) }}
+
+                        <div class="input-group input-group-outline mb-4">
+                            {{ form_label(form.nom, 'Nom de la Société', { 'label_attr': { 'class': 'form-label' } }) }}
+                            {{ form_widget(form.nom, { 'attr': { 'class': 'form-control' } }) }}
+                            {{ form_errors(form.nom) }}
+                        </div>
+
+                        <div class="input-group input-group-outline mb-4">
+                            {{ form_label(form.adresse, 'Adresse', { 'label_attr': {'class': 'form-label'} }) }}
+                            {{ form_widget(form.adresse, { 'attr': { 'class': 'form-control' } }) }}
+                            {{ form_errors(form.adresse) }}
+                        </div>
+
+                        <div class="input-group input-group-outline mb-4">
+                            {{ form_label(form.telephone, 'Numéro de Téléphone', { 'label_attr': {'class': 'form-label'} }) }}
+                            {{ form_widget(form.telephone, { 'attr': { 'class': 'form-control' } }) }}
+                            {{ form_errors(form.telephone) }}
+                        </div>
+
+                        <div class="input-group input-group-outline mb-4">
+                            {{ form_label(form.email, 'Email', { 'label_attr': {'class': 'form-label'} }) }}
+                            {{ form_widget(form.email, { 'attr': { 'class': 'form-control' } }) }}
+                            {{ form_errors(form.email) }}
+                        </div>
+
+                        <div class="input-group input-group-outline mb-4">
+                            {{ form_label(form.ifu, 'IFU', { 'label_attr': {'class': 'form-label'} }) }}
+                            {{ form_widget(form.ifu, { 'attr': { 'class': 'form-control' } }) }}
+                            {{ form_errors(form.ifu) }}
+                        </div>
+
+                        <div class="input-group input-group-outline mb-4">
+                            {{ form_label(form.siteWeb, 'Site Web', { 'label_attr': {'class': 'form-label'} }) }}
+                            {{ form_widget(form.siteWeb, { 'attr': { 'class': 'form-control' } }) }}
+                            {{ form_errors(form.siteWeb) }}
+                        </div>
+
+                        <div class="input-group input-group-outline mb-4">
+                            {{ form_label(form.gerant, 'Nom du Gérant\(e\)', { 'label_attr': {'class': 'form-label'} }) }}
+                            {{ form_widget(form.gerant, { 'attr': { 'class': 'form-control' } }) }}
+                            {{ form_errors(form.gerant) }}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        <a href="{{ path('societe_service_index') }}" class="btn btn-secondary">Annuler</a>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

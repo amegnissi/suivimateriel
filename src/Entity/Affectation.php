@@ -19,6 +19,9 @@ class Affectation
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateAffectation = null;
 
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $lieuAffectation = null;
+
     #[ORM\ManyToOne(inversedBy: 'affectations')]
     private ?Materiel $materiel = null;
 
@@ -53,6 +56,17 @@ class Affectation
     {
         $this->dateAffectation = $dateAffectation;
 
+        return $this;
+    }
+
+    public function getLieuAffectation(): ?string
+    {
+        return $this->lieuAffectation;
+    }
+
+    public function setLieuAffectation(?string $lieuAffectation): static
+    {
+        $this->lieuAffectation = $lieuAffectation;
         return $this;
     }
 

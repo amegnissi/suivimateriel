@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails d'un Matériel{% endblock %}
+
+{% block breadcrumb %}MATERIELS > DETAILS{% endblock %}
+
+{% block content %}
+
+    
+    <div class="row">
+        <div class="col-12">
+            <h4>Détails du Matériel</h4>
+            <div class="card my-4">
+                <div class="card-body">
+                    <table class="table">
+                        <tr>
+                            <th>Nom du Matériel</th>
+                            <td>{{ materiel.libelle }}</td>
+                        </tr>
+                        <tr>
+                            <th>Numéro de Série</th>
+                            <td>{{ materiel.numeroSerie }}</td>
+                        </tr>
+                        <tr>
+                            <th>Modèle</th>
+                            <td>{{ materiel.modele }}</td>
+                        </tr>
+                        <tr>
+                            <th>Immatriculation</th>
+                            <td>{{ materiel.immatriculation }}</td>
+                        </tr>
+                        <tr>
+                            <th>Statut</th>
+                            <td>
+                                {% if materiel.statut == 0 %}
+                                    <span class="badge bg-gradient-secondary">Non Affecté</span>
+                                {% elseif materiel.statut == 1 %}
+                                    <span class="badge bg-gradient-success">Affecté</span>
+                                {% elseif materiel.statut == 3 %}
+                                    <span class="badge bg-gradient-warning">En Maintenance</span>
+                                {% elseif materiel.statut == 4 %}
+                                    <span class="badge bg-gradient-danger">Hors Service</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Date d'Acquisition</th>
+                            <td>{{ materiel.dateAcquisition ? materiel.dateAcquisition|date('d/m/Y') : '' }}</td>
+                        </tr>
+                    </table>
+
+                    <a href="{{ path('materiels_edit', { 'id': materiel.id }) }}" class="btn btn-primary">Modifier</a>
+                    <a href="{{ path('materiels_index') }}" class="btn btn-secondary">Retour à la liste</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

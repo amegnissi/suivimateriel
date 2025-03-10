@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\EmployeRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\EmployeRepository;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: EmployeRepository::class)]
 class Employe
@@ -44,6 +45,15 @@ class Employe
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $photo = null;
+
+    // Ajout des propriétés File (NON persistées en BDD)
+    private ?File $photoFile = null;
+    private ?File $copieCarteIdFile = null;
+    private ?File $copieDiplomeFile = null;
+    private ?File $certificatAcquiteVisuelFile = null;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\OneToOne(mappedBy: 'employe', cascade: ['persist', 'remove'])]
     private ?DepartEmploye $departEmploye = null;
@@ -185,6 +195,49 @@ class Employe
         $this->photo = $photo;
 
         return $this;
+    }
+
+    public function setPhotoFile(?File $photoFile = null): void
+    {
+        $this->photoFile = $photoFile;
+        if ($photoFile) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getPhotoFile(): ?File
+    {
+        return $this->photoFile;
+    }
+
+    public function setCopieCarteIdFile(?File $file = null): void
+    {
+        $this->copieCarteIdFile = $file;
+    }
+
+    public function getCopieCarteIdFile(): ?File
+    {
+        return $this->copieCarteIdFile;
+    }
+
+    public function setCopieDiplomeFile(?File $file = null): void
+    {
+        $this->copieDiplomeFile = $file;
+    }
+
+    public function getCopieDiplomeFile(): ?File
+    {
+        return $this->copieDiplomeFile;
+    }
+
+    public function setCertificatAcquiteVisuelFile(?File $file = null): void
+    {
+        $this->certificatAcquiteVisuelFile = $file;
+    }
+
+    public function getCertificatAcquiteVisuelFile(): ?File
+    {
+        return $this->certificatAcquiteVisuelFile;
     }
 
     public function getDepartEmploye(): ?DepartEmploye

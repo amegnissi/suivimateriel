@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de l'Employe{% endblock %}
+
+{% block breadcrumb %}EMLPLOYES > Détails de l'Employé{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-12">
+            <h4>Détails d'un Employé</h4>
+            <div class="card my-4">
+                <div class="card-body">
+                    <h5 class="card-title">{{ employe.nom }} {{ employe.prenom }}</h5>
+
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>Poste :</strong> {{ employe.poste ? employe.poste.libelle : 'Non défini' }}</li>
+                        <li class="list-group-item"><strong>Téléphone personnel :</strong> {{ employe.telephonePersonnel }}</li>
+                        <li class="list-group-item"><strong>Téléphone corporate :</strong> {{ employe.telephoneCorporate ?: 'Non spécifié' }}</li>
+                        <li class="list-group-item"><strong>Email :</strong> {{ employe.email }}</li>
+                        <li class="list-group-item"><strong>Départ :</strong> {{ employe.depart ? 'Oui' : 'Non' }}</li>
+                    </ul>
+
+                    <a href="{{ path('employes_index') }}" class="btn btn-secondary mt-3">Retour à la liste</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

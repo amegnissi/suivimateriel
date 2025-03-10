@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier la Société{% endblock %}
+
+{% block breadcrumb %}SOCIETES SERVICES > MODIFIER{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-12">
+            <h4>Modifier la Société de Service</h4>
+            <div class="card my-4">
+                <div class="card-body">
+                    {{ form_start(form) }}
+                    
+                        <div class="input-group input-group-static mb-4">
+                            {{ form_label(form.nom, 'Nom de la Société', { 'label_attr': { 'class': 'ms-0' } }) }}
+                            {{ form_widget(form.nom, { 'attr': { 'class': 'form-control' } }) }}
+                            {{ form_errors(form.nom) }}
+                        </div>
+
+                        <div class="input-group input-group-static mb-4">
+                            {{ form_label(form.adresse, 'Adresse', { 'label_attr': { 'class': 'ms-0' } }) }}
+                            {{ form_widget(form.adresse, { 'attr': { 'class': 'form-control' } }) }}
+                            {{ form_errors(form.adresse) }}
+                        </div>
+
+                        <div class="input-group input-group-static mb-4">
+                            {{ form_label(form.telephone, 'Téléphone', { 'label_attr': { 'class': 'ms-0' } }) }}
+                            {{ form_widget(form.telephone, { 'attr': { 'class': 'form-control' } }) }}
+                            {{ form_errors(form.telephone) }}
+                        </div>
+
+                        <div class="input-group input-group-static mb-4">
+                            {{ form_label(form.email, 'Email', { 'label_attr': { 'class': 'ms-0' } }) }}
+                            {{ form_widget(form.email, { 'attr': { 'class': 'form-control' } }) }}
+                            {{ form_errors(form.email) }}
+                        </div>
+
+                        <div class="input-group input-group-static mb-4">
+                            {{ form_label(form.ifu, 'IFU', { 'label_attr': { 'class': 'ms-0' } }) }}
+                            {{ form_widget(form.ifu, { 'attr': { 'class': 'form-control' } }) }}
+                            {{ form_errors(form.ifu) }}
+                        </div>
+
+                        <div class="input-group input-group-static mb-4">
+                            {{ form_label(form.siteWeb, 'Site Web', { 'label_attr': { 'class': 'ms-0' } }) }}
+                            {{ form_widget(form.siteWeb, { 'attr': { 'class': 'form-control' } }) }}
+                            {{ form_errors(form.siteWeb) }}
+                        </div>
+
+                        <div class="input-group input-group-static mb-4">
+                            {{ form_label(form.gerant, 'Gérant', { 'label_attr': { 'class': 'ms-0' } }) }}
+                            {{ form_widget(form.gerant, { 'attr': { 'class': 'form-control' } }) }}
+                            {{ form_errors(form.gerant) }}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Mettre à Jour</button>
+                        <a href="{{ path('societe_service_index') }}" class="btn btn-secondary">Annuler</a>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+{% endblock %}

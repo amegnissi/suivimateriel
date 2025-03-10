@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une Affectation{% endblock %}
+
+{% block breadcrumb %}AFFECTATIONS AJOUTER{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-12">
+            <h4>Ajouter une Affectation</h4>
+            <div class="card my-4">
+                <div class="card-body">
+                    {{ form_start(form) }}
+
+                    <div class="input-group input-group-static my-3">
+                        {{ form_label(form.materiel, 'Matériel', { 'label_attr': { 'class': 'ms-0' } }) }}
+                        {{ form_widget(form.materiel, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_errors(form.materiel) }}
+                    </div>
+
+                    <div class="input-group input-group-static my-3">
+                        {{ form_label(form.societe, 'Société', { 'label_attr': { 'class': 'ms-0' } }) }}
+                        {{ form_widget(form.societe, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_errors(form.societe) }}
+                    </div>
+
+                    <div class="input-group input-group-static my-3">
+                        {{ form_label(form.employe, 'Employé', { 'label_attr': { 'class': 'ms-0' } }) }}
+                        {{ form_widget(form.employe, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_errors(form.employe) }}
+                    </div>
+
+                    <div class="input-group input-group-static my-3">
+                        {{ form_label(form.dateAffectation, 'Date d\'Affectation', { 'label_attr': { 'class': 'ms-0' } }) }}
+                        {{ form_widget(form.dateAffectation, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_errors(form.dateAffectation) }}
+                    </div>
+
+                    <div class="input-group input-group-static mb-4">
+                        {{ form_label(form.lieuAffectation, 'Lieu d\'Affectation', { 'label_attr': { 'class': 'ms-0' } }) }}
+                        {{ form_widget(form.lieuAffectation, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_errors(form.lieuAffectation) }}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                    <a href="{{ path('affectations_index') }}" class="btn btn-secondary">Annuler</a>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- Include jQuery and Select2 JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2({
+                width: '100%',
+                placeholder: "Sélectionnez une option",
+                allowClear: true
+            });
+        });
+    </script>
+
+{% endblock %}

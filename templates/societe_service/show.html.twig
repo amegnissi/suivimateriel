@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de la Société{% endblock %}
+
+{% block breadcrumb %}SOCIETES SERVICES > DETAILS{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-12">
+            <h4>Détails de la Société</h4>
+            <div class="card my-4">
+                <div class="card-body">
+                    <p><strong>Nom:</strong> {{ societe.nom }}</p>
+                    <p><strong>Adresse:</strong> {{ societe.adresse }}</p>
+                    <p><strong>Téléphone:</strong> {{ societe.telephone }}</p>
+                    <p><strong>Email:</strong> {{ societe.email }}</p>
+                    <p><strong>IFU:</strong> {{ societe.ifu }}</p>
+                    <p><strong>Site Web:</strong> {{ societe.siteWeb }}</p>
+                    <p><strong>Gérant:</strong> {{ societe.gerant }}</p>
+
+                    <a href="{{ path('societe_service_edit', { 'id': societe.id }) }}" class="btn btn-warning">Modifier</a>
+                    <a href="{{ path('societe_service_index') }}" class="btn btn-secondary">Retour</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

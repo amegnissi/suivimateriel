@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de la Maintenance{% endblock %}
+
+{% block breadcrumb %}MAINTENANCES > DETAILS{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-12">
+            <h4>Détails de la Maintenance</h4>
+            <div class="card my-4">
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Matériel</th>
+                            <td>{{ maintenance.affectation.materiel.libelle }}</td>
+                        </tr>
+                        <tr>
+                            <th>Type</th>
+                            <td>{{ maintenance.typeMainteance }}</td>
+                        </tr>
+                        <tr>
+                            <th>Description</th>
+                            <td>{{ maintenance.description ?: '-' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Date d'Intervention</th>
+                            <td>{{ maintenance.dateIntervention|date('d/m/Y') }}</td>
+                        </tr>
+                        <tr>
+                            <th>Kilométrage Actuel</th>
+                            <td>{{ maintenance.kilometrageActuel ?: '-' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Coût (FCFA)</th>
+                            <td>{{ maintenance.cout ?: '-' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Preuve</th>
+                            <td>
+                                {% if maintenance.preuve %}
+                                    <a href="{{ asset('uploads/' ~ maintenance.preuve) }}" target="_blank">Voir la preuve</a>
+                                {% else %}
+                                    Aucune preuve fournie.
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+
+                    <a href="{{ path('maintenances_index') }}" class="btn btn-secondary">Retour</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

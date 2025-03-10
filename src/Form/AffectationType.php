@@ -1,0 +1,76 @@
+<?php
+
+namespace App\Form;
+
+use App\Entity\Employe;
+use App\Entity\Materiel;
+use App\Entity\Affectation;
+use App\Entity\SocieteService;
+use App\Repository\EmployeRepository;
+use App\Repository\MaterielRepository;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+
+class AffectationType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('dateAffectation', DateType::class, [
+                'widget' => 'single_text',
+                'label' => 'Date d\'Affectation',
+            ])
+            ->add('employe', EntityType::class, [
+                'class' => Employe::class,
+                'query_builder' => function (EmployeRepository $er) {
+                    return $er->createQueryBuilder('e')
+                        ->leftJoin('e.affectations', 'a')
+                        ->where('a.id IS NULL');
+                },
+                'choice_label' => function (Employe $employe) {
+                    return $employe->getPrenom() . ' ' . $employe->getNom();
+                },
+                'attr' => ['class' => 'select2'], // Ajout de Select2
+                'label' => 'Employé',
+                'placeholder' => 'Choisissez un Employé',
+                'required' => false,
+            ])
+            
+            ->add('materiel', EntityType::class, [
+                'class' => Materiel::class,
+                'query_builder' => function (MaterielRepository $mr) {
+                    return $mr->createQueryBuilder('m')
+                        ->leftJoin('m.affectations', 'a')
+                        ->where('a.id IS NULL');
+                },
+                'choice_label' => 'libelle',
+                'attr' => ['class' => 'select2'], // Ajout de Select2
+                'label' => 'Matériel',
+                'placeholder' => 'Choisissez un Matériel',
+                'required' => false,
+            ])
+            ->add('societe', EntityType::class, [
+                'class' => SocieteService::class,
+                'choice_label' => 'nom',
+                'label' => 'Société',
+                'placeholder' => 'Choisissez un Société',
+                'required' => false,
+            ])
+            ->add('lieuAffectation', TextType::class, [
+                'label' => 'Lieu d\'Affectation',
+                'required' => false,
+                'attr' => ['class' => 'form-control'],
+            ]);
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Affectation::class,
+        ]);
+    }
+}

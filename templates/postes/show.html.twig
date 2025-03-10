@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du Poste{% endblock %}
+
+{% block breadcrumb %}POSTES > DÉTAILS{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <h4>Détails du Poste</h4>
+            <div class="card my-4">
+                <div class="card-body">
+                    <p><strong>Libellé :</strong> {{ poste.libelle }}</p>
+                    <p><strong>Nombre d'employés affectés :</strong> {{ poste.employe|length }}</p>
+
+                    <h5>Employés affectés :</h5>
+                    {% if poste.employe is not empty %}
+                    <ul>
+                        {% for employe in poste.employe %}
+                            <li>{{ employe.nom }} {{ employe.prenom }} - {{ employe.email }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p>Aucun employé affecté à ce poste.</p>
+                    {% endif %}
+
+                    <a href="{{ path('postes_edit', {'id': poste.id}) }}" class="btn btn-warning">Modifier</a>
+
+                    <form action="{{ path('postes_delete', {'id': poste.id}) }}" method="POST" class="d-inline">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ poste.id) }}">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir désactiver ce poste ?');">Désactiver</button>
+                    </form>
+
+                    <a href="{{ path('postes_index') }}" class="btn btn-secondary">Retour</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Employés{% endblock %}
+
+{% block breadcrumb %}EMPLOYES{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4>Gestion des Employés</h4>
+                <a href="{{ path('employes_create') }}" class="btn btn-primary">Ajouter un Employé</a>
+            </div>
+
+            <div class="card my-4">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
+                        <h6 class="text-white text-capitalize ps-3">Liste des Employés</h6>
+                    </div>
+                </div>
+                <div class="card-body px-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">N°</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nom</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Prénom</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Poste</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tel Personnel</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tel Corporate</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for employe in employes %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ employe.nom }}</td>
+                                    <td>{{ employe.prenom }}</td>
+                                    <td>{{ employe.poste ? employe.poste.libelle : 'Non défini' }}</td>
+                                    <td>{{ employe.telephonePersonnel }}</td>
+                                    <td>{{ employe.telephoneCorporate ?: 'N/A' }}</td>
+                                    <td>{{ employe.email }}</td>
+                                    <td class="align-middle">
+                                        <a href="{{ path('employes_show', {'id': employe.id}) }}" class="btn btn-info btn-sm">Voir</a>
+                                        <a href="{{ path('employes_edit', {'id': employe.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="7" class="text-center">Aucun employé trouvé.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

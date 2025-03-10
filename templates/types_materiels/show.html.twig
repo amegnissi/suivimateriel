@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails d'un Type Matériel{% endblock %}
+
+{% block breadcrumb %}TYPES MATERIELS > DETAILS{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-12">
+            <h4>Détails du Type de Matériel</h4>
+            <div class="card my-4">
+                <div class="card-body">
+                    <p><strong>Libellé :</strong> {{ typeMateriel.libelle }}</p>
+                    <p><strong>Nombre de matériels associés :</strong> {{ typeMateriel.materiels|length }}</p>
+
+                    <h5>Matériels associés :</h5>
+                    {% if typeMateriel.materiels is not empty %}
+                    <ul>
+                        {% for materiel in typeMateriel.materiels %}
+                            <li>{{ materiel.nom }} - {{ materiel.reference }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p>Aucun matériel associé à ce type.</p>
+                    {% endif %}
+
+                    <a href="{{ path('types_materiels_edit', { 'id': typeMateriel.id }) }}" class="btn btn-warning">Modifier</a>
+                    <form action="{{ path('types_materiels_delete', {'id': typeMateriel.id}) }}" method="POST" class="d-inline">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ typeMateriel.id) }}">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce type de matériel ?');">Supprimer</button>
+                    </form>
+
+                    <a href="{{ path('types_materiels_index') }}" class="btn btn-secondary">Retour</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+{% endblock %}

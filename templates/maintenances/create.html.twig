@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une Maintenance{% endblock %}
+
+{% block breadcrumb %}MAINTENANCES > AJOUTER{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-12">
+            <h4>Ajouter une Maintenance</h4>
+            <div class="card my-4">
+                <div class="card-body">
+                    {{ form_start(form) }}
+                    
+                    <div class="input-group input-group-static my-3">
+                        {{ form_label(form.affectation, 'Affectation', { 'label_attr': { 'class': 'ms-0' } }) }}
+                        {{ form_widget(form.affectation, { 'attr': { 'class': 'form-control select2' } }) }}
+                        {{ form_errors(form.affectation) }}
+                    </div>
+
+                    <div class="input-group input-group-static my-3">
+                        {{ form_label(form.typeMainteance, 'Type de Maintenance', { 'label_attr': { 'class': 'ms-0' } }) }}
+                        {{ form_widget(form.typeMainteance, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_errors(form.typeMainteance) }}
+                    </div>
+
+                    <div class="input-group input-group-static my-3">
+                        {{ form_label(form.description, 'Description', { 'label_attr': { 'class': 'ms-0' } }) }}
+                        {{ form_widget(form.description, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_errors(form.description) }}
+                    </div>
+
+                    <div class="input-group input-group-static my-3">
+                        {{ form_label(form.dateIntervention, 'Date d\'Intervention', { 'label_attr': { 'class': 'ms-0' } }) }}
+                        {{ form_widget(form.dateIntervention, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_errors(form.dateIntervention) }}
+                    </div>
+
+                    <div class="input-group input-group-static my-3">
+                        {{ form_label(form.kilometrageActuel, 'Kilométrage Actuel', { 'label_attr': { 'class': 'ms-0' } }) }}
+                        {{ form_widget(form.kilometrageActuel, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_errors(form.kilometrageActuel) }}
+                    </div>
+
+                    <div class="input-group input-group-static my-3">
+                        {{ form_label(form.cout, 'Coût (FCFA)', { 'label_attr': { 'class': 'ms-0' } }) }}
+                        {{ form_widget(form.cout, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_errors(form.cout) }}
+                    </div>
+
+                    <div class="input-group input-group-static my-3">
+                        {{ form_label(form.preuve, 'Preuve (Fichier)', { 'label_attr': { 'class': 'ms-0' } }) }}
+                        {{ form_widget(form.preuve, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_errors(form.preuve) }}
+                    </div>
+
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        <a href="{{ path('maintenances_index') }}" class="btn btn-secondary">Annuler</a>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

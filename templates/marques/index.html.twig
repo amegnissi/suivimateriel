@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Marques{% endblock %}
+
+{% block breadcrumb %}MARQUES{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4>Gestion des Marques</h4>
+                <a href="{{ path('marques_create') }}" class="btn btn-primary">Ajouter une Marque</a>
+            </div>
+
+            <!-- Formulaire de filtrage -->
+             <!-- 
+                <div class="card my-4">
+                    <div class="card-body">
+                        <form action="{{ path('marques_index') }}" method="GET" class="row g-3">
+                            <div class="col-md-6">
+                                <input type="text" name="search" class="form-control" placeholder="Rechercher une marque..." value="{{ app.request.query.get('search') }}">
+                            </div>
+                            <div class="col-md-4">
+                                <select name="est_vehicule" class="form-select">
+                                    <option value="">Tous les types</option>
+                                    <option value="1" {% if app.request.query.get('est_vehicule') == '1' %}selected{% endif %}>Véhicule</option>
+                                    <option value="0" {% if app.request.query.get('est_vehicule') == '0' %}selected{% endif %}>Non Véhicule</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-dark">Filtrer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+             -->
+
+            <!-- Tableau des marques -->
+            <div class="card my-4">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
+                        <h6 class="text-white text-capitalize ps-3">Liste des Marques</h6>
+                    </div>
+                </div>
+                <div class="card-body px-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">N°</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nom de la Marque</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Est un Véhicule ?</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Matériels Associés</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for marque in marques %}
+                                    <tr>
+                                        <td>{{ loop.index }}</td>
+                                        <td>{{ marque.libelle }}</td>
+                                        <td>{{ marque.estVehicule ? 'Oui' : 'Non' }}</td>
+                                        <td>{{ marque.materiels|length }}</td>
+                                        <td class="align-middle">
+                                            <a href="{{ path('marques_edit', {id: marque.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
+                                            <form action="{{ path('marques_delete', {id: marque.id}) }}" method="POST" class="d-inline">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ marque.id) }}">
+                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce poste ?');">Supprimer</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="5" class="text-center">Aucune marque trouvée.</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="d-flex justify-content-center">
+                {# pagination(marques) #}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

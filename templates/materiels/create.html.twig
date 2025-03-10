@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un Matériel{% endblock %}
+
+{% block breadcrumb %}MATERIELS > AJOUTER{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-12">
+            <h4>Ajouter un Nouveau Matériel</h4>
+            <div class="card my-4">
+                <div class="card-body">
+                    {{ form_start(form) }}
+
+                            <div class="input-group input-group-outline mb-4">
+                                {{ form_label(form.libelle, 'Nom du Matériel', { 'label_attr': { 'class': 'form-label' } }) }}
+                                {{ form_widget(form.libelle, { 'attr': { 'class': 'form-control' } }) }}
+                                {{ form_errors(form.libelle) }}
+                            </div>
+
+                        <div class="input-group input-group-outline mb-4">
+                            {{ form_label(form.immatriculation, 'Immatriculation', { 'label_attr': { 'class': 'form-label' } }) }}
+                            {{ form_widget(form.immatriculation, { 'attr': { 'class': 'form-control' } }) }}
+                            {{ form_errors(form.immatriculation) }}
+                        </div>
+
+                        <div class="input-group input-group-outline mb-4">
+                            {{ form_label(form.modele, 'Modèle', { 'label_attr': { 'class': 'form-label' } }) }}
+                            {{ form_widget(form.modele, { 'attr': { 'class': 'form-control' } }) }}
+                            {{ form_errors(form.modele) }}
+                        </div>
+                                                    
+                        <div class="input-group input-group-outline mb-4">
+                            {{ form_label(form.numeroSerie, 'Numéro de Série', { 'label_attr': { 'class': 'form-label' } }) }}
+                            {{ form_widget(form.numeroSerie, { 'attr': { 'class': 'form-control' } }) }}
+                            {{ form_errors(form.numeroSerie) }}
+                        </div>
+
+                            <div class="input-group input-group-static my-3">
+                                {{ form_label(form.type, 'Type de Matériel', { 'label_attr': { 'class': 'ms-0' } }) }}
+                                {{ form_widget(form.type, { 'attr': { 'class': 'form-control' } }) }}
+                                {{ form_errors(form.type) }}
+                            </div>
+
+                            <div class="input-group input-group-static my-3">
+                                {{ form_label(form.marque, 'Marque', { 'label_attr': { 'class': 'ms-0' } }) }}
+                                {{ form_widget(form.marque, { 'attr': { 'class': 'form-control' } }) }}
+                                {{ form_errors(form.marque) }}
+                            </div>
+
+                        <div class="input-group input-group-static my-3">
+                            {{ form_label(form.date_acquisition, 'Date d\'acquisition', { 'label_attr': { 'class': 'ms-0' } }) }}
+                            {{ form_widget(form.date_acquisition, { 'attr': { 'class': 'form-control', 'type': 'date' } }) }}
+                            {{ form_errors(form.date_acquisition) }}
+                        </div>
+
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    <a href="{{ path('materiels_index') }}" class="btn btn-secondary">Annuler</a>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <script>
+        let marquesVehicules = {{ marquesVehicules|json_encode|raw }};
+
+        function checkImmatriculationField() {
+            let marqueSelect = document.getElementById("materiel_marque");
+            let immatriculationField = document.getElementById("immatriculationField");
+
+            if (marqueSelect) {
+                let selectedMarqueId = parseInt(marqueSelect.value);
+                if (marquesVehicules.includes(selectedMarqueId)) {
+                    immatriculationField.style.display = "block";
+                } else {
+                    immatriculationField.style.display = "none";
+                }
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            checkImmatriculationField();
+        });
+    </script>
+{% endblock %}
