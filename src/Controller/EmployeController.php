@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Employe;
 use App\Form\EmployeType;
+use App\Entity\Entreprise;
 use App\Repository\EmployeRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,12 +19,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class EmployeController extends AbstractController
 {
     #[Route('/', name: 'employes_index', methods: ['GET'])]
-    public function index(EmployeRepository $employeRepository): Response
+    public function index(Request $request, EmployeRepository $employeRepository, PaginatorInterface $paginator): Response
     {
-        $employes = $employeRepository->findAll();
+        $query = $employeRepository->createQueryBuilder('e')
+            ->where('e.depart IS NULL OR e.depart = :depart')
+            ->setParameter('depart', false)
+            ->getQuery();
+
+        // Paginer les résultats
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1), // Page actuelle
+            10 // Nombre d'éléments par page
+        );
 
         return $this->render('employes/index.html.twig', [
-            'employes' => $employes,
+            'pagination' => $pagination,
         ]);
     }
 
@@ -62,10 +74,17 @@ class EmployeController extends AbstractController
                 $certificatAcquiteVisuelFile->move($this->getParameter('uploads_directory'), $newFilename);
                 $employe->setCertificatAcquiteVisuel($newFilename);
             }
+
+            // Associer un employé à une entreprise
+            $entreprise = $entityManager->getRepository(Entreprise::class)->find(1); // ID de l'entreprise
+            if ($entreprise) {
+                $employe->setEntreprise($entreprise);
+            }
         
             $entityManager->persist($employe);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Employé enregistré avec succès.');
             return $this->redirectToRoute('employes_index');
         }
 
@@ -91,6 +110,7 @@ class EmployeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
+            $this->addFlash('success', 'Employé modifié avec succès.');
             return $this->redirectToRoute('employes_index');
         }
 

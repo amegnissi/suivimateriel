@@ -19,11 +19,6 @@
                         {{ form_errors(form.libelle) }}
                     </div>
                     
-                    <div class="mb-4">
-                        {{ form_label(form.estVehicule, 'Est un Véhicule ?', { 'label_attr': {'class': 'ms-0' } }) }}
-                        {{ form_widget(form.estVehicule, {'attr': {'class': 'form-control' } }) }}
-                    </div>
-                    
                     <button type="submit" class="btn btn-primary">Mettre à Jour</button>
                     <a href="{{ path('marques_index') }}" class="btn btn-secondary">Annuler</a>
 

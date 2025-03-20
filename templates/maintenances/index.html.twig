@@ -20,39 +20,94 @@
                     </div>
                 </div>
                 <div class="card-body px-0 pb-2">
-                    <div class="table-responsive p-0">
+                    <div class="table-responsive">
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">N°</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Matériel</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Employé</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Type</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date d'Intervention</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Coût (FCFA)</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">N°</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Matériel</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Type</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Date d'Intervention</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Km Actuel</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Km Prochain</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Statut</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for maintenance in maintenances %}
+                                {% for maintenance in pagination %}
                                 <tr>
-                                    <td>{{ loop.index }}</td>
-                                    <td>{{ maintenance.affectation.materiel.libelle }}</td>
-                                    <td>{{ maintenance.affectation.employe.prenom }} {{ maintenance.affectation.employe.nom }}</td>
-                                    <td>{{ maintenance.typeMainteance }}</td>
-                                    <td>{{ maintenance.dateIntervention|date('d-m-Y') }}</td>
-                                    <td>{{ maintenance.cout ?: '-' }}</td>
-                                    <td>
+                                    <td class="align-middle text-center text-xs font-weight-bold">{{ loop.index }}</td>
+                                    <td class="align-middle">
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="mb-0 text-sm">{{ maintenance.materiel.marque.libelle }} - {{ maintenance.materiel.immatriculation }}</h6>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle text-xs font-weight-bold">{{ maintenance.typeMaintenance }}</td>
+                                    <td class="align-middle text-center text-xs font-weight-bold">
+                                        {{ maintenance.dateIntervention|date('d-m-Y') }}
+                                    </td>
+                                    <td class="align-middle text-center text-xs font-weight-bold">
+                                        {{ maintenance.kilometrageActuel ? maintenance.kilometrageActuel|number_format(0, ',', ' ') ~ ' km' : '-' }}
+                                    </td>
+                                    <td class="align-middle text-center text-xs font-weight-bold">
+                                        {{ maintenance.kilometragePrevisionnel ? maintenance.kilometragePrevisionnel|number_format(0, ',', ' ') ~ ' km' : '-' }}
+                                    </td>
+                                    <td class="align-middle text-center">
+                                        {% if maintenance.statut == 0 %}
+                                            <span class="badge bg-warning text-dark">⏳ En cours</span>
+                                        {% else %}
+                                            <span class="badge bg-success">✅ Terminé</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="align-middle text-center">
                                         <a href="{{ path('maintenances_show', {'id': maintenance.id}) }}" class="btn btn-info btn-sm">Voir</a>
+                                        {% if maintenance.statut == 0 %}
+                                        <form action="{{ path('maintenances_finish', {'id': maintenance.id}) }}" method="post" class="d-inline">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('finish' ~ maintenance.id) }}">
+                                            <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Confirmer la fin de cette maintenance ?');">
+                                                Terminer
+                                            </button>
+                                        </form>
+                                        {% endif %}
                                     </td>
                                 </tr>
                                 {% else %}
                                 <tr>
-                                    <td colspan="7" class="text-center">Aucune maintenance trouvée.</td>
+                                    <td colspan="8" class="text-center text-secondary">Aucune maintenance trouvée.</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
+                        
+                        <!-- Pagination -->
+                        {% if pagination.getTotalItemCount() > 10 %}
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-center">
+                                    {% if pagination.currentPageNumber > 1 %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ path('employes_index', {'page': pagination.currentPageNumber - 1}) }}">
+                                                <span class="material-symbols-rounded">keyboard_arrow_left</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+
+                                    {% for page in 1..pagination.pageCount %}
+                                        <li class="page-item {% if page == pagination.currentPageNumber %}active{% endif %}">
+                                            <a class="page-link" href="{{ path('employes_index', {'page': page}) }}">{{ page }}</a>
+                                        </li>
+                                    {% endfor %}
+
+                                    {% if pagination.currentPageNumber < pagination.pageCount %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ path('employes_index', {'page': pagination.currentPageNumber + 1}) }}">
+                                                <span class="material-symbols-rounded">keyboard_arrow_right</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        {% endif %}
                     </div>
                 </div>
             </div>

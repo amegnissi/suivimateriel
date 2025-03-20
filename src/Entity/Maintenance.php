@@ -15,7 +15,7 @@ class Maintenance
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $typeMainteance = null;
+    private ?string $typeMaintenance = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
@@ -27,28 +27,34 @@ class Maintenance
     private ?float $kilometrageActuel = null;
 
     #[ORM\Column(nullable: true)]
+    private ?float $kilometragePrevisionnel = null;
+
+    #[ORM\Column(nullable: true)]
     private ?float $cout = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $preuve = null;
 
-    #[ORM\ManyToOne(inversedBy: 'maintenances')]
-    private ?Affectation $affectation = null;
+    #[ORM\ManyToOne(targetEntity: Materiel::class, inversedBy: 'maintenances')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Materiel $materiel = null;
+
+    #[ORM\Column(type: 'boolean')]
+    private bool $statut = false; // Nouveau champ : false = en cours, true = terminé
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTypeMainteance(): ?string
+    public function getTypeMaintenance(): ?string
     {
-        return $this->typeMainteance;
+        return $this->typeMaintenance;
     }
 
-    public function setTypeMainteance(string $typeMainteance): static
+    public function setTypeMaintenance(string $typeMaintenance): static
     {
-        $this->typeMainteance = $typeMainteance;
-
+        $this->typeMaintenance = $typeMaintenance;
         return $this;
     }
 
@@ -60,7 +66,6 @@ class Maintenance
     public function setDescription(?string $description): static
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -72,7 +77,6 @@ class Maintenance
     public function setDateIntervention(?\DateTimeInterface $dateIntervention): static
     {
         $this->dateIntervention = $dateIntervention;
-
         return $this;
     }
 
@@ -84,7 +88,17 @@ class Maintenance
     public function setKilometrageActuel(?float $kilometrageActuel): static
     {
         $this->kilometrageActuel = $kilometrageActuel;
+        return $this;
+    }
 
+    public function getKilometragePrevisionnel(): ?float
+    {
+        return $this->kilometragePrevisionnel;
+    }
+
+    public function setKilometragePrevisionnel(?float $kilometragePrevisionnel): static
+    {
+        $this->kilometragePrevisionnel = $kilometragePrevisionnel;
         return $this;
     }
 
@@ -96,7 +110,6 @@ class Maintenance
     public function setCout(?float $cout): static
     {
         $this->cout = $cout;
-
         return $this;
     }
 
@@ -108,19 +121,28 @@ class Maintenance
     public function setPreuve(?string $preuve): static
     {
         $this->preuve = $preuve;
-
         return $this;
     }
 
-    public function getAffectation(): ?Affectation
+    public function getMateriel(): ?Materiel
     {
-        return $this->affectation;
+        return $this->materiel;
     }
 
-    public function setAffectation(?Affectation $affectation): static
+    public function setMateriel(?Materiel $materiel): static
     {
-        $this->affectation = $affectation;
+        $this->materiel = $materiel;
+        return $this;
+    }
 
+    public function getStatut(): bool
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(bool $statut): static
+    {
+        $this->statut = $statut;
         return $this;
     }
 }

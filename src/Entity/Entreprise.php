@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\EntrepriseRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\EntrepriseRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: EntrepriseRepository::class)]
 class Entreprise
@@ -36,6 +38,18 @@ class Entreprise
 
     #[ORM\Column(nullable: true)]
     private ?float $kilometrage = null;
+
+    #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Materiel::class)]
+    private Collection $materiels;
+
+    #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Employe::class)]
+    private Collection $employes;
+
+    public function __construct()
+    {
+        $this->materiels = new ArrayCollection();
+        $this->employes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -135,6 +149,61 @@ class Entreprise
     {
         $this->kilometrage = $kilometrage;
 
+        return $this;
+    }
+
+
+    /**
+     * @return Collection<int, Materiel>
+     */
+    public function getMateriels(): Collection
+    {
+        return $this->materiels;
+    }
+
+    public function addMateriel(Materiel $materiel): static
+    {
+        if (!$this->materiels->contains($materiel)) {
+            $this->materiels->add($materiel);
+            $materiel->setEntreprise($this);
+        }
+        return $this;
+    }
+
+    public function removeMateriel(Materiel $materiel): static
+    {
+        if ($this->materiels->removeElement($materiel)) {
+            if ($materiel->getEntreprise() === $this) {
+                $materiel->setEntreprise(null);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Employe>
+     */
+    public function getEmployes(): Collection
+    {
+        return $this->employes;
+    }
+
+    public function addEmploye(Employe $employe): static
+    {
+        if (!$this->employes->contains($employe)) {
+            $this->employes->add($employe);
+            $employe->setEntreprise($this);
+        }
+        return $this;
+    }
+
+    public function removeEmploye(Employe $employe): static
+    {
+        if ($this->employes->removeElement($employe)) {
+            if ($employe->getEntreprise() === $this) {
+                $employe->setEntreprise(null);
+            }
+        }
         return $this;
     }
 }

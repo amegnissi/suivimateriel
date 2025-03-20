@@ -29,7 +29,8 @@ class AffectationType extends AbstractType
                 'query_builder' => function (EmployeRepository $er) {
                     return $er->createQueryBuilder('e')
                         ->leftJoin('e.affectations', 'a')
-                        ->where('a.id IS NULL');
+                        ->where('e.depart IS NULL')
+                        ->andWhere('a.id IS NULL');
                 },
                 'choice_label' => function (Employe $employe) {
                     return $employe->getPrenom() . ' ' . $employe->getNom();
@@ -47,7 +48,9 @@ class AffectationType extends AbstractType
                         ->leftJoin('m.affectations', 'a')
                         ->where('a.id IS NULL');
                 },
-                'choice_label' => 'libelle',
+                'choice_label' => function (Materiel $materiel) {
+                    return $materiel->getMarque()->getLibelle(). ' - ' . $materiel->getImmatriculation();
+                },
                 'attr' => ['class' => 'select2'], // Ajout de Select2
                 'label' => 'Matériel',
                 'placeholder' => 'Choisissez un Matériel',

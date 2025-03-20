@@ -6,6 +6,7 @@ use App\Entity\Marque;
 use App\Form\MarqueType;
 use App\Repository\MarqueRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,27 +18,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class MarqueController extends AbstractController
 {
     #[Route('/', name: 'marques_index', methods: ['GET'])]
-    public function index(Request $request, MarqueRepository $marqueRepository): Response
+    public function index(Request $request, MarqueRepository $marqueRepository, PaginatorInterface $paginator): Response
     {
-        $search = $request->query->get('search');
-        $estVehicule = $request->query->get('est_vehicule');
+        $query = $marqueRepository->createQueryBuilder('e')
+            ->getQuery();
 
-        $queryBuilder = $marqueRepository->createQueryBuilder('m');
-
-        if ($search) {
-            $queryBuilder->andWhere('m.nom LIKE :search')
-                ->setParameter('search', '%' . $search . '%');
-        }
-
-        if ($estVehicule !== null) {
-            $queryBuilder->andWhere('m.estVehicule = :estVehicule')
-                ->setParameter('estVehicule', (bool) $estVehicule);
-        }
-
-        $marques = $queryBuilder->getQuery()->getResult();
+        // Paginer les résultats
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1), // Page actuelle
+            10 // Nombre d'éléments par page
+        );
 
         return $this->render('marques/index.html.twig', [
-            'marques' => $marques,
+            'pagination' => $pagination,
         ]);
     }
 

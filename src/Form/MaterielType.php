@@ -11,15 +11,16 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class MaterielType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('libelle', TextType::class, [
-                'label' => 'Nom du matériel',
+            ->add('libelle', TextareaType::class, [
+                'required' => false,
+                'label' => 'Description',
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('numeroSerie', TextType::class, [
@@ -28,6 +29,7 @@ class MaterielType extends AbstractType
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('date_acquisition', DateType::class, [
+                'required' => false,
                 'label' => 'Date d\'acquisition',
                 'widget' => 'single_text',    
                 'attr' => [
@@ -47,6 +49,7 @@ class MaterielType extends AbstractType
             ])
             ->add('type', EntityType::class, [
                 'class' => TypeMateriel::class,
+                'required' => false,
                 'choice_label' => 'libelle',
                 'label' => 'Type de matériel',
                 'placeholder' => 'Choisissez un type',
@@ -54,6 +57,7 @@ class MaterielType extends AbstractType
             ])
             ->add('marque', EntityType::class, [
                 'class' => Marque::class,
+                'required' => false,
                 'choice_label' => 'libelle',
                 'label' => 'Marque',
                 'placeholder' => 'Choisissez une marque',

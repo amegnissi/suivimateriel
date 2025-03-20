@@ -14,12 +14,6 @@
                     {{ form_start(form) }}
 
                         <div class="input-group input-group-static my-3">
-                            {{ form_label(form.libelle, 'Nom du Matériel', { 'label_attr': { 'class': 'ms-0' } }) }}
-                            {{ form_widget(form.libelle, { 'attr': { 'class': 'form-control' } }) }}
-                            {{ form_errors(form.libelle) }}
-                        </div>
-
-                        <div class="input-group input-group-static my-3">
                             {{ form_label(form.immatriculation, 'Immatriculation', { 'label_attr': { 'class': 'ms-0' } }) }}
                             {{ form_widget(form.immatriculation, { 'attr': { 'class': 'form-control' } }) }}
                             {{ form_errors(form.immatriculation) }}
@@ -50,9 +44,15 @@
                         </div>
 
                         <div class="input-group input-group-static my-3">
-                            {{ form_label(form.date_acquisition, 'Date d\'acquisition', { 'label_attr': { 'class': 'ms-0' } }) }}
-                            {{ form_widget(form.date_acquisition, { 'attr': { 'class': 'form-control', 'type': 'date' } }) }}
-                            {{ form_errors(form.date_acquisition) }}
+                            {{ form_label(form.libelle, 'Description du Matériel', { 'label_attr': { 'class': 'ms-0' } }) }}
+                            {{ form_widget(form.libelle, { 'attr': { 'class': 'form-control', 'rows': '3', 'spellcheck': 'false' } }) }}
+                            {{ form_errors(form.libelle) }}
+                        </div>
+
+                        <div class="input-group input-group-static my-3">
+                        {{ form_label(form.date_acquisition, 'Date d\'acquisition', { 'label_attr': { 'class': 'ms-0' } }) }}
+                        {{ form_widget(form.date_acquisition, { 'attr': { 'class': 'form-control', 'type': 'date' } }) }}
+                        {{ form_errors(form.date_acquisition) }}
                         </div>
 
                         <button type="submit" class="btn btn-primary">Enregistrer</button>

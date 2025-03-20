@@ -17,16 +17,6 @@ class MarqueType extends AbstractType
             ->add('libelle', TextType::class, [
                 'label' => 'Nom de la Marque',
                 'attr' => ['class' => 'form-control'],
-            ])
-            ->add('estVehicule', ChoiceType::class, [
-                'label' => 'Est un Véhicule ?',
-                'choices' => [
-                    'Oui' => true,
-                    'Non' => false,
-                ],
-                'expanded' => true, 
-                'multiple' => false,
-                'attr' => ['class' => 'form-control'],
             ]);
     }
 

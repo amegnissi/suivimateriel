@@ -2,45 +2,45 @@
 
 namespace App\Form;
 
+use App\Entity\Materiel;
 use App\Entity\Affectation;
 use App\Entity\Maintenance;
+use App\Repository\MaterielRepository;
 use Symfony\Component\Form\AbstractType;
-use App\Repository\AffectationRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 class MaintenanceType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('affectation', EntityType::class, [
-                'class' => Affectation::class,
-                'query_builder' => function (AffectationRepository $ar) {
-                    return $ar->createQueryBuilder('a')
-                        ->innerJoin('a.materiel', 'm')
+            ->add('materiel', EntityType::class, [
+                'class' => Materiel::class,
+                'query_builder' => function (MaterielRepository $mr) {
+                    return $mr->createQueryBuilder('m')
                         ->where('m.statut != :statut')
                         ->setParameter('statut', 2); // Exclure les matériels déjà en maintenance
                 },
-                'choice_label' => function (Affectation $affectation) {
-                    return $affectation->getMateriel()->getLibelle() . ' - ' . $affectation->getSociete()->getNom();
+                'choice_label' => function (Materiel $materiel) {
+                    return $materiel->getMarque()->getLibelle() . ' - ' . $materiel->getImmatriculation();
                 },
-                'placeholder' => 'Sélectionnez une affectation',
-                'label' => 'Matériel affecté',
+                'placeholder' => 'Sélectionnez un matériel',
+                'label' => 'Matériel concerné',
                 'required' => true,
             ])
-            ->add('typeMainteance', ChoiceType::class, [
+            ->add('typeMaintenance', ChoiceType::class, [
                 'choices' => [
-                    'Révision' => 'Révision',
+                    'Vidange' => 'Vidange',
                     'Réparation' => 'Réparation',
-                    'Entretien' => 'Entretien',
                 ],
                 'label' => 'Type de maintenance',
                 'placeholder' => 'Sélectionnez un type',
@@ -75,6 +75,9 @@ class MaintenanceType extends AbstractType
                         'mimeTypesMessage' => 'Veuillez télécharger une image ou un PDF valide.',
                     ])
                 ],
+            ])
+            ->add('kilometragePrevisionnel', HiddenType::class, [
+                'mapped' => false,
             ]);
     }
 

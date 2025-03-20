@@ -6,6 +6,7 @@ use App\Entity\TypeMateriel;
 use App\Form\TypeMaterielType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\TypeMaterielRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,12 +18,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class TypeMaterielController extends AbstractController
 {
     #[Route('/', name: 'types_materiels_index', methods: ['GET'])]
-    public function index(TypeMaterielRepository $typeMaterielRepository): Response
+    public function index(Request $request, TypeMaterielRepository $typeMaterielRepository, PaginatorInterface $paginator): Response
     {
-        $typesMateriels = $typeMaterielRepository->findAll();
+        $query = $typeMaterielRepository->createQueryBuilder('e')
+            ->getQuery();
+
+        // Paginer les résultats
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1), // Page actuelle
+            10 // Nombre d'éléments par page
+        );
         
         return $this->render('types_materiels/index.html.twig', [
-            'typesMateriels' => $typesMateriels,
+            'pagination' => $pagination,
         ]);
     }
 
@@ -37,6 +46,7 @@ class TypeMaterielController extends AbstractController
             $em->persist($typeMateriel);
             $em->flush();
 
+            $this->addFlash('success', 'Type Matériel ajouté avec succès.');
             return $this->redirectToRoute('types_materiels_index');
         }
 
@@ -62,6 +72,7 @@ class TypeMaterielController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
 
+            $this->addFlash('success', 'Type Matériel mis à jour avec succès.');
             return $this->redirectToRoute('types_materiels_index');
         }
 
@@ -77,6 +88,7 @@ class TypeMaterielController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $typeMateriel->getId(), $request->request->get('_token'))) {
             $em->remove($typeMateriel);
             $em->flush();
+            $this->addFlash('success', 'Type Matériel supprimé avec succès.');
         }
 
         return $this->redirectToRoute('types_materiels_index');

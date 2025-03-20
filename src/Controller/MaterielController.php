@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Marque;
 use App\Entity\Materiel;
+use App\Entity\Entreprise;
 use App\Form\MaterielType;
 use App\Repository\MaterielRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,11 +20,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class MaterielController extends AbstractController
 {
     #[Route('/', name: 'materiels_index', methods: ['GET'])]
-    public function index(MaterielRepository $materielRepository): Response
+    public function index(Request $request, MaterielRepository $materielRepository, PaginatorInterface $paginator): Response
     {
-        $materiels = $materielRepository->findAll();
+        $query = $materielRepository->createQueryBuilder('e')
+            ->getQuery();
+
+        // Paginer les résultats
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1), // Page actuelle
+            10 // Nombre d'éléments par page
+        );
+        
         return $this->render('materiels/index.html.twig', [
-            'materiels' => $materiels,
+            'pagination' => $pagination,
         ]);
     }
 
@@ -35,9 +46,17 @@ class MaterielController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // Associer un matériel à une entreprise
+            $entreprise = $entityManager->getRepository(Entreprise::class)->find(1); // ID de l'entreprise
+            if ($entreprise) {
+                $materiel->setEntreprise($entreprise);
+            }
+
             $entityManager->persist($materiel);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Matériel ajouté avec succès.');
             return $this->redirectToRoute('materiels_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -76,6 +95,7 @@ class MaterielController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
+            $this->addFlash('success', 'Matériel mis à jour avec succès.');
             return $this->redirectToRoute('materiels_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -91,6 +111,7 @@ class MaterielController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$materiel->getId(), $request->request->get('_token'))) {
             $entityManager->remove($materiel);
             $entityManager->flush();
+            $this->addFlash('success', 'Matériel supprimé avec succès.');
         }
 
         return $this->redirectToRoute('materiels_index', [], Response::HTTP_SEE_OTHER);

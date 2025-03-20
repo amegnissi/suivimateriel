@@ -15,6 +15,25 @@ class AffectationRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Affectation::class);
     }
+    
+    public function countByMonth(): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+    
+        $sql = "
+            SELECT YEAR(date_affectation) as annee, 
+                   MONTH(date_affectation) as mois, 
+                   COUNT(id) as total 
+            FROM affectation
+            GROUP BY annee, mois
+            ORDER BY annee ASC, mois ASC
+        ";
+    
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+    
+        return $resultSet->fetchAllAssociative();
+    }
 
     //    /**
     //     * @return Affectation[] Returns an array of Affectation objects

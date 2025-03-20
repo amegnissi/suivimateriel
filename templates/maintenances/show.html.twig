@@ -14,11 +14,11 @@
                     <table class="table table-bordered">
                         <tr>
                             <th>Matériel</th>
-                            <td>{{ maintenance.affectation.materiel.libelle }}</td>
+                            <td>{{ maintenance.materiel.marque.libelle }} - {{ maintenance.materiel.immatriculation }}</td>
                         </tr>
                         <tr>
                             <th>Type</th>
-                            <td>{{ maintenance.typeMainteance }}</td>
+                            <td>{{ maintenance.typeMaintenance }}</td>
                         </tr>
                         <tr>
                             <th>Description</th>
@@ -30,7 +30,11 @@
                         </tr>
                         <tr>
                             <th>Kilométrage Actuel</th>
-                            <td>{{ maintenance.kilometrageActuel ?: '-' }}</td>
+                            <td>{{ maintenance.kilometrageActuel ? maintenance.kilometrageActuel|number_format(0, ',', ' ') ~ ' km' : '-' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Kilométrage à la Prochaine Vidange</th>
+                            <td>{{ maintenance.kilometragePrevisionnel ? maintenance.kilometragePrevisionnel|number_format(0, ',', ' ') ~ ' km' : '-' }}</td>
                         </tr>
                         <tr>
                             <th>Coût (FCFA)</th>

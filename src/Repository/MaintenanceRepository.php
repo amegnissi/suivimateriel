@@ -16,6 +16,25 @@ class MaintenanceRepository extends ServiceEntityRepository
         parent::__construct($registry, Maintenance::class);
     }
 
+    public function countByMonth(): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+    
+        $sql = "
+            SELECT YEAR(date_intervention) as annee, 
+                   MONTH(date_intervention) as mois, 
+                   COUNT(id) as total 
+            FROM maintenance
+            GROUP BY annee, mois
+            ORDER BY annee ASC, mois ASC
+        ";
+    
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+    
+        return $resultSet->fetchAllAssociative();
+    }
+
     //    /**
     //     * @return Maintenance[] Returns an array of Maintenance objects
     //     */

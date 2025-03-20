@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Maintenance;
 use App\Form\MaintenanceType;
+use App\Repository\MaterielRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\AffectationRepository;
 use App\Repository\MaintenanceRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,44 +20,58 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class MaintenanceController extends AbstractController
 {
     #[Route('/', name: 'maintenances_index', methods: ['GET'])]
-    public function index(MaintenanceRepository $maintenanceRepository): Response
+    public function index(Request $request, MaintenanceRepository $maintenanceRepository, PaginatorInterface $paginator): Response
     {
+        $query = $maintenanceRepository->createQueryBuilder('e')
+            ->getQuery();
+
+        // Paginer les résultats
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1), // Page actuelle
+            10 // Nombre d'éléments par page
+        );
+
         return $this->render('maintenances/index.html.twig', [
-            'maintenances' => $maintenanceRepository->findAll(),
+            'pagination' => $pagination,
         ]);
     }
 
     #[Route('/new', name: 'maintenances_create', methods: ['GET', 'POST'])]
-    public function create(
-        Request $request,
-        EntityManagerInterface $entityManager,
-        AffectationRepository $affectationRepository
-    ): Response {
+    public function create(Request $request, EntityManagerInterface $entityManager, MaterielRepository $materielRepository): Response 
+    {
         $maintenance = new Maintenance();
         $form = $this->createForm(MaintenanceType::class, $maintenance);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
-            $affectation = $maintenance->getAffectation();
-            if (!$affectation) {
-                $this->addFlash('error', 'Une affectation doit être sélectionnée.');
+            $materiel = $maintenance->getMateriel();
+            if (!$materiel) {
+                $this->addFlash('error', 'Veuillez sélectionner un matériel.');
                 return $this->redirectToRoute('maintenances_create');
             }
-
-            // Mettre à jour le statut du matériel si nécessaire
-            $materiel = $affectation->getMateriel();
-            if ($materiel) {
-                $materiel->setStatut(2); // 2 = En maintenance
-                $entityManager->persist($materiel);
+    
+            // Vérifier l'entreprise et le kilométrage
+            $entreprise = $materiel->getEntreprise();
+            if ($entreprise) {
+                $kilometrageActuel = $maintenance->getKilometrageActuel();
+                $kilometrageIntervalle = $entreprise->getKilometrage();
+    
+                if ($kilometrageActuel !== null && $kilometrageIntervalle !== null) {
+                    $maintenance->setKilometragePrevisionnel($kilometrageActuel + $kilometrageIntervalle);
+                }
             }
-
+    
+            // Mettre le matériel en maintenance
+            $materiel->setStatut(2); // 2 = En maintenance
+            $entityManager->persist($materiel);
             $entityManager->persist($maintenance);
             $entityManager->flush();
-
+    
             $this->addFlash('success', 'Maintenance enregistrée avec succès.');
             return $this->redirectToRoute('maintenances_index');
         }
-
+    
         return $this->render('maintenances/create.html.twig', [
             'form' => $form->createView(),
         ]);
@@ -67,5 +83,21 @@ class MaintenanceController extends AbstractController
         return $this->render('maintenances/show.html.twig', [
             'maintenance' => $maintenance,
         ]);
+    }
+
+    #[Route('/{id}/fisnish', name: 'maintenances_finish', methods: ['POST'])]
+    public function finishMaintenance(Maintenance $maintenance, EntityManagerInterface $entityManager): Response
+    {
+        $materiel = $maintenance->getMateriel();
+        if ($materiel) {
+            $materiel->setStatut(1); // 1 = Disponible après maintenance
+            $entityManager->persist($materiel);
+        }
+        $maintenance->setStatut(1);
+        
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Maintenance terminée et matériel remis en service.');
+        return $this->redirectToRoute('maintenances_index');
     }
 }

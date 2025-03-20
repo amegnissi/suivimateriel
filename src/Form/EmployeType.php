@@ -27,6 +27,7 @@ class EmployeType extends AbstractType
             'label' => 'Prénom'
         ])
         ->add('telephonePersonnel', TextType::class, [
+            'required' => false,
             'attr' => ['class' => 'form-control'],
             'label' => 'Téléphone Personnel'
         ])
@@ -35,6 +36,7 @@ class EmployeType extends AbstractType
             'label' => 'Téléphone Corporate'
         ])
         ->add('email', EmailType::class, [
+            'required' => false,
             'attr' => ['class' => 'form-control'],
             'label' => 'Email'
         ])
@@ -54,7 +56,7 @@ class EmployeType extends AbstractType
             'required' => false,
             'mapped' => false,
             'attr' => ['class' => 'form-control'],
-            'label' => 'Copie Carte ID'
+            'label' => 'Copie Pièce d\'Identité'
         ])
         ->add('copieDiplomeFile', FileType::class, [
             'required' => false,

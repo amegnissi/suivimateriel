@@ -20,7 +20,7 @@ class DepartEmploye
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $motif = null;
 
-    #[ORM\OneToOne(inversedBy: 'departEmploye', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'departEmploye', cascade: ['persist'])]
     private ?Employe $employe = null;
 
     public function getId(): ?int

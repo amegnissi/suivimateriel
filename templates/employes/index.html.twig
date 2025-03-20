@@ -23,38 +23,73 @@
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">N°</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nom</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Prénom</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Poste</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tel Personnel</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tel Corporate</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">N°</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nom</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Prénom</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Poste</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Tel Corporate</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Statut</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for employe in employes %}
+                                {% for employe in pagination %}
                                 <tr>
-                                    <td>{{ loop.index }}</td>
-                                    <td>{{ employe.nom }}</td>
-                                    <td>{{ employe.prenom }}</td>
-                                    <td>{{ employe.poste ? employe.poste.libelle : 'Non défini' }}</td>
-                                    <td>{{ employe.telephonePersonnel }}</td>
-                                    <td>{{ employe.telephoneCorporate ?: 'N/A' }}</td>
-                                    <td>{{ employe.email }}</td>
-                                    <td class="align-middle">
+                                    <td class="align-middle text-center text-xs font-weight-bold">{{ loop.index }}</td>
+                                    <td class="align-middle text-xs font-weight-bold">{{ employe.nom }}</td>
+                                    <td class="align-middle text-xs font-weight-bold">{{ employe.prenom }}</td>
+                                    <td class="align-middle text-xs font-weight-bold">{{ employe.poste ? employe.poste.libelle : 'Non défini' }}</td>
+                                    <td class="align-middle text-center text-xs font-weight-bold">
+                                        {{ employe.telephoneCorporate ?: 'N/A' }}
+                                    </td>
+                                    <td class="align-middle text-center">
+                                        {% if employe.affectations is empty %}
+                                            <span class="badge bg-secondary">⏳ Non Affecté</span>
+                                        {% else %}
+                                            <span class="badge bg-info">✅ Affecté</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="align-middle text-center">
                                         <a href="{{ path('employes_show', {'id': employe.id}) }}" class="btn btn-info btn-sm">Voir</a>
                                         <a href="{{ path('employes_edit', {'id': employe.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
                                     </td>
                                 </tr>
                                 {% else %}
                                 <tr>
-                                    <td colspan="7" class="text-center">Aucun employé trouvé.</td>
+                                    <td colspan="7" class="text-center text-secondary">Aucun employé trouvé.</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
+
+                        <!-- Pagination -->
+                        {% if pagination.getTotalItemCount() > 10 %}
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-center">
+                                    {% if pagination.currentPageNumber > 1 %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ path('employes_index', {'page': pagination.currentPageNumber - 1}) }}">
+                                                <span class="material-symbols-rounded">keyboard_arrow_left</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+
+                                    {% for page in 1..pagination.pageCount %}
+                                        <li class="page-item {% if page == pagination.currentPageNumber %}active{% endif %}">
+                                            <a class="page-link" href="{{ path('employes_index', {'page': page}) }}">{{ page }}</a>
+                                        </li>
+                                    {% endfor %}
+
+                                    {% if pagination.currentPageNumber < pagination.pageCount %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ path('employes_index', {'page': pagination.currentPageNumber + 1}) }}">
+                                                <span class="material-symbols-rounded">keyboard_arrow_right</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        {% endif %}
                     </div>
                 </div>
             </div>

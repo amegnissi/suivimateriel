@@ -8,6 +8,19 @@ parameters:
     uploads_directory: '%kernel.project_dir%/public/uploads'
 
 services:
+    App\Twig\EntrepriseGlobalExtension:
+        arguments:
+            $entrepriseRepository: '@App\Repository\EntrepriseRepository'
+        tags: ['twig.extension']
+
+        
+    App\EventListener\EntrepriseListener:
+        arguments:
+            $twig: '@twig'
+            $entityManager: '@doctrine.orm.entity_manager'
+        tags:
+            - { name: 'kernel.event_listener', event: 'kernel.controller', priority: 10 }
+
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.

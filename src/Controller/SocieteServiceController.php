@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\SocieteService;
 use App\Form\SocieteServiceType;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use App\Repository\SocieteServiceRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,11 +21,20 @@ class SocieteServiceController extends AbstractController
      * Liste des sociétés de services.
      */
     #[Route('/', name: 'societe_service_index', methods: ['GET'])]
-    public function index(SocieteServiceRepository $societeServiceRepository): Response
+    public function index(Request $request, SocieteServiceRepository $societeServiceRepository, PaginatorInterface $paginator): Response
     {
-        $societes = $societeServiceRepository->findAll();
+        $query = $societeServiceRepository->createQueryBuilder('e')
+            ->getQuery();
+
+        // Paginer les résultats
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1), // Page actuelle
+            10 // Nombre d'éléments par page
+        );
+
         return $this->render('societe_service/index.html.twig', [
-            'societes' => $societes,
+            'pagination' => $pagination,
         ]);
     }
 

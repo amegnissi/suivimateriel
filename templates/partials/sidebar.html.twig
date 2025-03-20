@@ -11,7 +11,7 @@
 
             {# Section Dashboard #} 
             <li class="nav-item">
-                <a class="nav-link {% if app.request.get('_route') == 'dashboard' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" href="{{ path('dashboard') }}">
+                <a class="nav-link {% if app.request.get('_route') == 'dashboard' or app.request.attributes.get('_route') starts with 'entreprise' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" href="{{ path('dashboard') }}">
                     <i class="material-symbols-rounded opacity-5">dashboard</i>
                     <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
@@ -26,6 +26,15 @@
                 </a>
             </li>
 
+            {# Section Marques #}                                            
+            <li class="nav-item">
+            <a class="nav-link {% if app.request.attributes.get('_route') starts with 'marques' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
+                href="{{ path('marques_index') }}">
+                    <i class="material-symbols-rounded opacity-5">branding_watermark</i>
+                    <span class="nav-link-text ms-1">Marques</span>
+                </a>
+            </li>
+
             {# Section Employés #} 
             <li class="nav-item">
                 <a class="nav-link {% if app.request.attributes.get('_route') starts with 'employes' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
@@ -35,36 +44,22 @@
                 </a>
             </li>
 
-            {# Section Marques #}                                            
+            {# Section Types Matériels #} 
             <li class="nav-item">
-            <a class="nav-link {% if app.request.attributes.get('_route') starts with 'marques' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
-                href="{{ path('marques_index') }}">
-                    <i class="material-symbols-rounded opacity-5">branding_watermark</i>
-                    <span class="nav-link-text ms-1">Marques</span>
+                <a class="nav-link {% if app.request.attributes.get('_route') starts with 'types_materiels' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
+                    href="{{ path('types_materiels_index') }}">
+                    <i class="material-symbols-rounded opacity-5">category</i>
+                    <span class="nav-link-text ms-1">Types Matériels</span>
                 </a>
-            </li>        
-
-            {# Section Matériels #}  
-            <li class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle {% if app.request.attributes.get('_route') starts with 'materiels' or app.request.attributes.get('_route') starts with 'types_materiels' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
-                    id="materielDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            </li>
+            
+            {# Section Matériels #} 
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.attributes.get('_route') starts with 'materiels' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
+                    href="{{ path('materiels_index') }}">
                     <i class="material-symbols-rounded opacity-5">inventory</i>
                     <span class="nav-link-text ms-1">Matériels</span>
                 </a>
-                <ul class="dropdown-menu" aria-labelledby="materielDropdown">
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center {% if app.request.attributes.get('_route') starts with 'types_materiels' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
-                            href="{{ path('types_materiels_index') }}">
-                            <i class="material-symbols-rounded opacity-5 me-2">category</i> Types Matériels
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center{% if app.request.attributes.get('_route') starts with 'materiels' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
-                            href="{{ path('materiels_index') }}">
-                            <i class="material-symbols-rounded opacity-5 me-2">inventory</i> Matériels
-                        </a>
-                    </li>
-                </ul>
             </li>
             
             {# Section Sociétés de Service #}  
@@ -96,7 +91,8 @@
 
             {# Section Départs Employés #} 
             <li class="nav-item">
-                <a class="nav-link text-dark" href="#">
+            <a class="nav-link {% if app.request.attributes.get('_route') starts with 'depart' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
+                href="{{ path('depart_employe_index') }}">
                     <i class="material-symbols-rounded opacity-5">logout</i>
                     <span class="nav-link-text ms-1">Départs Employés</span>
                 </a>

@@ -13,7 +13,7 @@
                 <div class="card-body">
                     <p><strong>Date d'Affectation:</strong> {{ affectation.dateAffectation|date('d-m-Y') }}</p>
                     <p><strong>Lieu d'Affectation:</strong> {{ affectation.materiel.lieuAffactation }}</p>
-                    <p><strong>Matériel:</strong> {{ affectation.materiel.libelle }}</p>
+                    <p><strong>Matériel:</strong> {{ affectation.materiel.marque.libelle }} - {{ affectation.materiel.immatriculation }}</p>
                     <p><strong>Employé:</strong> 
                         {% if affectation.employe %}
                             {{ affectation.employe.nom }} {{ affectation.employe.prenom }}

@@ -16,13 +16,13 @@
 
                     <h5>Matériels associés :</h5>
                     {% if typeMateriel.materiels is not empty %}
-                    <ul>
-                        {% for materiel in typeMateriel.materiels %}
-                            <li>{{ materiel.nom }} - {{ materiel.reference }}</li>
-                        {% endfor %}
-                    </ul>
+                        <ul>
+                            {% for materiel in typeMateriel.materiels %}
+                                <li>{{ materiel.libelle }} - {{ materiel.immatriculation }}</li>
+                            {% endfor %}
+                        </ul>
                     {% else %}
-                    <p>Aucun matériel associé à ce type.</p>
+                        <p>Aucun matériel associé à ce type.</p>
                     {% endif %}
 
                     <a href="{{ path('types_materiels_edit', { 'id': typeMateriel.id }) }}" class="btn btn-warning">Modifier</a>
@@ -37,5 +37,4 @@
         </div>
     </div>
 
-    
 {% endblock %}

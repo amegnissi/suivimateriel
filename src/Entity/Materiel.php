@@ -16,10 +16,10 @@ class Materiel
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $libelle = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $numeroSerie = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
@@ -39,6 +39,9 @@ class Materiel
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $modele = null;
+
+    #[ORM\ManyToOne(targetEntity: Entreprise::class, inversedBy: 'materiels')]
+    private ?Entreprise $entreprise = null;
 
     #[ORM\ManyToOne(inversedBy: 'materiels')]
     private ?TypeMateriel $type = null;
@@ -179,6 +182,17 @@ class Materiel
     {
         $this->marque = $marque;
 
+        return $this;
+    }
+
+    public function getEntreprise(): ?Entreprise
+    {
+        return $this->entreprise;
+    }
+
+    public function setEntreprise(?Entreprise $entreprise): static
+    {
+        $this->entreprise = $entreprise;
         return $this;
     }
 

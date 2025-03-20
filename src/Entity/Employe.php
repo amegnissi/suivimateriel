@@ -22,7 +22,7 @@ class Employe
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $prenom = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $telephonePersonnel = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -31,7 +31,7 @@ class Employe
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $copieCarteId = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -55,11 +55,14 @@ class Employe
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\OneToOne(mappedBy: 'employe', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'employe', cascade: ['persist'])]
     private ?DepartEmploye $departEmploye = null;
 
     #[ORM\ManyToOne(inversedBy: 'employe')]
     private ?Poste $poste = null;
+
+    #[ORM\ManyToOne(targetEntity: Entreprise::class, inversedBy: 'employes')]
+    private ?Entreprise $entreprise = null;
 
     /**
      * @var Collection<int, Affectation>
@@ -271,6 +274,17 @@ class Employe
     {
         $this->poste = $poste;
 
+        return $this;
+    }
+
+    public function getEntreprise(): ?Entreprise
+    {
+        return $this->entreprise;
+    }
+
+    public function setEntreprise(?Entreprise $entreprise): static
+    {
+        $this->entreprise = $entreprise;
         return $this;
     }
 

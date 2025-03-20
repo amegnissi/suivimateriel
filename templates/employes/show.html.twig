@@ -6,22 +6,110 @@
 
 {% block content %}
 
-    <div class="row">
-        <div class="col-12">
-            <h4>Détails d'un Employé</h4>
-            <div class="card my-4">
-                <div class="card-body">
-                    <h5 class="card-title">{{ employe.nom }} {{ employe.prenom }}</h5>
+    <div class="container-fluid px-2 px-md-4">
+        <div class="page-header min-height-300 border-radius-xl mt-4" style="background-image: url('{{ asset('assets/img/employe-background.jpg') }}');">
+            <span class="mask bg-gradient-dark opacity-6"></span>
+        </div>
+        <div class="card card-body mx-2 mx-md-2 mt-n6">
+            <div class="row gx-4 mb-2">
+                <div class="col-auto">
+                    <div class="avatar avatar-xl position-relative">
+                        {% if employe.photo %}
+                            <img src="{{ asset('uploads/' ~ employe.photo) }}" class="w-100 border-radius-lg shadow-sm" alt="Photo de l'employé">
+                        {% else %}
+                            <img src="{{ asset('assets/img/account-avatar.png') }}" class="w-100 border-radius-lg shadow-sm" alt="Avatar par défaut">
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-auto my-auto">
+                    <div class="h-100">
+                        <h5 class="mb-1">{{ employe.nom }} {{ employe.prenom }}</h5>
+                        <p class="mb-0 font-weight-normal text-sm">{{ employe.poste ? employe.poste.libelle : 'Non attribué' }}</p>
+                    </div>
+                </div>
+                <div class="col-auto ms-auto d-flex align-items-center">
+                    <a href="{{ path('employes_index') }}" class="btn btn-outline-secondary">
+                        <i class="material-symbols-rounded">arrow_back</i> Retour
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-xl-6">
+                    <div class="card card-plain h-100">
+                        <div class="card-header pb-0 p-3">
+                            <h6 class="mb-0">Informations personnelles</h6>
+                        </div>
+                        <div class="card-body p-3">
+                            <ul class="list-group">
+                                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email:</strong> &nbsp; {{ employe.email ?? 'Non spécifié' }}</li>
+                                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Téléphone Personnel:</strong> &nbsp; {{ employe.telephonePersonnel ?? 'Non Spécifié' }}</li>
+                                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Téléphone Corporate:</strong> &nbsp; {{ employe.telephoneCorporate ?? 'Non Spécifié' }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-xl-6">
+                    <div class="card card-plain h-100">
+                        <div class="card-header pb-0 p-3">
+                            <h6 class="mb-0">Matériel Affecté</h6>
+                        </div>
+                        <div class="card-body p-3">
+                            <ul class="list-group">
+                                {% for affectation in employe.affectations %}
+                                    <li class="list-group-item border-0 ps-0 text-sm">
+                                        <strong class="text-dark">{{ affectation.materiel.marque.libelle | default('N/A') }} - {{ affectation.materiel.immatriculation | default('N/A') }}</strong>
+                                    </li>
+                                {% else %}
+                                    <li class="list-group-item border-0 ps-0 text-sm">Aucune affectation</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 mt-4">
+                    <div class="mb-5 ps-3">
+                        <h6 class="mb-1">Documents</h6>
+                        <p class="text-sm">Pièces justificatives de l'employé</p>
+                    </div>
+                    <div class="row">
+                        {% set documents = {
+                            'copieCarteId': "Pièce d'Identité",
+                            'copieDiplome': "Diplôme",
+                            'certificatAcquiteVisuel': "Certificat Visuel"
+                        } %}
 
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><strong>Poste :</strong> {{ employe.poste ? employe.poste.libelle : 'Non défini' }}</li>
-                        <li class="list-group-item"><strong>Téléphone personnel :</strong> {{ employe.telephonePersonnel }}</li>
-                        <li class="list-group-item"><strong>Téléphone corporate :</strong> {{ employe.telephoneCorporate ?: 'Non spécifié' }}</li>
-                        <li class="list-group-item"><strong>Email :</strong> {{ employe.email }}</li>
-                        <li class="list-group-item"><strong>Départ :</strong> {{ employe.depart ? 'Oui' : 'Non' }}</li>
-                    </ul>
+                        {% set hasDocuments = false %}
 
-                    <a href="{{ path('employes_index') }}" class="btn btn-secondary mt-3">Retour à la liste</a>
+                        {% for key, label in documents %}
+                            {% set doc = attribute(employe, key) %}
+                            {% if doc %}
+                                {% set hasDocuments = true %}
+                                <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
+                                    <div class="card card-blog card-plain">
+                                        <div class="card-header p-0 m-2">
+                                            <a class="d-block shadow-xl border-radius-xl">
+                                                {% if doc matches '/\.pdf$/' %}
+                                                    <img src="{{ asset('assets/images/pdf-placeholder.png') }}" alt="PDF" class="img-fluid shadow border-radius-lg">
+                                                {% else %}
+                                                    <img src="{{ asset('uploads/' ~ doc) }}" alt="Document" class="img-fluid shadow border-radius-lg">
+                                                {% endif %}
+                                            </a>
+                                        </div>
+                                        <div class="card-body p-3">
+                                            <p class="mb-0 text-sm">{{ label }}</p>
+                                            <a href="{{ asset('uploads/' ~ doc) }}" target="_blank">
+                                                <button type="button" class="btn btn-outline-primary btn-sm mb-0">Voir le document</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if not hasDocuments %}
+                            <p class="text-center text-muted">Aucun document n'a été ajouté pour cet employé.</p>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>

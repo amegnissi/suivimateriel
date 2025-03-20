@@ -8,6 +8,7 @@ use App\Repository\EmployeRepository;
 use App\Repository\MaterielRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\AffectationRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use App\Repository\SocieteServiceRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,12 +24,20 @@ class AffectationController extends AbstractController
      * Liste des affectations.
      */
     #[Route('/', name: 'affectations_index', methods: ['GET'])]
-    public function index(AffectationRepository $affectationRepository): Response
+    public function index(Request $request, AffectationRepository $affectationRepository, PaginatorInterface $paginator): Response
     {
-        $affectations = $affectationRepository->findAll();
+        $query = $affectationRepository->createQueryBuilder('e')
+            ->getQuery();
+
+        // Paginer les résultats
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1), // Page actuelle
+            10 // Nombre d'éléments par page
+        );
 
         return $this->render('affectations/index.html.twig', [
-            'affectations' => $affectations,
+            'pagination' => $pagination,
         ]);
     }
 
@@ -129,4 +138,32 @@ class AffectationController extends AbstractController
 
         return $this->redirectToRoute('affectations_index');
     }
+
+    #[Route('/{id}/cancel', name: 'affectations_cancel', methods: ['POST'])]
+    public function dissocier(Request $request, Affectation $affectation, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('cancel' . $affectation->getId(), $request->request->get('_token'))) {
+            // Réinitialiser les informations de l'affectation au lieu de la supprimer
+            $affectation->setEmploye(null); // Dissocier l'employé
+            $affectation->setSociete(null); // Dissocier la société
+            $affectation->setLieuAffectation(null);
+
+            // Mettre à jour le statut du matériel
+            $materiel = $affectation->getMateriel();
+            if ($materiel) {
+                $materiel->setStatut(0); // Mettre le statut comme "non affecté"
+                $entityManager->persist($materiel);
+            }
+
+            $entityManager->remove($affectation);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'L\'affectation a été annulée avec succès.');
+        } else {
+            $this->addFlash('error', 'Échec de l\'annulation de l\'affectation.');
+        }
+
+        return $this->redirectToRoute('affectations_index');
     }
+
+}

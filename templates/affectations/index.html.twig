@@ -24,44 +24,81 @@
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">N°</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Matériel</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Société</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Employé</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date d'Affectation</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">N°</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Matériel</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Employé</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Société</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Date d'Affectation</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for affectation in affectations %}
-                                <tr>
-                                    <td>{{ loop.index }}</td>
-                                    <td>{{ affectation.materiel.libelle }}</td>
-                                    <td>{{ affectation.societe.nom }}</td>
-                                    <td>{{ affectation.employe.prenom }} {{ affectation.employe.nom }}</td>
-                                    <td>{{ affectation.dateAffectation|date('d-m-Y') }}</td>
-                                    <td>
-                                        <a href="{{ path('affectations_show', {'id': affectation.id}) }}" class="btn btn-info btn-sm">Voir</a>
-                                        <form action="{{ path('affectations_delete', { 'id': affectation.id }) }}" method="POST" class="d-inline">
-                                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ affectation.id) }}">
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette affectation ?');">
-                                                Supprimer
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
+                                {% for affectation in pagination %}
+                                    <tr>
+                                        <td class="align-middle text-center text-xs font-weight-bold">{{ loop.index }}</td>
+                                        <td class="align-middle text-xs font-weight-bold">
+                                            {{ affectation.materiel.marque.libelle ?: 'N/A' }} - 
+                                            {{ affectation.materiel.immatriculation ?: 'N/A' }}
+                                        </td>
+                                        <td class="align-middle text-xs font-weight-bold">
+                                            {{ affectation.employe.prenom ?: 'N/A' }} {{ affectation.employe.nom ?: '' }}
+                                        </td>
+                                        <td class="align-middle text-xs font-weight-bold">
+                                            {{ affectation.societe.nom ?: 'N/A' }}
+                                        </td>
+                                        <td class="align-middle text-center text-xs font-weight-bold">
+                                            {{ affectation.dateAffectation ? affectation.dateAffectation|date('d-m-Y') : 'N/A' }}
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <a href="{{ path('affectations_show', {'id': affectation.id}) }}" class="btn btn-info btn-sm">Voir</a>
+                                            <form action="{{ path('affectations_cancel', { 'id': affectation.id }) }}" method="POST" class="d-inline">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('cancel' ~ affectation.id) }}">
+                                                <button type="submit" class="btn btn-warning btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir annuler cette affectation ?');">
+                                                    Annuler
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
                                 {% else %}
-                                <tr>
-                                    <td colspan="6" class="text-center">Aucune affectation trouvée.</td>
-                                </tr>
+                                    <tr>
+                                        <td colspan="6" class="text-center text-secondary">Aucune affectation trouvée.</td>
+                                    </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
+                        
+                        <!-- Pagination -->
+                        {% if pagination.getTotalItemCount() > 10 %}
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-center">
+                                    {% if pagination.currentPageNumber > 1 %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ path('employes_index', {'page': pagination.currentPageNumber - 1}) }}">
+                                                <span class="material-symbols-rounded">keyboard_arrow_left</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+
+                                    {% for page in 1..pagination.pageCount %}
+                                        <li class="page-item {% if page == pagination.currentPageNumber %}active{% endif %}">
+                                            <a class="page-link" href="{{ path('employes_index', {'page': page}) }}">{{ page }}</a>
+                                        </li>
+                                    {% endfor %}
+
+                                    {% if pagination.currentPageNumber < pagination.pageCount %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ path('employes_index', {'page': pagination.currentPageNumber + 1}) }}">
+                                                <span class="material-symbols-rounded">keyboard_arrow_right</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
     
 {% endblock %}

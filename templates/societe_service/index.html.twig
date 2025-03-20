@@ -24,39 +24,74 @@
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">N°</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nom</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Adresse</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Téléphone</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">N°</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nom</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Adresse</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Téléphone</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Matériels Associés</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for societe in societes %}
+                                {% for societe in pagination %}
                                     <tr>
-                                        <td>{{ loop.index }}</td>
-                                        <td>{{ societe.nom }}</td>
-                                        <td>{{ societe.adresse }}</td>
-                                        <td>{{ societe.telephone }}</td>
-                                        <td>{{ societe.email }}</td>
-                                        <td class="align-middle">
+                                        <td class="align-middle text-center text-xs font-weight-bold">{{ loop.index }}</td>
+                                        <td class="align-middle text-xs font-weight-bold">{{ societe.nom }}</td>
+                                        <td class="align-middle text-xs font-weight-bold">{{ societe.adresse ?: 'N/A' }}</td>
+                                        <td class="align-middle text-center text-xs font-weight-bold">
+                                            {{ societe.telephone ?: 'N/A' }}
+                                        </td>
+                                        <td class="align-middle text-center text-xs font-weight-bold">
+                                            <span class="badge bg-gradient-success">{{ societe.affectations|length }}</span>
+                                        </td>
+                                        <td class="align-middle text-center">
                                             <a href="{{ path('societe_service_show', { 'id': societe.id }) }}" class="btn btn-info btn-sm">Voir</a>
                                             <a href="{{ path('societe_service_edit', { 'id': societe.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
                                             <form action="{{ path('societe_service_delete', { 'id': societe.id }) }}" method="POST" class="d-inline">
                                                 <input type="hidden" name="_method" value="DELETE">
                                                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ societe.id) }}">
-                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette société ?');">Supprimer</button>
+                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette société ?');">
+                                                    Supprimer
+                                                </button>
                                             </form>
                                         </td>
                                     </tr>
                                 {% else %}
                                     <tr>
-                                        <td colspan="6" class="text-center">Aucune société de service trouvée.</td>
+                                        <td colspan="6" class="text-center text-secondary">Aucune société de service trouvée.</td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
+                                                
+                        <!-- Pagination -->
+                        {% if pagination.getTotalItemCount() > 10 %}
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-center">
+                                    {% if pagination.currentPageNumber > 1 %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ path('employes_index', {'page': pagination.currentPageNumber - 1}) }}">
+                                                <span class="material-symbols-rounded">keyboard_arrow_left</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+
+                                    {% for page in 1..pagination.pageCount %}
+                                        <li class="page-item {% if page == pagination.currentPageNumber %}active{% endif %}">
+                                            <a class="page-link" href="{{ path('employes_index', {'page': page}) }}">{{ page }}</a>
+                                        </li>
+                                    {% endfor %}
+
+                                    {% if pagination.currentPageNumber < pagination.pageCount %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ path('employes_index', {'page': pagination.currentPageNumber + 1}) }}">
+                                                <span class="material-symbols-rounded">keyboard_arrow_right</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        {% endif %}
                     </div>
                 </div>
             </div>

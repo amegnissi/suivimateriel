@@ -16,6 +16,17 @@ class MaterielRepository extends ServiceEntityRepository
         parent::__construct($registry, Materiel::class);
     }
 
+    public function countByType(): array
+    {
+        return $this->createQueryBuilder('m')
+            ->select('t.libelle as type, COUNT(m.id) as total')
+            ->join('m.type', 't')
+            ->groupBy('t.libelle')
+            ->orderBy('total', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Materiel[] Returns an array of Materiel objects
     //     */

@@ -5,55 +5,79 @@
 {% block breadcrumb %}MATERIELS > DETAILS{% endblock %}
 
 {% block content %}
-
     
-    <div class="row">
-        <div class="col-12">
-            <h4>Détails du Matériel</h4>
-            <div class="card my-4">
-                <div class="card-body">
-                    <table class="table">
-                        <tr>
-                            <th>Nom du Matériel</th>
-                            <td>{{ materiel.libelle }}</td>
-                        </tr>
-                        <tr>
-                            <th>Numéro de Série</th>
-                            <td>{{ materiel.numeroSerie }}</td>
-                        </tr>
-                        <tr>
-                            <th>Modèle</th>
-                            <td>{{ materiel.modele }}</td>
-                        </tr>
-                        <tr>
-                            <th>Immatriculation</th>
-                            <td>{{ materiel.immatriculation }}</td>
-                        </tr>
-                        <tr>
-                            <th>Statut</th>
-                            <td>
-                                {% if materiel.statut == 0 %}
-                                    <span class="badge bg-gradient-secondary">Non Affecté</span>
-                                {% elseif materiel.statut == 1 %}
-                                    <span class="badge bg-gradient-success">Affecté</span>
-                                {% elseif materiel.statut == 3 %}
-                                    <span class="badge bg-gradient-warning">En Maintenance</span>
-                                {% elseif materiel.statut == 4 %}
-                                    <span class="badge bg-gradient-danger">Hors Service</span>
-                                {% endif %}
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Date d'Acquisition</th>
-                            <td>{{ materiel.dateAcquisition ? materiel.dateAcquisition|date('d/m/Y') : '' }}</td>
-                        </tr>
-                    </table>
+    <div class="container-fluid py-4">
+        <div class="page-header min-height-300 border-radius-xl mt-4" 
+            style="background-image: url('{{ asset('assets/img/material-background.jpg') }}');">
+            <span class="mask bg-gradient-dark opacity-6"></span>
+        </div>
 
-                    <a href="{{ path('materiels_edit', { 'id': materiel.id }) }}" class="btn btn-primary">Modifier</a>
-                    <a href="{{ path('materiels_index') }}" class="btn btn-secondary">Retour à la liste</a>
+        <div class="card card-body mx-3 mx-md-4 mt-n6">
+            <div class="row gx-4 mb-2">
+                <div class="col-auto">
+                    <div class="avatar avatar-xl position-relative">
+                            <img src="{{ asset('assets/img/car.png') }}" class="w-100 border-radius-lg shadow-sm" alt="Photo du matériel">
+                    </div>
+                </div>
+                <div class="col-auto my-auto">
+                    <div class="h-100">
+                        <h5 class="mb-1">{{ materiel.marque.libelle }} - {{ materiel.modele }}</h5>
+                        <p class="mb-0 font-weight-normal text-sm">Immatriculation : {{ materiel.immatriculation | default('Non attribuée') }}</p>
+                    </div>
+                </div>
+                <div class="col-auto ms-auto d-flex align-items-center">
+                    <a href="{{ path('materiels_index') }}" class="btn btn-outline-secondary">
+                        <i class="material-symbols-rounded">arrow_back</i> Retour
+                    </a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-xl-6">
+                    <div class="card card-plain h-100">
+                        <div class="card-header pb-0 p-3">
+                            <h6 class="mb-0">Caractéristiques du Matériel</h6>
+                        </div>
+                        <div class="card-body p-3">
+                            <ul class="list-group">
+                                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Numéro de Série :</strong> &nbsp; {{ materiel.numeroSerie | default('Non spécifié') }}</li>
+                                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Type :</strong> &nbsp; {{ materiel.type.libelle | default('Non spécifié') }}</li>
+                                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Statut :</strong> &nbsp; 
+                                    {% if materiel.statut == 0 %}
+                                        <span class="badge bg-gradient-secondary">Non Affecté (NA)</span>
+                                    {% elseif materiel.statut == 1 %}
+                                        <span class="badge bg-gradient-info">Affecté (A)</span>
+                                    {% elseif materiel.statut == 3 %}
+                                        <span class="badge bg-gradient-warning">NA / En Maintenance </span>
+                                    {% elseif materiel.statut == 2 %}
+                                        <span class="badge bg-gradient-success">A / En Maintenance </span>
+                                    {% endif %}
+                                </li>
+                                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Date d'Acquisition :</strong> &nbsp; {{ materiel.dateAcquisition ? materiel.dateAcquisition|date('d/m/Y') : 'Non spécifié' }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-xl-6">
+                    <div class="card card-plain h-100">
+                        <div class="card-header pb-0 p-3">
+                            <h6 class="mb-0">Employé qui utilise ce matériel</h6>
+                        </div>
+                        <div class="card-body p-3">
+                            <ul class="list-group">
+                                {% for affectation in materiel.affectations %}
+                                    <li class="list-group-item border-0 ps-0 text-sm">
+                                        <strong class="text-dark">{{ affectation.employe.nom }} {{ affectation.employe.prenom }}</strong> - {{ affectation.dateAffectation | date('d/m/Y') }}
+                                    </li>
+                                {% else %}
+                                    <li class="list-group-item border-0 ps-0 text-sm">Aucun employé affecté</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
 {% endblock %}

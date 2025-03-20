@@ -12,31 +12,6 @@
                 <h4>Gestion des Marques</h4>
                 <a href="{{ path('marques_create') }}" class="btn btn-primary">Ajouter une Marque</a>
             </div>
-
-            <!-- Formulaire de filtrage -->
-             <!-- 
-                <div class="card my-4">
-                    <div class="card-body">
-                        <form action="{{ path('marques_index') }}" method="GET" class="row g-3">
-                            <div class="col-md-6">
-                                <input type="text" name="search" class="form-control" placeholder="Rechercher une marque..." value="{{ app.request.query.get('search') }}">
-                            </div>
-                            <div class="col-md-4">
-                                <select name="est_vehicule" class="form-select">
-                                    <option value="">Tous les types</option>
-                                    <option value="1" {% if app.request.query.get('est_vehicule') == '1' %}selected{% endif %}>Véhicule</option>
-                                    <option value="0" {% if app.request.query.get('est_vehicule') == '0' %}selected{% endif %}>Non Véhicule</option>
-                                </select>
-                            </div>
-                            <div class="col-md-2">
-                                <button type="submit" class="btn btn-dark">Filtrer</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-             -->
-
-            <!-- Tableau des marques -->
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                     <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
@@ -48,42 +23,74 @@
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">N°</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">N°</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nom de la Marque</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Est un Véhicule ?</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Matériels Associés</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Est un Véhicule ?</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Matériels Associés</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for marque in marques %}
+                                {% for marque in pagination %}
                                     <tr>
-                                        <td>{{ loop.index }}</td>
-                                        <td>{{ marque.libelle }}</td>
-                                        <td>{{ marque.estVehicule ? 'Oui' : 'Non' }}</td>
-                                        <td>{{ marque.materiels|length }}</td>
-                                        <td class="align-middle">
+                                        <td class="align-middle text-center text-xs font-weight-bold">{{ loop.index }}</td>
+                                        <td class="align-middle text-xs font-weight-bold">{{ marque.libelle ?: 'N/A' }}</td>
+                                        <td class="align-middle text-center">
+                                            {% if marque.estVehicule is not null %}
+                                                <span class="badge badge-sm {{ marque.estVehicule ? 'bg-info' : 'bg-success' }}">
+                                                    {{ marque.estVehicule ? 'Oui' : 'Non' }}
+                                                </span>
+                                            {% else %}
+                                                <span class="badge badge-sm bg-secondary">Non Défini</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="align-middle text-center text-xs font-weight-bold">{{ marque.materiels|length ?: 0 }}</td>
+                                        <td class="align-middle text-center">
                                             <a href="{{ path('marques_edit', {id: marque.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
                                             <form action="{{ path('marques_delete', {id: marque.id}) }}" method="POST" class="d-inline">
                                                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ marque.id) }}">
-                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce poste ?');">Supprimer</button>
+                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette marque ?');">Supprimer</button>
                                             </form>
                                         </td>
                                     </tr>
                                 {% else %}
                                     <tr>
-                                        <td colspan="5" class="text-center">Aucune marque trouvée.</td>
+                                        <td colspan="5" class="text-center text-secondary">Aucune marque trouvée.</td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
+                                                                                                
+                        <!-- Pagination -->
+                        {% if pagination.getTotalItemCount() > 10 %}
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-center">
+                                    {% if pagination.currentPageNumber > 1 %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ path('employes_index', {'page': pagination.currentPageNumber - 1}) }}">
+                                                <span class="material-symbols-rounded">keyboard_arrow_left</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+
+                                    {% for page in 1..pagination.pageCount %}
+                                        <li class="page-item {% if page == pagination.currentPageNumber %}active{% endif %}">
+                                            <a class="page-link" href="{{ path('employes_index', {'page': page}) }}">{{ page }}</a>
+                                        </li>
+                                    {% endfor %}
+
+                                    {% if pagination.currentPageNumber < pagination.pageCount %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ path('employes_index', {'page': pagination.currentPageNumber + 1}) }}">
+                                                <span class="material-symbols-rounded">keyboard_arrow_right</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        {% endif %}
                     </div>
                 </div>
-            </div>
-
-            <!-- Pagination -->
-            <div class="d-flex justify-content-center">
-                {# pagination(marques) #}
             </div>
         </div>
     </div>
