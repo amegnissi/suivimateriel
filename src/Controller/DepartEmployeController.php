@@ -18,11 +18,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted('ROLE_USER')]
 #[Route('/depart-employe')]
-class DepartEmployeController extends AbstractController
+class DepartEmployeController extends BaseController
 {
     #[Route('/', name: 'depart_employe_index', methods: ['GET'])]
-    public function index(Request $request, DepartEmployeRepository $departEmployeRepository, PaginatorInterface $paginator): Response
+    public function index(Request $request, DepartEmployeRepository $departEmployeRepository, PaginatorInterface $paginator, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         $query = $departEmployeRepository->createQueryBuilder('e')
             ->getQuery();
 
@@ -41,6 +45,10 @@ class DepartEmployeController extends AbstractController
     #[Route('/depart/new', name: 'depart_employe_create', methods: ['GET', 'POST'])]
     public function createDepart(Request $request, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         $depart = new DepartEmploye();
         $form = $this->createForm(DepartEmployeType::class, $depart);
         $form->handleRequest($request);
@@ -81,6 +89,10 @@ class DepartEmployeController extends AbstractController
     #[Route('/{id}/edit', name: 'depart_employe_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, DepartEmploye $departEmploye, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         $form = $this->createForm(DepartEmployeType::class, $departEmploye);
         $form->handleRequest($request);
 
@@ -99,6 +111,10 @@ class DepartEmployeController extends AbstractController
     #[Route('/{id}/cancel', name: 'depart_employe_delete', methods: ['POST'])]
     public function delete(Request $request, DepartEmploye $departEmploye, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         if ($this->isCsrfTokenValid('delete' . $departEmploye->getId(), $request->request->get('_token'))) {
             // Récupérer l'employé associé
             $employe = $departEmploye->getEmploye();

@@ -12,15 +12,18 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted('ROLE_USER')]
 #[Route('/employes')]
-class EmployeController extends AbstractController
+class EmployeController extends BaseController
 {
     #[Route('/', name: 'employes_index', methods: ['GET'])]
-    public function index(Request $request, EmployeRepository $employeRepository, PaginatorInterface $paginator): Response
+    public function index(Request $request, EmployeRepository $employeRepository, PaginatorInterface $paginator, EntityManagerInterface  $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         $query = $employeRepository->createQueryBuilder('e')
             ->where('e.depart IS NULL OR e.depart = :depart')
             ->setParameter('depart', false)
@@ -41,6 +44,10 @@ class EmployeController extends AbstractController
     #[Route('/new', name: 'employes_create', methods: ['GET', 'POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+
         $employe = new Employe();
         $form = $this->createForm(EmployeType::class, $employe);
         $form->handleRequest($request);
@@ -75,11 +82,9 @@ class EmployeController extends AbstractController
                 $employe->setCertificatAcquiteVisuel($newFilename);
             }
 
-            // Associer un employé à une entreprise
-            $entreprise = $entityManager->getRepository(Entreprise::class)->find(1); // ID de l'entreprise
-            if ($entreprise) {
-                $employe->setEntreprise($entreprise);
-            }
+            // Associer l'employé à l'entreprise
+            $entreprise = $entityManager->getRepository(Entreprise::class)->findOneBy([]);
+            $employe->setEntreprise($entreprise);
         
             $entityManager->persist($employe);
             $entityManager->flush();
@@ -104,6 +109,10 @@ class EmployeController extends AbstractController
     #[Route('/{id}/edit', name: 'employes_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Employe $employe, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+
         $form = $this->createForm(EmployeType::class, $employe);
         $form->handleRequest($request);
 
@@ -123,6 +132,10 @@ class EmployeController extends AbstractController
     #[Route('/{id}', name: 'employes_delete', methods: ['POST'])]
     public function delete(Request $request, Employe $employe, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+
         if ($this->isCsrfTokenValid('delete' . $employe->getId(), $request->request->get('_token'))) {
             $entityManager->remove($employe);
             $entityManager->flush();

@@ -15,11 +15,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted('ROLE_USER')]
 #[Route('/marques')]
-class MarqueController extends AbstractController
+class MarqueController extends BaseController
 {
     #[Route('/', name: 'marques_index', methods: ['GET'])]
-    public function index(Request $request, MarqueRepository $marqueRepository, PaginatorInterface $paginator): Response
+    public function index(Request $request, MarqueRepository $marqueRepository, PaginatorInterface $paginator, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         $query = $marqueRepository->createQueryBuilder('e')
             ->getQuery();
 
@@ -38,6 +42,10 @@ class MarqueController extends AbstractController
     #[Route('/marques/new', name: 'marques_create', methods: ['GET', 'POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         $marque = new Marque();
         $form = $this->createForm(MarqueType::class, $marque);
 
@@ -60,6 +68,10 @@ class MarqueController extends AbstractController
     #[Route('/{id}/edit', name: 'marques_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Marque $marque, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         $form = $this->createForm(MarqueType::class, $marque);
 
         $form->handleRequest($request);
@@ -81,6 +93,10 @@ class MarqueController extends AbstractController
     #[Route('/{id}', name: 'marques_delete', methods: ['POST'])]
     public function delete(Request $request, Marque $marque, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         if ($marque->getMateriels()->count() > 0) {
             $this->addFlash('error', 'Impossible de supprimer une marque associée à des matériels.');
 

@@ -15,14 +15,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted('ROLE_USER')]
 #[Route('/societe_service')]
-class SocieteServiceController extends AbstractController
+class SocieteServiceController extends BaseController
 {
     /**
      * Liste des sociétés de services.
      */
     #[Route('/', name: 'societe_service_index', methods: ['GET'])]
-    public function index(Request $request, SocieteServiceRepository $societeServiceRepository, PaginatorInterface $paginator): Response
+    public function index(Request $request, SocieteServiceRepository $societeServiceRepository, PaginatorInterface $paginator, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         $query = $societeServiceRepository->createQueryBuilder('e')
             ->getQuery();
 
@@ -44,6 +48,10 @@ class SocieteServiceController extends AbstractController
     #[Route('/new', name: 'societe_service_create', methods: ['GET', 'POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         $societeService = new SocieteService();
         $form = $this->createForm(SocieteServiceType::class, $societeService);
         $form->handleRequest($request);
@@ -78,6 +86,10 @@ class SocieteServiceController extends AbstractController
     #[Route('/{id}/edit', name: 'societe_service_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, SocieteService $societeService, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         $form = $this->createForm(SocieteServiceType::class, $societeService);
         $form->handleRequest($request);
 
@@ -100,6 +112,10 @@ class SocieteServiceController extends AbstractController
     #[Route('/{id}', name: 'societe_service_delete', methods: ['POST'])]
     public function delete(Request $request, SocieteService $societeService, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         if ($societeService->getAffectations()->count() > 0) {
             $this->addFlash('error', 'Impossible de supprimer une société avec des affectations associées.');
             return $this->redirectToRoute('societe_service_index');

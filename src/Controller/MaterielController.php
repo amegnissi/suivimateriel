@@ -17,11 +17,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted('ROLE_USER')]
 #[Route('/materiels')]
-class MaterielController extends AbstractController
+class MaterielController extends BaseController
 {
     #[Route('/', name: 'materiels_index', methods: ['GET'])]
-    public function index(Request $request, MaterielRepository $materielRepository, PaginatorInterface $paginator): Response
+    public function index(Request $request, MaterielRepository $materielRepository, PaginatorInterface $paginator, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         $query = $materielRepository->createQueryBuilder('e')
             ->getQuery();
 
@@ -40,6 +44,10 @@ class MaterielController extends AbstractController
     #[Route('/new', name: 'materiels_create', methods: ['GET', 'POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         $materiel = new Materiel();
         $materiel->setStatut(0); // Définir le statut par défaut à 0 (Non Affecté)
         $form = $this->createForm(MaterielType::class, $materiel);
@@ -89,6 +97,10 @@ class MaterielController extends AbstractController
     #[Route('/{id}/edit', name: 'materiels_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Materiel $materiel, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         $form = $this->createForm(MaterielType::class, $materiel);
         $form->handleRequest($request);
 
@@ -108,6 +120,10 @@ class MaterielController extends AbstractController
     #[Route('/{id}', name: 'materiels_delete', methods: ['POST'])]
     public function delete(Request $request, Materiel $materiel, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         if ($this->isCsrfTokenValid('delete'.$materiel->getId(), $request->request->get('_token'))) {
             $entityManager->remove($materiel);
             $entityManager->flush();

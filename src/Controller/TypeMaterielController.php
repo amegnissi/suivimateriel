@@ -15,11 +15,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted('ROLE_USER')]
 #[Route('/types_materiels')]
-class TypeMaterielController extends AbstractController
+class TypeMaterielController extends BaseController
 {
     #[Route('/', name: 'types_materiels_index', methods: ['GET'])]
-    public function index(Request $request, TypeMaterielRepository $typeMaterielRepository, PaginatorInterface $paginator): Response
+    public function index(Request $request, TypeMaterielRepository $typeMaterielRepository, PaginatorInterface $paginator, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         $query = $typeMaterielRepository->createQueryBuilder('e')
             ->getQuery();
 
@@ -36,15 +40,19 @@ class TypeMaterielController extends AbstractController
     }
 
     #[Route('/new', name: 'types_materiels_create', methods: ['GET', 'POST'])]
-    public function create(Request $request, EntityManagerInterface $em): Response
+    public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         $typeMateriel = new TypeMateriel();
         $form = $this->createForm(TypeMaterielType::class, $typeMateriel);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($typeMateriel);
-            $em->flush();
+            $entityManager->persist($typeMateriel);
+            $entityManager->flush();
 
             $this->addFlash('success', 'Type Matériel ajouté avec succès.');
             return $this->redirectToRoute('types_materiels_index');
@@ -64,13 +72,17 @@ class TypeMaterielController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'types_materiels_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, TypeMateriel $typeMateriel, EntityManagerInterface $em): Response
+    public function edit(Request $request, TypeMateriel $typeMateriel, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         $form = $this->createForm(TypeMaterielType::class, $typeMateriel);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->flush();
+            $entityManager->flush();
 
             $this->addFlash('success', 'Type Matériel mis à jour avec succès.');
             return $this->redirectToRoute('types_materiels_index');
@@ -83,11 +95,15 @@ class TypeMaterielController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'types_materiels_delete', methods: ['POST'])]
-    public function delete(Request $request, TypeMateriel $typeMateriel, EntityManagerInterface $em): Response
+    public function delete(Request $request, TypeMateriel $typeMateriel, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         if ($this->isCsrfTokenValid('delete' . $typeMateriel->getId(), $request->request->get('_token'))) {
-            $em->remove($typeMateriel);
-            $em->flush();
+            $entityManager->remove($typeMateriel);
+            $entityManager->flush();
             $this->addFlash('success', 'Type Matériel supprimé avec succès.');
         }
 

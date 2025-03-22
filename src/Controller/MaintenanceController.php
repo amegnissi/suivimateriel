@@ -17,11 +17,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted('ROLE_USER')]
 #[Route('/maintenances')]
-class MaintenanceController extends AbstractController
+class MaintenanceController extends BaseController
 {
     #[Route('/', name: 'maintenances_index', methods: ['GET'])]
-    public function index(Request $request, MaintenanceRepository $maintenanceRepository, PaginatorInterface $paginator): Response
+    public function index(Request $request, MaintenanceRepository $maintenanceRepository, PaginatorInterface $paginator, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         $query = $maintenanceRepository->createQueryBuilder('e')
             ->getQuery();
 
@@ -40,6 +44,10 @@ class MaintenanceController extends AbstractController
     #[Route('/new', name: 'maintenances_create', methods: ['GET', 'POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager, MaterielRepository $materielRepository): Response 
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         $maintenance = new Maintenance();
         $form = $this->createForm(MaintenanceType::class, $maintenance);
         $form->handleRequest($request);
@@ -88,6 +96,10 @@ class MaintenanceController extends AbstractController
     #[Route('/{id}/fisnish', name: 'maintenances_finish', methods: ['POST'])]
     public function finishMaintenance(Maintenance $maintenance, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         $materiel = $maintenance->getMateriel();
         if ($materiel) {
             $materiel->setStatut(1); // 1 = Disponible après maintenance

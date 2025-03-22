@@ -18,14 +18,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted('ROLE_USER')]
 #[Route('/affectations')]
-class AffectationController extends AbstractController
+class AffectationController extends BaseController
 {
      /**
      * Liste des affectations.
      */
     #[Route('/', name: 'affectations_index', methods: ['GET'])]
-    public function index(Request $request, AffectationRepository $affectationRepository, PaginatorInterface $paginator): Response
+    public function index(Request $request, AffectationRepository $affectationRepository, PaginatorInterface $paginator, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         $query = $affectationRepository->createQueryBuilder('e')
             ->getQuery();
 
@@ -45,7 +49,12 @@ class AffectationController extends AbstractController
      * Formulaire de création d'une affectation.
      */
     #[Route('/new', name: 'affectations_create', methods: ['GET', 'POST'])]
-    public function create(Request $request, EntityManagerInterface $entityManager): Response {
+    public function create(Request $request, EntityManagerInterface $entityManager): Response 
+    {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         $affectation = new Affectation();
         $form = $this->createForm(AffectationType::class, $affectation);
         $form->handleRequest($request);
@@ -95,6 +104,10 @@ class AffectationController extends AbstractController
     #[Route('/{id}/edit', name: 'affectations_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Affectation $affectation, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         $form = $this->createForm(AffectationType::class, $affectation);
         $form->handleRequest($request);
 
@@ -127,6 +140,10 @@ class AffectationController extends AbstractController
     #[Route('/{id}/delete', name: 'affectations_delete', methods: ['POST'])]
     public function delete(Request $request, Affectation $affectation, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         if ($this->isCsrfTokenValid('delete' . $affectation->getId(), $request->request->get('_token'))) {
             $entityManager->remove($affectation);
             $entityManager->flush();
@@ -142,6 +159,10 @@ class AffectationController extends AbstractController
     #[Route('/{id}/cancel', name: 'affectations_cancel', methods: ['POST'])]
     public function dissocier(Request $request, Affectation $affectation, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         if ($this->isCsrfTokenValid('cancel' . $affectation->getId(), $request->request->get('_token'))) {
             // Réinitialiser les informations de l'affectation au lieu de la supprimer
             $affectation->setEmploye(null); // Dissocier l'employé

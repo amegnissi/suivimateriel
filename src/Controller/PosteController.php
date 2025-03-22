@@ -15,14 +15,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted('ROLE_USER')]
 #[Route('/postes')]
-class PosteController extends AbstractController
+class PosteController extends BaseController
 {
     /**
      * Liste des postes.
      */
     #[Route('/', name: 'postes_index', methods: ['GET'])]
-    public function index(Request $request, PosteRepository $posteRepository, PaginatorInterface $paginator): Response
+    public function index(Request $request, PosteRepository $posteRepository, PaginatorInterface $paginator, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         $query = $posteRepository->createQueryBuilder('e')
             ->getQuery();
 
@@ -44,6 +48,10 @@ class PosteController extends AbstractController
     #[Route('/new', name: 'postes_create', methods: ['GET', 'POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         $poste = new Poste();
         $form = $this->createForm(PosteType::class, $poste);
         $form->handleRequest($request);
@@ -78,6 +86,10 @@ class PosteController extends AbstractController
     #[Route('/{id}/edit', name: 'postes_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Poste $poste, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         $form = $this->createForm(PosteType::class, $poste);
         $form->handleRequest($request);
 
@@ -100,6 +112,10 @@ class PosteController extends AbstractController
     #[Route('/{id}', name: 'postes_delete', methods: ['POST'])]
     public function delete(Request $request, Poste $poste, EntityManagerInterface $entityManager): Response
     {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+        
         if ($poste->getEmploye()->count() > 0) {
             $this->addFlash('error', 'Impossible de supprimer un poste avec des employés associés.');
             return $this->redirectToRoute('postes_index');
