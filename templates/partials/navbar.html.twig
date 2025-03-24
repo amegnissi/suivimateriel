@@ -26,11 +26,41 @@
                 </a>
             </li>
 
-            <!--<li class="nav-item">
-                <a href="#" class="nav-link text-body">
+            <li class="nav-item dropdown pe-3 d-flex align-items-center">
+                <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="material-symbols-rounded">notifications</i>
+                    {% if notifications|length > 0 %}
+                        <span class="badge badge-danger">{{ notifications|length }}</span>
+                    {% endif %}
                 </a>
-            </li>-->
+                <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
+                    {% if notifications|length == 0 %}
+                        <li class="mb-2">
+                            <a class="dropdown-item text-center" href="#">
+                                <p>Aucune notification disponible</p>
+                            </a>
+                        </li>
+                    {% else %}
+                        {% for notification in notifications %}
+                            <li class="mb-2">
+                                <a class="dropdown-item border-radius-md" href="#">
+                                    <div class="d-flex py-1">
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="text-sm font-weight-normal mb-1">
+                                                {{ notification.message }}
+                                            </h6>
+                                            <p class="text-xs text-secondary mb-0">
+                                                <i class="fa fa-clock me-1"></i>
+                                                {{ notification.dateCreation|date('d/m/Y H:i') }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+            </li>
             
             <li class="nav-item dropdown">
                 <a class="nav-link text-body dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

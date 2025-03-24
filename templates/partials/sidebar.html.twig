@@ -89,6 +89,15 @@
                 </a>
             </li>
 
+            {# Section Assurances #} 
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.attributes.get('_route') starts with 'assurances' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
+                    href="{{ path('assurances_index') }}">
+                    <i class="material-symbols-rounded opacity-5">verified_user</i>
+                    <span class="nav-link-text ms-1">Assurances</span>
+                </a>
+            </li>
+
             {# Section Départs Employés #} 
             <li class="nav-item">
             <a class="nav-link {% if app.request.attributes.get('_route') starts with 'depart' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 

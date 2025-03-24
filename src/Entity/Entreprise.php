@@ -39,6 +39,15 @@ class Entreprise
     #[ORM\Column(nullable: true)]
     private ?float $kilometrage = null;
 
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $delaiAssurance = null;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $delaiTVM = null;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $delaiVisiteTechnique = null;
+
     #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Materiel::class)]
     private Collection $materiels;
 
@@ -149,6 +158,39 @@ class Entreprise
     {
         $this->kilometrage = $kilometrage;
 
+        return $this;
+    }
+
+    public function getDelaiAssurance(): ?int
+    {
+        return $this->delaiAssurance;
+    }
+
+    public function setDelaiAssurance(?int $delaiAssurance): self
+    {
+        $this->delaiAssurance = $delaiAssurance;
+        return $this;
+    }
+
+    public function getDelaiTVM(): ?int
+    {
+        return $this->delaiTVM;
+    }
+
+    public function setDelaiTVM(?int $delaiTVM): self
+    {
+        $this->delaiTVM = $delaiTVM;
+        return $this;
+    }
+
+    public function getDelaiVisiteTechnique(): ?int
+    {
+        return $this->delaiVisiteTechnique;
+    }
+
+    public function setDelaiVisiteTechnique(?int $delaiVisiteTechnique): self
+    {
+        $this->delaiVisiteTechnique = $delaiVisiteTechnique;
         return $this;
     }
 

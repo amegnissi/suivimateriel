@@ -60,6 +60,25 @@
                             {{ form_widget(form.kilometrage, { 'attr': { 'class': 'form-control' } }) }}
                             {{ form_errors(form.kilometrage) }}
                         </div>
+                        
+                        <!-- Délais de rappel -->
+                        <div class="input-group input-group-static mb-4">
+                            {{ form_label(form.delaiAssurance, 'Délai de rappel pour Assurance (en jours)', { 'label_attr': {'class': 'ms-0'} }) }}
+                            {{ form_widget(form.delaiAssurance, { 'attr': { 'class': 'form-control', 'min': 1 } }) }}
+                            {{ form_errors(form.delaiAssurance) }}
+                        </div>
+
+                        <div class="input-group input-group-static mb-4">
+                            {{ form_label(form.delaiTVM, 'Délai de rappel pour TVM (en jours)', { 'label_attr': {'class': 'ms-0'} }) }}
+                            {{ form_widget(form.delaiTVM, { 'attr': { 'class': 'form-control', 'min': 1 } }) }}
+                            {{ form_errors(form.delaiTVM) }}
+                        </div>
+
+                        <div class="input-group input-group-static mb-4">
+                            {{ form_label(form.delaiVisiteTechnique, 'Délai de rappel pour Visite Technique (en jours)', { 'label_attr': {'class': 'ms-0'} }) }}
+                            {{ form_widget(form.delaiVisiteTechnique, { 'attr': { 'class': 'form-control', 'min': 1 } }) }}
+                            {{ form_errors(form.delaiVisiteTechnique) }}
+                        </div>
 
                         <button type="submit" class="btn btn-primary">Enregistrer</button>
                         <a href="{{ path('dashboard') }}" class="btn btn-secondary">Annuler</a>

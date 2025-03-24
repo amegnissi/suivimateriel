@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class EntrepriseType extends AbstractType
 {
@@ -54,6 +55,18 @@ class EntrepriseType extends AbstractType
                 'label' => 'Kilométrage',
                 'required' => false,
                 'attr' => ['class' => 'form-control']
+            ])
+            ->add('delaiAssurance', IntegerType::class, [
+                'label' => 'Délai avant expiration assurance (jours)',
+                'required' => false,
+            ])
+            ->add('delaiTVM', IntegerType::class, [
+                'label' => 'Délai avant expiration TVM (jours)',
+                'required' => false,
+            ])
+            ->add('delaiVisiteTechnique', IntegerType::class, [
+                'label' => 'Délai avant expiration visite technique (jours)',
+                'required' => false,
             ]);
     }
 

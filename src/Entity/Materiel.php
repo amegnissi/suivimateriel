@@ -49,6 +49,9 @@ class Materiel
     #[ORM\ManyToOne(inversedBy: 'materiels')]
     private ?Marque $marque = null;
 
+    #[ORM\OneToMany(targetEntity: Assurance::class, mappedBy: 'vehicule', cascade: ['remove'])]
+    private Collection $assurances;
+
     /**
      * @var Collection<int, Affectation>
      */
@@ -58,6 +61,7 @@ class Materiel
     public function __construct()
     {
         $this->affectations = new ArrayCollection();
+        $this->assurances = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -223,6 +227,33 @@ class Materiel
             }
         }
 
+        return $this;
+    }
+
+        /**
+     * @return Collection<int, Assurance>
+     */
+    public function getAssurances(): Collection
+    {
+        return $this->assurances;
+    }
+
+    public function addAssurance(Assurance $assurance): static
+    {
+        if (!$this->assurances->contains($assurance)) {
+            $this->assurances->add($assurance);
+            $assurance->setMateriel($this);
+        }
+        return $this;
+    }
+
+    public function removeMateriel(Assurance $assurance): static
+    {
+        if ($this->assurances->removeElement($assurance)) {
+            if ($assurance->getMateriel() === $this) {
+                $assurance->setMateriel(null);
+            }
+        }
         return $this;
     }
 }
