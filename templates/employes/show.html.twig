@@ -15,7 +15,7 @@
                 <div class="col-auto">
                     <div class="avatar avatar-xl position-relative">
                         {% if employe.photo %}
-                            <img src="{{ asset('uploads/' ~ employe.photo) }}" class="w-100 border-radius-lg shadow-sm" alt="Photo de l'employé">
+                            <img src="{{ asset('uploads/employes' ~ employe.photo) }}" class="w-100 border-radius-lg shadow-sm" alt="Photo de l'employé">
                         {% else %}
                             <img src="{{ asset('assets/img/account-avatar.png') }}" class="w-100 border-radius-lg shadow-sm" alt="Avatar par défaut">
                         {% endif %}

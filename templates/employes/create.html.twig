@@ -7,91 +7,91 @@
 {% block content %}
 
     <div class="row">
-    <div class="col-12">
-        <h4>Ajouter un Nouveau Employé</h4>
-        <div class="card my-4">
-            <div class="card-body">
-                {{ form_start(form) }}
-                
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="input-group input-group-outline my-3">
-                            {{ form_label(form.nom, 'Nom', { 'label_attr': {'class': 'form-label' } }) }}
-                            {{ form_widget(form.nom, { 'attr': { 'class': 'form-control' } }) }}
-                            {{ form_errors(form.nom) }}
+        <div class="col-12">
+            <h4>Ajouter un Nouveau Employé</h4>
+            <div class="card my-4">
+                <div class="card-body">
+                    {{ form_start(form) }}
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group input-group-outline my-3">
+                                {{ form_label(form.nom, 'Nom', { 'label_attr': {'class': 'form-label' } }) }}
+                                {{ form_widget(form.nom, { 'attr': { 'class': 'form-control' } }) }}
+                                {{ form_errors(form.nom) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="input-group input-group-outline my-3">
+                                {{ form_label(form.prenom, 'Prénom', { 'label_attr': {'class': 'form-label' } }) }}
+                                {{ form_widget(form.prenom, { 'attr': { 'class': 'form-control' } }) }}
+                                {{ form_errors(form.prenom) }}
+                            </div>
                         </div>
                     </div>
 
-                    <div class="col-md-6">
-                        <div class="input-group input-group-outline my-3">
-                            {{ form_label(form.prenom, 'Prénom', { 'label_attr': {'class': 'form-label' } }) }}
-                            {{ form_widget(form.prenom, { 'attr': { 'class': 'form-control' } }) }}
-                            {{ form_errors(form.prenom) }}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group input-group-outline my-3">
+                                {{ form_label(form.telephonePersonnel, 'Téléphone Personnel', { 'label_attr': {'class': 'form-label' } }) }}
+                                {{ form_widget(form.telephonePersonnel, { 'attr': { 'class': 'form-control' } }) }}
+                                {{ form_errors(form.telephonePersonnel) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="input-group input-group-outline my-3">
+                                {{ form_label(form.telephoneCorporate, 'Téléphone Corporate', { 'label_attr': {'class': 'form-label' } }) }}
+                                {{ form_widget(form.telephoneCorporate, { 'attr': { 'class': 'form-control' } }) }}
+                                {{ form_errors(form.telephoneCorporate) }}
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="input-group input-group-outline my-3">
-                            {{ form_label(form.telephonePersonnel, 'Téléphone Personnel', { 'label_attr': {'class': 'form-label' } }) }}
-                            {{ form_widget(form.telephonePersonnel, { 'attr': { 'class': 'form-control' } }) }}
-                            {{ form_errors(form.telephonePersonnel) }}
-                        </div>
+                    <div class="input-group input-group-outline my-3">
+                        {{ form_label(form.email, 'Email', { 'label_attr': {'class': 'form-label'} }) }}
+                        {{ form_widget(form.email, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_errors(form.email) }}
                     </div>
 
-                    <div class="col-md-6">
-                        <div class="input-group input-group-outline my-3">
-                            {{ form_label(form.telephoneCorporate, 'Téléphone Corporate', { 'label_attr': {'class': 'form-label' } }) }}
-                            {{ form_widget(form.telephoneCorporate, { 'attr': { 'class': 'form-control' } }) }}
-                            {{ form_errors(form.telephoneCorporate) }}
-                        </div>
+                    <div class="input-group input-group-static mb-4">
+                        {{ form_label(form.poste) }}
+                        {{ form_widget(form.poste, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_errors(form.poste) }}
                     </div>
+
+                    <div class="input-group input-group-static mb-4">
+                        {{ form_label(form.photoFile) }}
+                        {{ form_widget(form.photoFile, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_errors(form.photoFile) }}
+                    </div>
+
+                    <div class="input-group input-group-static mb-4">
+                        {{ form_label(form.copieCarteIdFile) }}
+                        {{ form_widget(form.copieCarteIdFile, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_errors(form.copieCarteIdFile) }}
+                    </div>
+
+                    <div class="input-group input-group-static mb-4">
+                        {{ form_label(form.copieDiplomeFile) }}
+                        {{ form_widget(form.copieDiplomeFile, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_errors(form.copieDiplomeFile) }}
+                    </div>
+
+                    <div class="input-group input-group-static mb-4">
+                        {{ form_label(form.certificatAcquiteVisuelFile) }}
+                        {{ form_widget(form.certificatAcquiteVisuelFile, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_errors(form.certificatAcquiteVisuelFile) }}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    <a href="{{ path('employes_index') }}" class="btn btn-secondary">Annuler</a>
+
+                    {{ form_end(form) }}
                 </div>
-
-                <div class="input-group input-group-outline my-3">
-                    {{ form_label(form.email, 'Email', { 'label_attr': {'class': 'form-label'} }) }}
-                    {{ form_widget(form.email, { 'attr': { 'class': 'form-control' } }) }}
-                    {{ form_errors(form.email) }}
-                </div>
-
-                <div class="input-group input-group-static mb-4">
-                    {{ form_label(form.poste) }}
-                    {{ form_widget(form.poste, { 'attr': { 'class': 'form-control' } }) }}
-                    {{ form_errors(form.poste) }}
-                </div>
-
-                <div class="input-group input-group-static mb-4">
-                    {{ form_label(form.photoFile) }}
-                    {{ form_widget(form.photoFile, { 'attr': { 'class': 'form-control' } }) }}
-                    {{ form_errors(form.photoFile) }}
-                </div>
-
-                <div class="input-group input-group-static mb-4">
-                    {{ form_label(form.copieCarteIdFile) }}
-                    {{ form_widget(form.copieCarteIdFile, { 'attr': { 'class': 'form-control' } }) }}
-                    {{ form_errors(form.copieCarteIdFile) }}
-                </div>
-
-                <div class="input-group input-group-static mb-4">
-                    {{ form_label(form.copieDiplomeFile) }}
-                    {{ form_widget(form.copieDiplomeFile, { 'attr': { 'class': 'form-control' } }) }}
-                    {{ form_errors(form.copieDiplomeFile) }}
-                </div>
-
-                <div class="input-group input-group-static mb-4">
-                    {{ form_label(form.certificatAcquiteVisuelFile) }}
-                    {{ form_widget(form.certificatAcquiteVisuelFile, { 'attr': { 'class': 'form-control' } }) }}
-                    {{ form_errors(form.certificatAcquiteVisuelFile) }}
-                </div>
-
-                <button type="submit" class="btn btn-primary">Enregistrer</button>
-                <a href="{{ path('employes_index') }}" class="btn btn-secondary">Annuler</a>
-
-                {{ form_end(form) }}
             </div>
         </div>
     </div>
-</div>
     
 {% endblock %}

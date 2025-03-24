@@ -48,6 +48,9 @@ class Entreprise
     #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $delaiVisiteTechnique = null;
 
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $logo = null;
+
     #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Materiel::class)]
     private Collection $materiels;
 
@@ -191,6 +194,17 @@ class Entreprise
     public function setDelaiVisiteTechnique(?int $delaiVisiteTechnique): self
     {
         $this->delaiVisiteTechnique = $delaiVisiteTechnique;
+        return $this;
+    }
+    
+    public function getLogo(): ?string
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(?string $logo): static
+    {
+        $this->logo = $logo;
         return $this;
     }
 

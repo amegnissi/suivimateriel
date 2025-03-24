@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\MaterielRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\MaterielRepository;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: MaterielRepository::class)]
 class Materiel
@@ -39,6 +40,18 @@ class Materiel
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $modele = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $imageFilename = null;
+
+    /**
+     * @Assert\File(
+     *     maxSize = "2M",
+     *     mimeTypes = {"image/jpeg", "image/png", "image/gif"},
+     *     mimeTypesMessage = "Please upload a valid image (jpeg, png, gif)"
+     * )
+     */
+    private ?File $imageFile = null;
 
     #[ORM\ManyToOne(targetEntity: Entreprise::class, inversedBy: 'materiels')]
     private ?Entreprise $entreprise = null;
@@ -161,6 +174,34 @@ class Materiel
     public function setModele(?string $modele): static
     {
         $this->modele = $modele;
+
+        return $this;
+    }
+    public function getImageFilename(): ?string
+    {
+        return $this->imageFilename;
+    }
+
+    public function setImageFilename(?string $imageFilename): static
+    {
+        $this->imageFilename = $imageFilename;
+
+        return $this;
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?File $imageFile = null): static
+    {
+        $this->imageFile = $imageFile;
+
+        if ($imageFile) {
+            // Si une nouvelle image est définie, il faut la déplacer vers le répertoire de stockage
+            $this->imageFilename = uniqid().'.'.$imageFile->guessExtension();
+        }
 
         return $this;
     }

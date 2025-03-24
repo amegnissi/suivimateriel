@@ -32,6 +32,7 @@ class EmployeType extends AbstractType
             'label' => 'Téléphone Personnel'
         ])
         ->add('telephoneCorporate', TextType::class, [
+            'required' => false,
             'attr' => ['class' => 'form-control'],
             'label' => 'Téléphone Corporate'
         ])
