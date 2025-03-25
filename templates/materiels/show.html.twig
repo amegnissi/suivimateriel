@@ -16,7 +16,7 @@
             <div class="row gx-4 mb-2">
                 <div class="col-auto">
                     <div class="avatar avatar-xl position-relative">
-                        {% if employe.imageFilename  %}
+                        {% if materiel.imageFilename  %}
                             <img src="{{ asset('uploads/materiels' ~ employe.imageFilename ) }}" class="w-100 border-radius-lg shadow-sm" alt="Photo du matériel">
                         {% else %}
                             <img src="{{ asset('assets/img/car.png') }}" class="w-100 border-radius-lg shadow-sm" alt="Photo du matériel">
@@ -25,8 +25,8 @@
                 </div>
                 <div class="col-auto my-auto">
                     <div class="h-100">
-                        <h5 class="mb-1">{{ materiel.marque.libelle }} - {{ materiel.modele }}</h5>
-                        <p class="mb-0 font-weight-normal text-sm">Immatriculation : {{ materiel.immatriculation | default('Non attribuée') }}</p>
+                        <h5 class="mb-1">{{ materiel.marque.libelle }} - {{ materiel.immatriculation | default('Immatriculation Non attribuée') }}</h5>
+                        <p class="mb-0 font-weight-normal text-sm">Modèle : {{ materiel.modele | default('Non spécifié') }}</p>
                     </div>
                 </div>
                 <div class="col-auto ms-auto d-flex align-items-center">

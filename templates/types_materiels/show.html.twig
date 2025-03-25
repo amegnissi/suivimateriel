@@ -18,7 +18,7 @@
                     {% if typeMateriel.materiels is not empty %}
                         <ul>
                             {% for materiel in typeMateriel.materiels %}
-                                <li>{{ materiel.libelle }} - {{ materiel.immatriculation }}</li>
+                                <li>{{ materiel.marque.libelle }} - {{ materiel.immatriculation }}</li>
                             {% endfor %}
                         </ul>
                     {% else %}

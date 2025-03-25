@@ -8,8 +8,7 @@ use App\Repository\AssuranceRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AssuranceRepository::class)]
-class Assurance
-{
+class Assurance {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

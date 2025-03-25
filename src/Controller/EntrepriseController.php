@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Entreprise;
 use App\Form\EntrepriseType;
-use App\Repository\EntrepriseRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,6 +29,14 @@ class EntrepriseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Gestion du fichier logo
+            $logo = $form->get('logo')->getData();
+            if ($logo) {
+                $newFilename = uniqid().'.'.$logo->guessExtension();
+                $logo->move($this->getParameter('uploads_directory').'/logos', $newFilename);
+                $entreprise->setLogo($newFilename);
+            }
+
             $entityManager->persist($entreprise);
             $entityManager->flush();
 
@@ -49,6 +56,24 @@ class EntrepriseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
+            // Gestion du fichier logo
+            $logo = $form->get('logo')->getData();
+            if ($logo) {
+                $newFilename = uniqid().'.'.$logo->guessExtension();
+
+                // Suppression de l'ancien logo s'il existe
+                if ($entreprise->getLogo()) {
+                    $oldLogoPath = $this->getParameter('uploads_directory').'/logos/'.$entreprise->getLogo();
+                    if (file_exists($oldLogoPath)) {
+                        unlink($oldLogoPath);
+                    }
+                }
+
+                $logo->move($this->getParameter('uploads_directory').'/logos', $newFilename);
+                $entreprise->setLogo($newFilename);
+            }
+
             $entityManager->flush();
 
             $this->addFlash('success', 'Entreprise mise à jour avec succès.');

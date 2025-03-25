@@ -5,8 +5,10 @@ namespace App\Form;
 use App\Entity\Entreprise;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -67,6 +69,17 @@ class EntrepriseType extends AbstractType
             ->add('delaiVisiteTechnique', IntegerType::class, [
                 'label' => 'Délai avant expiration visite technique (jours)',
                 'required' => false,
+            ])
+            ->add('logo', FileType::class, [
+                'label' => 'Logo (PNG, JPG, JPEG)',
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '2M',
+                        'mimeTypes' => ['image/jpeg', 'image/png'],
+                        'mimeTypesMessage' => 'Veuillez télécharger une image valide (PNG, JPG, JPEG)',
+                    ])
+                ],
             ]);
     }
 

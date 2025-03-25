@@ -17,7 +17,7 @@
                     {% if poste.employe is not empty %}
                     <ul>
                         {% for employe in poste.employe %}
-                            <li>{{ employe.nom }} {{ employe.prenom }} - {{ employe.email }}</li>
+                            <li>{{ employe.nom }} {{ employe.prenom }}</li>
                         {% endfor %}
                     </ul>
                     {% else %}
