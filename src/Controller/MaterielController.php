@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 #[IsGranted('ROLE_USER')]
 #[Route('/materiels')]
@@ -54,11 +55,27 @@ class MaterielController extends BaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Gestion du fichier image
+            $imageFile = $form->get('imageFile')->getData();
+            if ($imageFile) {
+                $newFilename = uniqid().'.'.$imageFile->guessExtension();
+                $imageFile->move($this->getParameter('uploads_directory').'/materiels',$newFilename);
+                $materiel->setImageFilename($newFilename);
+            }
 
             // Associer un matériel à une entreprise
             $entreprise = $entityManager->getRepository(Entreprise::class)->find(1); // ID de l'entreprise
             if ($entreprise) {
                 $materiel->setEntreprise($entreprise);
+            }
+
+            // Si le matériel est un véhicule, mettre à jour la marque
+            if ($materiel->getType() === 'vehicule') {
+                $marque = $materiel->getMarque();
+                if ($marque) {
+                    $marque->setEstVehicule(true);  // Mettre estVehicule à true
+                    $entityManager->persist($marque); // Persister la marque avec la mise à jour
+                }
             }
 
             $entityManager->persist($materiel);

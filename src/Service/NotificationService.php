@@ -15,11 +15,10 @@ class NotificationService
     private $entityManager;
 
     public function __construct(
-        AssuranceRepository    $assuranceRepository,
-        EntrepriseRepository   $entrepriseRepository,
-        EntityManagerInterface $entityManager,
-    )
-    {
+        AssuranceRepository $assuranceRepository,
+        EntrepriseRepository $entrepriseRepository,
+        EntityManagerInterface $entityManager
+    ) {
         $this->assuranceRepository = $assuranceRepository;
         $this->entrepriseRepository = $entrepriseRepository;
         $this->entityManager = $entityManager;

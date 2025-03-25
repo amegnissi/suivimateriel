@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de l'Entreprise{% endblock %}
+
+{% block breadcrumb %}ENTREPRISE > DETAILS{% endblock %}
+
+{% block content %}
+    
+    <div class="container-fluid py-4">
+        {% if entreprise %}
+            <div class="page-header min-height-300 border-radius-xl mt-4" 
+                style="background-image: url('{{ asset('assets/img/entreprise-background.jpg') }}');">
+                <span class="mask bg-gradient-dark opacity-6"></span>
+            </div>
+
+            <div class="card card-body mx-3 mx-md-4 mt-n6">
+                <div class="row gx-4 mb-2">
+                    <div class="col-auto">
+                        <div class="avatar avatar-xl position-relative">
+                            {% if entreprise.logo %}
+                                <img src="{{ asset('uploads/entreprise/' ~ entreprise.logo ) }}" class="w-100 border-radius-lg shadow-sm" alt="Logo de l'entreprise">
+                            {% else %}
+                                <i class="material-symbols-rounded">business</i> 
+                                {#<img src="{{ asset('assets/img/default-logo.png') }}" class="w-100 border-radius-lg shadow-sm" alt="Logo de l'entreprise">#}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-auto my-auto">
+                        <div class="h-100">
+                            <h5 class="mb-1">{{ entreprise.nom }}</h5>
+                            <p class="mb-0 font-weight-normal text-sm">IFU : {{ entreprise.ifu | default('Non spécifié') }}</p>
+                        </div>
+                    </div>
+                    <div class="col-auto ms-auto d-flex align-items-center">
+                        <a href="{{ path('entreprise_index') }}" class="btn btn-outline-secondary">
+                            <i class="material-symbols-rounded">arrow_back</i> Retour
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 col-xl-6">
+                        <div class="card card-plain h-100">
+                            <div class="card-header pb-0 p-3">
+                                <h6 class="mb-0">Informations Générales</h6>
+                            </div>
+                            <div class="card-body p-3">
+                                <ul class="list-group">
+                                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Nom :</strong> &nbsp; {{ entreprise.nom | default('Non spécifié') }}</li>
+                                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Adresse :</strong> &nbsp; {{ entreprise.adresse | default('Non spécifiée') }}</li>
+                                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Téléphone :</strong> &nbsp; {{ entreprise.telephone | default('Non spécifié') }}</li>
+                                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email :</strong> &nbsp; {{ entreprise.email | default('Non spécifié') }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-xl-6">
+                        <div class="card card-plain h-100">
+                            <div class="card-header pb-0 p-3">
+                                <h6 class="mb-0">Informations sur l'Entretien</h6>
+                            </div>
+                            <div class="card-body p-3">
+                                <ul class="list-group">
+                                    <li class="list-group-item border-0 ps-0 text-sm">
+                                        <strong class="text-dark">Kilométrage avant vidange :</strong> 
+                                        &nbsp; {{ entreprise.kilometrage | default('Non spécifié') }} km
+                                    </li>
+                                    <li class="list-group-item border-0 ps-0 text-sm">
+                                        <strong class="text-dark">Délai de rappel - Assurance :</strong> 
+                                        &nbsp; {{ entreprise.delaiAssurance is not null ? entreprise.delaiAssurance ~ ' jours' : 'Non spécifié' }}
+                                    </li>
+                                    <li class="list-group-item border-0 ps-0 text-sm">
+                                        <strong class="text-dark">Délai de rappel - TVM :</strong> 
+                                        &nbsp; {{ entreprise.delaiTVM is not null ? entreprise.delaiTVM ~ ' jours' : 'Non spécifié' }}
+                                    </li>
+                                    <li class="list-group-item border-0 ps-0 text-sm">
+                                        <strong class="text-dark">Délai de rappel - Visite technique :</strong> 
+                                        &nbsp; {{ entreprise.delaiVisiteTechnique is not null ? entreprise.delaiVisiteTechnique ~ ' jours' : 'Non spécifié' }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 text-center">
+                    <a href="{{ path('entreprise_edit', {id: entreprise.id}) }}" class="btn btn-outline-warning">
+                        <i class="fas fa-edit"></i> Modifier
+                    </a>
+                </div> 
+            </div>
+                       
+        {% else %}
+            <div class="card card-body w-100 mx-3 mx-md-4">
+                <div class="text-center text-danger">
+                    <i class="material-symbols-rounded display-1">warning</i>
+                    <h5 class="mt-3">Aucune entreprise enregistrée</h5>
+                    <p class="text-muted">Veuillez ajouter une entreprise pour afficher ses informations.</p>
+                    <a href="{{ path('entreprise_new') }}" class="btn btn-outline-primary">
+                         <i class="fas fa-plus"></i> Ajouter l'entreprise
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}

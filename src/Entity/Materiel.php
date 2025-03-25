@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\MaterielRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\MaterielRepository;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: MaterielRepository::class)]
 class Materiel
@@ -40,6 +41,18 @@ class Materiel
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $modele = null;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $imageFilename = null;
+
+    /**
+     * @Assert\File(
+     *     maxSize = "2M",
+     *     mimeTypes = {"image/jpeg", "image/png", "image/gif"},
+     *     mimeTypesMessage = "Please upload a valid image (jpeg, png, gif)"
+     * )
+     */
+    private ?File $imageFile = null;
+
     #[ORM\ManyToOne(targetEntity: Entreprise::class, inversedBy: 'materiels')]
     private ?Entreprise $entreprise = null;
 
@@ -48,6 +61,9 @@ class Materiel
 
     #[ORM\ManyToOne(inversedBy: 'materiels')]
     private ?Marque $marque = null;
+
+    #[ORM\OneToMany(targetEntity: Assurance::class, mappedBy: 'vehicule', cascade: ['remove'])]
+    private Collection $assurances;
 
     /**
      * @var Collection<int, Affectation>
@@ -58,6 +74,7 @@ class Materiel
     public function __construct()
     {
         $this->affectations = new ArrayCollection();
+        $this->assurances = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -160,6 +177,34 @@ class Materiel
 
         return $this;
     }
+    public function getImageFilename(): ?string
+    {
+        return $this->imageFilename;
+    }
+
+    public function setImageFilename(?string $imageFilename): static
+    {
+        $this->imageFilename = $imageFilename;
+
+        return $this;
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?File $imageFile = null): static
+    {
+        $this->imageFile = $imageFile;
+
+        if ($imageFile) {
+            // Si une nouvelle image est définie, il faut la déplacer vers le répertoire de stockage
+            $this->imageFilename = uniqid().'.'.$imageFile->guessExtension();
+        }
+
+        return $this;
+    }
 
     public function getType(): ?TypeMateriel
     {
@@ -223,6 +268,33 @@ class Materiel
             }
         }
 
+        return $this;
+    }
+
+        /**
+     * @return Collection<int, Assurance>
+     */
+    public function getAssurances(): Collection
+    {
+        return $this->assurances;
+    }
+
+    public function addAssurance(Assurance $assurance): static
+    {
+        if (!$this->assurances->contains($assurance)) {
+            $this->assurances->add($assurance);
+            $assurance->setMateriel($this);
+        }
+        return $this;
+    }
+
+    public function removeMateriel(Assurance $assurance): static
+    {
+        if ($this->assurances->removeElement($assurance)) {
+            if ($assurance->getMateriel() === $this) {
+                $assurance->setMateriel(null);
+            }
+        }
         return $this;
     }
 }

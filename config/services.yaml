@@ -11,6 +11,7 @@ services:
     App\Twig\EntrepriseGlobalExtension:
         arguments:
             $entrepriseRepository: '@App\Repository\EntrepriseRepository'
+            $notificationRepository: '@App\Repository\NotificationRepository'
         tags: ['twig.extension']
 
         

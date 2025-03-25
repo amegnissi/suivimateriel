@@ -26,16 +26,16 @@ class EmployeType extends AbstractType
             'attr' => ['class' => 'form-control'],
             'label' => 'Prénom'
         ])
-            ->add('telephoneCorporate', TextType::class, [
-                'attr' => ['class' => 'form-control'],
-                'label' => 'Téléphone Corporate'
-            ])
         ->add('telephonePersonnel', TextType::class, [
             'required' => false,
             'attr' => ['class' => 'form-control'],
             'label' => 'Téléphone Personnel'
         ])
-
+        ->add('telephoneCorporate', TextType::class, [
+            'required' => false,
+            'attr' => ['class' => 'form-control'],
+            'label' => 'Téléphone Corporate'
+        ])
         ->add('email', EmailType::class, [
             'required' => false,
             'attr' => ['class' => 'form-control'],

@@ -57,28 +57,28 @@ class EmployeController extends BaseController
             $photoFile = $form->get('photoFile')->getData();
             if ($photoFile) {
                 $newFilename = uniqid().'.'.$photoFile->guessExtension();
-                $photoFile->move($this->getParameter('uploads_directory'), $newFilename);
+                $photoFile->move($this->getParameter('uploads_directory').'/employes', $newFilename);
                 $employe->setPhoto($newFilename);
             }
 
             $copieCarteIdFile = $form->get('copieCarteIdFile')->getData();
             if ($copieCarteIdFile) {
                 $newFilename = uniqid().'.'.$copieCarteIdFile->guessExtension();
-                $copieCarteIdFile->move($this->getParameter('uploads_directory'), $newFilename);
+                $copieCarteIdFile->move($this->getParameter('uploads_directory').'/employes', $newFilename);
                 $employe->setCopieCarteId($newFilename);
             }
 
             $copieDiplomeFile = $form->get('copieDiplomeFile')->getData();
             if ($copieDiplomeFile) {
                 $newFilename = uniqid().'.'.$copieDiplomeFile->guessExtension();
-                $copieDiplomeFile->move($this->getParameter('uploads_directory'), $newFilename);
+                $copieDiplomeFile->move($this->getParameter('uploads_directory').'/employes', $newFilename);
                 $employe->setCopieDiplome($newFilename);
             }
 
             $certificatAcquiteVisuelFile = $form->get('certificatAcquiteVisuelFile')->getData();
             if ($certificatAcquiteVisuelFile) {
                 $newFilename = uniqid().'.'.$certificatAcquiteVisuelFile->guessExtension();
-                $certificatAcquiteVisuelFile->move($this->getParameter('uploads_directory'), $newFilename);
+                $certificatAcquiteVisuelFile->move($this->getParameter('uploads_directory').'/employes', $newFilename);
                 $employe->setCertificatAcquiteVisuel($newFilename);
             }
 
