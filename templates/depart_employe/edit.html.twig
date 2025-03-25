@@ -1,41 +1,28 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_formulaire.html.twig' %}
 
-{% block title %}Modifier le Départ d'un Employé{% endblock %}
+{% block title %}Départs Employés{% endblock %}
 
-{% block breadcrumb %}EMPLOYÉS > MODIFIER DÉPART{% endblock %}
-
-{% block content %}
-    <div class="row">
-        <div class="col-12">
-            <h4>Modifier le Départ d'un Employé</h4>
-            <div class="card my-4">
-                <div class="card-body">
-                    {{ form_start(form) }}
-
-                    <div class="input-group input-group-static mb-4">
-                        {{ form_label(form.employe, 'Employé', { 'label_attr': {'class': 'ms-0'} }) }}
-                        {{ form_widget(form.employe, { 'attr': { 'class': 'form-control', 'readonly': 'readonly' } }) }}
-                        {{ form_errors(form.employe) }}
-                    </div>
-                    
-                    <div class="input-group input-group-static mb-4">
-                        {{ form_label(form.dateDepart, 'Date de Départ', { 'label_attr': {'class': 'ms-0'} }) }}
-                        {{ form_widget(form.dateDepart, { 'attr': { 'class': 'form-control' } }) }}
-                        {{ form_errors(form.dateDepart) }}
-                    </div>
-
-                    <div class="input-group input-group-static mb-4">
-                        {{ form_label(form.motif, 'Raison du Départ', { 'label_attr': {'class': 'ms-0'} }) }}
-                        {{ form_widget(form.motif, { 'attr': { 'class': 'form-control' } }) }}
-                        {{ form_errors(form.motif) }}
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Mettre à jour</button>
-                    <a href="{{ path('depart_employe_index') }}" class="btn btn-secondary">Annuler</a>
-
-                    {{ form_end(form) }}
-                </div>
-            </div>
+{% block breadcrumb %}DÉPARTS EMPLOYÉS{% endblock %}
+{% block  breadcrumb_item %}Départs Employés{% endblock %}
+{% block  breadcrumb_t %} Gestion Départs Employés{% endblock %}
+{% block form_titre %}Modifier le Départ d'un Employé{% endblock %}
+{% block formContent %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <div class="col-12">
+        <div class="common-flex justify-content-end">
+            <button class="btn btn-outline-success btn-sm b-r-6">
+                <i class="fa-solid fa-save"></i>
+                Modifier
+            </button>
+            <button class="btn btn-dark ">Annuler</button>
         </div>
     </div>
+    {{ form_end(form) }}
+
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+        });
+    </script>
 {% endblock %}

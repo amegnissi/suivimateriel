@@ -1,61 +1,27 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_formulaire.html.twig' %}
 
-{% block title %}Modifier l'Affectation{% endblock %}
-
-{% block breadcrumb %}AFFECTATIONS > MODIFIER{% endblock %}
-
-{% block content %}
-
-    <div class="row">
-        <div class="col-12">
-            <h4>Modifier l'Affectation</h4>
-            <div class="card my-4">
-                <div class="card-body">
-                    {{ form_start(form) }}
-                    
-                        <div class="input-group input-group-static mb-4">
-                            {{ form_label(form.dateAffectation, 'Date d\'Affectation', { 'label_attr': { 'class': 'ms-0' } }) }}
-                            {{ form_widget(form.dateAffectation, { 'attr': { 'class': 'form-control' } }) }}
-                            {{ form_errors(form.dateAffectation) }}
-                        </div>
-
-                        <div class="input-group input-group-static mb-4">
-                            {{ form_label(form.materiel, 'Matériel', { 'label_attr': { 'class': 'ms-0' } }) }}
-                            {{ form_widget(form.materiel, { 'attr': { 'class': 'form-control select2' } }) }}
-                            {{ form_errors(form.materiel) }}
-                        </div>
-
-                        <div class="input-group input-group-static mb-4">
-                            {{ form_label(form.employe, 'Employé', { 'label_attr': { 'class': 'ms-0' } }) }}
-                            {{ form_widget(form.employe, { 'attr': { 'class': 'form-control select2' } }) }}
-                            {{ form_errors(form.employe) }}
-                        </div>
-
-                        <div class="input-group input-group-static mb-4">
-                            {{ form_label(form.societe, 'Société', { 'label_attr': { 'class': 'ms-0' } }) }}
-                            {{ form_widget(form.societe, { 'attr': { 'class': 'form-control select2' } }) }}
-                            {{ form_errors(form.societe) }}
-                        </div>
-
-                        <div class="input-group input-group-static mb-4">
-                            {{ form_label(form.lieuAffectation, 'Lieu d\'Affectation', { 'label_attr': { 'class': 'ms-0' } }) }}
-                            {{ form_widget(form.lieuAffectation, { 'attr': { 'class': 'form-control' } }) }}
-                            {{ form_errors(form.lieuAffectation) }}
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">Mettre à Jour</button>
-                        <a href="{{ path('affectations_index') }}" class="btn btn-secondary">Annuler</a>
-
-                    {{ form_end(form) }}
-                </div>
-            </div>
+{% block title %}Affectation{% endblock %}
+{% block breadcrumb %}Affectation{% endblock %}
+{% block  breadcrumb_item %} Affectation{% endblock %}
+{% block  breadcrumb_t %} Ajouter une Affectation{% endblock %}
+{% block form_titre %}Ajouter une Affectation{% endblock %}
+{% block formContent %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <div class="col-12">
+        <div class="common-flex justify-content-end">
+            <button class="btn btn-outline-success btn-sm b-r-6">
+                <i class="fa-solid fa-save"></i>
+                Enregistrer
+            </button>
+            <button class="btn btn-dark ">Annuler</button>
         </div>
     </div>
+    {{ form_end(form) }}
 
     <script>
         $(document).ready(function() {
             $('.select2').select2();
         });
     </script>
-    
 {% endblock %}

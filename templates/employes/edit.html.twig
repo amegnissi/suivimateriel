@@ -1,99 +1,27 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_formulaire.html.twig' %}
 
-{% block title %}Modifier un Employe{% endblock %}
-
-{% block breadcrumb %}EMLPLOYES > MODIFIER{% endblock %}
-
-{% block content %}
-
-    <div class="row">
-        <div class="col-12">
-            <h4>Modifier l'Employé</h4>
-            <div class="card my-4">
-                <div class="card-body">
-
-                        {{ form_start(form) }}
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="input-group input-group-static mb-4">
-                                    {{ form_label(form.nom, 'Nom', { 'label_attr': {'class': 'ms-0'} }) }}
-                                    {{ form_widget(form.nom, { 'attr': {'class': 'form-control'} }) }}
-                                    {{ form_errors(form.nom) }}
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="input-group input-group-static mb-4">
-                                    {{ form_label(form.prenom, 'Prénom', { 'label_attr': {'class': 'ms-0'} }) }}
-                                    {{ form_widget(form.prenom, { 'attr': {'class': 'form-control'} }) }}
-                                    {{ form_errors(form.prenom) }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="input-group input-group-static mb-4">
-                                    {{ form_label(form.telephonePersonnel, 'Téléphone Personnel', { 'label_attr': {'class': 'ms-0'} }) }}
-                                    {{ form_widget(form.telephonePersonnel, { 'attr': {'class': 'form-control'} }) }}
-                                    {{ form_errors(form.telephonePersonnel) }}
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="input-group input-group-static mb-4">
-                                    {{ form_label(form.telephoneCorporate, 'Téléphone Corporate', { 'label_attr': {'class': 'ms-0'} }) }}
-                                    {{ form_widget(form.telephoneCorporate, { 'attr': {'class': 'form-control'} }) }}
-                                    {{ form_errors(form.telephoneCorporate) }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="input-group input-group-static mb-4">
-                            {{ form_label(form.email, 'Email', { 'label_attr': {'class': 'ms-0'} }) }}
-                            {{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
-                            {{ form_errors(form.email) }}
-                        </div>
-
-                        <div class="input-group input-group-static mb-4">
-                            {{ form_label(form.poste, 'Poste', { 'label_attr': {'class': 'ms-0'} }) }}
-                            {{ form_widget(form.poste, { 'attr': {'class': 'form-control'} }) }}
-                            {{ form_errors(form.poste) }}
-                        </div>
-
-                        <div class="input-group input-group-static mb-4">
-                            {{ form_label(form.photoFile, 'Photo', { 'label_attr': {'class': 'ms-0'} }) }}
-                            {{ form_widget(form.photoFile, { 'attr': {'class': 'form-control'} }) }}
-                            {{ form_errors(form.photoFile) }}
-                        </div>
-
-                        <div class="input-group input-group-static mb-4">
-                            {{ form_label(form.copieCarteIdFile, 'Copie Carte ID', { 'label_attr': {'class': 'ms-0'} }) }}
-                            {{ form_widget(form.copieCarteIdFile, { 'attr': {'class': 'form-control'} }) }}
-                            {{ form_errors(form.copieCarteIdFile) }}
-                        </div>
-
-                        <div class="input-group input-group-static mb-4">
-                            {{ form_label(form.copieDiplomeFile, 'Copie Diplôme', { 'label_attr': {'class': 'ms-0'} }) }}
-                            {{ form_widget(form.copieDiplomeFile, { 'attr': {'class': 'form-control'} }) }}
-                            {{ form_errors(form.copieDiplomeFile) }}
-                        </div>
-
-                        <div class="input-group input-group-static mb-4">
-                            {{ form_label(form.certificatAcquiteVisuelFile, 'Certificat Acuité Visuelle', { 'label_attr': {'class': 'ms-0'} }) }}
-                            {{ form_widget(form.certificatAcquiteVisuelFile, { 'attr': {'class': 'form-control'} }) }}
-                            {{ form_errors(form.certificatAcquiteVisuelFile) }}
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">Mettre à jour</button>
-                        <a href="{{ path('employes_index') }}" class="btn btn-secondary">Annuler</a>
-
-                        {{ form_end(form) }}
-
-                </div>
-            </div>
+{% block title %}Employés{% endblock %}
+{% block breadcrumb %}EMPLOYES{% endblock %}
+{% block  breadcrumb_item %} Employés{% endblock %}
+{% block  breadcrumb_t %} Gestion des Employés{% endblock %}
+{% block form_titre %}Ajouter un Nouveau Employé{% endblock %}
+{% block formContent %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <div class="col-12">
+        <div class="common-flex justify-content-end">
+            <button class="btn btn-outline-success btn-sm b-r-6">
+                <i class="fa-solid fa-save"></i>
+                Enregistrer
+            </button>
+            <button class="btn btn-dark ">Annuler</button>
         </div>
     </div>
-    
+    {{ form_end(form) }}
+
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+        });
+    </script>
 {% endblock %}

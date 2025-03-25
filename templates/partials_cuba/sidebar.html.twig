@@ -1,4 +1,4 @@
-<div class="sidebar-wrapper" sidebar-layout="stroke-svg">
+<div class="sidebar-wrapper" sidebar-layout="stroke-svg" style="background-color: #0871b8;">
 	<div>
 		<div class="logo-wrapper">
 			<a href="{{ path('dashboard') }}"><img class="img-fluid for-light" src="{{ asset('cuba/assets/images/logo/logo.png') }}" alt=""><img class="img-fluid for-dark" src="{{ asset('cuba/assets/images/logo/logo_dark.png') }}" alt=""></a>
@@ -26,40 +26,101 @@
 						</div>
 					</li>
 
-					<li class="sidebar-list"><i class="fa fa-thumb-tack"></i>
+					<li class="sidebar-list"></i>
 					<a class="sidebar-link sidebar-title" href="{{ path('dashboard') }}">
-							<svg class="stroke-icon">
-								<use href="{{ asset('cuba/assets/svg/icon-sprite.svg#stroke-home') }}"></use>
-							</svg>
-							<svg class="fill-icon">
-								<use href="{{ asset('cuba/assets/svg/icon-sprite.svg#fill-home') }}"></use>
-							</svg>
-							<span class="lan-3">Dashboard
+							<span class="lan-3">Tableau de bord
 							</span>
 						</a>
 					</li>
-					<li class="sidebar-list"><i class="fa fa-thumb-tack"></i>
-						<a class="sidebar-link sidebar-title link-nav" href="http://support.pixelstrap.com/help-center">
-							<svg class="stroke-icon">
-								<use href="{{ asset('cuba/assets/svg/icon-sprite.svg#stroke-support-tickets') }}"></use>
-							</svg>
+					<li class="sidebar-list"></i>
+						<a class="sidebar-link sidebar-title link-nav" href="{{ path('postes_index') }}">
+
 							<svg class="fill-icon">
 								<use href="{{ asset('cuba/assets/svg/icon-sprite.svg#fill-support-tickets') }}"></use>
 							</svg>
-							<span>Raise Support</span>
+							<span>Postes</span>
 						</a>
 					</li>
-					<li class="sidebar-list"><i class="fa fa-thumb-tack"></i>
-						<a class="sidebar-link sidebar-title link-nav" href="https://docs.pixelstrap.com/cuba/html/document/">
-							<svg class="stroke-icon">
-								<use href="{{ asset('cuba/assets/svg/icon-sprite.svg#stroke-knowledgebase') }}"></use>
+					<li class="sidebar-list"></i>
+						<a class="sidebar-link sidebar-title link-nav" href="{{ path('marques_index') }}">
+
+							<span>Marques</span>
+						</a>
+
+					</li>
+
+					<li class="sidebar-list"></i>
+						<a class="sidebar-link sidebar-title link-nav" href="{{ path('employes_index') }}">
+
+							<svg class="fill-icon">
+								<use href="{{ asset('cuba/assets/svg/icon-sprite.svg#fill-user') }}"></use>
 							</svg>
+							<span>Employés</span>
+						</a>
+
+					</li>
+
+					<li class="sidebar-list"></i>
+						<a class="sidebar-link sidebar-title link-nav" href="{{ path('types_materiels_index') }}">
+
 							<svg class="fill-icon">
 								<use href="{{ asset('cuba/assets/svg/icon-sprite.svg#fill-knowledgebase') }}"></use>
 							</svg>
-							<span>Documentation</span>
+							<span>Types materiels</span>
 						</a>
+
+					</li>
+
+					<li class="sidebar-list"></i>
+						<a class="sidebar-link sidebar-title link-nav" href="{{ path('materiels_index') }}">
+
+							<svg class="fill-icon">
+								<use href="{{ asset('cuba/assets/svg/icon-sprite.svg#fill-knowledgebase') }}"></use>
+							</svg>
+							<span>Matériels</span>
 						</a>
+
+					</li>
+
+					<li class="sidebar-list"></i>
+						<a class="sidebar-link sidebar-title link-nav" href="{{ path('societe_service_index') }}">
+
+							<svg class="fill-icon">
+								<use href="{{ asset('cuba/assets/svg/icon-sprite.svg#fill-knowledgebase') }}"></use>
+							</svg>
+							<span>Sociétés de Service</span>
+						</a>
+
+					</li>
+					<li class="sidebar-list"></i>
+						<a class="sidebar-link sidebar-title link-nav" href="{{ path('affectations_index') }}">
+
+							<svg class="fill-icon">
+								<use href="{{ asset('cuba/assets/svg/icon-sprite.svg#fill-knowledgebase') }}"></use>
+							</svg>
+							<span>Affectations</span>
+						</a>
+
+					</li>
+					<li class="sidebar-list"></i>
+						<a class="sidebar-link sidebar-title link-nav" href="{{ path('maintenances_index') }}">
+
+							<svg class="fill-icon">
+								<use href="{{ asset('cuba/assets/svg/icon-sprite.svg#fill-knowledgebase') }}"></use>
+							</svg>
+							<span>Maintenance</span>
+						</a>
+
+					</li>
+					<li class="sidebar-list"></i>
+						<a class="sidebar-link sidebar-title link-nav" href="{{ path('depart_employe_index') }}">
+
+							<svg class="fill-icon">
+								<use href="{{ asset('cuba/assets/svg/icon-sprite.svg#fill-knowledgebase') }}"></use>
+							</svg>
+							<span>Départs Employés</span>
+						</a>
+
 					</li>
 				</ul>
 			</div>

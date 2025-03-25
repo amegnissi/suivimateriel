@@ -1,117 +1,105 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_table.html.twig' %}
 
 {% block title %}Maintenances{% endblock %}
 
-{% block breadcrumb %}MAINTENANCES{% endblock %}
-
-{% block content %}
-
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h4>Gestion des Maintenances</h4>
-                <a href="{{ path('maintenances_create') }}" class="btn btn-primary">Ajouter une Maintenance</a>
+{% block breadcrumb %}Maintenances{% endblock %}
+{% block  breadcrumb_item %}Maintenances{% endblock %}
+{% block  breadcrumb_t %} Gestion des Maintenances{% endblock %}
+{% block table_titre %}Liste des Maintenances{% endblock %}
+ {% block btntitle %}Ajouter une Maintenance{% endblock %}
+{% block btnpath %}{{ path('maintenances_create') }}{% endblock %}
+{% block tableContent %}
+<thead>
+<tr>
+    <th class="col">N°</th>
+    <th class="col">Matériel</th>
+    <th class="col">Type</th>
+    <th class="col">Date d'Intervention</th>
+    <th class="col">Km Actuel</th>
+    <th class="col">Km Prochain</th>
+    <th class="col">Statut</th>
+    <th class="col">Actions</th>
+</thead>
+<tbody>
+{% for maintenance in pagination %}
+    <tr>
+        <td class="align-middle text-center text-xs font-weight-bold">{{ loop.index }}</td>
+        <td class="align-middle">
+            <div class="d-flex flex-column justify-content-center">
+                <h6 class="mb-0 text-sm">{{ maintenance.materiel.marque.libelle }} - {{ maintenance.materiel.immatriculation }}</h6>
             </div>
-
-            <div class="card my-4">
-                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
-                        <h6 class="text-white text-capitalize ps-3">Liste des Maintenances</h6>
-                    </div>
-                </div>
-                <div class="card-body px-0 pb-2">
-                    <div class="table-responsive">
-                        <table class="table align-items-center mb-0">
-                            <thead>
-                                <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">N°</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Matériel</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Type</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Date d'Intervention</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Km Actuel</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Km Prochain</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Statut</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for maintenance in pagination %}
-                                <tr>
-                                    <td class="align-middle text-center text-xs font-weight-bold">{{ loop.index }}</td>
-                                    <td class="align-middle">
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-sm">{{ maintenance.materiel.marque.libelle }} - {{ maintenance.materiel.immatriculation }}</h6>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle text-xs font-weight-bold">{{ maintenance.typeMaintenance }}</td>
-                                    <td class="align-middle text-center text-xs font-weight-bold">
-                                        {{ maintenance.dateIntervention|date('d-m-Y') }}
-                                    </td>
-                                    <td class="align-middle text-center text-xs font-weight-bold">
-                                        {{ maintenance.kilometrageActuel ? maintenance.kilometrageActuel|number_format(0, ',', ' ') ~ ' km' : '-' }}
-                                    </td>
-                                    <td class="align-middle text-center text-xs font-weight-bold">
-                                        {{ maintenance.kilometragePrevisionnel ? maintenance.kilometragePrevisionnel|number_format(0, ',', ' ') ~ ' km' : '-' }}
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        {% if maintenance.statut == 0 %}
-                                            <span class="badge bg-warning text-dark">⏳ En cours</span>
-                                        {% else %}
-                                            <span class="badge bg-success">✅ Terminé</span>
-                                        {% endif %}
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <a href="{{ path('maintenances_show', {'id': maintenance.id}) }}" class="btn btn-info btn-sm">Voir</a>
-                                        {% if maintenance.statut == 0 %}
-                                        <form action="{{ path('maintenances_finish', {'id': maintenance.id}) }}" method="post" class="d-inline">
-                                            <input type="hidden" name="_token" value="{{ csrf_token('finish' ~ maintenance.id) }}">
-                                            <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Confirmer la fin de cette maintenance ?');">
-                                                Terminer
-                                            </button>
-                                        </form>
-                                        {% endif %}
-                                    </td>
-                                </tr>
-                                {% else %}
-                                <tr>
-                                    <td colspan="8" class="text-center text-secondary">Aucune maintenance trouvée.</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                        
-                        <!-- Pagination -->
-                        {% if pagination.getTotalItemCount() > 10 %}
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-center">
-                                    {% if pagination.currentPageNumber > 1 %}
-                                        <li class="page-item">
-                                            <a class="page-link" href="{{ path('employes_index', {'page': pagination.currentPageNumber - 1}) }}">
-                                                <span class="material-symbols-rounded">keyboard_arrow_left</span>
-                                            </a>
-                                        </li>
-                                    {% endif %}
-
-                                    {% for page in 1..pagination.pageCount %}
-                                        <li class="page-item {% if page == pagination.currentPageNumber %}active{% endif %}">
-                                            <a class="page-link" href="{{ path('employes_index', {'page': page}) }}">{{ page }}</a>
-                                        </li>
-                                    {% endfor %}
-
-                                    {% if pagination.currentPageNumber < pagination.pageCount %}
-                                        <li class="page-item">
-                                            <a class="page-link" href="{{ path('employes_index', {'page': pagination.currentPageNumber + 1}) }}">
-                                                <span class="material-symbols-rounded">keyboard_arrow_right</span>
-                                            </a>
-                                        </li>
-                                    {% endif %}
-                                </ul>
-                            </nav>
-                        {% endif %}
-                    </div>
-                </div>
+        </td>
+        <td class="align-middle text-xs font-weight-bold">{{ maintenance.typeMaintenance }}</td>
+        <td class="align-middle text-center text-xs font-weight-bold">
+            {{ maintenance.dateIntervention|date('d-m-Y') }}
+        </td>
+        <td class="align-middle text-center text-xs font-weight-bold">
+            {{ maintenance.kilometrageActuel ? maintenance.kilometrageActuel|number_format(0, ',', ' ') ~ ' km' : '-' }}
+        </td>
+        <td class="align-middle text-center text-xs font-weight-bold">
+            {{ maintenance.kilometragePrevisionnel ? maintenance.kilometragePrevisionnel|number_format(0, ',', ' ') ~ ' km' : '-' }}
+        </td>
+        <td class="align-middle text-center">
+            {% if maintenance.statut == 0 %}
+                <span class="badge bg-warning text-dark">⏳ En cours</span>
+            {% else %}
+                <span class="badge bg-success">✅ Terminé</span>
+            {% endif %}
+        </td>
+        <td class="align-middle text-center">
+            <div class="common-align gap-2 justify-content-start">
+                <a href="{{ path('maintenances_show', {'id': maintenance.id}) }}"
+                   title="Plus de details">
+                    <i class="fa fa-eye"></i>
+                </a>
+            {% if maintenance.statut == 0 %}
+                <form action="{{ path('maintenances_finish', {'id': maintenance.id}) }}" method="post" class="d-inline">
+                    <input type="hidden" name="_token" value="{{ csrf_token('finish' ~ maintenance.id) }}">
+                    <a type="submit" onclick="return confirm('Confirmer la fin de ' +
+                     'cette maintenance ?');">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </form>
+            {% endif %}
             </div>
-        </div>
-    </div>
-    
+        </td>
+    </tr>
+{% else %}
+    <tr>
+        <td colspan="8" class="text-center text-secondary">Aucune maintenance trouvée.</td>
+    </tr>
+{% endfor %}
+</tbody>
 {% endblock %}
+{% block pagination %}
+
+    <!-- Pagination -->
+    {% if pagination.getTotalItemCount() > 10 %}
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                {% if pagination.currentPageNumber > 1 %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ path('employes_index', {'page': pagination.currentPageNumber - 1}) }}">
+                            <span class="material-symbols-rounded">keyboard_arrow_left</span>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% for page in 1..pagination.pageCount %}
+                    <li class="page-item {% if page == pagination.currentPageNumber %}active{% endif %}">
+                        <a class="page-link" href="{{ path('employes_index', {'page': page}) }}">{{ page }}</a>
+                    </li>
+                {% endfor %}
+
+                {% if pagination.currentPageNumber < pagination.pageCount %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ path('employes_index', {'page': pagination.currentPageNumber + 1}) }}">
+                            <span class="material-symbols-rounded">keyboard_arrow_right</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+{% endblock %}
+

@@ -1,62 +1,73 @@
-{% extends 'base.html.twig' %}
+{% extends 'baseC.html.twig' %}
 
-{% block title %}Détails de la Maintenance{% endblock %}
-
-{% block breadcrumb %}MAINTENANCES > DETAILS{% endblock %}
+{% block breadcrumb %}Maintenances{% endblock %}
+{% block  breadcrumb_item %}Maintenances{% endblock %}
+{% block  breadcrumb_t %} Gestion des Maintenances{% endblock %}
+{% block table_titre %}Détails de la Maintenance{% endblock %}
 
 {% block content %}
 
     <div class="row">
-        <div class="col-12">
-            <h4>Détails de la Maintenance</h4>
-            <div class="card my-4">
+        <div class="col-sm-10 offset-sm-1">
+            <div class="card list-with-icon">
+                <div class="card-header border-b-5 border-l-primary">
+                    <h6>Détails de la Maintenance</h6>
+
+                </div>
                 <div class="card-body">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th>Matériel</th>
-                            <td>{{ maintenance.materiel.marque.libelle }} - {{ maintenance.materiel.immatriculation }}</td>
-                        </tr>
-                        <tr>
-                            <th>Type</th>
-                            <td>{{ maintenance.typeMaintenance }}</td>
-                        </tr>
-                        <tr>
-                            <th>Description</th>
-                            <td>{{ maintenance.description ?: '-' }}</td>
-                        </tr>
-                        <tr>
-                            <th>Date d'Intervention</th>
-                            <td>{{ maintenance.dateIntervention|date('d/m/Y') }}</td>
-                        </tr>
-                        <tr>
-                            <th>Kilométrage Actuel</th>
-                            <td>{{ maintenance.kilometrageActuel ? maintenance.kilometrageActuel|number_format(0, ',', ' ') ~ ' km' : '-' }}</td>
-                        </tr>
-                        <tr>
-                            <th>Kilométrage à la Prochaine Vidange</th>
-                            <td>{{ maintenance.kilometragePrevisionnel ? maintenance.kilometragePrevisionnel|number_format(0, ',', ' ') ~ ' km' : '-' }}</td>
-                        </tr>
-                        <tr>
-                            <th>Coût (FCFA)</th>
-                            <td>{{ maintenance.cout ?: '-' }}</td>
-                        </tr>
-                        <tr>
-                            <th>Preuve</th>
-                            <td>
-                                {% if maintenance.preuve %}
-                                    <a href="{{ asset('uploads/' ~ maintenance.preuve) }}" target="_blank">Voir la preuve</a>
-                                {% else %}
-                                    Aucune preuve fournie.
-                                {% endif %}
-                            </td>
-                        </tr>
-                    </table>
+                    <div class="table-responsive table-card mb-4">
+                        <table class="table  table-centered align-middle table-nowrap mb-0">
+                            <tr>
+                                <th>Matériel</th>
+                                <td>{{ maintenance.materiel.marque.libelle }}
+                                    - {{ maintenance.materiel.immatriculation }}</td>
+                            </tr>
+                            <tr>
+                                <th>Type</th>
+                                <td>{{ maintenance.typeMaintenance }}</td>
+                            </tr>
+                            <tr>
+                                <th>Description</th>
+                                <td>{{ maintenance.description ?: '-' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Date d'Intervention</th>
+                                <td>{{ maintenance.dateIntervention|date('d/m/Y') }}</td>
+                            </tr>
+                            <tr>
+                                <th>Kilométrage Actuel</th>
+                                <td>{{ maintenance.kilometrageActuel ? maintenance.kilometrageActuel|number_format(0, ',', ' ') ~ ' km' : '-' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Kilométrage à la Prochaine Vidange</th>
+                                <td>{{ maintenance.kilometragePrevisionnel ? maintenance.kilometragePrevisionnel|number_format(0, ',', ' ') ~ ' km' : '-' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Coût (FCFA)</th>
+                                <td>{{ maintenance.cout ?: '-' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Preuve</th>
+                                <td>
+                                    {% if maintenance.preuve %}
+                                        <a href="{{ asset('uploads/' ~ maintenance.preuve) }}" target="_blank">Voir la
+                                            preuve</a>
+                                    {% else %}
+                                        Aucune preuve fournie.
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="common-flex d-grid gap-2 d-md-flex justify-content-md-end buttons-box">
+                        <a href="{{ path('maintenances_index') }}" class="btn btn-outline-dark b-r-8">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            Retour</a>
 
-                    <a href="{{ path('maintenances_index') }}" class="btn btn-secondary">Retour</a>
-
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
 {% endblock %}

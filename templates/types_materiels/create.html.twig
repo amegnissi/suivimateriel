@@ -1,31 +1,59 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_formulaire.html.twig' %}
 
-{% block title %}Ajouter un Type Matériel{% endblock %}
+{% block title %}Types de materiels{% endblock %}
 
-{% block breadcrumb %}TYPES MATERIELS > AJOUTER{% endblock %}
+{% block breadcrumb %}Materiels{% endblock %}
+{% block  breadcrumb_item %}Gestion du materiel{% endblock %}
+{% block  breadcrumb_t %} Ajouter un Nouveau Type Matériel{% endblock %}
 
-{% block content %}
 
-    <div class="row">
-        <div class="col-12">
-            <h4>Ajouter un Nouveau Type Matériel</h4>
-            <div class="card my-4">
-                <div class="card-body">
-                    {{ form_start(form) }}
-                    
-                    <div class="input-group input-group-outline mb-4">
-                        {{ form_label(form.libelle, 'Nom du Type de Matériel', { 'label_attr': { 'class': 'form-label' } }) }}
-                        {{ form_widget(form.libelle, { 'attr': { 'class': 'form-control' } }) }}
-                        {{ form_errors(form.libelle) }}
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
-                    <a href="{{ path('types_materiels_index') }}" class="btn btn-secondary">Annuler</a>
-
-                    {{ form_end(form) }}
-                </div>
-            </div>
+{% block form_titre %}Ajouter un Nouveau Type Matériel{% endblock %}
+{% block formContent %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <div class="col-12">
+        <div class="common-flex justify-content-end">
+            <button class="btn btn-outline-success btn-sm b-r-6">
+                <i class="fa-solid fa-save"></i>
+                Enregistrer
+            </button>
+            <button class="btn btn-dark ">Annuler</button>
         </div>
     </div>
-    
+    {{ form_end(form) }}
 {% endblock %}
+
+
+
+
+{#{% extends 'base.html.twig' %}#}
+
+{#{% block title %}Ajouter un Type Matériel{% endblock %}#}
+
+{#{% block breadcrumb %}TYPES MATERIELS > AJOUTER{% endblock %}#}
+
+{#{% block content %}#}
+
+{#    <div class="row">#}
+{#        <div class="col-12">#}
+{#            <h4>Ajouter un Nouveau Type Matériel</h4>#}
+{#            <div class="card my-4">#}
+{#                <div class="card-body">#}
+{#                    {{ form_start(form) }}#}
+{#                    #}
+{#                    <div class="input-group input-group-outline mb-4">#}
+{#                        {{ form_label(form.libelle, 'Nom du Type de Matériel', { 'label_attr': { 'class': 'form-label' } }) }}#}
+{#                        {{ form_widget(form.libelle, { 'attr': { 'class': 'form-control' } }) }}#}
+{#                        {{ form_errors(form.libelle) }}#}
+{#                    </div>#}
+
+{#                    <button type="submit" class="btn btn-primary">Enregistrer</button>#}
+{#                    <a href="{{ path('types_materiels_index') }}" class="btn btn-secondary">Annuler</a>#}
+
+{#                    {{ form_end(form) }}#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#    #}
+{#{% endblock %}#}

@@ -1,33 +1,24 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_formulaire.html.twig' %}
 
-{% block title %}Ajouter une Marque{% endblock %}
-
-{% block breadcrumb %}MARQUES > AJOUTER{% endblock %}
-
-{% block content %}
-
-    <div class="row">
-        <div class="col-12">
-            <h4>Ajouter une Nouvelle Marque</h4>
-            <div class="card my-4">
-                <div class="card-body">
-                        {{ form_start(form) }}
-                        
-                        <div class="input-group input-group-outline mb-4">
-                            {{ form_label(form.libelle, 'Nom de la Marque', { 'label_attr': {'class': 'form-label' } }) }}
-                            {{ form_widget(form.libelle, {'attr': {'class': 'form-control' } }) }}
-                            <div class="invalid-feedback">
-                                {{ form_errors(form.libelle) }}
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">Enregistrer</button>
-                        <a href="{{ path('marques_index') }}" class="btn btn-secondary">Annuler</a>
-
-                        {{ form_end(form) }}
-                </div>
-            </div>
+{% block title %}Marques{% endblock %}
+{% block breadcrumb %}MARQUES{% endblock %}
+{% block  breadcrumb_item %}Gestion des Marques{% endblock %}
+{% block  breadcrumb_t %}Ajouter une Nouvelle Marque{% endblock %}
+{% block form_titre %}Ajouter une Nouvelle Marque{% endblock %}
+{% block formContent %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <div class="col-12">
+        <div class="common-flex justify-content-end">
+            <button class="btn btn-outline-success btn-sm b-r-6">
+                <i class="fa-solid fa-save"></i>
+                Enregistrer
+            </button>
+            <button class="btn btn-dark ">Annuler</button>
         </div>
     </div>
-
+    {{ form_end(form) }}
 {% endblock %}
+
+
+

@@ -1,67 +1,22 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_formulaire.html.twig' %}
+{% block title %}Maintenances{% endblock %}
 
-{% block title %}Ajouter une Maintenance{% endblock %}
+{% block breadcrumb %}Maintenances{% endblock %}
+{% block  breadcrumb_item %}Maintenances{% endblock %}
+{% block  breadcrumb_t %} Gestion des Maintenances{% endblock %}
 
-{% block breadcrumb %}MAINTENANCES > AJOUTER{% endblock %}
-
-{% block content %}
-
-    <div class="row">
-        <div class="col-12">
-            <h4>Ajouter une Maintenance</h4>
-            <div class="card my-4">
-                <div class="card-body">
-                    {{ form_start(form) }}
-                    
-                    <div class="input-group input-group-static my-3">
-                        {{ form_label(form.materiel, 'Matériel', { 'label_attr': { 'class': 'ms-0' } }) }}
-                        {{ form_widget(form.materiel, { 'attr': { 'class': 'form-control select2' } }) }}
-                        {{ form_errors(form.materiel) }}
-                    </div>
-
-                    <div class="input-group input-group-static my-3">
-                        {{ form_label(form.typeMaintenance, 'Type de Maintenance', { 'label_attr': { 'class': 'ms-0' } }) }}
-                        {{ form_widget(form.typeMaintenance, { 'attr': { 'class': 'form-control' } }) }}
-                        {{ form_errors(form.typeMaintenance) }}
-                    </div>
-
-                    <div class="input-group input-group-static my-3">
-                        {{ form_label(form.description, 'Description', { 'label_attr': { 'class': 'ms-0' } }) }}
-                        {{ form_widget(form.description, { 'attr': { 'class': 'form-control' } }) }}
-                        {{ form_errors(form.description) }}
-                    </div>
-
-                    <div class="input-group input-group-static my-3">
-                        {{ form_label(form.dateIntervention, 'Date d\'Intervention', { 'label_attr': { 'class': 'ms-0' } }) }}
-                        {{ form_widget(form.dateIntervention, { 'attr': { 'class': 'form-control' } }) }}
-                        {{ form_errors(form.dateIntervention) }}
-                    </div>
-
-                    <div class="input-group input-group-static my-3">
-                        {{ form_label(form.kilometrageActuel, 'Kilométrage Actuel', { 'label_attr': { 'class': 'ms-0' } }) }}
-                        {{ form_widget(form.kilometrageActuel, { 'attr': { 'class': 'form-control' } }) }}
-                        {{ form_errors(form.kilometrageActuel) }}
-                    </div>
-
-                    <div class="input-group input-group-static my-3">
-                        {{ form_label(form.cout, 'Coût (FCFA)', { 'label_attr': { 'class': 'ms-0' } }) }}
-                        {{ form_widget(form.cout, { 'attr': { 'class': 'form-control' } }) }}
-                        {{ form_errors(form.cout) }}
-                    </div>
-
-                    <div class="input-group input-group-static my-3">
-                        {{ form_label(form.preuve, 'Preuve (Fichier)', { 'label_attr': { 'class': 'ms-0' } }) }}
-                        {{ form_widget(form.preuve, { 'attr': { 'class': 'form-control' } }) }}
-                        {{ form_errors(form.preuve) }}
-                    </div>
-
-                        <button type="submit" class="btn btn-primary">Enregistrer</button>
-                        <a href="{{ path('maintenances_index') }}" class="btn btn-secondary">Annuler</a>
-
-                    {{ form_end(form) }}
-                </div>
-            </div>
+{% block form_titre %}Ajouter une maintenance{% endblock %}
+{% block formContent %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <div class="col-12">
+        <div class="common-flex justify-content-end">
+            <button class="btn btn-outline-success btn-sm b-r-6">
+                <i class="fa-solid fa-save"></i>
+                Enregistrer
+            </button>
+            <button class="btn btn-dark ">Annuler</button>
         </div>
     </div>
-    
+    {{ form_end(form) }}
 {% endblock %}

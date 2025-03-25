@@ -1,0 +1,106 @@
+{% extends 'baseC.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block breadcrumb %}{% endblock %}
+{% block  breadcrumb_item %}{% endblock %}
+{% block  breadcrumb_t %} {% endblock %}
+{% block content %}
+
+        <div class="row">
+            <div class="col-sm-12 mb-3 text-end">
+                <a href="{% block btnpath %}{% endblock %}" class="btn btn-primary btn-sm  float-right">
+                    <i class="fa fa-plus pe-2"></i>
+                    {% block btntitle %}{% endblock %}
+                </a>
+            </div>
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header border-b-5" style="background-color: #D6EED4; ">
+                        <h6>{% block table_titre%}{% endblock %}</h6>
+                        <p class="f-m-light mt-1"></p>
+{#                        <div class="card-header-right">#}
+{#                            <a href="{% block btnpath %}{% endblock %}" class="btn btn-outline-success btn-xs b-r-6 float-right">#}
+{#                                <i class="fa fa-plus pe-2"></i>#}
+{#                                {% block btntitle %}{% endblock %}#}
+{#                            </a>#}
+{#                        </div>#}
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive custom-scrollbar">
+                            <table class="table table-striped table-hover">
+                                {% block tableContent %}{% endblock %}
+                            </table>
+                            {% block pagination %} {% endblock %}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{#    <div class="row">#}
+{#        <div class="col-12">#}
+{#            <h4>Ajouter une Entreprise</h4>#}
+{#            <div class="card my-4">#}
+{#                <div class="card-body">#}
+{#                    {{ form_start(form) }}#}
+
+{#                        <div class="input-group input-group-outline mb-4">#}
+{#                            {{ form_label(form.nom, 'Nom de l\'Entreprise', { 'label_attr': { 'class': 'form-label' } }) }}#}
+{#                            {{ form_widget(form.nom, { 'attr': { 'class': 'form-control' } }) }}#}
+{#                            {{ form_errors(form.nom) }}#}
+{#                        </div>#}
+
+{#                        <div class="input-group input-group-outline mb-4">#}
+{#                            {{ form_label(form.adresse, 'Adresse', { 'label_attr': {'class': 'form-label'} }) }}#}
+{#                            {{ form_widget(form.adresse, { 'attr': { 'class': 'form-control' } }) }}#}
+{#                            {{ form_errors(form.adresse) }}#}
+{#                        </div>#}
+
+{#                        <div class="input-group input-group-outline mb-4">#}
+{#                            {{ form_label(form.telephone, 'Numéro de Téléphone', { 'label_attr': {'class': 'form-label'} }) }}#}
+{#                            {{ form_widget(form.telephone, { 'attr': { 'class': 'form-control' } }) }}#}
+{#                            {{ form_errors(form.telephone) }}#}
+{#                        </div>#}
+
+{#                        <div class="input-group input-group-outline mb-4">#}
+{#                            {{ form_label(form.email, 'Email', { 'label_attr': {'class': 'form-label'} }) }}#}
+{#                            {{ form_widget(form.email, { 'attr': { 'class': 'form-control' } }) }}#}
+{#                            {{ form_errors(form.email) }}#}
+{#                        </div>#}
+
+{#                        <div class="input-group input-group-outline mb-4">#}
+{#                            {{ form_label(form.ifu, 'IFU', { 'label_attr': {'class': 'form-label'} }) }}#}
+{#                            {{ form_widget(form.ifu, { 'attr': { 'class': 'form-control' } }) }}#}
+{#                            {{ form_errors(form.ifu) }}#}
+{#                        </div>#}
+
+{#                        <div class="input-group input-group-outline mb-4">#}
+{#                            {{ form_label(form.siteWeb, 'Site Web', { 'label_attr': {'class': 'form-label'} }) }}#}
+{#                            {{ form_widget(form.siteWeb, { 'attr': { 'class': 'form-control' } }) }}#}
+{#                            {{ form_errors(form.siteWeb) }}#}
+{#                        </div>#}
+
+{#                        <div class="input-group input-group-outline mb-4">#}
+{#                            {{ form_label(form.gerant, 'Nom du Gérant\(e\)', { 'label_attr': {'class': 'form-label'} }) }}#}
+{#                            {{ form_widget(form.gerant, { 'attr': { 'class': 'form-control' } }) }}#}
+{#                            {{ form_errors(form.gerant) }}#}
+{#                        </div>#}
+
+{#                        <div class="input-group input-group-outline mb-4">#}
+{#                            {{ form_label(form.kilometrage, 'Kilometrage à faire \(Avant la prochaine Vidange\)', { 'label_attr': {'class': 'form-label'} }) }}#}
+{#                            {{ form_widget(form.kilometrage, { 'attr': { 'class': 'form-control' } }) }}#}
+{#                            {{ form_errors(form.kilometrage) }}#}
+{#                        </div>#}
+
+{#                        <button type="submit" class="btn btn-primary">Enregistrer</button>#}
+{#                        <a href="{{ path('dashboard') }}" class="btn btn-secondary">Annuler</a>#}
+
+{#                    {{ form_end(form) }}#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+
+{% endblock %}

@@ -1,104 +1,96 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_table.html.twig' %}
 
-{% block title %}Matériels{% endblock %}
+{% block title %}Types de materiels{% endblock %}
 
-{% block breadcrumb %}MATERIELS{% endblock %}
+{% block breadcrumb %}Materiels{% endblock %}
+{% block  breadcrumb_item %}Gestion du materiel{% endblock %}
+{% block  breadcrumb_t %} Liste des materiels{% endblock %}
+{% block table_titre %}Liste des  materiels {% endblock %}
+ {% block btntitle %}Ajouter un Matériel{% endblock %}
+{% block btnpath %}{{ path('materiels_create') }}{% endblock %}
+{% block tableContent %}
+    <thead>
+    <tr>
+        <th class="col">N°</th>
+        <th class="col">Type de Matériel</th>
+        <th class="col">Marque</th>
+        <th class="col">Immatriculation</th>
+        <th class="col">Date d'Acquisition</th>
+        <th class="col">Statut</th>
+        <th class="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for materiel in pagination %}
+        <tr>
+            <td class="align-middle text-center text-xs font-weight-bold">{{ loop.index }}</td>
+            <td class="align-middle text-xs font-weight-bold">{{ materiel.type.libelle ?? 'Non Défini' }}</td>
+            <td class="align-middle text-xs font-weight-bold">{{ materiel.marque.libelle ?? 'Non Défini' }}</td>
+            <td class="align-middle text-xs font-weight-bold">{{ materiel.immatriculation }}</td>
+            <td class="align-middle text-center text-xs font-weight-bold">
+                {{ materiel.dateAcquisition|date('d-m-Y') }}
+            </td>
+            <td class="align-middle text-center">
+                {% if materiel.statut == 0 %}
+                    <span class="badge bg-secondary">⏳ Non Affecté (NA)</span>
+                {% elseif materiel.statut == 1 %}
+                    <span class="badge bg-info">✅ Affecté (A)</span>
+                {% elseif materiel.statut == 3 %}
+                    <span class="badge bg-warning text-dark">🔧 NA / En Maintenance</span>
+                {% elseif materiel.statut == 2 %}
+                    <span class="badge bg-success">🔧 A / En Maintenance</span>
+                {% endif %}
+            </td>
+            <td class="align-middle text-center">
+                <div class="common-align gap-2 justify-content-start">
+                    <a href="{{ path('materiels_show', {'id': materiel.id}) }}"
+                       title="Plus de details">
+                        <i class="fa fa-eye"></i>
+                    </a>
 
-{% block content %}
-
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h4>Gestion des Matériels</h4>
-                <a href="{{ path('materiels_create') }}" class="btn btn-primary">Ajouter un Matériel</a>
-            </div>
-
-            <div class="card my-4">
-                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
-                        <h6 class="text-white text-capitalize ps-3">Liste des Matériels</h6>
-                    </div>
+                    <a href="{{ path('materiels_edit', {'id': materiel.id}) }}"
+                       title="Modifier">
+                        <i class="far fa-edit"></i>
+                    </a>
                 </div>
-                <div class="card-body px-0 pb-2">
-                    <div class="table-responsive p-0">
-                        <table class="table align-items-center mb-0">
-                            <thead>
-                                <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">N°</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Type de Matériel</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Marque</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Immatriculation</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Date d'Acquisition</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Statut</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for materiel in pagination %}
-                                <tr>
-                                    <td class="align-middle text-center text-xs font-weight-bold">{{ loop.index }}</td>
-                                    <td class="align-middle text-xs font-weight-bold">{{ materiel.type.libelle ?? 'Non Défini' }}</td>
-                                    <td class="align-middle text-xs font-weight-bold">{{ materiel.marque.libelle ?? 'Non Défini' }}</td>
-                                    <td class="align-middle text-xs font-weight-bold">{{ materiel.immatriculation }}</td>
-                                    <td class="align-middle text-center text-xs font-weight-bold">
-                                        {{ materiel.dateAcquisition|date('d-m-Y') }}
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        {% if materiel.statut == 0 %}
-                                            <span class="badge bg-secondary">⏳ Non Affecté (NA)</span>
-                                        {% elseif materiel.statut == 1 %}
-                                            <span class="badge bg-info">✅ Affecté (A)</span>
-                                        {% elseif materiel.statut == 3 %}
-                                            <span class="badge bg-warning text-dark">🔧 NA / En Maintenance</span>
-                                        {% elseif materiel.statut == 2 %}
-                                            <span class="badge bg-success">🔧 A / En Maintenance</span>
-                                        {% endif %}
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <a href="{{ path('materiels_show', {'id': materiel.id}) }}" class="btn btn-info btn-sm">Voir</a>
-                                        <a href="{{ path('materiels_edit', {'id': materiel.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
-                                    </td>
-                                </tr>
-                                {% else %}
-                                <tr>
-                                    <td colspan="7" class="text-center text-secondary">Aucun matériel trouvé.</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                                                                        
-                        <!-- Pagination -->
-                        {% if pagination.getTotalItemCount() > 10 %}
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-center">
-                                    {% if pagination.currentPageNumber > 1 %}
-                                        <li class="page-item">
-                                            <a class="page-link" href="{{ path('employes_index', {'page': pagination.currentPageNumber - 1}) }}">
-                                                <span class="material-symbols-rounded">keyboard_arrow_left</span>
-                                            </a>
-                                        </li>
-                                    {% endif %}
+{#                <a href="{{ path('materiels_show', {'id': materiel.id}) }}" class="btn btn-info btn-sm">Voir</a>#}
+{#                <a href="{{ path('materiels_edit', {'id': materiel.id}) }}" class="btn btn-warning btn-sm">Modifier</a>#}
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="7" class="text-center text-secondary">Aucun matériel trouvé.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+{% endblock %}
+{% block pagination %}
+    <!-- Pagination -->
+    {% if pagination.getTotalItemCount() > 10 %}
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                {% if pagination.currentPageNumber > 1 %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ path('employes_index', {'page': pagination.currentPageNumber - 1}) }}">
+                            <span class="material-symbols-rounded">keyboard_arrow_left</span>
+                        </a>
+                    </li>
+                {% endif %}
 
-                                    {% for page in 1..pagination.pageCount %}
-                                        <li class="page-item {% if page == pagination.currentPageNumber %}active{% endif %}">
-                                            <a class="page-link" href="{{ path('employes_index', {'page': page}) }}">{{ page }}</a>
-                                        </li>
-                                    {% endfor %}
+                {% for page in 1..pagination.pageCount %}
+                    <li class="page-item {% if page == pagination.currentPageNumber %}active{% endif %}">
+                        <a class="page-link" href="{{ path('employes_index', {'page': page}) }}">{{ page }}</a>
+                    </li>
+                {% endfor %}
 
-                                    {% if pagination.currentPageNumber < pagination.pageCount %}
-                                        <li class="page-item">
-                                            <a class="page-link" href="{{ path('employes_index', {'page': pagination.currentPageNumber + 1}) }}">
-                                                <span class="material-symbols-rounded">keyboard_arrow_right</span>
-                                            </a>
-                                        </li>
-                                    {% endif %}
-                                </ul>
-                            </nav>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
+                {% if pagination.currentPageNumber < pagination.pageCount %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ path('employes_index', {'page': pagination.currentPageNumber + 1}) }}">
+                            <span class="material-symbols-rounded">keyboard_arrow_right</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
 {% endblock %}

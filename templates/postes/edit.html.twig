@@ -1,29 +1,21 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_formulaire.html.twig' %}
 
-{% block title %}Modifier le Poste{% endblock %}
-
-{% block breadcrumb %}POSTES > MODIFIER{% endblock %}
-
-{% block content %}
-    <div class="row">
-        <div class="col-12">
-            <h4>Modifier le Poste</h4>
-            <div class="card my-4">
-                <div class="card-body">
-                    {{ form_start(form) }}
-
-                    <div class="input-group input-group-static mb-4">
-                        {{ form_label(form.libelle, 'Nom du Poste', { 'label_attr': { 'class': 'ms-0' } }) }}
-                        {{ form_widget(form.libelle, { 'attr': { 'class': 'form-control' } }) }}
-                        {{ form_errors(form.libelle) }}
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Mettre à Jour</button>
-                    <a href="{{ path('postes_index') }}" class="btn btn-secondary">Annuler</a>
-
-                    {{ form_end(form) }}
-                </div>
-            </div>
+{% block title %}Enregistrer Entreprise{% endblock %}
+{% block breadcrumb %}POSTE{% endblock %}
+{% block  breadcrumb_item %} Gestion des postes{% endblock %}
+{% block  breadcrumb_t %} Modifier un postes{% endblock %}
+{% block form_titre %}Modifier un poste{% endblock %}
+{% block formContent %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <div class="col-12">
+        <div class="common-flex justify-content-end">
+            <button class="btn btn-outline-success btn-sm b-r-6">
+                <i class="fa-solid fa-save"></i>
+                Enregistrer
+            </button>
+            <button class="btn btn-dark ">Annuler</button>
         </div>
     </div>
+    {{ form_end(form) }}
 {% endblock %}

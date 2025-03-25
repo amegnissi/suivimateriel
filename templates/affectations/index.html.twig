@@ -1,104 +1,100 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_table.html.twig' %}
 
 {% block title %}Affectations{% endblock %}
 
-{% block breadcrumb %}AFFECTATIONS{% endblock %}
+{% block breadcrumb %}Affectations{% endblock %}
+{% block  breadcrumb_item %}Affectations{% endblock %}
+{% block  breadcrumb_t %} Liste des Affectations{% endblock %}
+{% block table_titre %}Liste des Affectations{% endblock %}
+ {% block btntitle %}Ajouter une Affectations{% endblock %}
+{% block btnpath %}{{ path('affectations_create') }}{% endblock %}
+{% block tableContent %}
+<thead>
+<tr>
+    <th class="col">N°</th>
+    <th class="col">Matériel</th>
+    <th class="col">Employé</th>
+    <th class="col">Société</th>
+    <th class="col">Date d'Affectation</th>
+    <th class="col">Actions</th>
+</thead>
+<tbody>
+<tbody>
 
-{% block content %}
+{% for affectation in pagination %}
+    <tr>
+        <td class="align-middle text-center text-xs font-weight-bold">{{ loop.index }}</td>
+        <td class="align-middle text-xs font-weight-bold">
+            {{ affectation.materiel.marque.libelle ?: 'N/A' }} -
+            {{ affectation.materiel.immatriculation ?: 'N/A' }}
+        </td>
+        <td class="align-middle text-xs font-weight-bold">
+            {{ affectation.employe.prenom ?: 'N/A' }} {{ affectation.employe.nom ?: '' }}
+        </td>
+        <td class="align-middle text-xs font-weight-bold">
+            {{ affectation.societe.nom ?: 'N/A' }}
+        </td>
+        <td class="align-middle text-center text-xs font-weight-bold">
+            {{ affectation.dateAffectation ? affectation.dateAffectation|date('d-m-Y') : 'N/A' }}
+        </td>
+        <td class="align-middle text-center">
+            <div class="common-align gap-2 justify-content-start">
+                <a href="{{ path('affectations_show', {'id': affectation.id}) }}"
+                   title="Plus de details">
+                    <i class="fa fa-eye"></i>
+                </a>
+                <form action="{{ path('affectations_cancel', { 'id': affectation.id }) }}" method="POST"
+                      class="d-inline">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ affectation.id) }}">
+                    <a type="submit"
+                       onclick="return confirm('Êtes-vous sûr de vouloir annuler cette affectation ?');"
+                       title="Annuler cette affectation">
+                        <i class="fa fa-trash"></i>
 
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h4>Gestion des Affectations</h4>
-                <a href="{{ path('affectations_create') }}" class="btn btn-primary">Ajouter une Affectation</a>
+                    </a>
+                </form>
             </div>
-
-            <div class="card my-4">
-                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
-                        <h6 class="text-white text-capitalize ps-3">Liste des Affectations</h6>
-                    </div>
-                </div>
-                <div class="card-body px-0 pb-2">
-                    <div class="table-responsive p-0">
-                        <table class="table align-items-center mb-0">
-                            <thead>
-                                <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">N°</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Matériel</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Employé</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Société</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Date d'Affectation</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for affectation in pagination %}
-                                    <tr>
-                                        <td class="align-middle text-center text-xs font-weight-bold">{{ loop.index }}</td>
-                                        <td class="align-middle text-xs font-weight-bold">
-                                            {{ affectation.materiel.marque.libelle ?: 'N/A' }} - 
-                                            {{ affectation.materiel.immatriculation ?: 'N/A' }}
-                                        </td>
-                                        <td class="align-middle text-xs font-weight-bold">
-                                            {{ affectation.employe.prenom ?: 'N/A' }} {{ affectation.employe.nom ?: '' }}
-                                        </td>
-                                        <td class="align-middle text-xs font-weight-bold">
-                                            {{ affectation.societe.nom ?: 'N/A' }}
-                                        </td>
-                                        <td class="align-middle text-center text-xs font-weight-bold">
-                                            {{ affectation.dateAffectation ? affectation.dateAffectation|date('d-m-Y') : 'N/A' }}
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <a href="{{ path('affectations_show', {'id': affectation.id}) }}" class="btn btn-info btn-sm">Voir</a>
-                                            <form action="{{ path('affectations_cancel', { 'id': affectation.id }) }}" method="POST" class="d-inline">
-                                                <input type="hidden" name="_token" value="{{ csrf_token('cancel' ~ affectation.id) }}">
-                                                <button type="submit" class="btn btn-warning btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir annuler cette affectation ?');">
-                                                    Annuler
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                {% else %}
-                                    <tr>
-                                        <td colspan="6" class="text-center text-secondary">Aucune affectation trouvée.</td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                        
-                        <!-- Pagination -->
-                        {% if pagination.getTotalItemCount() > 10 %}
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-center">
-                                    {% if pagination.currentPageNumber > 1 %}
-                                        <li class="page-item">
-                                            <a class="page-link" href="{{ path('employes_index', {'page': pagination.currentPageNumber - 1}) }}">
-                                                <span class="material-symbols-rounded">keyboard_arrow_left</span>
-                                            </a>
-                                        </li>
-                                    {% endif %}
-
-                                    {% for page in 1..pagination.pageCount %}
-                                        <li class="page-item {% if page == pagination.currentPageNumber %}active{% endif %}">
-                                            <a class="page-link" href="{{ path('employes_index', {'page': page}) }}">{{ page }}</a>
-                                        </li>
-                                    {% endfor %}
-
-                                    {% if pagination.currentPageNumber < pagination.pageCount %}
-                                        <li class="page-item">
-                                            <a class="page-link" href="{{ path('employes_index', {'page': pagination.currentPageNumber + 1}) }}">
-                                                <span class="material-symbols-rounded">keyboard_arrow_right</span>
-                                            </a>
-                                        </li>
-                                    {% endif %}
-                                </ul>
-                            </nav>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
+        </td>
+    </tr>
+{% else %}
+    <tr>
+        <td colspan="6" class="text-center text-secondary">Aucune affectation trouvée.</td>
+    </tr>
+{% endfor %}
+</tbody>
 {% endblock %}
+{% block pagination %}
+
+    <!-- Pagination -->
+    {% if pagination.getTotalItemCount() > 10 %}
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                {% if pagination.currentPageNumber > 1 %}
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="{{ path('employes_index', {'page': pagination.currentPageNumber - 1}) }}">
+                            <span class="material-symbols-rounded">keyboard_arrow_left</span>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% for page in 1..pagination.pageCount %}
+                    <li class="page-item {% if page == pagination.currentPageNumber %}active{% endif %}">
+                        <a class="page-link" href="{{ path('employes_index', {'page': page}) }}">{{ page }}</a>
+                    </li>
+                {% endfor %}
+
+                {% if pagination.currentPageNumber < pagination.pageCount %}
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="{{ path('employes_index', {'page': pagination.currentPageNumber + 1}) }}">
+                            <span class="material-symbols-rounded">keyboard_arrow_right</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+
+{% endblock %}
+

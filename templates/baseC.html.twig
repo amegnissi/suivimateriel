@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 	<head>
 		{% include "partials_cuba/head.html.twig" %}
-
+		<title>Suivi du materiel - {% block title %}{% endblock %}</title>
         {% include "partials_cuba/css.html.twig" %}
 
 		<!-- Plugins css Start-->
@@ -22,18 +22,18 @@
 	<body
 		onload="startTime()">
 		<!-- loader starts-->
-		<div class="loader-wrapper">
-			<div class="loader-index">
-				<span></span>
-			</div>
-			<svg>
-				<defs></defs>
-				<filter id="goo">
-					<fegaussianblur in="SourceGraphic" stddeviation="11" result="blur"></fegaussianblur>
-					<fecolormatrix in="blur" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo"></fecolormatrix>
-				</filter>
-			</svg>
-		</div>
+{#		<div class="loader-wrapper">#}
+{#			<div class="loader-index">#}
+{#				<span></span>#}
+{#			</div>#}
+{#			<svg>#}
+{#				<defs></defs>#}
+{#				<filter id="goo">#}
+{#					<fegaussianblur in="SourceGraphic" stddeviation="11" result="blur"></fegaussianblur>#}
+{#					<fecolormatrix in="blur" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo"></fecolormatrix>#}
+{#				</filter>#}
+{#			</svg>#}
+{#		</div>#}
 		<!-- loader ends-->
 
 		<!-- tap on top starts-->
@@ -80,6 +80,23 @@
 						</div>
 					</div>
 				</div>
+				<div class="container">
+					{% for label, messages in app.flashes %}
+						{% for message in messages %}
+							<div class="alert alert-{{ label }} alert-dismissible text-white fade show" role="alert">
+                        <span class="alert-icon align-middle">
+                            <span class="material-symbols-rounded text-md">
+                                thumb_up_off_alt
+                            </span>
+                        </span>
+								<span class="alert-text"><strong>{{ label|capitalize }}!</strong> {{ message }}</span>
+								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						{% endfor %}
+					{% endfor %}
+				</div>
             {% block content %}{% endblock %}
 
 			<!-- Container-fluid Ends-->
@@ -99,7 +116,7 @@
 
 		<!-- Theme js-->
 		    <script src="{{ asset('cuba/assets/js/script.js') }}"></script>
-		    <script src="{{ asset('cuba/assets/js/theme-customizer/customizer.js') }}"></script>
+{#		    <script src="{{ asset('cuba/assets/js/theme-customizer/customizer.js') }}"></script>#}
 		<!-- login js-->
 
 	</body>

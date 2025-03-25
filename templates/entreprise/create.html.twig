@@ -1,97 +1,102 @@
 {% extends 'base_formulaire.html.twig' %}
 
 {% block title %}Enregistrer Entreprise{% endblock %}
-
-{% block breadcrumb %}ENTREPRISE{% endblock %}
-{% block  breadcrumb_item %} entreprise{% endblock %}
-{% block  breadcrumb_t %} Nouvel Entreprise{% endblock %}
-{% block form_titre%}Ajouter une entreprise{% endblock %}
+{% block breadcrumb %}POSTE{% endblock %}
+{% block  breadcrumb_item %} Gestion des entreprises{% endblock %}
+{% block  breadcrumb_t %} Nouvel entreprise{% endblock %}
+{% block form_titre %}Ajouter une entreprise{% endblock %}
 {% block formContent %}
     {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <div class="col-12">
+        <div class="common-flex justify-content-end">
+            <button class="btn btn-outline-success btn-sm b-r-6">
+                <i class="fa-solid fa-check"></i>
+                Enregistrer
+            </button>
+            <button class="btn btn-dark ">Annuler</button>
+        </div>
+    </div>
     {{ form_end(form) }}
-
-
 {% endblock %}
-{#{% block content %}#}
-{#    <div class="container-fluid">#}
-{#        <div class="row">#}
-{#            <div class="col-sm-12">#}
-{#                <div class="card">#}
-{#                    <div class="card-header border-b-5" style="background-color: #D6EED4; ">#}
-{#                        <h5>Enregistrer Entreprise</h5>#}
+{# {% block content %} #}
+{#    <div class="container-fluid"> #}
+{#        <div class="row"> #}
+{#            <div class="col-sm-12"> #}
+{#                <div class="card"> #}
+{#                    <div class="card-header border-b-5" style="background-color: #D6EED4; "> #}
+{#                        <h5>Enregistrer Entreprise</h5> #}
 
-{#                    </div>#}
-{#                    <div class="card-body">#}
-{#                        <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-{#    <div class="row">#}
-{#        <div class="col-12">#}
-{#            <h4>Ajouter une Entreprise</h4>#}
-{#            <div class="card my-4">#}
-{#                <div class="card-body">#}
-{#                    {{ form_start(form) }}#}
+{#                    </div> #}
+{#                    <div class="card-body"> #}
+{#                        <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p> #}
+{#                    </div> #}
+{#                </div> #}
+{#            </div> #}
+{#        </div> #}
+{#    </div> #}
+{#    <div class="row"> #}
+{#        <div class="col-12"> #}
+{#            <h4>Ajouter une Entreprise</h4> #}
+{#            <div class="card my-4"> #}
+{#                <div class="card-body"> #}
+{#                    {{ form_start(form) }} #}
 
-{#                        <div class="input-group input-group-outline mb-4">#}
-{#                            {{ form_label(form.nom, 'Nom de l\'Entreprise', { 'label_attr': { 'class': 'form-label' } }) }}#}
-{#                            {{ form_widget(form.nom, { 'attr': { 'class': 'form-control' } }) }}#}
-{#                            {{ form_errors(form.nom) }}#}
-{#                        </div>#}
+{#                        <div class="input-group input-group-outline mb-4"> #}
+{#                            {{ form_label(form.nom, 'Nom de l\'Entreprise', { 'label_attr': { 'class': 'form-label' } }) }} #}
+{#                            {{ form_widget(form.nom, { 'attr': { 'class': 'form-control' } }) }} #}
+{#                            {{ form_errors(form.nom) }} #}
+{#                        </div> #}
 
-{#                        <div class="input-group input-group-outline mb-4">#}
-{#                            {{ form_label(form.adresse, 'Adresse', { 'label_attr': {'class': 'form-label'} }) }}#}
-{#                            {{ form_widget(form.adresse, { 'attr': { 'class': 'form-control' } }) }}#}
-{#                            {{ form_errors(form.adresse) }}#}
-{#                        </div>#}
+{#                        <div class="input-group input-group-outline mb-4"> #}
+{#                            {{ form_label(form.adresse, 'Adresse', { 'label_attr': {'class': 'form-label'} }) }} #}
+{#                            {{ form_widget(form.adresse, { 'attr': { 'class': 'form-control' } }) }} #}
+{#                            {{ form_errors(form.adresse) }} #}
+{#                        </div> #}
 
-{#                        <div class="input-group input-group-outline mb-4">#}
-{#                            {{ form_label(form.telephone, 'Numéro de Téléphone', { 'label_attr': {'class': 'form-label'} }) }}#}
-{#                            {{ form_widget(form.telephone, { 'attr': { 'class': 'form-control' } }) }}#}
-{#                            {{ form_errors(form.telephone) }}#}
-{#                        </div>#}
+{#                        <div class="input-group input-group-outline mb-4"> #}
+{#                            {{ form_label(form.telephone, 'Numéro de Téléphone', { 'label_attr': {'class': 'form-label'} }) }} #}
+{#                            {{ form_widget(form.telephone, { 'attr': { 'class': 'form-control' } }) }} #}
+{#                            {{ form_errors(form.telephone) }} #}
+{#                        </div> #}
 
-{#                        <div class="input-group input-group-outline mb-4">#}
-{#                            {{ form_label(form.email, 'Email', { 'label_attr': {'class': 'form-label'} }) }}#}
-{#                            {{ form_widget(form.email, { 'attr': { 'class': 'form-control' } }) }}#}
-{#                            {{ form_errors(form.email) }}#}
-{#                        </div>#}
+{#                        <div class="input-group input-group-outline mb-4"> #}
+{#                            {{ form_label(form.email, 'Email', { 'label_attr': {'class': 'form-label'} }) }} #}
+{#                            {{ form_widget(form.email, { 'attr': { 'class': 'form-control' } }) }} #}
+{#                            {{ form_errors(form.email) }} #}
+{#                        </div> #}
 
-{#                        <div class="input-group input-group-outline mb-4">#}
-{#                            {{ form_label(form.ifu, 'IFU', { 'label_attr': {'class': 'form-label'} }) }}#}
-{#                            {{ form_widget(form.ifu, { 'attr': { 'class': 'form-control' } }) }}#}
-{#                            {{ form_errors(form.ifu) }}#}
-{#                        </div>#}
+{#                        <div class="input-group input-group-outline mb-4"> #}
+{#                            {{ form_label(form.ifu, 'IFU', { 'label_attr': {'class': 'form-label'} }) }} #}
+{#                            {{ form_widget(form.ifu, { 'attr': { 'class': 'form-control' } }) }} #}
+{#                            {{ form_errors(form.ifu) }} #}
+{#                        </div> #}
 
-{#                        <div class="input-group input-group-outline mb-4">#}
-{#                            {{ form_label(form.siteWeb, 'Site Web', { 'label_attr': {'class': 'form-label'} }) }}#}
-{#                            {{ form_widget(form.siteWeb, { 'attr': { 'class': 'form-control' } }) }}#}
-{#                            {{ form_errors(form.siteWeb) }}#}
-{#                        </div>#}
+{#                        <div class="input-group input-group-outline mb-4"> #}
+{#                            {{ form_label(form.siteWeb, 'Site Web', { 'label_attr': {'class': 'form-label'} }) }} #}
+{#                            {{ form_widget(form.siteWeb, { 'attr': { 'class': 'form-control' } }) }} #}
+{#                            {{ form_errors(form.siteWeb) }} #}
+{#                        </div> #}
 
-{#                        <div class="input-group input-group-outline mb-4">#}
-{#                            {{ form_label(form.gerant, 'Nom du Gérant\(e\)', { 'label_attr': {'class': 'form-label'} }) }}#}
-{#                            {{ form_widget(form.gerant, { 'attr': { 'class': 'form-control' } }) }}#}
-{#                            {{ form_errors(form.gerant) }}#}
-{#                        </div>#}
+{#                        <div class="input-group input-group-outline mb-4"> #}
+{#                            {{ form_label(form.gerant, 'Nom du Gérant\(e\)', { 'label_attr': {'class': 'form-label'} }) }} #}
+{#                            {{ form_widget(form.gerant, { 'attr': { 'class': 'form-control' } }) }} #}
+{#                            {{ form_errors(form.gerant) }} #}
+{#                        </div> #}
 
-{#                        <div class="input-group input-group-outline mb-4">#}
-{#                            {{ form_label(form.kilometrage, 'Kilometrage à faire \(Avant la prochaine Vidange\)', { 'label_attr': {'class': 'form-label'} }) }}#}
-{#                            {{ form_widget(form.kilometrage, { 'attr': { 'class': 'form-control' } }) }}#}
-{#                            {{ form_errors(form.kilometrage) }}#}
-{#                        </div>#}
+{#                        <div class="input-group input-group-outline mb-4"> #}
+{#                            {{ form_label(form.kilometrage, 'Kilometrage à faire \(Avant la prochaine Vidange\)', { 'label_attr': {'class': 'form-label'} }) }} #}
+{#                            {{ form_widget(form.kilometrage, { 'attr': { 'class': 'form-control' } }) }} #}
+{#                            {{ form_errors(form.kilometrage) }} #}
+{#                        </div> #}
 
-{#                        <button type="submit" class="btn btn-primary">Enregistrer</button>#}
-{#                        <a href="{{ path('dashboard') }}" class="btn btn-secondary">Annuler</a>#}
+{#                        <button type="submit" class="btn btn-primary">Enregistrer</button> #}
+{#                        <a href="{{ path('dashboard') }}" class="btn btn-secondary">Annuler</a> #}
 
-{#                    {{ form_end(form) }}#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
+{#                    {{ form_end(form) }} #}
+{#                </div> #}
+{#            </div> #}
+{#        </div> #}
+{#    </div> #}
 
-{#{% endblock %}#}
+{# {% endblock %} #}

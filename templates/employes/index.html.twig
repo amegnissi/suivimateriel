@@ -1,98 +1,92 @@
-{% extends 'base.html.twig' %}
-
+{% extends 'base_table.html.twig' %}
 {% block title %}Employés{% endblock %}
-
 {% block breadcrumb %}EMPLOYES{% endblock %}
+{% block  breadcrumb_item %} Employés{% endblock %}
+{% block  breadcrumb_t %} Gestion des Employés{% endblock %}
+{% block table_titre %}Liste des Employés{% endblock %}
+{% block btntitle %}Ajouter un Employé{% endblock %}
+{% block btnpath %}{{ path('employes_create') }}{% endblock %}
+{% block tableContent %}
+    <thead>
+    <tr>
+        <th class="col">N°</th>
+        <th class="col">Employés</th>
+        <th class="col">Prénom</th>
+        <th class="col">Poste</th>
+        <th class="col">Tel Corporate</th>
+        <th class="col">Statut</th>
+        <th class="col">Actions</th>
+    </thead>
+    <tbody>
 
-{% block content %}
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h4>Gestion des Employés</h4>
-                <a href="{{ path('employes_create') }}" class="btn btn-primary">Ajouter un Employé</a>
-            </div>
+    {% for employe in pagination %}
+        <tr>
+            <td class="align-middle text-center text-xs font-weight-bold">{{ loop.index }}</td>
+            <td class="align-middle text-xs font-weight-bold">{{ employe.nom }}</td>
+            <td class="align-middle text-xs font-weight-bold">{{ employe.prenom }}</td>
+            <td class="align-middle text-xs font-weight-bold">{{ employe.poste ? employe.poste.libelle : 'Non défini' }}</td>
+            <td class="align-middle text-center text-xs font-weight-bold">
+                {{ employe.telephoneCorporate ?: 'N/A' }}
+            </td>
+            <td class="align-middle text-center">
+                {% if employe.affectations is empty %}
+                    <span class="badge bg-secondary">⏳ Non Affecté</span>
+                {% else %}
+                    <span class="badge bg-info">✅ Affecté</span>
+                {% endif %}
+            </td>
+            <td class="align-middle text-center">
+                <div class="common-align gap-2 justify-content-start">
+                    <a href="{{ path('employes_show', {'id': employe.id}) }}"
+                       title="Plus de details">
+                        <i class="fa fa-eye"></i>
+                    </a>
 
-            <div class="card my-4">
-                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
-                        <h6 class="text-white text-capitalize ps-3">Liste des Employés</h6>
-                    </div>
+
+                    <a href="{{ path('employes_edit', {'id': employe.id}) }}"
+                       title="Plus de details">
+                        <i class="far fa-edit"></i>
+                    </a>
                 </div>
-                <div class="card-body px-0 pb-2">
-                    <div class="table-responsive p-0">
-                        <table class="table align-items-center mb-0">
-                            <thead>
-                                <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">N°</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nom</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Prénom</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Poste</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Tel Corporate</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Statut</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for employe in pagination %}
-                                <tr>
-                                    <td class="align-middle text-center text-xs font-weight-bold">{{ loop.index }}</td>
-                                    <td class="align-middle text-xs font-weight-bold">{{ employe.nom }}</td>
-                                    <td class="align-middle text-xs font-weight-bold">{{ employe.prenom }}</td>
-                                    <td class="align-middle text-xs font-weight-bold">{{ employe.poste ? employe.poste.libelle : 'Non défini' }}</td>
-                                    <td class="align-middle text-center text-xs font-weight-bold">
-                                        {{ employe.telephoneCorporate ?: 'N/A' }}
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        {% if employe.affectations is empty %}
-                                            <span class="badge bg-secondary">⏳ Non Affecté</span>
-                                        {% else %}
-                                            <span class="badge bg-info">✅ Affecté</span>
-                                        {% endif %}
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <a href="{{ path('employes_show', {'id': employe.id}) }}" class="btn btn-info btn-sm">Voir</a>
-                                        <a href="{{ path('employes_edit', {'id': employe.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
-                                    </td>
-                                </tr>
-                                {% else %}
-                                <tr>
-                                    <td colspan="7" class="text-center text-secondary">Aucun employé trouvé.</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-
-                        <!-- Pagination -->
-                        {% if pagination.getTotalItemCount() > 10 %}
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-center">
-                                    {% if pagination.currentPageNumber > 1 %}
-                                        <li class="page-item">
-                                            <a class="page-link" href="{{ path('employes_index', {'page': pagination.currentPageNumber - 1}) }}">
-                                                <span class="material-symbols-rounded">keyboard_arrow_left</span>
-                                            </a>
-                                        </li>
-                                    {% endif %}
-
-                                    {% for page in 1..pagination.pageCount %}
-                                        <li class="page-item {% if page == pagination.currentPageNumber %}active{% endif %}">
-                                            <a class="page-link" href="{{ path('employes_index', {'page': page}) }}">{{ page }}</a>
-                                        </li>
-                                    {% endfor %}
-
-                                    {% if pagination.currentPageNumber < pagination.pageCount %}
-                                        <li class="page-item">
-                                            <a class="page-link" href="{{ path('employes_index', {'page': pagination.currentPageNumber + 1}) }}">
-                                                <span class="material-symbols-rounded">keyboard_arrow_right</span>
-                                            </a>
-                                        </li>
-                                    {% endif %}
-                                </ul>
-                            </nav>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="7" class="text-center text-secondary">Aucun employé trouvé.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
 {% endblock %}
+{% block pagination %}
+    <!-- Pagination -->
+    {% if pagination.getTotalItemCount() > 10 %}
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                {% if pagination.currentPageNumber > 1 %}
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="{{ path('employes_index', {'page': pagination.currentPageNumber - 1}) }}">
+                            <span class="material-symbols-rounded">keyboard_arrow_left</span>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% for page in 1..pagination.pageCount %}
+                    <li class="page-item {% if page == pagination.currentPageNumber %}active{% endif %}">
+                        <a class="page-link" href="{{ path('employes_index', {'page': page}) }}">{{ page }}</a>
+                    </li>
+                {% endfor %}
+
+                {% if pagination.currentPageNumber < pagination.pageCount %}
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="{{ path('employes_index', {'page': pagination.currentPageNumber + 1}) }}">
+                            <span class="material-symbols-rounded">keyboard_arrow_right</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+{% endblock %}
+

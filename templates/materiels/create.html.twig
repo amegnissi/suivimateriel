@@ -1,70 +1,88 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_formulaire.html.twig' %}
 
-{% block title %}Ajouter un Matériel{% endblock %}
+{% block title %}Materiels{% endblock %}
 
-{% block breadcrumb %}MATERIELS > AJOUTER{% endblock %}
+{% block breadcrumb %}Materiels{% endblock %}
+{% block  breadcrumb_item %}Gestion du materiel{% endblock %}
+{% block  breadcrumb_t %}Ajouter un Nouveau Matériel{% endblock %}
 
-{% block content %}
 
-    <div class="row">
+{% block form_titre %}Ajouter un Nouveau Matériel{% endblock %}
+
+    {% block formContent %}
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
         <div class="col-12">
-            <h4>Ajouter un Nouveau Matériel</h4>
-            <div class="card my-4">
-                <div class="card-body">
-                    {{ form_start(form) }}
-
-                        <div class="input-group input-group-outline mb-4">
-                            {{ form_label(form.immatriculation, 'Immatriculation', { 'label_attr': { 'class': 'form-label' } }) }}
-                            {{ form_widget(form.immatriculation, { 'attr': { 'class': 'form-control' } }) }}
-                            {{ form_errors(form.immatriculation) }}
-                        </div>
-
-                        <div class="input-group input-group-outline mb-4">
-                            {{ form_label(form.modele, 'Modèle', { 'label_attr': { 'class': 'form-label' } }) }}
-                            {{ form_widget(form.modele, { 'attr': { 'class': 'form-control' } }) }}
-                            {{ form_errors(form.modele) }}
-                        </div>
-                                                    
-                        <div class="input-group input-group-outline mb-4">
-                            {{ form_label(form.numeroSerie, 'Numéro de Série', { 'label_attr': { 'class': 'form-label' } }) }}
-                            {{ form_widget(form.numeroSerie, { 'attr': { 'class': 'form-control' } }) }}
-                            {{ form_errors(form.numeroSerie) }}
-                        </div>
-
-                            <div class="input-group input-group-static my-3">
-                                {{ form_label(form.type, 'Type de Matériel', { 'label_attr': { 'class': 'ms-0' } }) }}
-                                {{ form_widget(form.type, { 'attr': { 'class': 'form-control' } }) }}
-                                {{ form_errors(form.type) }}
-                            </div>
-
-                            <div class="input-group input-group-static my-3">
-                                {{ form_label(form.marque, 'Marque', { 'label_attr': { 'class': 'ms-0' } }) }}
-                                {{ form_widget(form.marque, { 'attr': { 'class': 'form-control' } }) }}
-                                {{ form_errors(form.marque) }}
-                            </div>
-
-                            <div class="input-group input-group-static my-3">
-                                {{ form_label(form.libelle, 'Description du Matériel', { 'label_attr': { 'class': 'ms-0' } }) }}
-                                {{ form_widget(form.libelle, { 'attr': { 'class': 'form-control', 'rows': '3', 'spellcheck': 'false' } }) }}
-                                {{ form_errors(form.libelle) }}
-                            </div>
-
-                        <div class="input-group input-group-static my-3">
-                            {{ form_label(form.date_acquisition, 'Date d\'acquisition', { 'label_attr': { 'class': 'ms-0' } }) }}
-                            {{ form_widget(form.date_acquisition, { 'attr': { 'class': 'form-control', 'type': 'date' } }) }}
-                            {{ form_errors(form.date_acquisition) }}
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">Enregistrer</button>
-                        <a href="{{ path('materiels_index') }}" class="btn btn-secondary">Annuler</a>
-
-                    {{ form_end(form) }}
-                </div>
+            <div class="common-flex justify-content-end">
+                <button class="btn btn-outline-success btn-sm b-r-6">
+                    <i class="fa-solid fa-save"></i>
+                    Enregistrer
+                </button>
+                <button class="btn btn-dark ">Annuler</button>
             </div>
         </div>
-    </div>
+        {{ form_end(form) }}
 
-    
+
+{#    <div class="row">#}
+{#        <div class="col-12">#}
+{#            <h4>Ajouter un Nouveau Matériel</h4>#}
+{#            <div class="card my-4">#}
+{#                <div class="card-body">#}
+{#                    {{ form_start(form) }}#}
+
+{#                        <div class="input-group input-group-outline mb-4">#}
+{#                            {{ form_label(form.immatriculation, 'Immatriculation', { 'label_attr': { 'class': 'form-label' } }) }}#}
+{#                            {{ form_widget(form.immatriculation, { 'attr': { 'class': 'form-control' } }) }}#}
+{#                            {{ form_errors(form.immatriculation) }}#}
+{#                        </div>#}
+
+{#                        <div class="input-group input-group-outline mb-4">#}
+{#                            {{ form_label(form.modele, 'Modèle', { 'label_attr': { 'class': 'form-label' } }) }}#}
+{#                            {{ form_widget(form.modele, { 'attr': { 'class': 'form-control' } }) }}#}
+{#                            {{ form_errors(form.modele) }}#}
+{#                        </div>#}
+{#                                                    #}
+{#                        <div class="input-group input-group-outline mb-4">#}
+{#                            {{ form_label(form.numeroSerie, 'Numéro de Série', { 'label_attr': { 'class': 'form-label' } }) }}#}
+{#                            {{ form_widget(form.numeroSerie, { 'attr': { 'class': 'form-control' } }) }}#}
+{#                            {{ form_errors(form.numeroSerie) }}#}
+{#                        </div>#}
+
+{#                            <div class="input-group input-group-static my-3">#}
+{#                                {{ form_label(form.type, 'Type de Matériel', { 'label_attr': { 'class': 'ms-0' } }) }}#}
+{#                                {{ form_widget(form.type, { 'attr': { 'class': 'form-control' } }) }}#}
+{#                                {{ form_errors(form.type) }}#}
+{#                            </div>#}
+
+{#                            <div class="input-group input-group-static my-3">#}
+{#                                {{ form_label(form.marque, 'Marque', { 'label_attr': { 'class': 'ms-0' } }) }}#}
+{#                                {{ form_widget(form.marque, { 'attr': { 'class': 'form-control' } }) }}#}
+{#                                {{ form_errors(form.marque) }}#}
+{#                            </div>#}
+
+{#                            <div class="input-group input-group-static my-3">#}
+{#                                {{ form_label(form.libelle, 'Description du Matériel', { 'label_attr': { 'class': 'ms-0' } }) }}#}
+{#                                {{ form_widget(form.libelle, { 'attr': { 'class': 'form-control', 'rows': '3', 'spellcheck': 'false' } }) }}#}
+{#                                {{ form_errors(form.libelle) }}#}
+{#                            </div>#}
+
+{#                        <div class="input-group input-group-static my-3">#}
+{#                            {{ form_label(form.date_acquisition, 'Date d\'acquisition', { 'label_attr': { 'class': 'ms-0' } }) }}#}
+{#                            {{ form_widget(form.date_acquisition, { 'attr': { 'class': 'form-control', 'type': 'date' } }) }}#}
+{#                            {{ form_errors(form.date_acquisition) }}#}
+{#                        </div>#}
+
+{#                        <button type="submit" class="btn btn-primary">Enregistrer</button>#}
+{#                        <a href="{{ path('materiels_index') }}" class="btn btn-secondary">Annuler</a>#}
+
+{#                    {{ form_end(form) }}#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+
+
     <script>
         let marquesVehicules = {{ marquesVehicules|json_encode|raw }};
 

@@ -18,32 +18,30 @@ class MaterielType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('libelle', TextareaType::class, [
-                'required' => false,
-                'label' => 'Description',
-                'attr' => ['class' => 'form-control'],
-            ])
-            ->add('numeroSerie', TextType::class, [
-                'label' => 'Numéro de série',
-                'required' => false,
-                'attr' => ['class' => 'form-control'],
-            ])
-            ->add('date_acquisition', DateType::class, [
-                'required' => false,
-                'label' => 'Date d\'acquisition',
-                'widget' => 'single_text',    
-                'attr' => [
-                    'class' => 'form-control',
-                    'type' => 'date',
-                ],
-            ])
             ->add('immatriculation', TextType::class, [
                 'label' => 'Immatriculation',
                 'required' => false,
                 'attr' => ['class' => 'form-control'],
             ])
+            ->add('marque', EntityType::class, [
+                'class' => Marque::class,
+                'required' => false,
+                'choice_label' => 'libelle',
+                'label' => 'Marque',
+                'placeholder' => 'Choisissez une marque',
+                'attr' => [
+                    'class' => 'form-control',
+                    'onchange' => 'checkImmatriculationField()',
+                ],
+            ])
             ->add('modele', TextType::class, [
                 'label' => 'Modèle',
+                'required' => false,
+                'attr' => ['class' => 'form-control'],
+            ])
+
+            ->add('numeroSerie', TextType::class, [
+                'label' => 'Numéro de série',
                 'required' => false,
                 'attr' => ['class' => 'form-control'],
             ])
@@ -65,7 +63,26 @@ class MaterielType extends AbstractType
                     'class' => 'form-control',
                     'onchange' => 'checkImmatriculationField()',
                 ],
-            ]);
+            ])
+            ->add('libelle', TextareaType::class, [
+                'required' => false,
+                'label' => 'Description',
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('date_acquisition', DateType::class, [
+                'required' => false,
+                'label' => 'Date d\'acquisition',
+                'widget' => 'single_text',
+                'attr' => [
+                    'class' => 'form-control',
+                    'type' => 'date',
+                ],
+            ])
+
+
+
+
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
