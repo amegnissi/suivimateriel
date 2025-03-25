@@ -53262,9 +53262,9 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
   margin: 20px 0;
 }
 .user-profile .hovercard .cardheader {
-  background: url(../images/other-images/bg-profile.png);
+  background: url(../images/other-images/bg-profil.jpg);
   background-size: cover;
-  background-position: 10%;
+  background-position: 11%;
   height: 235px;
   display: flex;
   align-items: flex-end;

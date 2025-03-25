@@ -1,7 +1,8 @@
 <div class="sidebar-wrapper" sidebar-layout="stroke-svg" style="background-color: #0871b8;">
 	<div>
 		<div class="logo-wrapper">
-			<a href="{{ path('dashboard') }}"><img class="img-fluid for-light" src="{{ asset('cuba/assets/images/logo/logo.png') }}" alt=""><img class="img-fluid for-dark" src="{{ asset('cuba/assets/images/logo/logo_dark.png') }}" alt=""></a>
+			<a href="{{ path('dashboard') }}"><img class="img-fluid for-light" src="{{ asset('cuba/assets/images/logo/gpaclogo.jpeg') }}" alt=""><img
+						class="img-fluid for-dark" src="{{ asset('cuba/assets/images/logo/logo_dark.png') }}" alt=""></a>
 			<div class="back-btn">
 				<i class="fa fa-angle-left"></i>
 			</div>
@@ -10,7 +11,7 @@
 			</div>
 		</div>
 		<div class="logo-icon-wrapper">
-			<a href="{{ path('dashboard') }}"><img class="img-fluid" src="{{ asset('cuba/assets/images/logo/logo-icon.png') }}" alt=""></a>
+			<a href="{{ path('dashboard') }}"><img class="img-fluid" src="{{ asset('cuba/assets/images/logo/gpaclogo.jpeg') }}" alt=""></a>
 		</div>
 		<nav class="sidebar-main">
 			<div class="left-arrow" id="left-arrow">
@@ -26,13 +27,25 @@
 						</div>
 					</li>
 
-					<li class="sidebar-list"></i>
+					<li class="sidebar-list">
 					<a class="sidebar-link sidebar-title" href="{{ path('dashboard') }}">
-							<span class="lan-3">Tableau de bord
+						<svg class="fill-icon">
+							<use href="{{ asset('cuba/assets/svg/icon-sprite.svg#fill-home') }}"></use>
+						</svg>
+							<span>Tableau de bord
 							</span>
 						</a>
 					</li>
-					<li class="sidebar-list"></i>
+					<li class="sidebar-list">
+						<a class="sidebar-link sidebar-title" href="{{ path('entreprise_index') }}">
+							<svg class="fill-icon">
+								<use href="{{ asset('cuba/assets/svg/icon-sprite.svg#fill-builders') }}"></use>
+							</svg>
+							<span>Entreprise
+							</span>
+						</a>
+					</li>
+					<li class="sidebar-list">
 						<a class="sidebar-link sidebar-title link-nav" href="{{ path('postes_index') }}">
 
 							<svg class="fill-icon">
@@ -41,15 +54,18 @@
 							<span>Postes</span>
 						</a>
 					</li>
-					<li class="sidebar-list"></i>
+					<li class="sidebar-list">
 						<a class="sidebar-link sidebar-title link-nav" href="{{ path('marques_index') }}">
+							<svg class="fill-icon">
+								<use href="{{ asset('cuba/assets/svg/icon-sprite.svg#fill-form') }}"></use>
+							</svg>
 
 							<span>Marques</span>
 						</a>
 
 					</li>
 
-					<li class="sidebar-list"></i>
+					<li class="sidebar-list">
 						<a class="sidebar-link sidebar-title link-nav" href="{{ path('employes_index') }}">
 
 							<svg class="fill-icon">
@@ -60,7 +76,7 @@
 
 					</li>
 
-					<li class="sidebar-list"></i>
+					<li class="sidebar-list">
 						<a class="sidebar-link sidebar-title link-nav" href="{{ path('types_materiels_index') }}">
 
 							<svg class="fill-icon">
@@ -71,7 +87,7 @@
 
 					</li>
 
-					<li class="sidebar-list"></i>
+					<li class="sidebar-list">
 						<a class="sidebar-link sidebar-title link-nav" href="{{ path('materiels_index') }}">
 
 							<svg class="fill-icon">
@@ -82,7 +98,7 @@
 
 					</li>
 
-					<li class="sidebar-list"></i>
+					<li class="sidebar-list">
 						<a class="sidebar-link sidebar-title link-nav" href="{{ path('societe_service_index') }}">
 
 							<svg class="fill-icon">
@@ -92,7 +108,7 @@
 						</a>
 
 					</li>
-					<li class="sidebar-list"></i>
+					<li class="sidebar-list">
 						<a class="sidebar-link sidebar-title link-nav" href="{{ path('affectations_index') }}">
 
 							<svg class="fill-icon">
@@ -102,7 +118,7 @@
 						</a>
 
 					</li>
-					<li class="sidebar-list"></i>
+					<li class="sidebar-list">
 						<a class="sidebar-link sidebar-title link-nav" href="{{ path('maintenances_index') }}">
 
 							<svg class="fill-icon">
@@ -112,7 +128,17 @@
 						</a>
 
 					</li>
-					<li class="sidebar-list"></i>
+					<li class="sidebar-list">
+						<a class="sidebar-link sidebar-title link-nav" href="{{ path('assurances_index') }}">
+
+							<svg class="fill-icon">
+								<use href="{{ asset('cuba/assets/svg/icon-sprite.svg#fill-starter-kit') }}"></use>
+							</svg>
+							<span>Assurances</span>
+						</a>
+
+					</li>
+					<li class="sidebar-list">
 						<a class="sidebar-link sidebar-title link-nav" href="{{ path('depart_employe_index') }}">
 
 							<svg class="fill-icon">

@@ -68,7 +68,8 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <h4>$<span class="counter" data-target="45195">0</span></h4><span class="f-light">Revenue</span>
+                                        <h4><span class="counter" data-target="{{ totalMateriels }}">{{ totalMateriels }}</span></h4><span
+                                                class="f-light">Materiel</span>
                                     </div>
                                 </div>
                                 <div class="font-success f-w-500"><i class="bookmark-search me-1" data-feather="trending-up"></i><span class="txt-success">+50%</span></div>
@@ -411,81 +412,81 @@
 {#        </div>#}
 {#    </div>#}
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var ctx1 = document.getElementById("chart-bars").getContext("2d");
-            var ctx2 = document.getElementById("chart-line").getContext("2d");
-            var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
+{#    <script>#}
+{#        document.addEventListener("DOMContentLoaded", function () {#}
+{#            // var ctx1 = document.getElementById("chart-bars").getContext("2d");#}
+{#            // var ctx2 = document.getElementById("chart-line").getContext("2d");#}
+{#            // var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");#}
 
-            // Données dynamiques depuis le contrôleur Symfony
-            var maintenancesData = JSON.parse('{{ maintenances|raw }}');
-            var affectationsData = JSON.parse('{{ affectations|raw }}');
-            var materielsData = JSON.parse('{{ materiels|raw }}');
+{#            // Données dynamiques depuis le contrôleur Symfony#}
+{#            var maintenancesData = JSON.parse('{{ maintenances|raw }}');#}
+{#            var affectationsData = JSON.parse('{{ affectations|raw }}');#}
+{#            var materielsData = JSON.parse('{{ materiels|raw }}');#}
 
-            var labels = maintenancesData.map(item => item.mois);
-            var dataMaintenances = maintenancesData.map(item => item.total);
+{#            var labels = maintenancesData.map(item => item.mois);#}
+{#            var dataMaintenances = maintenancesData.map(item => item.total);#}
 
-            var dataAffectations = affectationsData.map(item => item.total);
+{#            var dataAffectations = affectationsData.map(item => item.total);#}
 
-            var labelsMateriels = materielsData.map(item => item.type);
-            var dataMateriels = materielsData.map(item => item.total);
+{#            var labelsMateriels = materielsData.map(item => item.type);#}
+{#            var dataMateriels = materielsData.map(item => item.total);#}
 
-            // Graphique en barres (Maintenances)
-            new Chart(ctx1, {
-                type: "bar",
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: "Maintenances",
-                        backgroundColor: "rgba(75, 192, 192, 0.2)",
-                        borderColor: "rgba(75, 192, 192, 1)",
-                        data: dataMaintenances
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false
-                }
-            });
+{#            // Graphique en barres (Maintenances)#}
+{#            new Chart(ctx1, {#}
+{#                type: "bar",#}
+{#                data: {#}
+{#                    labels: labels,#}
+{#                    datasets: [{#}
+{#                        label: "Maintenances",#}
+{#                        backgroundColor: "rgba(75, 192, 192, 0.2)",#}
+{#                        borderColor: "rgba(75, 192, 192, 1)",#}
+{#                        data: dataMaintenances#}
+{#                    }]#}
+{#                },#}
+{#                options: {#}
+{#                    responsive: true,#}
+{#                    maintainAspectRatio: false#}
+{#                }#}
+{#            });#}
 
-            // Graphique en courbes (Affectations)
-            new Chart(ctx2, {
-                type: "line",
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: "Affectations",
-                        backgroundColor: "rgba(255, 99, 132, 0.2)",
-                        borderColor: "rgba(255, 99, 132, 1)",
-                        data: dataAffectations
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false
-                }
-            });
+{#            // Graphique en courbes (Affectations)#}
+{#            new Chart(ctx2, {#}
+{#                type: "line",#}
+{#                data: {#}
+{#                    labels: labels,#}
+{#                    datasets: [{#}
+{#                        label: "Affectations",#}
+{#                        backgroundColor: "rgba(255, 99, 132, 0.2)",#}
+{#                        borderColor: "rgba(255, 99, 132, 1)",#}
+{#                        data: dataAffectations#}
+{#                    }]#}
+{#                },#}
+{#                options: {#}
+{#                    responsive: true,#}
+{#                    maintainAspectRatio: false#}
+{#                }#}
+{#            });#}
 
-            // Graphique en barres (Matériels par type)
-            new Chart(ctx3, {
-                type: "bar",
-                data: {
-                    labels: labelsMateriels,
-                    datasets: [{
-                        label: "Matériels",
-                        backgroundColor: "rgba(54, 162, 235, 0.2)",
-                        borderColor: "rgba(54, 162, 235, 1)",
-                        data: dataMateriels
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false
-                }
-            });
+{#            // Graphique en barres (Matériels par type)#}
+{#            new Chart(ctx3, {#}
+{#                type: "bar",#}
+{#                data: {#}
+{#                    labels: labelsMateriels,#}
+{#                    datasets: [{#}
+{#                        label: "Matériels",#}
+{#                        backgroundColor: "rgba(54, 162, 235, 0.2)",#}
+{#                        borderColor: "rgba(54, 162, 235, 1)",#}
+{#                        data: dataMateriels#}
+{#                    }]#}
+{#                },#}
+{#                options: {#}
+{#                    responsive: true,#}
+{#                    maintainAspectRatio: false#}
+{#                }#}
+{#            });#}
 
-        });
-    </script>
+{#        });#}
+{#    </script>#}
 {% endblock %}
 {% block scripts %}
     <script src="{{ asset('cuba/assets/js/clock.js') }}"></script>
@@ -494,6 +495,37 @@
 {#    <script src="{{ asset('cuba/assets/js/chart/apex-chart/moment.min.js') }}"></script>#}
     <script src="{{ asset('cuba/assets/js/notify/bootstrap-notify.min.js') }}"></script>
     <script src="{{ asset('cuba/assets/js/dashboard/default.js') }}"></script>
+    <script>
+        // Comma/Separator counter
+        (function () {
+            const counters = document.querySelectorAll(".counter");
+            const speed = 70;
+
+            counters.forEach((counter) => {
+                const updateCount = () => {
+                    const target = parseInt(counter.getAttribute("data-target"));
+                    const count = parseInt(counter.innerText.replace(/,/g, "")); // Remove commas from displayed count
+
+                    const increment = Math.trunc(target / speed);
+
+                    if (count < target) {
+                        let updatedCount = count + increment;
+
+                        // Format the number with commas for lakh and crore
+                        updatedCount = updatedCount.toLocaleString("en-IN");
+
+                        counter.innerText = updatedCount;
+                        setTimeout(updateCount, 1);
+                    } else {
+                        // Update counter.innerText with formatted target value
+                        counter.innerText = target.toLocaleString("en-IN");
+                    }
+                };
+
+                updateCount();
+            });
+        })();
+    </script>
 {#    <script src="{{ asset('cuba/assets/js/notify/index.js') }}"></script>#}
 {#    <script src="{{ asset('cuba/assets/js/typeahead/handlebars.js') }}"></script>#}
 {#    <script src="{{ asset('cuba/assets/js/typeahead/typeahead.bundle.js') }}"></script>#}
