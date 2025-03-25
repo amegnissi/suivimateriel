@@ -1,95 +1,159 @@
-{% extends 'base.html.twig' %}
+{% extends 'baseC.html.twig' %}
 
-{% block title %}Détails de l'Entreprise{% endblock %}
 
-{% block breadcrumb %}ENTREPRISE > DETAILS{% endblock %}
-
+{% block title %}Enregistrer Entreprise{% endblock %}
+{% block breadcrumb %}POSTE{% endblock %}
+{% block  breadcrumb_item %} Gestion des entreprises{% endblock %}
+{% block  breadcrumb_t %} Details de l'entreprise{% endblock %}
 {% block content %}
-    
+
     <div class="container-fluid py-4">
         {% if entreprise %}
-            <div class="page-header min-height-300 border-radius-xl mt-4" 
-                style="background-image: url('{{ asset('assets/img/entreprise-background.jpg') }}');">
-                <span class="mask bg-gradient-dark opacity-6"></span>
-            </div>
 
-            <div class="card card-body mx-3 mx-md-4 mt-n6">
-                <div class="row gx-4 mb-2">
-                    <div class="col-auto">
-                        <div class="avatar avatar-xl position-relative">
-                            {% if entreprise.logo %}
-                                <img src="{{ asset('uploads/entreprise/' ~ entreprise.logo ) }}" class="w-100 border-radius-lg shadow-sm" alt="Logo de l'entreprise">
-                            {% else %}
-                                <i class="material-symbols-rounded">business</i> 
-                                {#<img src="{{ asset('assets/img/default-logo.png') }}" class="w-100 border-radius-lg shadow-sm" alt="Logo de l'entreprise">#}
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="col-auto my-auto">
-                        <div class="h-100">
-                            <h5 class="mb-1">{{ entreprise.nom }}</h5>
-                            <p class="mb-0 font-weight-normal text-sm">IFU : {{ entreprise.ifu | default('Non spécifié') }}</p>
-                        </div>
-                    </div>
-                    <div class="col-auto ms-auto d-flex align-items-center">
-                        <a href="{{ path('entreprise_index') }}" class="btn btn-outline-secondary">
-                            <i class="material-symbols-rounded">arrow_back</i> Retour
-                        </a>
-                    </div>
-                </div>
-
+            <div class="user-profile">
                 <div class="row">
-                    <div class="col-12 col-xl-6">
-                        <div class="card card-plain h-100">
-                            <div class="card-header pb-0 p-3">
-                                <h6 class="mb-0">Informations Générales</h6>
-                            </div>
-                            <div class="card-body p-3">
-                                <ul class="list-group">
-                                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Nom :</strong> &nbsp; {{ entreprise.nom | default('Non spécifié') }}</li>
-                                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Adresse :</strong> &nbsp; {{ entreprise.adresse | default('Non spécifiée') }}</li>
-                                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Téléphone :</strong> &nbsp; {{ entreprise.telephone | default('Non spécifié') }}</li>
-                                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email :</strong> &nbsp; {{ entreprise.email | default('Non spécifié') }}</li>
-                                </ul>
+                    <!-- user profile first-style start-->
+                    <div class="col-sm-12">
+                        <div class="card hovercard text-center common-user-image">
+                            <div class="cardheader" style="height: 235px;">
+                                <div class="user-image">
+                                    <div class="avatar">
+                                        <div class="common-align">
+                                            <div>
+                                                {% if entreprise.logo %}
+                                                    <img id="output" src="{{ asset('uploads/' ~ entreprise.logo) }}"
+                                                         alt="Profile Image">
+                                                {% else %}
+                                                    <img id="output" src="{{ asset('cuba/assets/images/user-card/5.jpg') }}" alt="Profile Image">
+                                                {% endif %}
+                                                <input type="file" accept="image/*" onchange="loadFile(event)">
+                                                <div class="icon-wrapper" id="cancelButton"><i
+                                                            class="icofont icofont-error"></i></div>
+                                                <div class="icon-wrapper"><i class="icofont icofont-pencil-alt-5"></i></div>
+                                            </div>
+                                            <div class="user-designation"><a target="_blank"
+                                                                             href="">{{ entreprise.nom }}</a>
+                                                <div class="desc">IFU : {{ entreprise.ifu | default('Non spécifié') }}</div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-xl-6">
-                        <div class="card card-plain h-100">
-                            <div class="card-header pb-0 p-3">
-                                <h6 class="mb-0">Informations sur l'Entretien</h6>
+                    <!-- user profile first-style end-->
+
+                    <!-- user profile menu start-->
+                    <div class="col-12">
+                        <div class="row scope-bottom-wrapper user-profile-wrapper">
+                            <div class="col-xxl-3 col-md-3 user-xl-25 col-xl-4 box-col-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <ul class="sidebar-left-icons nav nav-pills" id="add-product-pills-tab"
+                                            role="tablist">
+                                            <li class="nav-item"><a class="nav-link active" id="target-project-tab"
+                                                                    data-bs-toggle="pill" href="#target-project" role="tab"
+                                                                    aria-controls="target-project" aria-selected="false">
+                                                    <div class="nav-rounded">
+                                                        <div class="product-icons"><i class="fa-solid fa-timeline"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-tab-content">
+                                                        <h6>Informations</h6>
+                                                    </div>
+                                                </a></li>
+                                            <li class="nav-item"><a class="nav-link" id="budget-project-tab"
+                                                                    data-bs-toggle="pill" href="#budget-project" role="tab"
+                                                                    aria-controls="budget-project" aria-selected="false">
+                                                    <div class="nav-rounded">
+                                                        <div class="product-icons"><i class="fa-solid fa-list-check"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-tab-content">
+                                                        <h6>Entretien</h6>
+                                                    </div>
+                                                </a></li>
+                                        </ul>
+                                        <div class="common-flex mt-3 text-center align-items-center">
+                                            <a class="btn button-light-success" href="{{ path
+                                                ('entreprise_edit',{'id': entreprise.id}) }}!"
+                                               role="button">
+                                                <i class="far fa-edit"></i>
+                                                Modifier</a>
+{#                                            <a class="btn btn-danger" href="#!" role="button">Delete Account</a>#}
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
-                            <div class="card-body p-3">
-                                <ul class="list-group">
-                                    <li class="list-group-item border-0 ps-0 text-sm">
-                                        <strong class="text-dark">Kilométrage avant vidange :</strong> 
-                                        &nbsp; {{ entreprise.kilometrage | default('Non spécifié') }} km
-                                    </li>
-                                    <li class="list-group-item border-0 ps-0 text-sm">
-                                        <strong class="text-dark">Délai de rappel - Assurance :</strong> 
-                                        &nbsp; {{ entreprise.delaiAssurance is not null ? entreprise.delaiAssurance ~ ' jours' : 'Non spécifié' }}
-                                    </li>
-                                    <li class="list-group-item border-0 ps-0 text-sm">
-                                        <strong class="text-dark">Délai de rappel - TVM :</strong> 
-                                        &nbsp; {{ entreprise.delaiTVM is not null ? entreprise.delaiTVM ~ ' jours' : 'Non spécifié' }}
-                                    </li>
-                                    <li class="list-group-item border-0 ps-0 text-sm">
-                                        <strong class="text-dark">Délai de rappel - Visite technique :</strong> 
-                                        &nbsp; {{ entreprise.delaiVisiteTechnique is not null ? entreprise.delaiVisiteTechnique ~ ' jours' : 'Non spécifié' }}
-                                    </li>
-                                </ul>
+                            <div class="col-xxl-9 col-md-13 user-xl-75 col-xl-8 box-col-8e">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="tab-content" id="add-product-pills-tabContent">
+                                            <div class="tab-pane fade show active" id="target-project" role="tabpanel"
+                                                 aria-labelledby="target-project-tab">
+                                                <div class="notification">
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            <h5>Informations Générales</h5>
+                                                        </div>
+                                                        <div class="card-body dark-timeline">
+                                                            <div class="w-100 ms-3">
+                                                                <ul class="list-group">
+                                                                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Nom :</strong> &nbsp; {{ entreprise.nom | default('Non spécifié') }}</li>
+                                                                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Adresse :</strong> &nbsp; {{ entreprise.adresse | default('Non spécifiée') }}</li>
+                                                                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Téléphone :</strong> &nbsp; {{ entreprise.telephone | default('Non spécifié') }}</li>
+                                                                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email :</strong> &nbsp; {{ entreprise.email | default('Non spécifié') }}</li>
+
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="budget-project" role="tabpanel"
+                                                     aria-labelledby="budget-project-tab">
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            <h5>Informations sur l'Entretien</h5>
+                                                        </div>
+                                                        <div class="card-body projects-wrapper">
+                                                            <div class="w-100 ms-3">
+                                                                <ul class="list-group">
+                                                                    <li class="list-group-item border-0 ps-0 text-sm">
+                                                                        <strong class="text-dark">Kilométrage avant vidange :</strong>
+                                                                        &nbsp; {{ entreprise.kilometrage | default('Non spécifié') }} km
+                                                                    </li>
+                                                                    <li class="list-group-item border-0 ps-0 text-sm">
+                                                                        <strong class="text-dark">Délai de rappel - Assurance :</strong>
+                                                                        &nbsp; {{ entreprise.delaiAssurance is not null ? entreprise.delaiAssurance ~ ' jours' : 'Non spécifié' }}
+                                                                    </li>
+                                                                    <li class="list-group-item border-0 ps-0 text-sm">
+                                                                        <strong class="text-dark">Délai de rappel - TVM :</strong>
+                                                                        &nbsp; {{ entreprise.delaiTVM is not null ? entreprise.delaiTVM ~ ' jours' : 'Non spécifié' }}
+                                                                    </li>
+                                                                    <li class="list-group-item border-0 ps-0 text-sm">
+                                                                        <strong class="text-dark">Délai de rappel - Visite technique :</strong>
+                                                                        &nbsp; {{ entreprise.delaiVisiteTechnique is not null ? entreprise.delaiVisiteTechnique ~ ' jours' : 'Non spécifié' }}
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <!-- user profile menu end-->
                     </div>
                 </div>
-
-                <div class="mt-4 text-center">
-                    <a href="{{ path('entreprise_edit', {id: entreprise.id}) }}" class="btn btn-outline-warning">
-                        <i class="fas fa-edit"></i> Modifier
-                    </a>
-                </div> 
             </div>
-                       
+
+
         {% else %}
             <div class="card card-body w-100 mx-3 mx-md-4">
                 <div class="text-center text-danger">
