@@ -8,19 +8,19 @@
 
     <div class="row">
         <div class="col-12">
-            <h4>Ajouter une Assurance</h4>
+            <h4>Ajouter une Opération</h4>
             <div class="card my-4">
                 <div class="card-body">
                     {{ form_start(form) }}
                     
                     <div class="input-group input-group-static my-3">
-                        {{ form_label(form.materiel, 'Matériel', { 'label_attr': { 'class': 'ms-0' } }) }}
+                        {{ form_label(form.materiel, 'Véhicule', { 'label_attr': { 'class': 'ms-0' } }) }}
                         {{ form_widget(form.materiel, { 'attr': { 'class': 'form-control select2' } }) }}
                         {{ form_errors(form.materiel) }}
                     </div>
 
                     <div class="input-group input-group-static my-3">
-                        {{ form_label(form.typeAssurance, 'Type d\'Assurance', { 'label_attr': { 'class': 'ms-0' } }) }}
+                        {{ form_label(form.typeAssurance, 'Type d\'Opération', { 'label_attr': { 'class': 'ms-0' } }) }}
                         {{ form_widget(form.typeAssurance, { 'attr': { 'class': 'form-control' } }) }}
                         {{ form_errors(form.typeAssurance) }}
                     </div>
