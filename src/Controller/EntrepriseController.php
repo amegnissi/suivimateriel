@@ -16,6 +16,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/entreprise')]
 class EntrepriseController extends AbstractController
 {
+    #[Route('/', name: 'entreprise_index')]
+    public function index(): Response
+    {
+        return $this->render('entreprise/index.html.twig');
+    }
+
     #[Route('/new', name: 'entreprise_new')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {

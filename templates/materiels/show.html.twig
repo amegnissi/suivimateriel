@@ -16,7 +16,11 @@
             <div class="row gx-4 mb-2">
                 <div class="col-auto">
                     <div class="avatar avatar-xl position-relative">
+                        {% if employe.imageFilename  %}
+                            <img src="{{ asset('uploads/materiels' ~ employe.imageFilename ) }}" class="w-100 border-radius-lg shadow-sm" alt="Photo du matériel">
+                        {% else %}
                             <img src="{{ asset('assets/img/car.png') }}" class="w-100 border-radius-lg shadow-sm" alt="Photo du matériel">
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-auto my-auto">

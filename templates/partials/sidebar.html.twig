@@ -11,9 +11,18 @@
 
             {# Section Dashboard #} 
             <li class="nav-item">
-                <a class="nav-link {% if app.request.get('_route') == 'dashboard' or app.request.attributes.get('_route') starts with 'entreprise' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" href="{{ path('dashboard') }}">
+                <a class="nav-link {% if app.request.get('_route') == 'dashboard' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" href="{{ path('dashboard') }}">
                     <i class="material-symbols-rounded opacity-5">dashboard</i>
                     <span class="nav-link-text ms-1">Dashboard</span>
+                </a>
+            </li>
+
+            {# Section Entreprise #}
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.attributes.get('_route') starts with 'entreprise' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
+                    href="{{ path('entreprise_index') }}">
+                    <i class="material-symbols-rounded opacity-5">business</i>
+                    <span class="nav-link-text ms-1">Entreprise</span>
                 </a>
             </li>
             
@@ -86,6 +95,15 @@
                 href="{{ path('maintenances_index') }}">
                     <i class="material-symbols-rounded opacity-5">build</i>
                     <span class="nav-link-text ms-1">Maintenance</span>
+                </a>
+            </li>
+
+            {# Section Assurances #} 
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.attributes.get('_route') starts with 'assurances' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
+                    href="{{ path('assurances_index') }}">
+                    <i class="material-symbols-rounded opacity-5">verified_user</i>
+                    <span class="nav-link-text ms-1">Assurances</span>
                 </a>
             </li>
 
