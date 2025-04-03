@@ -6,6 +6,7 @@ use App\Entity\Materiel;
 use App\Entity\Assurance;
 use App\Entity\Entreprise;
 use App\Form\AssuranceType;
+use App\Service\ExportService;
 use App\Repository\MaterielRepository;
 use App\Repository\AssuranceRepository;
 use App\Repository\EntrepriseRepository;
@@ -39,6 +40,66 @@ class AssuranceController extends BaseController
         return $this->render('assurances/index.html.twig', [
             'pagination' => $pagination,
         ]);
+    }
+
+    #[Route('/export-excel', name: 'assurances_export_excel')]
+    public function exportExcel(AssuranceRepository $assuranceRepository, ExportService $exportService): Response
+    {
+        // Récupérer les opérations
+        $assurances = $assuranceRepository->findAll();
+
+        // Définir les en-têtes du fichier Excel
+        $headers = [
+            'N°', 'Véhicule', 'Type Opération', 'Date de Début', 'Date d\'Expiration', 'Statut'
+        ];
+
+        // Préparer les données à exporter
+        $data = [];
+        foreach ($assurances as $index => $assurance) {
+            $dateDebut = '-';
+            $dateFin = '-';
+            $statut = 'Valide';
+
+            if ($assurance->getTypeAssurance() === 'assurance' && $assurance->getDateAssuranceDebut()) {
+                $dateDebut = $assurance->getDateAssuranceDebut()->format('d/m/Y');
+                $dateFin = $assurance->getDateAssuranceFin() ? $assurance->getDateAssuranceFin()->format('d/m/Y') : '-';
+            } elseif ($assurance->getTypeAssurance() === 'visiteTechnique' && $assurance->getDateVisiteTechniqueDebut()) {
+                $dateDebut = $assurance->getDateVisiteTechniqueDebut()->format('d/m/Y');
+                $dateFin = $assurance->getDateVisiteTechniqueFin() ? $assurance->getDateVisiteTechniqueFin()->format('d/m/Y') : '-';
+            } elseif ($assurance->getTypeAssurance() === 'tvm' && $assurance->getDateTVMDebut()) {
+                $dateDebut = $assurance->getDateTVMDebut()->format('d/m/Y');
+                $dateFin = $assurance->getDateTVMFin() ? $assurance->getDateTVMFin()->format('d/m/Y') : '-';
+            }
+
+            // Vérification du statut
+            if ($dateFin !== '-' && new \DateTime() > new \DateTime($dateFin)) {
+                $statut = 'Expirée';
+            }
+
+            $data[] = [
+                $index + 1,
+                $assurance->getMateriel() ? $assurance->getMateriel()->getMarque()->getLibelle() . ' - ' . $assurance->getMateriel()->getImmatriculation() : 'N/A',
+                ucfirst($assurance->getTypeAssurance()),
+                $dateDebut,
+                $dateFin,
+                $statut,
+            ];
+        }
+
+        // Utilisation du service ExportService
+        return $exportService->exportExcel($data, $headers, 'operations.xlsx');
+    }
+
+    #[Route('/export-pdf', name: 'assurances_export_pdf')]
+    public function exportPdf(AssuranceRepository $assuranceRepository, ExportService $exportService): Response
+    {
+        // Récupérer les opérations
+        $assurances = $assuranceRepository->findAll();
+
+        // Utilisation du service ExportService pour exporter en PDF
+        return $exportService->exportPdf('assurances/export_pdf.html.twig', [
+            'assurances' => $assurances
+        ], 'operations.pdf');
     }
 
     #[Route('/new', name: 'assurances_create', methods: ['GET', 'POST'])]

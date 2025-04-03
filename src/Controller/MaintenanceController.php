@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Maintenance;
 use App\Form\MaintenanceType;
+use App\Service\ExportService;
 use App\Repository\MaterielRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\AffectationRepository;
@@ -39,6 +40,47 @@ class MaintenanceController extends BaseController
         return $this->render('maintenances/index.html.twig', [
             'pagination' => $pagination,
         ]);
+    }
+
+    #[Route('/export-excel', name: 'maintenances_export_excel')]
+    public function exportExcel(MaintenanceRepository $maintenanceRepository, ExportService $exportService): Response
+    {
+        // Récupérer les maintenances
+        $maintenances = $maintenanceRepository->findAll();
+
+        // Définir les en-têtes du fichier Excel
+        $headers = [
+            'N°', 'Matériel', 'Type', 'Date d\'Intervention', 'Km Actuel', 'Km Prochain', 'Statut'
+        ];
+
+        // Préparer les données à exporter
+        $data = [];
+        foreach ($maintenances as $index => $maintenance) {
+            $data[] = [
+                $index + 1,
+                $maintenance->getMateriel() ? $maintenance->getMateriel()->getMarque()->getLibelle() . ' - ' . $maintenance->getMateriel()->getImmatriculation() : 'N/A',
+                $maintenance->getTypeMaintenance() ?? 'N/A',
+                $maintenance->getDateIntervention() ? $maintenance->getDateIntervention()->format('d/m/Y') : 'N/A',
+                $maintenance->getKilometrageActuel() ? number_format($maintenance->getKilometrageActuel(), 0, ',', ' ') . ' km' : '-',
+                $maintenance->getKilometragePrevisionnel() ? number_format($maintenance->getKilometragePrevisionnel(), 0, ',', ' ') . ' km' : '-',
+                $maintenance->getStatut() == 0 ? 'En cours' : 'Terminé',
+            ];
+        }
+
+        // Utilisation du service ExportService
+        return $exportService->exportExcel($data, $headers, 'maintenances.xlsx');
+    }
+
+    #[Route('/export-pdf', name: 'maintenances_export_pdf')]
+    public function exportPdf(MaintenanceRepository $maintenanceRepository, ExportService $exportService): Response
+    {
+        // Récupérer les maintenances
+        $maintenances = $maintenanceRepository->findAll();
+
+        // Utilisation du service ExportService pour exporter en PDF
+        return $exportService->exportPdf('maintenances/export_pdf.html.twig', [
+            'maintenances' => $maintenances
+        ], 'maintenances.pdf');
     }
 
     #[Route('/new', name: 'maintenances_create', methods: ['GET', 'POST'])]

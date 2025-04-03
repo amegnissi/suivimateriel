@@ -10,7 +10,11 @@
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h4>Gestion des Maintenances</h4>
-                <a href="{{ path('maintenances_create') }}" class="btn btn-primary">Ajouter une Maintenance</a>
+                <div>
+                    <a href="{{ path('maintenances_export_pdf') }}" class="btn btn-danger">Exporter en PDF</a>
+                    <a href="{{ path('maintenances_export_excel') }}" class="btn btn-success">Exporter en Excel</a>
+                    <a href="{{ path('maintenances_create') }}" class="btn btn-primary">Ajouter une Maintenance</a>
+                </div>
             </div>
 
             <div class="card my-4">

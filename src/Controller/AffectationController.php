@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Affectation;
 use App\Form\AffectationType;
+use App\Service\ExportService;
 use App\Repository\EmployeRepository;
 use App\Repository\MaterielRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -43,6 +44,45 @@ class AffectationController extends BaseController
         return $this->render('affectations/index.html.twig', [
             'pagination' => $pagination,
         ]);
+    }
+
+    #[Route('/export-excel', name: 'affectations_export_excel')]
+    public function exportExcel(AffectationRepository $affectationRepository, ExportService $exportService): Response
+    {
+        // Récupérer les affectations
+        $affectations = $affectationRepository->findAll();
+
+        // Définir les en-têtes du fichier Excel
+        $headers = [
+            'N°', 'Matériel', 'Employé', 'Société', 'Date d\'Affectation'
+        ];
+
+        // Préparer les données à exporter
+        $data = [];
+        foreach ($affectations as $index => $affectation) {
+            $data[] = [
+                $index + 1,
+                $affectation->getMateriel() ? $affectation->getMateriel()->getMarque()->getLibelle() . ' - ' . $affectation->getMateriel()->getImmatriculation() : 'N/A',
+                $affectation->getEmploye() ? $affectation->getEmploye()->getPrenom() . ' ' . $affectation->getEmploye()->getNom() : 'N/A',
+                $affectation->getSociete() ? $affectation->getSociete()->getNom() : 'N/A',
+                $affectation->getDateAffectation() ? $affectation->getDateAffectation()->format('d/m/Y') : 'N/A'
+            ];
+        }
+
+        // Utilisation du service ExportService
+        return $exportService->exportExcel($data, $headers, 'affectations.xlsx');
+    }
+
+    #[Route('/export-pdf', name: 'affectations_export_pdf')]
+    public function exportPdf(AffectationRepository $affectationRepository, ExportService $exportService): Response
+    {
+        // Récupérer les affectations
+        $affectations = $affectationRepository->findAll();
+
+        // Utilisation du service ExportService pour exporter en PDF
+        return $exportService->exportPdf('affectations/export_pdf.html.twig', [
+            'affectations' => $affectations
+        ], 'affectations.pdf');
     }
 
     /**
