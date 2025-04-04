@@ -297,4 +297,16 @@ class Materiel
         }
         return $this;
     }
+
+    public function removeAssurance(Assurance $assurance): static
+    {
+        if ($this->assurances->removeElement($assurance)) {
+            // set the owning side to null (unless already changed)
+            if ($assurance->getVehicule() === $this) {
+                $assurance->setVehicule(null);
+            }
+        }
+
+        return $this;
+    }
 }

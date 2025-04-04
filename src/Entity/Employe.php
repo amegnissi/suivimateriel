@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\EmployeRepository;
 use Doctrine\Common\Collections\Collection;
@@ -51,6 +52,21 @@ class Employe
     private ?File $copieCarteIdFile = null;
     private ?File $copieDiplomeFile = null;
     private ?File $certificatAcquiteVisuelFile = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $contactUrgenceNom = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $contactUrgencePrenom = null;
+
+    #[ORM\Column(type: 'string', length: 20, nullable: true)]
+    private ?string $contactUrgenceTelephone = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $contactUrgenceAdresse = null;
+
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private ?string $contactUrgenceLien = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
@@ -314,6 +330,78 @@ class Employe
                 $affectation->setEmploye(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getContactUrgenceNom(): ?string
+    {
+        return $this->contactUrgenceNom;
+    }
+
+    public function setContactUrgenceNom(?string $contactUrgenceNom): static
+    {
+        $this->contactUrgenceNom = $contactUrgenceNom;
+
+        return $this;
+    }
+
+    public function getContactUrgencePrenom(): ?string
+    {
+        return $this->contactUrgencePrenom;
+    }
+
+    public function setContactUrgencePrenom(?string $contactUrgencePrenom): static
+    {
+        $this->contactUrgencePrenom = $contactUrgencePrenom;
+
+        return $this;
+    }
+
+    public function getContactUrgenceTelephone(): ?string
+    {
+        return $this->contactUrgenceTelephone;
+    }
+
+    public function setContactUrgenceTelephone(?string $contactUrgenceTelephone): static
+    {
+        $this->contactUrgenceTelephone = $contactUrgenceTelephone;
+
+        return $this;
+    }
+
+    public function getContactUrgenceAdresse(): ?string
+    {
+        return $this->contactUrgenceAdresse;
+    }
+
+    public function setContactUrgenceAdresse(?string $contactUrgenceAdresse): static
+    {
+        $this->contactUrgenceAdresse = $contactUrgenceAdresse;
+
+        return $this;
+    }
+
+    public function getContactUrgenceLien(): ?string
+    {
+        return $this->contactUrgenceLien;
+    }
+
+    public function setContactUrgenceLien(?string $contactUrgenceLien): static
+    {
+        $this->contactUrgenceLien = $contactUrgenceLien;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

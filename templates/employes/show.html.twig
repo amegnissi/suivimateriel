@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 col-xl-6">
+                <div class="col-12 col-xl-4">
                     <div class="card card-plain h-100">
                         <div class="card-header pb-0 p-3">
                             <h6 class="mb-0">Informations personnelles</h6>
@@ -48,7 +48,33 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-xl-6">
+                <div class="col-12 col-xl-4">
+                    <div class="card card-plain h-100">
+                        <div class="card-header pb-0 p-3">
+                            <h6 class="mb-0">Contact d'urgence</h6>
+                        </div>
+                        <div class="card-body p-3">
+                            <ul class="list-group">
+                                <li class="list-group-item border-0 ps-0 text-sm">
+                                    <strong class="text-dark">Nom:</strong> &nbsp; {{ employe.contactUrgenceNom ?? 'Non spécifié' }}
+                                </li>
+                                <li class="list-group-item border-0 ps-0 text-sm">
+                                    <strong class="text-dark">Prénom:</strong> &nbsp; {{ employe.contactUrgencePrenom ?? 'Non spécifié' }}
+                                </li>
+                                <li class="list-group-item border-0 ps-0 text-sm">
+                                    <strong class="text-dark">Téléphone:</strong> &nbsp; {{ employe.contactUrgenceTelephone ?? 'Non spécifié' }}
+                                </li>
+                                <li class="list-group-item border-0 ps-0 text-sm">
+                                    <strong class="text-dark">Adresse:</strong> &nbsp; {{ employe.contactUrgenceAdresse ?? 'Non spécifié' }}
+                                </li>
+                                <li class="list-group-item border-0 ps-0 text-sm">
+                                    <strong class="text-dark">Lien de familiarité:</strong> &nbsp; {{ employe.contactUrgenceLien ?? 'Non spécifié' }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-xl-4">
                     <div class="card card-plain h-100">
                         <div class="card-header pb-0 p-3">
                             <h6 class="mb-0">Matériel Affecté</h6>

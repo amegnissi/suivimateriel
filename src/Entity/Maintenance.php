@@ -145,4 +145,9 @@ class Maintenance
         $this->statut = $statut;
         return $this;
     }
+
+    public function isStatut(): ?bool
+    {
+        return $this->statut;
+    }
 }

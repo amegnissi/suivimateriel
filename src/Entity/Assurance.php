@@ -158,4 +158,9 @@ class Assurance {
         $this->vehicule = $vehicule;
         return $this;
     }
+
+    public function isNotifEnvoyee(): ?bool
+    {
+        return $this->notifEnvoyee;
+    }
 }
