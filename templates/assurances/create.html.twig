@@ -70,6 +70,12 @@
                         </div>
                     </div>
 
+                    <div class="input-group input-group-static my-3">
+                        {{ form_label(form.montantPaye, 'Montant payé (FCFA)', { 'label_attr': { 'class': 'ms-0' } }) }}
+                        {{ form_widget(form.montantPaye, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_errors(form.montantPaye) }}
+                    </div>
+
                     <button type="submit" class="btn btn-primary">Enregistrer</button>
                     <a href="{{ path('assurances_index') }}" class="btn btn-secondary">Annuler</a>
 

@@ -44,6 +44,8 @@ class Assurance {
     #[ORM\Column(type: 'boolean')]
     private bool $notifEnvoyee = false;
 
+    private ?float $montantPaye = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -163,4 +165,16 @@ class Assurance {
     {
         return $this->notifEnvoyee;
     }
+
+    public function getMontantPaye(): ?float
+    {
+        return $this->montantPaye;
+    }
+
+    public function setMontantPaye(?float $montantPaye): static
+    {
+        $this->montantPaye = $montantPaye;
+        return $this;
+    }
+
 }

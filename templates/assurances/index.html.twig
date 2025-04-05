@@ -34,6 +34,7 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Date de Début</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Date d'Expiration</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Statut</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Montant payé (FCFA)</th>
                                     {#<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Actions</th>#}
                                 </tr>
                             </thead>
@@ -76,6 +77,9 @@
                                             {% else %}
                                                 <span class="badge bg-success">✅ Valide</span>
                                             {% endif %}
+                                        </td>
+                                        <td class="align-middle text-center text-xs font-weight-bold">
+                                            {{ assurance.montantPaye ? (assurance.montantPaye|number_format(0, '.', ' ') ~ ' FCFA') : '-' }}
                                         </td>
                                         {#<td class="align-middle text-center">
                                             <a href="{{ path('assurances_show', {'id': assurance.id}) }}" class="btn btn-info btn-sm">Voir</a>

@@ -13,6 +13,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 class AssuranceType extends AbstractType
 {
@@ -42,6 +43,11 @@ class AssuranceType extends AbstractType
                 ],
                 'label' => 'Type d\'opération',
                 'required' => true,
+            ])
+            ->add('montantPaye', NumberType::class, [
+                'label' => 'Montant payé (FCFA)',
+                'required' => false,
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('dateAssuranceDebut', DateType::class, [
                 'widget' => 'single_text',

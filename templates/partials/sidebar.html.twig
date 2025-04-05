@@ -89,6 +89,15 @@
                 </a>
             </li>
 
+            {# Section Types Maintenances #} 
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.attributes.get('_route') starts with 'types_maintenances' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
+                    href="{{ path('types_maintenances_index') }}">
+                    <i class="material-symbols-rounded opacity-5">build</i>
+                    <span class="nav-link-text ms-1">Types Maintenances</span>
+                </a>
+            </li>
+
             {# Section Maintenance #} 
             <li class="nav-item">
             <a class="nav-link {% if app.request.attributes.get('_route') starts with 'maintenances' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 

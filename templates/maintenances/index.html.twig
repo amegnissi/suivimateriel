@@ -47,7 +47,7 @@
                                             <h6 class="mb-0 text-sm">{{ maintenance.materiel.marque.libelle }} - {{ maintenance.materiel.immatriculation }}</h6>
                                         </div>
                                     </td>
-                                    <td class="align-middle text-xs font-weight-bold">{{ maintenance.typeMaintenance }}</td>
+                                    <td class="align-middle text-xs font-weight-bold">{{ maintenance.typeMaintenance ? maintenance.typeMaintenance.libelle : '-' }}</td>
                                     <td class="align-middle text-center text-xs font-weight-bold">
                                         {{ maintenance.dateIntervention|date('d-m-Y') }}
                                     </td>
