@@ -20,6 +20,7 @@
                 <th>Type Opération</th>
                 <th>Date de Début</th>
                 <th>Date d'Expiration</th>
+                <th>Montant Payé</th>
                 <th>Statut</th>
             </tr>
         </thead>
@@ -27,28 +28,13 @@
             {% for assurance in assurances %}
                 <tr>
                     <td>{{ loop.index }}</td>
-                    <td>{{ assurance.materiel.marque.libelle ?? 'N/A' }} - {{ assurance.materiel.immatriculation ?? 'N/A' }}</td>
-                    <td>{{ assurance.typeAssurance | capitalize }}</td>
+                    <td>{{ assurance.vehicule.marque.libelle ?? 'N/A' }} - {{ assurance.vehicule.immatriculation ?? 'N/A' }}</td>
+                    <td>{{ assurance.typeAssurance.libelle }}</td>
+                    <td>{{ assurance.dateDebut ? assurance.dateDebut|date('d/m/Y') : 'N/A' }}</td>
+                    <td>{{ assurance.dateFin ? assurance.dateFin|date('d/m/Y') : 'N/A' }}</td>
+                    <td>{{ assurance.montantPaye ? assurance.montantPaye|number_format(0, '.', ' ') ~ ' FCFA' : 'N/A' }}</td>
                     <td>
-                        {% if assurance.typeAssurance == 'assurance' and assurance.dateAssuranceDebut %}
-                            {{ assurance.dateAssuranceDebut|date('d/m/Y') }}
-                        {% elseif assurance.typeAssurance == 'visiteTechnique' and assurance.dateVisiteTechniqueDebut %}
-                            {{ assurance.dateVisiteTechniqueDebut|date('d/m/Y') }}
-                        {% elseif assurance.typeAssurance == 'tvm' and assurance.dateTVMDebut %}
-                            {{ assurance.dateTVMDebut|date('d/m/Y') }}
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if assurance.typeAssurance == 'assurance' and assurance.dateAssuranceFin %}
-                            {{ assurance.dateAssuranceFin|date('d/m/Y') }}
-                        {% elseif assurance.typeAssurance == 'visiteTechnique' and assurance.dateVisiteTechniqueFin %}
-                            {{ assurance.dateVisiteTechniqueFin|date('d/m/Y') }}
-                        {% elseif assurance.typeAssurance == 'tvm' and assurance.dateTVMFin %}
-                            {{ assurance.dateTVMFin|date('d/m/Y') }}
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if assurance.dateAssuranceFin and assurance.dateAssuranceFin < "now"|date("Y-m-d") %}
+                        {% if assurance.dateFin and assurance.dateFin < "now"|date("Y-m-d") %}
                             Expirée
                         {% else %}
                             Valide
@@ -57,7 +43,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="6">Aucune opération trouvée.</td>
+                    <td colspan="7">Aucune opération trouvée.</td>
                 </tr>
             {% endfor %}
         </tbody>

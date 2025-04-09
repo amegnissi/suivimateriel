@@ -44,6 +44,9 @@ class Materiel
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $imageFilename = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $code = null;
+
     /**
      * @Assert\File(
      *     maxSize = "2M",
@@ -203,6 +206,17 @@ class Materiel
             $this->imageFilename = uniqid().'.'.$imageFile->guessExtension();
         }
 
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(?string $code): static
+    {
+        $this->code = $code;
         return $this;
     }
 

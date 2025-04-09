@@ -47,49 +47,41 @@ class AssuranceController extends BaseController
     {
         // Récupérer les opérations
         $assurances = $assuranceRepository->findAll();
-
+    
         // Définir les en-têtes du fichier Excel
         $headers = [
-            'N°', 'Véhicule', 'Type Opération', 'Date de Début', 'Date d\'Expiration', 'Statut'
+            'N°', 'Véhicule', 'Type Opération', 'Date de Début', 'Date d\'Expiration', 'Montant Payé', 'Statut'
         ];
-
+    
         // Préparer les données à exporter
         $data = [];
         foreach ($assurances as $index => $assurance) {
-            $dateDebut = '-';
-            $dateFin = '-';
+            $vehicule = $assurance->getVehicule();
+            $typeAssurance = $assurance->getTypeAssurance();
+            $dateDebut = $assurance->getDateDebut();
+            $dateFin = $assurance->getDateFin();
+            $montant = $assurance->getMontantPaye();
+    
             $statut = 'Valide';
-
-            if ($assurance->getTypeAssurance() === 'assurance' && $assurance->getDateAssuranceDebut()) {
-                $dateDebut = $assurance->getDateAssuranceDebut()->format('d/m/Y');
-                $dateFin = $assurance->getDateAssuranceFin() ? $assurance->getDateAssuranceFin()->format('d/m/Y') : '-';
-            } elseif ($assurance->getTypeAssurance() === 'visiteTechnique' && $assurance->getDateVisiteTechniqueDebut()) {
-                $dateDebut = $assurance->getDateVisiteTechniqueDebut()->format('d/m/Y');
-                $dateFin = $assurance->getDateVisiteTechniqueFin() ? $assurance->getDateVisiteTechniqueFin()->format('d/m/Y') : '-';
-            } elseif ($assurance->getTypeAssurance() === 'tvm' && $assurance->getDateTVMDebut()) {
-                $dateDebut = $assurance->getDateTVMDebut()->format('d/m/Y');
-                $dateFin = $assurance->getDateTVMFin() ? $assurance->getDateTVMFin()->format('d/m/Y') : '-';
-            }
-
-            // Vérification du statut
-            if ($dateFin !== '-' && new \DateTime() > new \DateTime($dateFin)) {
+            if ($dateFin && $dateFin < new \DateTime()) {
                 $statut = 'Expirée';
             }
-
+    
             $data[] = [
                 $index + 1,
-                $assurance->getMateriel() ? $assurance->getMateriel()->getMarque()->getLibelle() . ' - ' . $assurance->getMateriel()->getImmatriculation() : 'N/A',
-                ucfirst($assurance->getTypeAssurance()),
-                $dateDebut,
-                $dateFin,
+                $vehicule ? $vehicule->getMarque()->getLibelle() . ' - ' . $vehicule->getImmatriculation() : 'N/A',
+                $typeAssurance ? $typeAssurance->getLibelle() : 'N/A',
+                $dateDebut ? $dateDebut->format('d/m/Y') : '-',
+                $dateFin ? $dateFin->format('d/m/Y') : '-',
+                $montant !== null ? number_format($montant, 0, '.', ' ') . ' FCFA' : 'N/A',
                 $statut,
             ];
         }
-
+    
         // Utilisation du service ExportService
         return $exportService->exportExcel($data, $headers, 'operations.xlsx');
     }
-
+    
     #[Route('/export-pdf', name: 'assurances_export_pdf')]
     public function exportPdf(AssuranceRepository $assuranceRepository, ExportService $exportService): Response
     {

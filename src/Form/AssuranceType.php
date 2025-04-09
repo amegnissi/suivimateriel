@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Materiel;
 use App\Entity\Assurance;
+use App\Entity\TypeAssurance;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvents;
@@ -20,28 +21,26 @@ class AssuranceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('materiel', EntityType::class, [
+            ->add('vehicule', EntityType::class, [
                 'class' => Materiel::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('m')
                         ->innerJoin('m.marque', 'marque')
                         ->where('marque.estVehicule = :isVehicule')
-                        ->setParameter('isVehicule', true); // Seulement les matériels de type véhicule
+                        ->setParameter('isVehicule', true);
                 },
                 'choice_label' => function (Materiel $materiel) {
                     return $materiel->getMarque()->getLibelle() . ' - ' . $materiel->getImmatriculation();
                 },
-                'label' => 'Matériel',
+                'label' => 'Véhicule',
                 'placeholder' => 'Sélectionner un véhicule',
                 'required' => true,
             ])
-            ->add('typeAssurance', ChoiceType::class, [
-                'choices' => [
-                    'Assurance' => 'assurance',
-                    'TVM' => 'tvm',
-                    'Visite Technique' => 'visite_technique',
-                ],
+            ->add('typeAssurance', EntityType::class, [
+                'class' => TypeAssurance::class,
+                'choice_label' => 'libelle',
                 'label' => 'Type d\'opération',
+                'placeholder' => 'Sélectionner un type',
                 'required' => true,
             ])
             ->add('montantPaye', NumberType::class, [
@@ -49,34 +48,14 @@ class AssuranceType extends AbstractType
                 'required' => false,
                 'attr' => ['class' => 'form-control'],
             ])
-            ->add('dateAssuranceDebut', DateType::class, [
+            ->add('dateDebut', DateType::class, [
                 'widget' => 'single_text',
-                'label' => 'Date de début d\'assurance',
+                'label' => 'Date de début',
                 'required' => false,
             ])
-            ->add('dateAssuranceFin', DateType::class, [
+            ->add('dateFin', DateType::class, [
                 'widget' => 'single_text',
-                'label' => 'Date de fin d\'assurance',
-                'required' => false,
-            ])
-            ->add('dateVisiteTechniqueDebut', DateType::class, [
-                'widget' => 'single_text',
-                'label' => 'Date de début de visite technique',
-                'required' => false,
-            ])
-            ->add('dateVisiteTechniqueFin', DateType::class, [
-                'widget' => 'single_text',
-                'label' => 'Date de fin de visite technique',
-                'required' => false,
-            ])
-            ->add('dateTVMDebut', DateType::class, [
-                'widget' => 'single_text',
-                'label' => 'Date de début TVM',
-                'required' => false,
-            ])
-            ->add('dateTVMFin', DateType::class, [
-                'widget' => 'single_text',
-                'label' => 'Date de fin TVM',
+                'label' => 'Date de fin',
                 'required' => false,
             ]);
     }

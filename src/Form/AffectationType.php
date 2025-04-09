@@ -6,6 +6,7 @@ use App\Entity\Employe;
 use App\Entity\Materiel;
 use App\Entity\Affectation;
 use App\Entity\SocieteService;
+use App\Entity\LieuAffectation;
 use App\Repository\EmployeRepository;
 use App\Repository\MaterielRepository;
 use Symfony\Component\Form\AbstractType;
@@ -63,10 +64,14 @@ class AffectationType extends AbstractType
                 'placeholder' => 'Choisissez un Société',
                 'required' => false,
             ])
-            ->add('lieuAffectation', TextType::class, [
-                'label' => 'Lieu d\'Affectation',
-                'required' => false,
-                'attr' => ['class' => 'form-control'],
+            ->add('lieuAffectation', EntityType::class, [
+                'class' => LieuAffectation::class,
+                'choice_label' => 'nom',
+                'placeholder' => 'Sélectionnez un lieu ou service',
+                'attr' => ['class' => 'form-control select2'],
+                'choice_attr' => function (LieuAffectation $lieu) {
+                    return ['data-type' => $lieu->getType()];
+                },
             ]);
     }
 

@@ -33,8 +33,8 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Type Opération</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Date de Début</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Date d'Expiration</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Montant Payé (FCFA)</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Statut</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Montant payé (FCFA)</th>
                                     {#<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Actions</th>#}
                                 </tr>
                             </thead>
@@ -47,39 +47,18 @@
                                                 <h6 class="mb-0 text-sm">{{ assurance.materiel.marque.libelle }} - {{ assurance.materiel.immatriculation }}</h6>
                                             </div>
                                         </td>
-                                        <td class="align-middle text-xs font-weight-bold">{{ assurance.typeAssurance | capitalize }}</td>
+                                        <td class="align-middle text-xs font-weight-bold">{{ assurance.typeAssurance.libelle ?? '-' | capitalize }}</td>
+                                        <td class="align-middle text-center text-xs font-weight-bold">{{ assurance.dateDebut|date('d/m/Y') }}</td>
+                                        <td class="align-middle text-center text-xs font-weight-bold">{{ assurance.dateFin|date('d/m/Y') }}</td>
                                         <td class="align-middle text-center text-xs font-weight-bold">
-                                            {% if assurance.typeAssurance == 'assurance' and assurance.dateAssuranceDebut %}
-                                                {{ assurance.dateAssuranceDebut|date('d/m/Y') }}
-                                            {% elseif assurance.typeAssurance == 'visiteTechnique' and assurance.dateVisiteTechniqueDebut %}
-                                                {{ assurance.dateVisiteTechniqueDebut|date('d/m/Y') }}
-                                            {% elseif assurance.typeAssurance == 'tvm' and assurance.dateTVMDebut %}
-                                                {{ assurance.dateTVMDebut|date('d/m/Y') }}
-                                            {% endif %}
-                                        </td>
-                                        <td class="align-middle text-center text-xs font-weight-bold">
-                                            {% if assurance.typeAssurance == 'assurance' and assurance.dateAssuranceFin %}
-                                                {{ assurance.dateAssuranceFin|date('d/m/Y') }}
-                                                {% set dateFin = assurance.dateAssuranceFin %}
-                                            {% elseif assurance.typeAssurance == 'visiteTechnique' and assurance.dateVisiteTechniqueFin %}
-                                                {{ assurance.dateVisiteTechniqueFin|date('d/m/Y') }}
-                                                {% set dateFin = assurance.dateVisiteTechniqueFin %}
-                                            {% elseif assurance.typeAssurance == 'tvm' and assurance.dateTVMFin %}
-                                                {{ assurance.dateTVMFin|date('d/m/Y') }}
-                                                {% set dateFin = assurance.dateTVMFin %}
-                                            {% else %}
-                                                {% set dateFin = null %}
-                                            {% endif %}
+                                            {{ assurance.montantPaye ? (assurance.montantPaye|number_format(0, '.', ' ') ~ ' FCFA') : '-' }}
                                         </td>
                                         <td class="align-middle text-center">
-                                            {% if dateFin and dateFin < "now"|date("Y-m-d") %}
+                                            {% if assurance.dateFin and assurance.dateFin|date('Y-m-d') < "now"|date('Y-m-d') %}
                                                 <span class="badge bg-danger text-white">⏳ Expirée</span>
                                             {% else %}
                                                 <span class="badge bg-success">✅ Valide</span>
                                             {% endif %}
-                                        </td>
-                                        <td class="align-middle text-center text-xs font-weight-bold">
-                                            {{ assurance.montantPaye ? (assurance.montantPaye|number_format(0, '.', ' ') ~ ' FCFA') : '-' }}
                                         </td>
                                         {#<td class="align-middle text-center">
                                             <a href="{{ path('assurances_show', {'id': assurance.id}) }}" class="btn btn-info btn-sm">Voir</a>

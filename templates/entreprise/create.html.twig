@@ -18,6 +18,12 @@
                             {{ form_widget(form.nom, { 'attr': { 'class': 'form-control' } }) }}
                             {{ form_errors(form.nom) }}
                         </div>
+                        
+                        <div class="input-group input-group-outline mb-4">
+                            {{ form_label(form.sigle, 'Sigle de l\'Entreprise', { 'label_attr': { 'class': 'form-label' } }) }}
+                            {{ form_widget(form.sigle, { 'attr': { 'class': 'form-control' } }) }}
+                            {{ form_errors(form.sigle) }}
+                        </div>
 
                         <div class="input-group input-group-outline mb-4">
                             {{ form_label(form.adresse, 'Adresse', { 'label_attr': {'class': 'form-label'} }) }}

@@ -31,7 +31,7 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">N°</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Matériel</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Employé</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Société</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Société / Service</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Date d'Affectation</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Actions</th>
                                 </tr>
@@ -48,7 +48,7 @@
                                             {{ affectation.employe.prenom ?: 'N/A' }} {{ affectation.employe.nom ?: '' }}
                                         </td>
                                         <td class="align-middle text-xs font-weight-bold">
-                                            {{ affectation.societe.nom ?: 'N/A' }}
+                                            {{ affectation.societe.nom ?? affectation.lieuAffectation.nom ?? 'N/A' }}
                                         </td>
                                         <td class="align-middle text-center text-xs font-weight-bold">
                                             {{ affectation.dateAffectation ? affectation.dateAffectation|date('d-m-Y') : 'N/A' }}

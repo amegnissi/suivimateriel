@@ -1,22 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Clients{% endblock %}
+{% block title %}Lieux d'Affectation{% endblock %}
 
-{% block breadcrumb %}CLIENTS{% endblock %}
+{% block breadcrumb %}LIEUX D'AFFECTATION{% endblock %}
 
 {% block content %}
-
     <div class="row">
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h4>Gestion des Clients</h4>
-                <a href="{{ path('societe_service_create') }}" class="btn btn-primary">Ajouter un Client</a>
+                <h4>Gestion des Lieux d'Affectation</h4>
+                <a href="{{ path('lieux_affectation_create') }}" class="btn btn-primary">Ajouter un Lieu</a>
             </div>
 
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                     <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
-                        <h6 class="text-white text-capitalize ps-3">Liste des Clients</h6>
+                        <h6 class="text-white text-capitalize ps-3">Liste des Lieux d'Affectation</h6>
                     </div>
                 </div>
                 <div class="card-body px-0 pb-2">
@@ -26,51 +25,50 @@
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">N°</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nom</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Adresse</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Téléphone</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Matériels Associés</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Type</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Client / Interne</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for societe in pagination %}
+                                {% for lieu in pagination %}
                                     <tr>
                                         <td class="align-middle text-center text-xs font-weight-bold">{{ loop.index }}</td>
-                                        <td class="align-middle text-xs font-weight-bold">{{ societe.nom }}</td>
-                                        <td class="align-middle text-xs font-weight-bold">{{ societe.adresse ?: 'N/A' }}</td>
+                                        <td class="align-middle text-xs font-weight-bold">{{ lieu.nom }}</td>
                                         <td class="align-middle text-center text-xs font-weight-bold">
-                                            {{ societe.telephone ?: 'N/A' }}
+                                            <span class="badge {{ lieu.type == 'interne' ? 'bg-gradient-info' : 'bg-gradient-warning' }}">
+                                                {{ lieu.type|capitalize }}
+                                            </span>
                                         </td>
-                                        <td class="align-middle text-center text-xs font-weight-bold">
-                                            <span class="badge bg-gradient-success">{{ societe.affectations|length }}</span>
+                                        <td class="align-middle text-xs font-weight-bold">
+                                            {% if lieu.type == 'interne' %}
+                                                {{ lieu.entreprise.nom }}
+                                            {% else %}
+                                                {{ lieu.societeService.nom }}
+                                            {% endif %}
                                         </td>
                                         <td class="align-middle text-center">
-                                            <a href="{{ path('societe_service_show', { 'id': societe.id }) }}" class="btn btn-info btn-sm">Voir</a>
-                                            <a href="{{ path('societe_service_edit', { 'id': societe.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
-                                            <form action="{{ path('societe_service_delete', { 'id': societe.id }) }}" method="POST" class="d-inline">
-                                                <input type="hidden" name="_method" value="DELETE">
-                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ societe.id) }}">
-                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette société ?');">
-                                                    Supprimer
-                                                </button>
+                                            <a href="{{ path('lieux_affectation_edit', { 'id': lieu.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
+                                            <form action="{{ path('lieux_affectation_delete', { 'id': lieu.id }) }}" method="POST" class="d-inline">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ lieu.id) }}">
+                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce lieu ?');">Supprimer</button>
                                             </form>
                                         </td>
                                     </tr>
                                 {% else %}
                                     <tr>
-                                        <td colspan="6" class="text-center text-secondary">Aucune société de service trouvée.</td>
+                                        <td colspan="5" class="text-center text-secondary">Aucun lieu d'affectation trouvé.</td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
-                                                
-                        <!-- Pagination -->
+
                         {% if pagination.getTotalItemCount() > 10 %}
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination justify-content-center">
                                     {% if pagination.currentPageNumber > 1 %}
                                         <li class="page-item">
-                                            <a class="page-link" href="{{ path('employes_index', {'page': pagination.currentPageNumber - 1}) }}">
+                                            <a class="page-link" href="{{ path('lieux_affectation_index', {'page': pagination.currentPageNumber - 1}) }}">
                                                 <span class="material-symbols-rounded">keyboard_arrow_left</span>
                                             </a>
                                         </li>
@@ -78,13 +76,13 @@
 
                                     {% for page in 1..pagination.pageCount %}
                                         <li class="page-item {% if page == pagination.currentPageNumber %}active{% endif %}">
-                                            <a class="page-link" href="{{ path('employes_index', {'page': page}) }}">{{ page }}</a>
+                                            <a class="page-link" href="{{ path('lieux_affectation_index', {'page': page}) }}">{{ page }}</a>
                                         </li>
                                     {% endfor %}
 
                                     {% if pagination.currentPageNumber < pagination.pageCount %}
                                         <li class="page-item">
-                                            <a class="page-link" href="{{ path('employes_index', {'page': pagination.currentPageNumber + 1}) }}">
+                                            <a class="page-link" href="{{ path('lieux_affectation_index', {'page': pagination.currentPageNumber + 1}) }}">
                                                 <span class="material-symbols-rounded">keyboard_arrow_right</span>
                                             </a>
                                         </li>
@@ -97,5 +95,4 @@
             </div>
         </div>
     </div>
-        
 {% endblock %}
