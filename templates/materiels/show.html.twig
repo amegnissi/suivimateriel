@@ -17,7 +17,7 @@
                 <div class="col-auto">
                     <div class="avatar avatar-xl position-relative">
                         {% if materiel.imageFilename  %}
-                            <img src="{{ asset('uploads/materiels' ~ employe.imageFilename ) }}" class="w-100 border-radius-lg shadow-sm" alt="Photo du matériel">
+                            <img src="{{ asset('uploads/materiels/' ~ employe.imageFilename ) }}" class="w-100 border-radius-lg shadow-sm" alt="Photo du matériel">
                         {% else %}
                             <img src="{{ asset('assets/img/car.png') }}" class="w-100 border-radius-lg shadow-sm" alt="Photo du matériel">
                         {% endif %}

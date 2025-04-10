@@ -166,6 +166,7 @@ class AffectationController extends BaseController
     /**
      * Formulaire de modification d'une affectation.
      */
+    /*
     #[Route('/{id}/edit', name: 'affectations_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Affectation $affectation, EntityManagerInterface $entityManager): Response
     {
@@ -200,7 +201,7 @@ class AffectationController extends BaseController
             'form' => $form->createView(),
             'affectation' => $affectation,
         ]);
-    }
+    }*/
 
     #[Route('/{id}/delete', name: 'affectations_delete', methods: ['POST'])]
     public function delete(Request $request, Affectation $affectation, EntityManagerInterface $entityManager): Response

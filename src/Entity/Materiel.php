@@ -30,9 +30,6 @@ class Materiel
     private ?string $statut = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $lieuAffactation = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
     private ?string $etat = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -129,18 +126,6 @@ class Materiel
     public function setStatut(?string $statut): static
     {
         $this->statut = $statut;
-
-        return $this;
-    }
-
-    public function getLieuAffactation(): ?string
-    {
-        return $this->lieuAffactation;
-    }
-
-    public function setLieuAffactation(?string $lieuAffactation): static
-    {
-        $this->lieuAffactation = $lieuAffactation;
 
         return $this;
     }
@@ -298,16 +283,6 @@ class Materiel
         if (!$this->assurances->contains($assurance)) {
             $this->assurances->add($assurance);
             $assurance->setMateriel($this);
-        }
-        return $this;
-    }
-
-    public function removeMateriel(Assurance $assurance): static
-    {
-        if ($this->assurances->removeElement($assurance)) {
-            if ($assurance->getMateriel() === $this) {
-                $assurance->setMateriel(null);
-            }
         }
         return $this;
     }

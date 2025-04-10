@@ -106,13 +106,13 @@ class MaterielController extends BaseController
             }
 
             // Associer un matériel à une entreprise
-            $entreprise = $entityManager->getRepository(Entreprise::class)->find(1); // ID de l'entreprise
+            $entreprise = $entityManager->getRepository(Entreprise::class)->findOneBy([]);
             if ($entreprise) {
                 $materiel->setEntreprise($entreprise);
             }
 
             // Si le matériel est un véhicule, mettre à jour la marque
-            if ($materiel->getType() === 'vehicule') {
+            if ($materiel->getType() && strtolower($materiel->getType()->getLibelle()) === 'véhicule') {
                 $marque = $materiel->getMarque();
                 if ($marque) {
                     $marque->setEstVehicule(true);  // Mettre estVehicule à true
@@ -127,16 +127,16 @@ class MaterielController extends BaseController
             return $this->redirectToRoute('materiels_index', [], Response::HTTP_SEE_OTHER);
         }
 
-            // Récupération des ID des marques de véhicules
-            $marquesVehicules = $entityManager->getRepository(Marque::class)
-                ->createQueryBuilder('m')
-                ->select('m.id')
-                ->where('m.estVehicule = true')
-                ->getQuery()
-                ->getResult();
+        // Récupération des ID des marques de véhicules
+        $marquesVehicules = $entityManager->getRepository(Marque::class)
+            ->createQueryBuilder('m')
+            ->select('m.id')
+            ->where('m.estVehicule = true')
+            ->getQuery()
+            ->getResult();
             
-            // Conversion en tableau simple
-            $marquesVehicules = array_map(fn($marque) => $marque['id'], $marquesVehicules);
+        // Conversion en tableau simple
+        $marquesVehicules = array_map(fn($marque) => $marque['id'], $marquesVehicules);
 
         return $this->render('materiels/create.html.twig', [
             'materiel' => $materiel,
