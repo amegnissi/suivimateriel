@@ -1,0 +1,120 @@
+{% extends 'admin/base_admin.html.twig' %}
+{% block css %}
+	<style>
+		.field
+		{
+			padding: 3px 12px;
+			border: 2px #616569 !important;
+		}
+
+		legend
+		{
+			width: auto;
+		}
+
+		.ctn-btn
+		{
+			position: absolute;
+			top: 57%;
+			transform: translateY(-50%);
+		}
+		.btnapath
+		{
+			font-size: 13px; !important;
+		}
+
+
+
+
+
+	</style>
+	<link rel="stylesheet"
+				  href="{{ asset('assets/admin/plugins/datatables/datatables.css') }}">
+
+	<!-- DataTables -->
+
+{% endblock %}
+
+{% block body %}
+{% block actionbtn %}
+<div
+	class="container-fluid">
+	<div
+		class="row mb-2">
+		<div
+			class="col-sm-6">
+			{#                        <h1>{% block titles %} Departement{% endblock %}</h1> #}
+			</div>
+			<div
+				class="col-sm-12">
+
+				<a href=" {% block btnapath %} {% endblock %}" class="btn btn-outline-primary float-lg-end btnapath">
+						<i class="fa fa-plus"></i>
+						{% block btntitle %}
+
+						{% endblock %}
+					</a>
+				</div>
+			</div>
+		</div>
+		<!-- /.container-fluid -->
+{% endblock %}
+	<div
+		class="card card-primary card-success">
+		<div
+			class="card-header">
+			<h3
+				class="card-title ">
+				{% block card_header_title %}
+
+				{% endblock %}
+			</h3>
+		</div>
+		<!-- /.card-header -->
+		<div
+			class="card-body table-responsive">
+			{% block filtre %}
+
+			{% endblock %}
+			<table
+				id="example1"
+				class="table table-bordered table-striped text-nowrap table-valign-middle">
+				{% block tablecontent %}
+				{% endblock %}
+			</table>
+
+
+		</div>
+		<!-- /.card-body -->
+	</div>
+{% endblock %}
+{% block javascript %}
+	<!-- DataTables  & Plugins -->
+	<script src="{{ asset('assets/admin/plugins/datatables/jquery.dataTables.js') }}"></script>
+<script src="{{ asset('assets/admin/plugins/datatables/datatables.js') }}"></script>
+
+	<script>
+
+    $(function () {
+        $("#example1").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+             language: {
+        url: '//cdn.datatables.net/plug-ins/2.0.8/i18n/fr-FR.json',
+    },
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+        });
+    });
+
+	</script>
+
+{% endblock %}
+

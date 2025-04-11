@@ -1,0 +1,427 @@
+{% extends 'baseC.html.twig' %}
+
+ {% block css %}{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+
+                <div class="col-xl-12">
+                    <div class="card card-h-100">
+                        <div class="card-body">
+                            <div id="calendar"></div>
+                        </div>
+                    </div>
+                </div><!-- end col -->
+            </div>
+            <!--end row-->
+
+            <div style='clear:both'></div>
+
+            <div class="modal fade" id="modal-event" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered"></div>
+                <div class="modal-body p-4">
+                    <div class="d-flex align-items-center justify-content-between"></div>
+                </div>
+            </div>
+            <!-- Add New Event MODAL -->
+            <div class="modal fade" id="event-modal" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0">
+                        <div class="modal-header p-3 bg-info-subtle">
+                            <h5 class="modal-title" id="modal-title">Event</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                        </div>
+                        <div class="modal-body p-4">
+                            <div class="needs-validation" name="event-form" id="form-event">
+                                <div class="text-end">
+                                    <a href="#" class="btn btn-sm
+                                    btn-soft-primary" id="edit-event-btn"
+                                       data-id="edit-event" onclick="editEvent(this)" role="button"></a>
+                                </div>
+                                <div class="event-details">
+                                    <div class="flex-grow-1">
+                                        <h6 class="d-block fw-semibold mb-0" id="event-id-tag"></h6>
+                                    </div>
+                                    <div class="d-flex mb-2">
+                                        <div class="flex-grow-1 d-flex align-items-center">
+                                            <div class="flex-shrink-0 me-3">
+                                                <i class="ri-calendar-event-line text-muted fs-16"></i>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <h6 class="d-block fw-semibold mb-0" id="event-start-date-tag"></h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <div class="flex-shrink-0 me-3">
+                                            <i class="ri-time-line text-muted fs-16"></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="d-block fw-semibold mb-0"><span
+                                                        id="event-timepicker1-tag"></span> - <span
+                                                        id="event-timepicker2-tag"></span></h6>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <div class="flex-shrink-0 me-3">
+                                            <i class="ri-map-pin-line text-muted fs-16"></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="d-block fw-semibold mb-0"><span id="event-location-tag"></span>
+                                            </h6>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <div class="flex-shrink-0 me-3">
+                                            <i class="ri-user-2-line text-muted fs-16"></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="d-block fw-semibold mb-0"><span id="event-user-tag"></span>
+                                            </h6>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex mb-3">
+                                        <div class="flex-shrink-0 me-3">
+                                            <i class="ri-discuss-line text-muted fs-16"></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <p class="d-block text-muted mb-0" id="event-description-tag"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row event-form" id="event-form">
+
+                                    <div class="progress progress-striped active"
+                                         style="text-align: center; height: 100px; background-color: rgba(0, 0, 0, 0);">
+                                        <div class="bar">
+                                            <i class="fas fa-circle-notch fa-spin fa-5x"
+                                               style="color: #f5f5f5;"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end row-->
+                                <div class="hstack gap-2 justify-content-end">
+                                    <button type="button" class="btn btn-soft-danger" id="btn-delete-event"><i
+                                                class="ri-close-line align-bottom"></i> Delete
+                                    </button>
+                                    <button type="submit" class="btn btn-success" id="btn-save-event">Add Event</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- end modal-content-->
+                </div> <!-- end modal dialog-->
+            </div> <!-- end modal-->
+            <!-- end modal-->
+        </div>
+    </div> <!-- end row-->
+
+    {% block javascript %}
+    <script src=" {{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+
+        <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+
+        <!-- calendar min js -->
+{#        <script src="{{ asset('assets/js/pages/plugins/jquery.js') }}"></script>#}
+        <script src="{{ asset('cuba/assets/js/fullcalendar/index.global.min.js') }}"></script>
+        <script src="{{ asset('cuba/assets/js/fullcalendar/fr.global.min.js') }}"></script>
+        <script src="{{ asset('assets/js/pages/plugins/select2/select2.min.js') }}"></script>
+    {#    <!-- Calendar init -->#}
+{#        <script src="{{ asset('assets/js/pages/calendar-month-grid.init.js') }}"></script>#}
+    <script>
+     // $(document).ready(function() {
+     //     const calendarEl = document.getElementById('calendar')
+     //     var calendarEle  = document.getElementById("calendar");
+     //       $('#calendar').fullCalendar({
+     //
+     //      });
+     // });
+
+         // Fonction pour formater la date en français
+    function formatDateToFrench(isoDateString) {
+        const date = new Date(isoDateString);
+        return new Intl.DateTimeFormat('fr-FR', {
+            weekday: 'long', // Jour complet (lundi, mardi...)
+            day: 'numeric',  // Numéro du jour
+            month: 'long',   // Mois en toutes lettres
+            year: 'numeric'  // Année sur 4 chiffres
+        }).format(date);
+    }
+    // Fonction pour formater l'heure (HH:MM)
+    function formatTime(isoDateString) {
+        const date = new Date(isoDateString);
+        return date.toLocaleTimeString('fr-FR', {
+            hour: '2-digit',
+            minute: '2-digit',
+        });
+    }
+    function eventTyped() {
+        document.getElementById("form-event").classList.remove("view-event"),
+            document.getElementById("event-title").classList.replace("d-none", "d-block"),
+            document.getElementById("event-category").classList.replace("d-none", "d-block"),
+            document.getElementById("event-start-date").parentNode.classList.remove("d-none"),
+            document.getElementById("event-start-date").classList.replace("d-none", "d-block"),
+            document.getElementById("timepicker1").parentNode.classList.remove("d-none"),
+            document.getElementById("timepicker1").classList.replace("d-none", "d-block"),
+            document.getElementById("timepicker2").parentNode.classList.remove("d-none"),
+            document.getElementById("timepicker2").classList.replace("d-none", "d-block"),
+            document.getElementById("event-location").classList.replace("d-none", "d-block"),
+            document.getElementById("event-description").classList.replace("d-none", "d-block"),
+            document.getElementById("event-start-date-tag").classList.replace("d-block", "d-none"),
+            document.getElementById("event-timepicker1-tag").classList.replace("d-block", "d-none"),
+            document.getElementById("event-timepicker2-tag").classList.replace("d-block", "d-none"),
+            document.getElementById("event-location-tag").classList.replace("d-block", "d-none"),
+            document.getElementById("event-description-tag").classList.replace("d-block", "d-none")
+            // document.getElementById("btn-save-event").removeAttribute("hidden")
+    }
+
+
+
+     function editEvent(e){
+                document.getElementById("form-event").classList.remove("view-event")
+                document.getElementById("btn-save-event").removeAttribute("hidden")
+                document.getElementById("edit-event-btn").innerHTML = "Annuler"
+                const $id = document.getElementById("event-id-tag").value
+                document.getElementById("event-form").innerHTML ="<div class='progress progress-striped active' style='text-align: center; height: 100px; background-color: rgba(0, 0, 0, 0);'> <div class='bar'> <i class='fas fa-circle-notch fa-spin fa-5x' style='color: #c51818;'></i>    </div> </div>     "
+                document.getElementById("form-event").classList.remove("view-event")
+                $route =Routing.generate('popup_event_edit', {'id' : $id })
+                $submit_route = Routing.generate('popup_evenements_edit', {'id' : $id })
+                $urlSucces = window.location.protocol + "//" + window.location.host + window.location.pathname;
+
+          $.ajax({
+                url:  Routing.generate('popup_event_edit', {'id' : $id }),
+                // url:  $route,
+                type: 'GET',
+                 success: function (html) {
+                      // alert(html);
+                      // editmodal.hide();
+                     document.getElementById("event-form").innerHTML =html
+
+
+        // Add submit link to finish
+        // var $submit = $("<input type='button' class ='btn btn-primary float-lg-right' value='Modifier la categorie' />").on('click', function (e) {
+        var $submit = $('#ajax_btn_modife').on('click', function (e) {
+
+        e.preventDefault();
+
+        // Get form to submit
+        // alert("html");
+        var $form = $('#categoriecircuits');
+        // alert($form.serialize());
+        // Validate the form
+        if(!formIsValide()){
+            alert('Some fields are required')
+        console.log('Some fields are required !!!');
+        return false;
+    }
+
+        // Block btn action for future click
+        var $el = $(this);
+        $el.button('loading');
+        // Submit form
+        $.ajax({
+        type:  $form.attr('method'),
+        url: $submit_route, //Routing.generate('admin_categories_circuit_edit', {'id' : $id }),
+        data: $form.serialize()
+
+    })
+        .done(function (data) {
+            // alert('vailde')
+              console.log(data);
+               alert('Modification successful')
+        if(!data.success){
+        console.log(JSON.stringify(data.errors));
+         // alert(JSON.stringify(data.errors))
+          window.location.href = $urlSucces;
+    }else{
+        // Redirect to Home page
+        window.location.href = $urlSucces;
+    }
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        console.log(jqXHR);
+        console.log(textStatus);
+        console.log(errorThrown);
+
+        // Permit the button
+        $el.button('reset');
+    });
+    });
+
+        // Append it
+        // $autoEcoleForm.find('.modal-footer').empty().append($submit);
+        // Display
+        // $autoEcoleForm.modal('show');
+    }
+          })
+      }
+
+     function formIsValide() {
+    var isvalid = true;
+
+    // Vérifier si tous les champs obligatoires sont remplis
+    $('.mandatory').each(function () {
+        var $el = $(this);
+        var val, $parent;
+        if ($el.is('input')) {
+            if ($el.attr('type') === 'number') {
+                val = $.trim($el.val());
+                $parent = $el.closest('.form-group');
+                $parent.removeClass('has-error');
+                if (val == '') {
+                    $parent.addClass('has-error');
+                    isvalid = isvalid && false;
+                }
+            } else if ($el.attr('type') === 'checkbox') {
+            } else {
+                val = $.trim($el.val());
+                $parent = $el.closest('.form-group');
+                $parent.removeClass('has-error');
+                if (val == '') {
+                    $parent.addClass('has-error');
+                    isvalid = isvalid && false;
+                }
+            }
+        } else if ($el.is('select')) {
+            val = $.trim($el.val());
+            $parent = $el.closest('.form-group');
+            $parent.removeClass('has-error');
+            if (val == '') {
+                $parent.addClass('has-error');
+                isvalid = isvalid && false;
+            }
+        } else if ($el.is('textarea')) {
+            val = $.trim($el.val());
+            $parent = $el.closest('.form-group');
+            $parent.removeClass('has-error');
+            if (val == '') {
+                $parent.addClass('has-error');
+                isvalid = isvalid && false;
+            }
+        }
+    });
+
+    return isvalid;
+}
+     document.addEventListener("DOMContentLoaded", (function () {
+
+      const calendarEl = document.getElementById('calendar')
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+            // plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+            initialView: 'dayGridMonth',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                },
+            // selectable: true,
+            events: '/api/events',
+
+            dateClick: function(info) {
+                 // document.getElementById("form-event").reset(),
+                    document.getElementById("modal-title").innerText = 'Nouvel évenement'
+                    const modal = new bootstrap.Modal(document.getElementById('event-modal'));
+
+                    document.getElementById("form-event").classList.remove("was-validated")
+
+                    document.getElementById("btn-delete-event").setAttribute("hidden", !0),
+                    document.getElementById("edit-event-btn").setAttribute("data-id", "new-event"),
+                    // document.getElementById("edit-event-btn").click(),
+                    document.getElementById("edit-event-btn").setAttribute("hidden", !0)
+                    // eventTyped()
+                    // document.getElementById("event-start-date").value = info.dateStr
+             // const subnitEvent =  document.getElementById("submitEvent")
+            $.ajax({
+                    url: Routing.generate('popup_evenements_new') ,
+                    type: 'POST',
+                    dataType: 'html',
+                    success: function (html) {
+                            alert( html)
+                            document.getElementById("event-form").innerHTML = html
+            // Add submit link to finish
+            var $submit = $("<input type='button' class ='autoEcole_new_popup_submit btn btn-outline-success' />").on('click', function (e) {
+                e.preventDefault();
+                // Get form to submit
+                var $form = $('form[name = "bonsplans"]');
+
+                // Validate the form
+                if(!formIsValide()){
+                    console.log('Some fields are required !!!');
+                    return false;
+                }
+
+                // Block btn action for future click
+                var $el = $(this);
+                $el.button('loading');
+                // Submit form
+                $.ajax({
+                    type: $form.attr('method'),
+                    url:  "https://store.jinukun.bj/Gestion/admin/bons-plans/produit/"+$id+"/new", //Routing.generate('bonsplans_edit_ajax', {id: $id}), // Routing.generate('app_autoecole_new'),
+                    data: $form.serialize()
+                })
+                    .done(function (data) {
+                        if(!data.success){
+                            console.log(JSON.stringify(data.errors));
+                        }else{
+                            // Redirect to Home page
+                            window.location.href = window.location.protocol + "//" + window.location.host + window.location.pathname;
+                        }
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+
+                    // Permit the buton
+                    $el.button('reset');
+                });
+            });
+modal.show();
+        }
+    })
+
+
+        },
+             eventClick: function(info) {
+                  console.log(info.event);
+               const extendedProps = info.event.extendedProps;
+                  document.getElementById("modal-title").innerHTML = info.event.title;
+                   document.getElementById("edit-event-btn").innerHTML = "Modifier l'événement"
+                  const modal = new bootstrap.Modal(document.getElementById('event-modal'));
+                                document.getElementById("form-event").classList.add("view-event"),
+                                // document.getElementById("event-title").classList.replace("d-block", "d-none"),
+                                document.getElementById("edit-event-btn").removeAttribute("hidden"),
+                                document.getElementById("btn-save-event").setAttribute("hidden", !0),
+                                document.getElementById("edit-event-btn").setAttribute("data-id", "edit-event"),
+                                 document.getElementById("event-location-tag").innerHTML =  extendedProps.location ?? "Non précisé"
+                                  document.getElementById("event-start-date-tag").innerHTML =  formatDateToFrench(info.event.start)
+
+                                 document.getElementById("event-timepicker1-tag").innerHTML = extendedProps.heureDeb
+                                 document.getElementById("event-timepicker2-tag").innerHTML = extendedProps.heureFn
+                                 document.getElementById("event-description-tag").innerHTML =  extendedProps.description ?? "Aucune description"
+                                 document.getElementById("event-user-tag").innerHTML = ''
+                                 document.getElementById("event-id-tag").innerHTML = info.event.id
+                                 document.getElementById("event-id-tag").value = info.event.id
+                                  if (extendedProps.contact && extendedProps.contact.length > 0) {
+                                     extendedProps.contact.forEach(contact => {
+                                          document.getElementById("event-user-tag").append(contact.information+' ')
+                                      });
+
+                                  }
+                                  else {
+                                 document.getElementById("event-user-tag").innerHTML = ''
+
+
+
+                        }
+     modal.show();
+
+
+
+             }
+             });
+           calendar.render();
+     }));
+
+
+    </script>
+        {% endblock %}
+{% endblock %}

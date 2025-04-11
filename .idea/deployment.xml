@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="suivimaterial" remoteFilesAllowedToDisappearOnAutoupload="false">
+  <component name="PublishConfigData" serverName="suivimaterial" uploadOnCheckin="19b1fcf8-e796-4752-99b9-46bff51af287" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
       <paths name="suivimaterial">
         <serverdata>
@@ -10,5 +10,6 @@
         </serverdata>
       </paths>
     </serverData>
+    <option name="myUploadOnCheckinName" value="suivimaterial" />
   </component>
 </project>

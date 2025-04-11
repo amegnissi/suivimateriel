@@ -1,0 +1,121 @@
+{#{% extends 'base.html.twig' %}#}
+
+{#{% block title %}Edit Evenements{% endblock %}#}
+
+{#{% block body %}#}
+{#    <h1>Edit Evenements</h1>#}
+
+{#    {{ include('evenements/_form.html.twig', {'button_label': 'Update'}) }}#}
+
+{#    <a href="{{ path('app_evenements_index') }}">back to list</a>#}
+
+{#    {{ include('evenements/_delete_form.html.twig') }}#}
+{#{% endblock %}#}
+{{ form_start(form,{'attr':{'id':'categoriecircuits' }}) }}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">{{ form_row(form.type) }}</div>
+        <div class="col-md-12">{{ form_row(form.libelle) }}</div>
+        <div class="col-md-12">
+            <label for="" class="form-label">Debut</label>
+        </div>
+        <div class="col-md-6">{{ form_widget(form.dateDebut) }}</div>
+        <div class="col-md-6 mb-3">{{ form_widget(form.heureDebut) }}</div>
+        <div class="col-md-12">
+            <label for="" class="form-label">Fin</label>
+        </div>
+        <div class="col-md-6">{{ form_widget(form.DateFin) }}</div>
+        <div class="col-md-6 mb-3">{{ form_widget(form.heureFin) }}</div>
+        <div class="col-md-12">{{ form_row(form.lieu) }}</div>
+        <div class="col-md-12">{{ form_row(form.contact) }}</div>
+        <div class="col-md-12">{{ form_row(form.description) }}</div>
+        <div class="col-md-6">{{ form_row(form.priorite) }}</div>
+        <div class="col-md-6">{{ form_row(form.recurrence) }}</div>
+        <div class="col-md-12" id="finRecurrence">{{ form_row(form.finRecurrence) }}</div>
+        <div class="col-md-12">{{ form_row(form.rappelAutomatique) }}</div>
+    </div>
+
+</div>
+<div class="card-footer">
+    {% block footerBtn %}
+        <div class="float-end">
+            <a class="btn btn-secondary" type="button" href="{% block btnretour %}{% endblock %}">
+                <i class="ri-arrow-left-line align-bottom me-1"></i>
+                Liste des contacts</a>
+
+            <button class="btn btn-success" type="submit">
+                <i class="ri-check-double-fill align-bottom me-1"></i>
+                {% block btn_label %} Enregistrer{% endblock %}
+            </button>
+            <button class="btn btn-warning" type="reset" value="Annuler"><i
+                        class="ri-close-fill align-bottom me-1"></i> Annuler
+            </button>
+        </div>
+
+    {% endblock %}
+
+
+</div>
+{{ form_end(form) }}
+
+
+
+<script src="{{ asset('assets/js/pages/plugins/jquery.js') }}"></script>
+<script src="{{ asset('assets/js/pages/plugins/select2/select2.min.js') }}"></script>
+
+<script>
+
+
+    $(document).ready(function () {
+        $('.select2-ajax').select2({
+            multiple: true, // Active la sélection multiple
+            // ajax: {
+            //     url: '/ajax/api-produits',  // Route qui retourne les options
+            //     dataType: 'json',
+            //     // delay: 250,  // Pour éviter de spammer le serveur
+            //     data: function (params) {
+            //         return {
+            //             q: params.term, // Le terme recherché
+            //             page: params.page || 1
+            //         };
+            //     },
+            //     processResults: function (data) {
+            //
+            //         return {
+            //             // results: data.items
+            //             results: data.map(item => ({
+            //                 id: item.id,
+            //                 text: item.nom
+            //             }))
+            //         };
+            //     },
+            //     cache: true
+            // },
+            minimumInputLength: 3,
+            placeholder: 'Sélectionner le ou les personnes concernees',
+            allowClear: true
+        });
+    });
+
+
+// document.addEventListener("DOMContentLoaded", (function () {
+     const recurrence = document.getElementById('evenements_recurrence')
+     const finrecurrences = document.getElementById('finRecurrence')
+     // finrecurrence.addClass('display:no')
+      $('#finRecurrence').hide()
+    $evenements_recurrence =   $('#evenements_recurrence')
+
+      $evenements_recurrence.change(function () {
+          console.log($evenements_recurrence.val())
+            if ($evenements_recurrence.val() == 0) {
+                $('#finRecurrence').hide()
+
+            } else
+                {
+                    $('#finRecurrence').show()
+                }
+       })
+// }))
+    </script>
+
+

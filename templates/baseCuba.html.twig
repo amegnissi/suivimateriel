@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+	<head>
+		{% include "partials_cuba/head.html.twig" %}
+		<title>Suivi du materiel - {% block title %}{% endblock %}</title>
+        {% include "partials_cuba/css.html.twig" %}
+
+		<!-- Plugins css Start-->
+        {% block css %}{% endblock %}
+        <!-- Plugins css Ends-->
+
+        <!-- Bootstrap css-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('cuba/assets/css/vendors/bootstrap.css') }}">
+		 <!-- App css-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('cuba/assets/css/style.css') }}">
+        <link id="color" rel="stylesheet" href="{{ asset('cuba/assets/css/color-1.css') }}" media="screen">
+        <!-- Responsive css-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('cuba/assets/css/responsive.css') }}">
+	</head>
+
+	<body
+		onload="startTime()">
+		<!-- loader starts-->
+{#		<div class="loader-wrapper">#}
+{#			<div class="loader-index">#}
+{#				<span></span>#}
+{#			</div>#}
+{#			<svg>#}
+{#				<defs></defs>#}
+{#				<filter id="goo">#}
+{#					<fegaussianblur in="SourceGraphic" stddeviation="11" result="blur"></fegaussianblur>#}
+{#					<fecolormatrix in="blur" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo"></fecolormatrix>#}
+{#				</filter>#}
+{#			</svg>#}
+{#		</div>#}
+		<!-- loader ends-->
+
+		<!-- tap on top starts-->
+		<div class="tap-top">
+			<i data-feather="chevrons-up"></i>
+		</div>
+		<!-- tap on tap ends-->
+
+		<!-- page-wrapper Start-->
+		<div class="page-wrapper compact-wrapper" id="pageWrapper">
+
+			<!-- Page Header Start-->
+			{% include "partials_cuba/header.html.twig" %}
+			<!-- Page Header Ends-->
+
+			<!-- Page Body Start-->
+			<div class="page-body-wrapper">
+
+			<!-- Page Sidebar Start-->
+            {% include "partials_cuba/sidebar.html.twig" %}
+			<!-- Page Sidebar Ends-->
+
+			{# main page body #}
+			<div class="page-body">
+
+			{# Main content include  #}
+				<div class="container-fluid">
+					<div class="page-title">
+						<div class="row">
+							<div class="col-6">
+								<h3 class="f-16">{% block breadcrumb %}{% endblock %}</h3>
+							</div>
+							<div class="col-6">
+								<ol class="breadcrumb">
+									<li class="breadcrumb-item">
+										<a href="{{ path('dashboard') }}">
+											<i data-feather="home"></i>
+										</a>
+									</li>
+									<li class="breadcrumb-item">{% block  breadcrumb_item %} {% endblock %}</li>
+									<li class="breadcrumb-item active">{% block  breadcrumb_t %} {% endblock %}</li>
+								</ol>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="container">
+					{% for label, messages in app.flashes %}
+						{% for message in messages %}
+							<div class="alert alert-{{ label }} alert-dismissible text-white fade show" role="alert">
+                        <span class="alert-icon align-middle">
+                            <span class="material-symbols-rounded text-md">
+                                thumb_up_off_alt
+                            </span>
+                        </span>
+								<span class="alert-text"><strong>{{ label|capitalize }}!</strong> {{ message }}</span>
+								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						{% endfor %}
+					{% endfor %}
+				</div>
+            {% block content %}{% endblock %}
+
+			<!-- Container-fluid Ends-->
+			</div>
+			<!-- footer start-->
+			{% include "partials_cuba/footer.html.twig" %}
+
+			</div>
+		</div>
+
+		{# include scripts #}
+        {% include "partials_cuba/script.html.twig" %}
+
+        {% block scripts %}{% endblock %}
+		<script src="{{ asset('cuba/assets/js/tooltip-init.js') }}"></script>
+        <!-- Plugins JS Ends-->
+
+		<!-- Theme js-->
+		    <script src="{{ asset('cuba/assets/js/script.js') }}"></script>
+{#		    <script src="{{ asset('cuba/assets/js/theme-customizer/customizer.js') }}"></script>#}
+		<!-- login js-->
+
+	</body>
+</html>

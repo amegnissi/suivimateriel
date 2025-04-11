@@ -21,9 +21,9 @@
     <tbody>
     {% for marque in pagination %}
         <tr>
-            <td class="align-middle text-center text-xs font-weight-bold">{{ loop.index }}</td>
-            <td class="align-middle text-xs font-weight-bold">{{ marque.libelle ?: 'N/A' }}</td>
-            <td class="align-middle text-center">
+            <td>{{ loop.index }}</td>
+            <td>{{ marque.libelle ?: 'N/A' }}</td>
+            <td>
                 {% if marque.estVehicule is not null %}
                     <span class="badge badge-light-{{ marque.estVehicule ? 'info' : 'success' }}">
                                                     {{ marque.estVehicule ? 'Oui' : 'Non' }}
@@ -35,16 +35,16 @@
             <td class="align-middle text-center text-xs font-weight-bold">{{ marque.materiels|length ?: 0 }}</td>
             <td class="align-middle text-center">
                 <div class="common-align gap-2 justify-content-start">
-{#                    <a href="{{ path('marques', {id: poste.id}) }}"#}
-{#                       title="Details" class="btn btn-sm btn-outline-secondary">#}
+{#                    <a  href="{{ path('marques', {id: marque.id}) }}"#}
+{#                       title="Details" class="btn btn-primary btn-sm">#}
 {#                        <i class="fa fa-eye"></i>#}
 {#                    </a>#}
-                    <a class="square-white" title="Modifier" href="{{ path('marques_edit', {id: marque.id}) }}">
-                        <i class="fa fa-pencil primary"></i>
+                    <a class="btn btn-primary btn-sm" title="Modifier" href="{{ path('marques_edit', {id: marque.id}) }}">
+                        <i class="fas fa-edit"></i>
                     </a>
                     <form action="{{ path('marques_delete', {id: marque.id}) }}" method="POST" class="d-inline">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ marque.id) }}">
-                        <a type="submit"
+                        <a type="submit" class="btn btn-danger btn-sm"
                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce poste ?');"
                            title="Supprimer la marque">
 

@@ -10,46 +10,21 @@ use DateTime;
 
 class NotificationService
 {
-    private $assuranceRepository;
-    private $entrepriseRepository;
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(
-        AssuranceRepository $assuranceRepository,
-        EntrepriseRepository $entrepriseRepository,
-        EntityManagerInterface $entityManager
-    ) {
-        $this->assuranceRepository = $assuranceRepository;
-        $this->entrepriseRepository = $entrepriseRepository;
+    public function __construct(EntityManagerInterface $entityManager)
+    {
         $this->entityManager = $entityManager;
     }
 
-    public function genererNotifications()
+    public function createNotification(string $message): void
     {
-        $entreprise = $this->entrepriseRepository->find(1);
-        if (!$entreprise) {
-            return;
-        }
+        $notification = new Notification();
+        $notification->setMessage($message);
+        $notification->setVue(false);
+        $notification->setDateCreation(new \DateTime());
 
-        $delaiAlerte = $entreprise->getDelaiAlerte(); // Récupérer le délai depuis l'entreprise
-        $dateLimite = (new DateTime())->modify("+$delaiAlerte days");
-
-        $assurances = $this->assuranceRepository->findAssurancesAVenir($dateLimite);
-
-        foreach ($assurances as $assurance) {
-            if (!$assurance->isNotificationEnvoyee()) {
-                $notification = new Notification();
-                $notification->setMessage("L'échéance de " . $assurance->getType() . " pour le véhicule " . $assurance->getMateriel()->getNom() . " arrive à terme.");
-                $notification->setDateCreation(new DateTime());
-                $notification->setVue(false);
-
-                $this->entityManager->persist($notification);
-
-                // Marquer la notification comme envoyée
-                $assurance->setNotificationEnvoyee(true);
-            }
-        }
-
+        $this->entityManager->persist($notification);
         $this->entityManager->flush();
     }
 }

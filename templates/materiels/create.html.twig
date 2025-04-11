@@ -6,22 +6,14 @@
 {% block  breadcrumb_item %}Gestion du materiel{% endblock %}
 {% block  breadcrumb_t %}Ajouter un Nouveau Matériel{% endblock %}
 
-
+{% block retourtext %} Liste des materiels {% endblock %}
+{% block btnretour %}{{ path('materiels_index')}} {% endblock %}
 {% block form_titre %}Ajouter un Nouveau Matériel{% endblock %}
 
     {% block formContent %}
         {{ form_start(form) }}
         {{ form_widget(form) }}
-        <div class="col-12">
-            <div class="common-flex justify-content-end">
-                <button class="btn btn-outline-success btn-sm b-r-6">
-                    <i class="fa-solid fa-save"></i>
-                    Enregistrer
-                </button>
-                <button class="btn btn-dark ">Annuler</button>
-            </div>
-        </div>
-        {{ form_end(form) }}
+
 
 
 {#    <div class="row">#}

@@ -1,0 +1,43 @@
+{% extends 'admin/base_admin.html.twig' %}
+{% block css %}
+{#    <script src="/path/or/uri/to/tinymce.min.js" referrerpolicy="origin"></script>#}
+{% endblock %}
+
+{% block body %}
+    <div class="card card-success">
+        <div class="card-header">
+            <h5> {% block card_header_title %}
+
+                {% endblock %}</h5>
+        </div>
+
+        <div class="card-body">
+            {% block formcontent %}
+            {% endblock %}
+
+
+        </div>
+        <div class="card-footer">
+            {% block footerBtn %}
+                <div class="float-end">
+                    <a class="btn btn-primary" type="button" href=" {% block btnretour %} {% endblock %}">
+                        <i class="fa fa-arrow-left"></i>
+                        {% block retourtext %}  {% endblock %}</a>
+
+                    <button class="btn btn-success" type="submit"><i class="fa fa-check"></i> Enregistrer</button>
+                    <button class="btn btn-warning" type="reset" value="Annuler"><i class="fa fa-times"></i> Annuler
+                    </button>
+                </div>
+            {% endblock %}
+
+
+        </div>
+        {{ form_end(form) }}
+
+    </div>
+
+
+
+
+{% endblock %}
+

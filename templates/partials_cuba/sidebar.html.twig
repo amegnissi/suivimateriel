@@ -37,6 +37,22 @@
 						</a>
 					</li>
 					<li class="sidebar-list">
+						<i class="fa-solid fa-thumbtack"></i><a class="sidebar-link sidebar-title" href="#">
+{#							<svg class="stroke-icon">#}
+{#								<use href="../assets/svg/icon-sprite.svg#stroke-reports"></use>#}
+{#							</svg>#}
+							<svg class="fill-icon">
+								<use href="{{ asset('cuba/assets/svg/icon-sprite.svg#fill-calender') }}"></use>
+							</svg><span>Agenda</span></a>
+						<ul class="sidebar-submenu">
+							<li><a href="{{ path('admin_evenements_index') }}">Les événements</a></li>
+							<li><a href="{{ path('admin_evenements_new') }}">Ajouter un événement</a></li>
+							<li><a href="{{ path('admin_personne_index') }}">Contacts</a></li>
+							<li><a href="{{ path('admin_type_evenements_index') }}">Type d'événement</a></li>
+							<li><a href="#">Structurer</a></li>
+						</ul>
+					</li>
+					<li class="sidebar-list">
 						<a class="sidebar-link sidebar-title" href="{{ path('entreprise_index') }}">
 							<svg class="fill-icon">
 								<use href="{{ asset('cuba/assets/svg/icon-sprite.svg#fill-builders') }}"></use>

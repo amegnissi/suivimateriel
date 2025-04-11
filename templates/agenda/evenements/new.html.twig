@@ -1,0 +1,133 @@
+{% extends 'baseC.html.twig' %}
+{% block title %}Agenda{% endblock %}
+{% block breadcrumb %}Agenda{% endblock %}
+{% block  breadcrumb_item %} Evenements{% endblock %}
+{% block  breadcrumb_t %} Nouvel événement {% endblock %}
+{#{% block table_titre %}Liste des Maintenances{% endblock %}#}
+{# {% block btntitle %}Ajouter une Maintenance{% endblock %}#}
+{#{% block btnpath %}{{ path('maintenances_create') }}{% endblock %}#}
+ {% block css %}
+     <link href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet" type="text/css"/>
+ {% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <div class="card">
+                <div class="card-header bg-info-subtle">
+                    <h5> Nouvel événement </h5>
+                </div>
+
+                <div class="card-body">
+                    {{ form_start(form) }}
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">{{ form_row(form.type) }}</div>
+                            <div class="col-md-12">{{ form_row(form.libelle) }}</div>
+                            <div class="col-md-12">
+                                <label for="" class="form-label">Debut</label>
+                            </div>
+                            <div class="col-md-6">{{ form_widget(form.dateDebut) }}</div>
+                            <div class="col-md-6 mb-3">{{ form_widget(form.heureDebut) }}</div>
+                            <div class="col-md-12">
+                                <label for="" class="form-label">Fin</label>
+                            </div>
+                            <div class="col-md-6">{{ form_widget(form.DateFin) }}</div>
+                            <div class="col-md-6 mb-3">{{ form_widget(form.heureFin) }}</div>
+                            <div class="col-md-12">{{ form_row(form.lieu) }}</div>
+                            <div class="col-md-12">{{ form_row(form.contact) }}</div>
+                            <div class="col-md-12">{{ form_row(form.description) }}</div>
+                            <div class="col-md-12">{{ form_row(form.priorite) }}</div>
+                            <div class="col-md-12">{{ form_row(form.recurrence) }}</div>
+                            <div class="col-md-12" id="finRecurrence">{{ form_row(form.finRecurrence) }}</div>
+                            <div class="col-md-12">{{ form_row(form.rappelAutomatique) }}</div>
+                        </div>
+
+                    </div>
+                    <div class="card-footer">
+                        {% block footerBtn %}
+                            <div class="float-end">
+                                <a class="btn btn-secondary" type="button" href="{% block btnretour %}{% endblock %}">
+                                    <i class="ri-arrow-left-line align-bottom me-1"></i>
+                                    Liste des contacts</a>
+
+                                <button class="btn btn-success" type="submit">
+                                    <i class="ri-check-double-fill align-bottom me-1"></i>
+                                    {% block btn_label %} Enregistrer{% endblock %}
+                                </button>
+                                <button class="btn btn-warning" type="reset" value="Annuler"><i
+                                            class="ri-close-fill align-bottom me-1"></i> Annuler
+                                </button>
+                            </div>
+
+                        {% endblock %}
+
+
+                    </div>
+                    {{ form_end(form) }}
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block javascript %}
+<script src="{{ asset('assets/js/pages/plugins/jquery.js') }}"></script>
+<script src="{{ asset('assets/js/pages/plugins/select2/select2.min.js') }}"></script>
+
+<script>
+
+
+    $(document).ready(function () {
+        $('.select2-ajax').select2({
+            multiple: true, // Active la sélection multiple
+            // ajax: {
+            //     url: '/ajax/api-produits',  // Route qui retourne les options
+            //     dataType: 'json',
+            //     // delay: 250,  // Pour éviter de spammer le serveur
+            //     data: function (params) {
+            //         return {
+            //             q: params.term, // Le terme recherché
+            //             page: params.page || 1
+            //         };
+            //     },
+            //     processResults: function (data) {
+            //
+            //         return {
+            //             // results: data.items
+            //             results: data.map(item => ({
+            //                 id: item.id,
+            //                 text: item.nom
+            //             }))
+            //         };
+            //     },
+            //     cache: true
+            // },
+            minimumInputLength: 3,
+            placeholder: 'Sélectionner le ou les personnes concernees',
+            allowClear: true
+        });
+    });
+
+
+document.addEventListener("DOMContentLoaded", (function () {
+     const recurrence = document.getElementById('evenements_recurrence')
+     const finrecurrences = document.getElementById('finRecurrence')
+     // finrecurrence.addClass('display:no')
+      $('#finRecurrence').hide()
+    $evenements_recurrence =   $('#evenements_recurrence')
+
+      $evenements_recurrence.change(function () {
+          console.log($evenements_recurrence.val())
+            if ($evenements_recurrence.val() == 0) {
+                $('#finRecurrence').hide()
+
+            } else
+                {
+                    $('#finRecurrence').show()
+                }
+      })
+}))
+    </script>
+{% endblock %}

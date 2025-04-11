@@ -21,11 +21,11 @@
 
     {% for employe in pagination %}
         <tr>
-            <td class="align-middle text-center text-xs font-weight-bold">{{ loop.index }}</td>
-            <td class="align-middle text-xs font-weight-bold">{{ employe.nom }}</td>
-            <td class="align-middle text-xs font-weight-bold">{{ employe.prenom }}</td>
-            <td class="align-middle text-xs font-weight-bold">{{ employe.poste ? employe.poste.libelle : 'Non défini' }}</td>
-            <td class="align-middle text-center text-xs font-weight-bold">
+            <td>{{ loop.index }}</td>
+            <td>{{ employe.nom }}</td>
+            <td>{{ employe.prenom }}</td>
+            <td>{{ employe.poste ? employe.poste.libelle : 'Non défini' }}</td>
+            <td>
                 {{ employe.telephoneCorporate ?: 'N/A' }}
             </td>
             <td class="align-middle text-center">
@@ -37,13 +37,13 @@
             </td>
             <td class="align-middle text-center">
                 <div class="common-align gap-2 justify-content-start">
-                    <a href="{{ path('employes_show', {'id': employe.id}) }}"
+                    <a class="btn btn-primary btn-sm" href="{{ path('employes_show', {'id': employe.id}) }}"
                        title="Plus de details">
                         <i class="fa fa-eye"></i>
                     </a>
 
 
-                    <a href="{{ path('employes_edit', {'id': employe.id}) }}"
+                    <a class="btn btn-success btn-sm" href="{{ path('employes_edit', {'id': employe.id}) }}"
                        title="Plus de details">
                         <i class="far fa-edit"></i>
                     </a>

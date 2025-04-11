@@ -26,7 +26,7 @@ class AssuranceController extends BaseController
         if ($redirect = $this->checkEntreprise($entityManager)) {
             return $redirect;
         }
-        
+
         $query = $assuranceRepository->createQueryBuilder('a')
             ->getQuery();
 
@@ -61,21 +61,21 @@ class AssuranceController extends BaseController
         $assurance = new Assurance();
         $form = $this->createForm(AssuranceType::class, $assurance);
         $form->handleRequest($request);
-    
+
         if ($form->isSubmitted() && $form->isValid()) {
             $materiel = $assurance->getMateriel();
             if (!$materiel) {
-                $this->addFlash('danger', 'Veuillez sélectionner un matériel.');
+                $this->addFlash('danger', 'Veuillez sélectionner un véhicule.');
                 return $this->redirectToRoute('assurances_create');
             }
 
             $entityManager->persist($assurance);
             $entityManager->flush();
-    
-            $this->addFlash('success', 'Assurance enregistrée avec succès.');
+
+            $this->addFlash('success', 'Opération enregistrée avec succès.');
             return $this->redirectToRoute('assurances_index');
         }
-    
+
         return $this->render('assurances/create.html.twig', [
             'form' => $form->createView(),
         ]);
@@ -96,6 +96,42 @@ class AssuranceController extends BaseController
         $entityManager->flush();
 
         return $this->redirectToRoute('assurances_index');
+    }
+
+    #[Route('/type/{type}', name: 'assurances_fin', methods: ['GET'])]
+    public function indexEnd(Request $request, AssuranceRepository $assuranceRepository, PaginatorInterface $paginator,
+                           EntityManagerInterface $entityManager): Response
+    {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+
+        $type = $request->get('type');
+        if ($type == 'assurance'){
+            $query =  $assuranceRepository->findAssurancesExpirantParTypes(30,'assurance');
+        }elseif ($type == 'visite-technique'){
+            $query =  $assuranceRepository->findAssurancesExpirantParTypes(30,'visite_technique');
+
+        }elseif ($type == 'TVM'){
+            $query =  $assuranceRepository->findAssurancesExpirantParTypes(30,'tvm');
+
+        }
+        else {
+            $query = $assuranceRepository->createQueryBuilder('a')
+                ->getQuery();
+        }
+
+
+
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            10
+        );
+
+        return $this->render('assurances/index.html.twig', [
+            'pagination' => $pagination,
+        ]);
     }
 
 }

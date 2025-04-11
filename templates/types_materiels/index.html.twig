@@ -20,18 +20,18 @@
     <tbody>
     {% for typeMateriel in pagination %}
         <tr>
-            <td class="align-middle text-center text-xs font-weight-bold">{{ loop.index }}</td>
-            <td class="align-middle text-xs font-weight-bold">{{ typeMateriel.libelle ?: 'N/A' }}</td>
-            <td class="align-middle text-center text-xs font-weight-bold">
+            <td >{{ loop.index }}</td>
+            <td >{{ typeMateriel.libelle ?: 'N/A' }}</td>
+            <td>
                 <span class="badge bg-gradient-success">{{ typeMateriel.materiels|length ?: 0 }}</span>
             </td>
             <td class="align-middle text-center">
                 <div class="common-align gap-2 justify-content-start">
-                    <a href="{{ path('types_materiels_show', { 'id': typeMateriel.id }) }}"
+                    <a class="btn btn-primary btn-sm" href="{{ path('types_materiels_show', { 'id': typeMateriel.id }) }}"
                        title="Plus de details">
                         <i class="fa fa-eye"></i>
                     </a>
-                    <a class="square-white" title="Modifier"
+                    <a class="btn btn-success btn-sm" title="Modifier"
                        href="{{ path('types_materiels_edit', { 'id': typeMateriel.id }) }}">
                         <i class="far fa-edit"></i>
                     </a>
@@ -39,6 +39,7 @@
                           class="d-inline">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ typeMateriel.id) }}">
                         <a type="submit"
+                           class="btn btn-danger btn-sm"
                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce poste ?');"
                            title="Supprimer le type de materiel">
 

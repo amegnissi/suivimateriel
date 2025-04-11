@@ -34063,10 +34063,17 @@ select.crypto-select.primary {
   clip-path: inset(7% 0% 0% 0% round 0.6rem);
 }
 
-.widget-1 {
-  background-image: url(../images/dashboard/widget-bg.png);
-  background-size: cover;
-  margin-bottom: 25px;
+/*.widget-1 {*/
+/*  background-image: url(../images/dashboard/widget-bg.png);*/
+/*  background-size: cover;*/
+/*  margin-bottom: 25px;*/
+/*}*/
+.w-materiel {
+    background-image: url(../images/dashboard/bg-3-2.png) !important;
+    /*background-image: url(../images/dashboard/widget-bg.png);*/
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-bottom: 25px;
 }
 .widget-1 svg {
   font-weight: 700;
@@ -75137,3 +75144,5 @@ body[class*=dark-] .for-light {
 	4.1. Dark CSS ends
 ==========================**/
 /*# sourceMappingURL=style.css.map */
+.bg-info-subtle
+{background-color:#e2f2f9}

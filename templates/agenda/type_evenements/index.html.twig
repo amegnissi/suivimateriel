@@ -1,0 +1,40 @@
+{% extends 'base_table.html.twig' %}
+{% block title %}Agenda{% endblock %}
+{% block breadcrumb %}Agenda{% endblock %}
+{% block  breadcrumb_item %} Evenements{% endblock %}
+{% block  breadcrumb_t %} Type événement {% endblock %}
+{% block btntitle %}Ajouter un type d'evenement{% endblock %}
+{% block btnpath %}{{ path('admin_type_evenements_new') }}{% endblock %}
+{% block table_titre %}Liste des types d'événements{% endblock %}
+{% block tableContent %}
+
+    <thead>
+    <tr>
+        <th></th>
+        <th>Type</th>
+        <th>actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for type_evenement in type_evenements %}
+        <tr>
+            <td style="width:50px;">
+                <div class="p-2" style="background-color:{{ type_evenement.couleur }}"></div>
+            </td>
+            <td>{{ type_evenement.libelle }}</td>
+
+
+            <td width="20%">
+
+                <a href="{{ path('admin_type_evenements_edit', {'id': type_evenement.id}) }}">Modifier</a>
+                <a href="{{ path('admin_type_evenements_edit', {'id': type_evenement.id}) }}">Supprimer</a>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="5">no records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    {#    <a href="{{ path('app_type_evenements_new') }}">Create new</a> #}
+{% endblock %}

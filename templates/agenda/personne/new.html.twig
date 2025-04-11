@@ -1,0 +1,36 @@
+{% extends 'base_formulaire.html.twig' %}
+
+{% block title %}Agenda{% endblock %}
+{% block breadcrumb %}Agenda{% endblock %}
+{% block  breadcrumb_item %} Evenements{% endblock %}
+{% block  breadcrumb_t %} Contact {% endblock %}
+
+{% block formContent %}
+ {{ include('agenda/personne/_form.html.twig') }}
+
+
+                <div class="card-footer">
+                    {% block footerBtn %}
+                        <div class="float-end">
+                            <a class="btn btn-secondary" type="button" href="{% block btnretour %}{% endblock %}">
+                                <i class="ri-arrow-left-line align-bottom me-1"></i>
+                                Liste des contacts</a>
+
+                            <button class="btn btn-success" type="submit">
+                                <i class="ri-check-double-fill align-bottom me-1"></i>
+                                {% block btn_label %} Enregistrer{% endblock %}
+                            </button>
+                            <button class="btn btn-warning" type="reset" value="Annuler"><i
+                                        class="ri-close-fill align-bottom me-1"></i> Annuler
+                            </button>
+                        </div>
+
+                    {% endblock %}
+
+
+                </div>
+                {{ form_end(form) }}
+
+
+
+{% endblock %}

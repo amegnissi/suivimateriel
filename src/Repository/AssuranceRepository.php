@@ -22,10 +22,34 @@ class AssuranceRepository extends ServiceEntityRepository
         $dateSeuil->modify("+$delai days");
 
         return $this->createQueryBuilder('a')
-            ->where('a.dateAssurance <= :dateSeuil OR a.dateVisiteTechnique <= :dateSeuil OR a.dateTVM <= :dateSeuil')
+            ->where('a.dateAssuranceFin <= :dateSeuil OR a.dateVisiteTechniqueFin <= :dateSeuil OR a.dateTVMFin <= :dateSeuil')
             ->setParameter('dateSeuil', $dateSeuil)
             ->andWhere('a.notifEnvoyee = false')
             ->getQuery()
             ->getResult();
+    }
+    public function findAssurancesExpirantParTypes(int $delai,$type): array
+    {
+        $dateSeuil = new \DateTime();
+        $dateSeuil->modify("+$delai days");
+
+        $qb = $this->createQueryBuilder('a');
+//            ->where('a.dateAssuranceFin <= :dateSeuil OR a.dateVisiteTechniqueFin <= :dateSeuil OR a.dateTVMFin <= :dateSeuil')
+
+        if ($type == 'assurance'){
+            $qb ->where('a.dateAssuranceFin <= :dateSeuil');
+        }elseif ($type == 'visite_technique'){
+            $qb ->where('a.dateVisiteTechniqueFin <= :dateSeuil');
+
+        }elseif ($type == 'tvm'){
+            $qb ->where('a.dateTVMFin <= :dateSeuil');
+
+        }
+        return
+        $qb ->andWhere('a.notifEnvoyee = false')
+            ->setParameter('dateSeuil', $dateSeuil)
+            ->getQuery()
+            ->getResult();
+
     }
 }

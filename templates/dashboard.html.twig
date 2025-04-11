@@ -1,537 +1,233 @@
 {% extends 'baseC.html.twig' %}
-
+{% block css %}
+    <style>
+        .text-bg-primary {
+            color: #fff !important;
+            background-color: RGBA(13, 110, 253, 1) !important;
+        }
+    </style>
+{% endblock %}
 {% block title %}Tableau de bord{% endblock %}
 
 {% block breadcrumb %}TABLEAU DE BORD{% endblock %}
 
 {% block content %}
-    <div class="container-fluid default-dashboard">
-        <div class="row widget-grid">
-            <div class="col-xxl-4 col-sm-6 box-col-6">
-                <div class="card profile-box">
-                    <div class="card-body">
-                        <div class="d-flex media-wrapper justify-content-between">
-                            <div class="flex-grow-1">
-                                <div class="greeting-user">
-                                    <h2 class="f-w-600">Bienvenu {{ app.user.firstname }}</h2>
-                                    <p>Bienvenue sur le tableau de bord</p>
-                                    <div class="whatsnew-btn"><a class="btn btn-outline-white" href="#"
-                                                                 target="_blank">Mon profil</a></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="clockbox">
-                                    <svg id="clock" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
-                                        <g id="face">
-                                            <circle class="circle" cx="300" cy="300" r="253.9"></circle>
-                                            <path class="hour-marks" d="M300.5 94V61M506 300.5h32M300.5 506v33M94 300.5H60M411.3 107.8l7.9-13.8M493 190.2l13-7.4M492.1 411.4l16.5 9.5M411 492.3l8.9 15.3M189 492.3l-9.2 15.9M107.7 411L93 419.5M107.5 189.3l-17.1-9.9M188.1 108.2l-9-15.6"></path>
-                                            <circle class="mid-circle" cx="300" cy="300" r="16.2"></circle>
-                                        </g>
-                                        <g id="hour">
-                                            <path class="hour-hand" d="M300.5 298V142"></path>
-                                            <circle class="sizing-box" cx="300" cy="300" r="253.9"></circle>
-                                        </g>
-                                        <g id="minute">
-                                            <path class="minute-hand" d="M300.5 298V67">   </path>
-                                            <circle class="sizing-box" cx="300" cy="300" r="253.9"></circle>
-                                        </g>
-                                        <g id="second">
-                                            <path class="second-hand" d="M300.5 350V55"></path>
-                                            <circle class="sizing-box" cx="300" cy="300" r="253.9">   </circle>
-                                        </g>
-                                    </svg>
-                                </div>
-                                <div class="badge f-10 p-0" id="txt"></div>
-                            </div>
-                        </div>
-                        <div class="cartoon"><img class="img-fluid" src="{{ asset('cuba/assets/images/dashboard/cartoon.svg') }}" alt="vector women with
-                        leptop"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xxl-auto col-xl-3 col-sm-6 box-col-3">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="card widget-1">
-                            <div class="card-body">
-                                <div class="widget-content">
-                                    <div class="widget-round secondary">
-                                        <div class="bg-round">
-                                            <svg>
-                                                <use href="{{ asset('cuba/assets/svg/icon-sprite.svg#sale') }}">
-                                                </use>
-                                            </svg>
-                                            <svg class="half-circle svg-fill">
-                                                <use href="{{ asset('cuba/assets/svg/icon-sprite.svg#halfcircle') }}"></use>
-{#                                                <use href="../assets/svg/icon-sprite.svg#halfcircle"></use>#}
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <h4><span class="counter" data-target="{{ totalMateriels }}">{{ totalMateriels }}</span></h4><span
-                                                class="f-light">Materiel</span>
-                                    </div>
-                                </div>
-                                <div class="font-success f-w-500"><i class="bookmark-search me-1" data-feather="trending-up"></i><span class="txt-success">+50%</span></div>
-                            </div>
-                        </div>
-                        <div class="col-xl-12">
-                            <div class="card widget-1">
-                                <div class="card-body">
-                                    <div class="widget-content">
-                                        <div class="widget-round success">
-                                            <div class="bg-round">
-                                                <svg>
-                                                    <use href="{{ asset('cuba/assets/svg/icon-sprite.svg#customers')
-                                                    }}"> </use>
-                                                </svg>
-                                                <svg class="half-circle svg-fill">
-                                                    <use href="{{ asset('cuba/assets/svg/icon-sprite.svg#halfcircle') }}"></use>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <h4> <span class="counter" data-target="845">0</span>+</h4><span class="f-light">Customers</span>
-                                        </div>
-                                    </div>
-                                    <div class="font-danger f-w-500"><i class="bookmark-search me-1" data-feather="trending-down"></i><span class="txt-danger">-40%</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xxl-auto col-xl-3 col-sm-6 box-col-3">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="card widget-1">
-                            <div class="card-body">
-                                <div class="widget-content">
-                                    <div class="widget-round warning">
-                                        <div class="bg-round">
-                                            <svg>
-                                                <use href="{{ asset('cuba/assets/svg/icon-sprite.svg#profit') }}">
-                                                </use>
-                                            </svg>
-                                            <svg class="half-circle svg-fill">
-                                                <use href="{{ asset('cuba/assets/svg/icon-sprite.svg#halfcircle')
-                                                }}"></use>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <h4> <span class="counter" data-target="80">0</span>%</h4><span class="f-light">Profit</span>
-                                    </div>
-                                </div>
-                                <div class="font-danger f-w-500"><i class="bookmark-search me-1" data-feather="trending-down"></i><span class="txt-danger">-20%</span></div>
-                            </div>
-                        </div>
-                        <div class="col-xl-12">
-                            <div class="card widget-1">
-                                <div class="card-body">
-                                    <div class="widget-content">
-                                        <div class="widget-round primary">
-                                            <div class="bg-round">
-                                                <svg class="fill-primary">
-                                                    <use href="{{ asset('cuba/assets/svg/icon-sprite.svg#invoice') }}">
-                                                    </use>
-                                                </svg>
-                                                <svg class="half-circle svg-fill">
-                                                    <use href="{{ asset('cuba/assets/svg/icon-sprite.svg#halfcircle')
-                                                    }}"></use>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <h4 class="counter" data-target="10905">0</h4><span class="f-light">Invoices</span>
-                                        </div>
-                                    </div>
-                                    <div class="font-success f-w-500"><i class="bookmark-search me-1" data-feather="trending-up"></i><span class="txt-success">+50%</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box text-bg-primary">
+                        <div class="inner">
+                            <p>TVM</p>
+                            <h3>{{ TVM | length }}</h3>
 
+
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-bag"></i>
+                        </div>
+                        <a href="{{ path('assurances_fin',{'type':'TVM'}) }}" class="small-box-footer">Plus de détails
+                            <i
+                                    class="fas
+                    fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <p>VISITE TECHNIQUE</p>
+                            <h3>
+                                {{ VISITE | length }}
+                            </h3>
+
+
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-stats-bars"></i>
+                        </div>
+                        <a href="{{ path('assurances_fin',{'type':'visite-technique'}) }}" class="small-box-footer">Plus
+                            de détails <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-warning">
+                        <div class="inner">
+                            <p>ASSURANCE</p>
+                            <h3>
+                                {{ ASSURANCE | length }}
+                            </h3>
+
+
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person-add"></i>
+                        </div>
+                        <a href="{{ path('assurances_fin',{'type':'assurance'}) }}" class="small-box-footer">Plus de
+                            détails
+                            <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-danger">
+                        <div class="inner">
+                            <p>Nombre d'affectations</p>
+                            <h3>{{ totalAffectations }}</h3>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-pie-graph"></i>
+                        </div>
+                        <a href="{{ path('affectations_index') }}" class="small-box-footer">Plus de détails <i class="fas
+                    fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card card-primary card-success">
+                        <div class="card-header">
+                            <h3 class="card-title"> Nombre de materiels par catégorie</h3>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <table class="table table-hover table-sm table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th class="col">Type de materiel</th>
+                                    <th class="col">nombre</th>
+                                </tr>
+                                </thead>
+                                {% for typeMateriel in pagination %}
+                                    <tr>
+                                        <td>{{ typeMateriel.libelle ?: 'N/A' }}</td>
+                                        <td>
+                                            <span class="badge bg-gradient-success">{{ typeMateriel.materiels|length ?: 0 }}</span>
+                                        </td>
+
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="4" class="text-center text-secondary">Aucun type de matériel
+                                            trouvé.
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card card-success">
+                        <div class="card-header">
+                            <h3 class="card-title">Coût de maintenance par mois</h3>
+
+                        </div>
+                        <div class="card-body">
+                            <div class="chart">
+                                <canvas id="barChart"
+                                        style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+            </div>
 
         </div>
-    </div>
+    </section>
+{% endblock %}
+{% block javascript %}
+<script src="{{ asset('adminlte/plugins/chart.js/Chart.min.js') }}"></script>
+<script>
+  $(function () {
 
-{#    <div class="row">#}
-{#        <div class="ms-3">#}
-{#            <h3 class="mb-0 h4 font-weight-bolder">Dashboard</h3>#}
-{#            <p class="mb-4">Bienvenue sur le tableau de bord</p>#}
-{#        </div>#}
+      var areaChartData = {
+      labels  : {{ labels|raw }},
+      datasets: [{
+                label: 'Coût Maintenance (CFA)',
+                data: {{ values|raw }},
+                pointStrokeColor    : 'rgba(60,141,188,1)',
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                pointHighlightStroke: 'rgba(60,141,188,1)',
+                pointRadius          : false,
+                borderWidth: 1
+            }]
+    }
+        var barChartCanvas = $('#barChart').get(0).getContext('2d')
+    var barChartData = $.extend(true, {}, areaChartData)
+   // var temp0 = areaChartData.datasets[0]
+    // var temp1 = areaChartData.datasets[1]
+    // barChartData.datasets[0] = temp1
+  //  barChartData.datasets[1] = temp0
 
-{#        <!-- Carte Nombre total d’employés -->#}
-{#        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">#}
-{#            <div class="card">#}
-{#                <div class="card-header p-2 ps-3">#}
-{#                    <div class="d-flex justify-content-between">#}
-{#                        <div>#}
-{#                            <p class="text-sm mb-0 text-capitalize">Employés</p>#}
-{#                            <h4 class="mb-0">{{ totalEmployes }}</h4>#}
-{#                        </div>#}
-{#                        <a href="{{ path('employes_index') }}" class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">#}
-{#                            <i class="material-symbols-rounded opacity-10">groups</i>#}
-{#                        </a>#}
-{#                    </div>#}
-{#                </div>#}
-{#                <hr class="dark horizontal my-0">#}
-{#                <div class="card-footer p-2 ps-3">#}
-{#                    <p class="mb-0 text-sm"><span class="text-success font-weight-bolder"> </span></p>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
+    var barChartOptions = {
+      responsive              : true,
+      maintainAspectRatio     : false,
+      datasetFill             : false
+    }
+     new Chart(barChartCanvas, {
+      type: 'bar',
+      data: barChartData,
+      options: barChartOptions
+    })
 
-{#        <!-- Carte Nombre total de matériels -->#}
-{#        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">#}
-{#            <div class="card">#}
-{#                <div class="card-header p-2 ps-3">#}
-{#                    <div class="d-flex justify-content-between">#}
-{#                        <div>#}
-{#                            <p class="text-sm mb-0 text-capitalize">Matériels</p>#}
-{#                            <h4 class="mb-0">{{ totalMateriels }}</h4>#}
-{#                        </div>#}
-{#                        <a href="{{ path('materiels_index') }}" class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">#}
-{#                            <i class="material-symbols-rounded opacity-10">inventory</i>#}
-{#                        </a>#}
-{#                    </div>#}
-{#                </div>#}
-{#                <hr class="dark horizontal my-0">#}
-{#                <div class="card-footer p-2 ps-3">#}
-{#                    <p class="mb-0 text-sm"><span class="text-success font-weight-bolder"> </span></p>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-
-{#        <!-- Carte Nombre total d’affectations -->#}
-{#        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">#}
-{#            <div class="card">#}
-{#                <div class="card-header p-2 ps-3">#}
-{#                    <div class="d-flex justify-content-between">#}
-{#                        <div>#}
-{#                            <p class="text-sm mb-0 text-capitalize">Affectations</p>#}
-{#                            <h4 class="mb-0">{{ totalAffectations }}</h4>#}
-{#                        </div>#}
-{#                        <a href="{{ path('affectations_index') }}" class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">#}
-{#                            <i class="material-symbols-rounded opacity-10">assignment</i>#}
-{#                        </a>#}
-{#                    </div>#}
-{#                </div>#}
-{#                <hr class="dark horizontal my-0">#}
-{#                <div class="card-footer p-2 ps-3">#}
-{#                    <p class="mb-0 text-sm"><span class="text-success font-weight-bolder"> </span></p>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-
-{#        <!-- Carte Statistiques sur les maintenances -->#}
-{#        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">#}
-{#            <div class="card">#}
-{#                <div class="card-header p-2 ps-3">#}
-{#                    <div class="d-flex justify-content-between">#}
-{#                        <div>#}
-{#                            <p class="text-sm mb-0 text-capitalize">Maintenances</p>#}
-{#                            <h4 class="mb-0">{{ totalMaintenances }}</h4>#}
-{#                        </div>#}
-{#                        <a href="{{ path('maintenances_index') }}" class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">#}
-{#                            <i class="material-symbols-rounded opacity-10">construction</i>#}
-{#                        </a>#}
-{#                    </div>#}
-{#                </div>#}
-{#                <hr class="dark horizontal my-0">#}
-{#                <div class="card-footer p-2 ps-3">#}
-{#                    <p class="mb-0 text-sm"><span class="text-success font-weight-bolder"> </span></p>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-
-{#    <div class="row">#}
-{#        <!-- Graphique des maintenances -->#}
-{#        <div class="col-lg-4 col-md-6 mt-4 mb-4">#}
-{#            <div class="card">#}
-{#                <div class="card-body">#}
-{#                    <h6 class="mb-0">Maintenances par mois</h6>#}
-{#                    <p class="text-sm">Évolution des maintenances</p>#}
-{#                    <div class="pe-2">#}
-{#                        <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-
-{#        <!-- Graphique des affectations -->#}
-{#        <div class="col-lg-4 col-md-6 mt-4 mb-4">#}
-{#            <div class="card">#}
-{#                <div class="card-body">#}
-{#                    <h6 class="mb-0">Affectations</h6>#}
-{#                    <p class="text-sm">Nombre d'affectations par mois</p>#}
-{#                    <div class="pe-2">#}
-{#                        <canvas id="chart-line" class="chart-canvas" height="170"></canvas>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-
-{#        <!-- Graphique des matériels par type -->#}
-{#        <div class="col-lg-4 mt-4 mb-3">#}
-{#            <div class="card">#}
-{#                <div class="card-body">#}
-{#                    <h6 class="mb-0">Répartition des matériels</h6>#}
-{#                    <p class="text-sm">Par catégorie</p>#}
-{#                    <div class="pe-2">#}
-{#                        <canvas id="chart-line-tasks" class="chart-canvas" height="170"></canvas>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-
-{#    <div class="row mb-4">#}
-{#        <div class="col-lg-8 col-md-6 mb-md-0 mb-4">#}
-{#            <div class="card">#}
-{#                <div class="card-header pb-0">#}
-{#                    <div class="row">#}
-{#                        <div class="col-lg-6 col-7">#}
-{#                            <h6>Suivi des Vidanges</h6>#}
-{#                            <p class="text-sm mb-0">#}
-{#                                <i class="fa fa-check text-info" aria-hidden="true"></i>#}
-{#                                <span class="font-weight-bold ms-1">Les vidanges effectuées</span>#}
-{#                            </p>#}
-{#                        </div>#}
-{#                        <div class="col-lg-6 col-5 my-auto text-end">#}
-{#                            <div class="dropdown float-lg-end pe-4">#}
-{#                                <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">#}
-{#                                    <i class="fa fa-ellipsis-v text-secondary"></i>#}
-{#                                </a>#}
-{#                                <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">#}
-{#                                    <li><a class="dropdown-item border-radius-md" href="#">Ajouter une vidange</a></li>#}
-{#                                    <li><a class="dropdown-item border-radius-md" href="#">Voir l'historique</a></li>#}
-{#                                </ul>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#                <div class="card-body px-0 pb-2">#}
-{#                    <div class="table-responsive">#}
-{#                    <table class="table align-items-center mb-0">#}
-{#                        <thead>#}
-{#                            <tr>#}
-{#                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Véhicule</th>#}
-{#                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Statut</th>#}
-{#                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Date Vidange</th>#}
-{#                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kilométrage</th>#}
-{#                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Prochaine Vidange</th>#}
-{#                            </tr>#}
-{#                        </thead>#}
-{#                        <tbody>#}
-{#                            {% for vidange in vidanges %}#}
-{#                                <tr>#}
-{#                                    <td>#}
-{#                                        <div class="d-flex px-2 py-1">#}
-{#                                            <div class="d-flex flex-column justify-content-center">#}
-{#                                                <h6 class="mb-0 text-sm">{{ vidange.materiel.marque.libelle }} - {{ vidange.materiel.immatriculation }}</h6>#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                    </td>#}
-{#                                    <td>#}
-{#                                        <span class="text-xs font-weight-bold">#}
-{#                                            {% if vidange.materiel.statut == 0 %}#}
-{#                                                <span class="badge bg-gradient-secondary">Non Affecté (NA)</span>#}
-{#                                            {% elseif vidange.materiel.statut == 1 %}#}
-{#                                                <span class="badge bg-gradient-info">Affecté (A)</span>#}
-{#                                            {% elseif vidange.materiel.statut == 3 %}#}
-{#                                                <span class="badge bg-gradient-warning">NA / En Maintenance</span>#}
-{#                                            {% elseif vidange.materiel.statut == 2 %}#}
-{#                                                <span class="badge bg-gradient-success">A / En Maintenance</span>#}
-{#                                            {% else %}#}
-{#                                                <span class="badge bg-gradient-light">Statut Inconnu</span>#}
-{#                                            {% endif %}#}
-{#                                        </span>#}
-{#                                    </td>#}
-{#                                    <td>#}
-{#                                        <span class="text-xs font-weight-bold">#}
-{#                                            {{ vidange.dateIntervention ? vidange.dateIntervention|date('d/m/Y') : 'N/A' }}#}
-{#                                        </span>#}
-{#                                    </td>#}
-{#                                    <td class="align-middle text-center text-sm">#}
-{#                                        <span class="text-xs font-weight-bold">#}
-{#                                            {{ vidange.kilometrageActuel ? vidange.kilometrageActuel|number_format(0, ',', ' ') ~ ' km' : 'N/A' }}#}
-{#                                        </span>#}
-{#                                    </td>#}
-{#                                    <td class="align-middle text-center">#}
-{#                                        <span class="text-xs font-weight-bold">#}
-{#                                            {{ vidange.kilometragePrevisionnel ? vidange.kilometragePrevisionnel|number_format(0, ',', ' ') ~ ' km' : 'N/A' }}#}
-{#                                        </span>#}
-{#                                    </td>#}
-{#                                </tr>#}
-{#                            {% else %}#}
-{#                                <tr>#}
-{#                                    <td colspan="5" class="text-center text-secondary">Aucune vidange enregistrée</td>#}
-{#                                </tr>#}
-{#                            {% endfor %}#}
-{#                        </tbody>#}
-{#                    </table>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-
-{#        <div class="col-lg-4 col-md-6">#}
-{#            <div class="card h-100">#}
-{#                <div class="card-header pb-0">#}
-{#                    <h6>Historique des maintenances</h6>#}
-{#                    <p class="text-sm">#}
-{#                        <i class="fa fa-clock text-primary" aria-hidden="true"></i>#}
-{#                        <span class="font-weight-bold">Activités récentes</span>#}
-{#                    </p>#}
-{#                </div>#}
-{#                <div class="card-body p-3">#}
-{#                    <div class="timeline timeline-one-side">#}
-{#                        {% for order in orders %}#}
-{#                            <div class="timeline-block mb-3">#}
-{#                                <span class="timeline-step">#}
-{#                                    <i class="material-symbols-rounded text-{{ order.color }} text-gradient">#}
-{#                                        {{ order.icon }}#}
-{#                                    </i>#}
-{#                                </span>#}
-{#                                <div class="timeline-content">#}
-{#                                    <h6 class="text-dark text-sm font-weight-bold mb-0">{{ order.title }}</h6>#}
-{#                                    <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ order.date }}</p>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        {% else %}#}
-{#                            <p class="text-secondary text-center">Aucune maintenance récente</p>#}
-{#                        {% endfor %}#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-
-{#    <script>#}
-{#        document.addEventListener("DOMContentLoaded", function () {#}
-{#            // var ctx1 = document.getElementById("chart-bars").getContext("2d");#}
-{#            // var ctx2 = document.getElementById("chart-line").getContext("2d");#}
-{#            // var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");#}
-
-{#            // Données dynamiques depuis le contrôleur Symfony#}
-{#            var maintenancesData = JSON.parse('{{ maintenances|raw }}');#}
-{#            var affectationsData = JSON.parse('{{ affectations|raw }}');#}
-{#            var materielsData = JSON.parse('{{ materiels|raw }}');#}
-
-{#            var labels = maintenancesData.map(item => item.mois);#}
-{#            var dataMaintenances = maintenancesData.map(item => item.total);#}
-
-{#            var dataAffectations = affectationsData.map(item => item.total);#}
-
-{#            var labelsMateriels = materielsData.map(item => item.type);#}
-{#            var dataMateriels = materielsData.map(item => item.total);#}
-
-{#            // Graphique en barres (Maintenances)#}
-{#            new Chart(ctx1, {#}
-{#                type: "bar",#}
-{#                data: {#}
-{#                    labels: labels,#}
-{#                    datasets: [{#}
-{#                        label: "Maintenances",#}
-{#                        backgroundColor: "rgba(75, 192, 192, 0.2)",#}
-{#                        borderColor: "rgba(75, 192, 192, 1)",#}
-{#                        data: dataMaintenances#}
-{#                    }]#}
-{#                },#}
-{#                options: {#}
-{#                    responsive: true,#}
-{#                    maintainAspectRatio: false#}
-{#                }#}
-{#            });#}
-
-{#            // Graphique en courbes (Affectations)#}
-{#            new Chart(ctx2, {#}
-{#                type: "line",#}
-{#                data: {#}
-{#                    labels: labels,#}
-{#                    datasets: [{#}
-{#                        label: "Affectations",#}
-{#                        backgroundColor: "rgba(255, 99, 132, 0.2)",#}
-{#                        borderColor: "rgba(255, 99, 132, 1)",#}
-{#                        data: dataAffectations#}
-{#                    }]#}
-{#                },#}
-{#                options: {#}
-{#                    responsive: true,#}
-{#                    maintainAspectRatio: false#}
-{#                }#}
-{#            });#}
-
-{#            // Graphique en barres (Matériels par type)#}
-{#            new Chart(ctx3, {#}
-{#                type: "bar",#}
-{#                data: {#}
-{#                    labels: labelsMateriels,#}
-{#                    datasets: [{#}
-{#                        label: "Matériels",#}
-{#                        backgroundColor: "rgba(54, 162, 235, 0.2)",#}
-{#                        borderColor: "rgba(54, 162, 235, 1)",#}
-{#                        data: dataMateriels#}
-{#                    }]#}
-{#                },#}
-{#                options: {#}
-{#                    responsive: true,#}
-{#                    maintainAspectRatio: false#}
-{#                }#}
-{#            });#}
-
-{#        });#}
-{#    </script>#}
+    })
+ </script>
 {% endblock %}
 {% block scripts %}
     <script src="{{ asset('cuba/assets/js/clock.js') }}"></script>
-{#    <script src="{{ asset('cuba/assets/js/chart/apex-chart/apex-chart.js') }}"></script>#}
-{#    <script src="{{ asset('cuba/assets/js/chart/apex-chart/stock-prices.js') }}"></script>#}
-{#    <script src="{{ asset('cuba/assets/js/chart/apex-chart/moment.min.js') }}"></script>#}
+    <script src="{{ asset('cuba/assets/js/chart/apex-chart/apex-chart.js') }}"></script>
+    <script src="{{ asset('cuba/assets/js/chart/apex-chart/stock-prices.js') }}"></script>
+    <script src="{{ asset('cuba/assets/js/chart/apex-chart/moment.min.js') }}"></script>
     <script src="{{ asset('cuba/assets/js/notify/bootstrap-notify.min.js') }}"></script>
     <script src="{{ asset('cuba/assets/js/dashboard/default.js') }}"></script>
     <script>
         // Comma/Separator counter
         (function () {
-            const counters = document.querySelectorAll(".counter");
+            const counters = document.querySelectorAll (".counter");
             const speed = 70;
 
-            counters.forEach((counter) => {
+            counters.forEach ((counter) => {
                 const updateCount = () => {
-                    const target = parseInt(counter.getAttribute("data-target"));
-                    const count = parseInt(counter.innerText.replace(/,/g, "")); // Remove commas from displayed count
+                    const target = parseInt (counter.getAttribute ("data-target"));
+                    const count = parseInt (counter.innerText.replace (/,/g, "")); // Remove commas from displayed count
 
-                    const increment = Math.trunc(target / speed);
+                    const increment = Math.trunc (target / speed);
 
                     if (count < target) {
                         let updatedCount = count + increment;
 
                         // Format the number with commas for lakh and crore
-                        updatedCount = updatedCount.toLocaleString("en-IN");
+                        updatedCount = updatedCount.toLocaleString ("en-IN");
 
                         counter.innerText = updatedCount;
-                        setTimeout(updateCount, 1);
+                        setTimeout (updateCount, 1);
                     } else {
                         // Update counter.innerText with formatted target value
-                        counter.innerText = target.toLocaleString("en-IN");
+                        counter.innerText = target.toLocaleString ("en-IN");
                     }
                 };
 
-                updateCount();
+                updateCount ();
             });
-        })();
+        }) ();
     </script>
-{#    <script src="{{ asset('cuba/assets/js/notify/index.js') }}"></script>#}
-{#    <script src="{{ asset('cuba/assets/js/typeahead/handlebars.js') }}"></script>#}
-{#    <script src="{{ asset('cuba/assets/js/typeahead/typeahead.bundle.js') }}"></script>#}
-{#    <script src="{{ asset('cuba/assets/js/typeahead/typeahead.custom.js') }}"></script>#}
-{#    <script src="{{ asset('cuba/assets/js/typeahead-search/handlebars.js') }}"></script>#}
-{#    <script src="{{ asset('cuba/assets/js/typeahead-search/typeahead-custom.js') }}"></script>#}
-{#    <script src="{{ asset('cuba/assets/js/height-equal.js') }}"></script>#}
+    {#    <script src="{{ asset('cuba/assets/js/notify/index.js') }}"></script> #}
+    {#    <script src="{{ asset('cuba/assets/js/typeahead/handlebars.js') }}"></script> #}
+    {#    <script src="{{ asset('cuba/assets/js/typeahead/typeahead.bundle.js') }}"></script> #}
+    {#    <script src="{{ asset('cuba/assets/js/typeahead/typeahead.custom.js') }}"></script> #}
+    {#    <script src="{{ asset('cuba/assets/js/typeahead-search/handlebars.js') }}"></script> #}
+    {#    <script src="{{ asset('cuba/assets/js/typeahead-search/typeahead-custom.js') }}"></script> #}
+    {#    <script src="{{ asset('cuba/assets/js/height-equal.js') }}"></script> #}
     <script src="{{ asset('cuba/assets/js/animation/wow/wow.min.js') }}"></script>
 {% endblock %}

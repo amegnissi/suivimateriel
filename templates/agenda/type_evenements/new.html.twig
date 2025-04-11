@@ -1,0 +1,15 @@
+{% extends 'base_formulaire.html.twig' %}
+{% block title %}Agenda{% endblock %}
+{% block breadcrumb %}Agenda{% endblock %}
+{% block  breadcrumb_item %} Evenements{% endblock %}
+{% block  breadcrumb_t %} Type événement {% endblock %}
+
+{% block form_titre %}Nouveau type d'événements{% endblock %}
+
+{% block formContent %}
+
+
+    {{ include('agenda/type_evenements/_form.html.twig') }}
+
+{#    <a href="{{ path('app_type_evenements_index') }}">back to list</a>#}
+{% endblock %}

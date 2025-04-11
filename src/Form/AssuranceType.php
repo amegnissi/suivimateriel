@@ -31,7 +31,7 @@ class AssuranceType extends AbstractType
                     return $materiel->getMarque()->getLibelle() . ' - ' . $materiel->getImmatriculation();
                 },
                 'label' => 'Matériel',
-                'placeholder' => 'Sélectionner un matériel',
+                'placeholder' => 'Sélectionner un véhicule',
                 'required' => true,
             ])
             ->add('typeAssurance', ChoiceType::class, [
@@ -40,7 +40,7 @@ class AssuranceType extends AbstractType
                     'TVM' => 'tvm',
                     'Visite Technique' => 'visite_technique',
                 ],
-                'label' => 'Type d\'assurance',
+                'label' => 'Type d\'opération',
                 'required' => true,
             ])
             ->add('dateAssuranceDebut', DateType::class, [

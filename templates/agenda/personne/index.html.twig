@@ -1,0 +1,48 @@
+{% extends 'base_table.html.twig' %}
+
+{% block title %}Agenda{% endblock %}
+{% block breadcrumb %}Agenda{% endblock %}
+{% block  breadcrumb_item %} Evenements{% endblock %}
+{% block  breadcrumb_t %} Contact {% endblock %}
+{% block btntitle %}Ajouter un contact{% endblock %}
+{% block btnpath %}{{ path('admin_personne_new') }}{% endblock %}
+{% block table_titre %}Liste des contacts {% endblock %}
+
+
+
+{% block tableContent %}
+        <thead>
+            <tr>
+                <th></th>
+                <th>Nom</th>
+                <th>Prenoms</th>
+                <th>Structure</th>
+                <th>Telephone</th>
+                <th>Email</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for personne in personnes %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ personne.nom }}</td>
+                <td>{{ personne.prenoms }}</td>
+                <td>{{ personne.structure }}</td>
+                <td>{{ personne.telephone }}</td>
+                <td>{{ personne.email }}</td>
+                <td>
+                    <a href="{{ path('app_personne_show', {'id': personne.id}) }}">show</a>
+                    <a href="{{ path('app_personne_edit', {'id': personne.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

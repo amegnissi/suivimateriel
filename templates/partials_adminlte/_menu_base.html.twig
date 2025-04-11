@@ -1,0 +1,131 @@
+<nav class="mt-2">
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <!-- Add icons to the links using the .nav-icon class
+             with font-awesome or any other icon font library -->
+
+        <li class="nav-item">
+            <a href="{{ path('dashboard') }}" class="nav-link">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                    Tableau de Bord
+
+                </p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ path('entreprise_index') }}" class="nav-link">
+                <i class="nav-icon fas fa-th"></i>
+                <p>
+                    Entreprise
+                </p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ path('postes_index') }}" class="nav-link">
+                <i class="nav-icon fas fa-th"></i>
+                <p>
+                    Postes
+
+                </p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ path('marques_index') }}" class="nav-link">
+                <i class="nav-icon fas fa-th"></i>
+                <p>
+                    Marques
+
+                </p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ path('employes_index') }}" class="nav-link">
+                <i class="nav-icon fas fa-th"></i>
+                <p>
+                    Employés
+
+                </p>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a href="{{ path('types_materiels_index') }}" class="nav-link">
+                <i class="nav-icon fas fa-th"></i>
+                <p>
+                    Types materiels
+
+                </p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ path('materiels_index') }}" class="nav-link">
+                <i class="nav-icon fas fa-th"></i>
+                <p>
+                    Matériels
+
+                </p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ path('societe_service_index') }}" class="nav-link">
+                <i class="nav-icon fas fa-th"></i>
+                <p>
+                    Sociétés de Service
+
+                </p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ path('affectations_index') }}" class="nav-link">
+                <i class="nav-icon fas fa-th"></i>
+                <p>
+                    Affectations
+
+                </p>
+            </a>
+        </li>
+        {#        <li class="nav-item"> lien pour retouner sur le site #}
+        {#            <a href="{{ path('admin_produit_hebergement') }}" class="nav-link"> #}
+        {#                <i class="nav-icon fas fa-tachometer-alt"></i> #}
+        {#                <p> #}
+        {#                    Hébergement #}
+
+        {#                </p> #}
+        {#            </a> #}
+
+        {#        </li> #}
+        {% if app.user  and is_granted('IS_AUTHENTICATED_FULLY')  %}
+
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_PDG')  %}
+                <li class="nav-item">
+                    <a href="{{ path('maintenances_index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Maintenance
+
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ path('assurances_index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Assurances
+
+                        </p>
+                    </a>
+                </li>
+            {% endif %}
+        {% endif %}
+        <li class="nav-item">
+            <a href="{{ path('depart_employe_index') }}" class="nav-link">
+                <i class="nav-icon fas fa-th"></i>
+                <p>
+                    Départs Employés
+
+                </p>
+            </a>
+        </li>
+    </ul>
+</nav>

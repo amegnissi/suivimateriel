@@ -7,7 +7,7 @@
 {% block form_titre %}Ajouter une Assurance{% endblock %}
 {% block formContent %}
     {{ form_start(form) }}
-{#    {{ form_widget(form) }}#}
+
 
 {#    {{ form_start(form) }}#}
 
@@ -102,7 +102,7 @@
             <a class="btn btn-dark " href="{{ path('assurances_index') }}">Annuler</a>
         </div>
     </div>
-{#    {{ form_end(form) }}#}
+    {{ form_end(form) }}
 {#    <div class="row">#}
 {#        <div class="col-12">#}
 {#            <h4>Ajouter une Assurance</h4>#}
