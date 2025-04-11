@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un Lieu d'Affectation{% endblock %}
+
+{% block breadcrumb %}LIEUX D'AFFECTATION > AJOUTER{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-12">
+            <h4>Ajouter un Nouveau Lieu d'Affectation</h4>
+            <div class="card my-4">
+                <div class="card-body">
+                    {{ form_start(form) }}
+                    
+                    <div class="input-group input-group-outline mb-4">
+                        {{ form_label(form.nom, 'Nom du Lieu / Service', { 'label_attr': { 'class': 'form-label' } }) }}
+                        {{ form_widget(form.nom, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_errors(form.nom) }}
+                    </div>
+
+                    <div class="input-group input-group-static my-3">
+                        {{ form_label(form.type, 'Type de Lieu / Service', { 'label_attr': { 'class': 'ms-0' } }) }}
+                        {{ form_widget(form.type, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_errors(form.type) }}
+                    </div>
+
+                    <div class="input-group input-group-static my-3">
+                        {{ form_label(form.societeService, 'Société de Service (si externe)', { 'label_attr': { 'class': 'ms-0' } }) }}
+                        {{ form_widget(form.societeService, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_errors(form.societeService) }}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    <a href="{{ path('lieux_affectation_index') }}" class="btn btn-secondary">Annuler</a>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

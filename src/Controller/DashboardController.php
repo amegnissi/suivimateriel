@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
-use App\Repository\AffectationRepository;
+use App\Entity\TypeMaintenance;
 use App\Repository\EmployeRepository;
-use App\Repository\MaintenanceRepository;
 use App\Repository\MaterielRepository;
+use App\Repository\AffectationRepository;
+use App\Repository\MaintenanceRepository;
+use App\Repository\TypeMaintenanceRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -15,7 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class DashboardController extends AbstractController
 {
     #[Route('/dashboard', name: 'dashboard')]
-    public function index(EmployeRepository $employeRepository, MaterielRepository $materielRepository, AffectationRepository $affectationRepository, MaintenanceRepository $maintenanceRepository): Response
+    public function index(EmployeRepository $employeRepository, MaterielRepository $materielRepository, AffectationRepository $affectationRepository, MaintenanceRepository $maintenanceRepository, TypeMaintenanceRepository $typeMaintenanceRepository): Response
     {
         // Récupération des statistiques
         $totalEmployes = $employeRepository->count([]);
@@ -24,7 +26,13 @@ class DashboardController extends AbstractController
         $totalMaintenances = $maintenanceRepository->count([]);
 
         // Récupérer uniquement les maintenances de type "Vidange"
-        $vidanges = $maintenanceRepository->findBy(['typeMaintenance' => 'Vidange'], ['dateIntervention' => 'DESC'], 5);
+        $typeVidange = $typeMaintenanceRepository->findOneBy(['libelle' => 'Vidange']);
+
+        $vidanges = $maintenanceRepository->findBy(
+            ['typeMaintenance' => $typeVidange],
+            ['dateIntervention' => 'DESC'],
+            5
+        );
 
         $maintenancesRecentes = $maintenanceRepository->findBy([], ['dateIntervention' => 'DESC'], 5);
 
@@ -32,7 +40,7 @@ class DashboardController extends AbstractController
 
         foreach ($maintenancesRecentes as $maintenance) {
             $orders[] = [
-                'title' => 'Maintenance : ' . $maintenance->getTypeMaintenance(),
+                'title' => 'Maintenance : ' . $maintenance->getTypeMaintenance()?->getLibelle() ?? '-',
                 'date' => $maintenance->getDateIntervention()?->format('d/m/Y'),
                 'icon' => 'construction', // Icône Material Symbols (peut être changé selon le type de maintenance)
                 'color' => 'warning' // Tu peux changer la couleur dynamiquement selon le type d'intervention

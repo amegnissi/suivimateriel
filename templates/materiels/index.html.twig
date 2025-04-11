@@ -10,7 +10,15 @@
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h4>Gestion des Matériels</h4>
-                <a href="{{ path('materiels_create') }}" class="btn btn-primary">Ajouter un Matériel</a>
+                <div>
+                    <a href="{{ path('materiels_export_pdf') }}" class="btn btn-danger">
+                        <i class="fas fa-file-pdf"></i> Exporter en PDF
+                    </a>
+                    <a href="{{ path('materiels_export_excel') }}" class="btn btn-success">
+                        <i class="fas fa-file-excel"></i> Exporter en Excel
+                    </a>
+                    <a href="{{ path('materiels_create') }}" class="btn btn-primary">Ajouter un Matériel</a>
+                </div>
             </div>
 
             <div class="card my-4">
@@ -35,34 +43,34 @@
                             </thead>
                             <tbody>
                                 {% for materiel in pagination %}
-                                <tr>
-                                    <td class="align-middle text-center text-xs font-weight-bold">{{ loop.index }}</td>
-                                    <td class="align-middle text-xs font-weight-bold">{{ materiel.type.libelle ?? 'Non Défini' }}</td>
-                                    <td class="align-middle text-xs font-weight-bold">{{ materiel.marque.libelle ?? 'Non Défini' }}</td>
-                                    <td class="align-middle text-xs font-weight-bold">{{ materiel.immatriculation }}</td>
-                                    <td class="align-middle text-center text-xs font-weight-bold">
-                                        {{ materiel.dateAcquisition|date('d-m-Y') }}
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        {% if materiel.statut == 0 %}
-                                            <span class="badge bg-secondary">⏳ Non Affecté (NA)</span>
-                                        {% elseif materiel.statut == 1 %}
-                                            <span class="badge bg-info">✅ Affecté (A)</span>
-                                        {% elseif materiel.statut == 3 %}
-                                            <span class="badge bg-warning text-dark">🔧 NA / En Maintenance</span>
-                                        {% elseif materiel.statut == 2 %}
-                                            <span class="badge bg-success">🔧 A / En Maintenance</span>
-                                        {% endif %}
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <a href="{{ path('materiels_show', {'id': materiel.id}) }}" class="btn btn-info btn-sm">Voir</a>
-                                        <a href="{{ path('materiels_edit', {'id': materiel.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td class="align-middle text-center text-xs font-weight-bold">{{ loop.index }}</td>
+                                        <td class="align-middle text-xs font-weight-bold">{{ materiel.type.libelle ?? 'Non Défini' }}</td>
+                                        <td class="align-middle text-xs font-weight-bold">{{ materiel.marque.libelle ?? 'Non Défini' }}</td>
+                                        <td class="align-middle text-xs font-weight-bold">{{ materiel.immatriculation }}</td>
+                                        <td class="align-middle text-center text-xs font-weight-bold">
+                                            {{ materiel.dateAcquisition|date('d-m-Y') }}
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            {% if materiel.statut == 0 %}
+                                                <span class="badge bg-secondary">⏳ Non Affecté (NA)</span>
+                                            {% elseif materiel.statut == 1 %}
+                                                <span class="badge bg-info">✅ Affecté (A)</span>
+                                            {% elseif materiel.statut == 3 %}
+                                                <span class="badge bg-warning text-dark">🔧 NA / En Maintenance</span>
+                                            {% elseif materiel.statut == 2 %}
+                                                <span class="badge bg-success">🔧 A / En Maintenance</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <a href="{{ path('materiels_show', {'id': materiel.id}) }}" class="btn btn-info btn-sm">Voir</a>
+                                            <a href="{{ path('materiels_edit', {'id': materiel.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
+                                        </td>
+                                    </tr>
                                 {% else %}
-                                <tr>
-                                    <td colspan="7" class="text-center text-secondary">Aucun matériel trouvé.</td>
-                                </tr>
+                                    <tr>
+                                        <td colspan="7" class="text-center text-secondary">Aucun matériel trouvé.</td>
+                                    </tr>
                                 {% endfor %}
                             </tbody>
                         </table>

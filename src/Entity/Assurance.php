@@ -8,8 +8,7 @@ use App\Repository\AssuranceRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AssuranceRepository::class)]
-class Assurance
-{
+class Assurance {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -19,31 +18,21 @@ class Assurance
     #[ORM\JoinColumn(nullable: false)]
     private ?Materiel $vehicule = null;
 
-    // Nouveau champ pour indiquer le type d'assurance
-    #[ORM\Column(type: 'string', length: 50)]
-    #[Assert\Choice(choices: ['assurance', 'tvm', 'visite_technique'], message: 'Choisissez un type d\'assurance valide')]
-    private string $typeAssurance;
+    #[ORM\ManyToOne(targetEntity: TypeAssurance::class, inversedBy: 'assurances')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?TypeAssurance $typeAssurance = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateAssuranceDebut = null;
-    
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateAssuranceFin = null;
+    private ?\DateTimeInterface $dateDebut = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateVisiteTechniqueDebut = null;
-    
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateVisiteTechniqueFin = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateTVMDebut = null;
-    
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateTVMFin = null;
+    private ?\DateTimeInterface $dateFin = null;
 
     #[ORM\Column(type: 'boolean')]
     private bool $notifEnvoyee = false;
+
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $montantPaye = null;
 
     public function getId(): ?int
     {
@@ -58,83 +47,6 @@ class Assurance
     public function setVehicule(?Materiel $vehicule): static
     {
         $this->vehicule = $vehicule;
-        return $this;
-    }
-
-    public function getTypeAssurance(): string
-    {
-        return $this->typeAssurance;
-    }
-
-    public function setTypeAssurance(string $typeAssurance): static
-    {
-        $this->typeAssurance = $typeAssurance;
-        return $this;
-    }
-
-    public function getDateAssuranceDebut(): ?\DateTimeInterface
-    {
-        return $this->dateAssuranceDebut;
-    }
-
-    public function setDateAssuranceDebut(?\DateTimeInterface $dateAssuranceDebut): static
-    {
-        $this->dateAssuranceDebut = $dateAssuranceDebut;
-        return $this;
-    }
-
-    public function getDateAssuranceFin(): ?\DateTimeInterface
-    {
-        return $this->dateAssuranceFin;
-    }
-
-    public function setDateAssuranceFin(?\DateTimeInterface $dateAssuranceFin): static
-    {
-        $this->dateAssuranceFin = $dateAssuranceFin;
-        return $this;
-    }
-
-    public function getDateVisiteTechniqueDebut(): ?\DateTimeInterface
-    {
-        return $this->dateVisiteTechniqueDebut;
-    }
-
-    public function setDateVisiteTechniqueDebut(?\DateTimeInterface $dateVisiteTechniqueDebut): static
-    {
-        $this->dateVisiteTechniqueDebut = $dateVisiteTechniqueDebut;
-        return $this;
-    }
-
-    public function getDateVisiteTechniqueFin(): ?\DateTimeInterface
-    {
-        return $this->dateVisiteTechniqueFin;
-    }
-
-    public function setDateVisiteTechniqueFin(?\DateTimeInterface $dateVisiteTechniqueFin): static
-    {
-        $this->dateVisiteTechniqueFin = $dateVisiteTechniqueFin;
-        return $this;
-    }
-
-    public function getDateTVMDebut(): ?\DateTimeInterface
-    {
-        return $this->dateTVMDebut;
-    }
-
-    public function setDateTVMDebut(?\DateTimeInterface $dateTVMDebut): static
-    {
-        $this->dateTVMDebut = $dateTVMDebut;
-        return $this;
-    }
-
-    public function getDateTVMFin(): ?\DateTimeInterface
-    {
-        return $this->dateTVMFin;
-    }
-
-    public function setDateTVMFin(?\DateTimeInterface $dateTVMFin): static
-    {
-        $this->dateTVMFin = $dateTVMFin;
         return $this;
     }
 
@@ -159,4 +71,57 @@ class Assurance
         $this->vehicule = $vehicule;
         return $this;
     }
+
+    public function isNotifEnvoyee(): ?bool
+    {
+        return $this->notifEnvoyee;
+    }
+
+    public function getMontantPaye(): ?float
+    {
+        return $this->montantPaye;
+    }
+
+    public function setMontantPaye(?float $montantPaye): static
+    {
+        $this->montantPaye = $montantPaye;
+        return $this;
+    }
+
+    public function getDateDebut(): ?\DateTimeInterface
+    {
+        return $this->dateDebut;
+    }
+
+    public function setDateDebut(?\DateTimeInterface $dateDebut): static
+    {
+        $this->dateDebut = $dateDebut;
+
+        return $this;
+    }
+
+    public function getDateFin(): ?\DateTimeInterface
+    {
+        return $this->dateFin;
+    }
+
+    public function setDateFin(?\DateTimeInterface $dateFin): static
+    {
+        $this->dateFin = $dateFin;
+
+        return $this;
+    }
+
+    public function getTypeAssurance(): ?TypeAssurance
+    {
+        return $this->typeAssurance;
+    }
+
+    public function setTypeAssurance(?TypeAssurance $typeAssurance): static
+    {
+        $this->typeAssurance = $typeAssurance;
+
+        return $this;
+    }
+
 }

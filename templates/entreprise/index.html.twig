@@ -19,9 +19,8 @@
                         <div class="avatar avatar-xl position-relative">
                             {% if entreprise.logo %}
                                 <img src="{{ asset('uploads/entreprise/' ~ entreprise.logo ) }}" class="w-100 border-radius-lg shadow-sm" alt="Logo de l'entreprise">
-                            {% else %}
-                                <i class="material-symbols-rounded">business</i> 
-                                {#<img src="{{ asset('assets/img/default-logo.png') }}" class="w-100 border-radius-lg shadow-sm" alt="Logo de l'entreprise">#}
+                            {% else %} 
+                                <img src="{{ asset('assets/img/default-logo.png') }}" class="w-100 border-radius-lg shadow-sm" alt="Logo de l'entreprise">
                             {% endif %}
                         </div>
                     </div>
@@ -31,11 +30,11 @@
                             <p class="mb-0 font-weight-normal text-sm">IFU : {{ entreprise.ifu | default('Non spécifié') }}</p>
                         </div>
                     </div>
-                    <div class="col-auto ms-auto d-flex align-items-center">
+                    {#<div class="col-auto ms-auto d-flex align-items-center">
                         <a href="{{ path('entreprise_index') }}" class="btn btn-outline-secondary">
                             <i class="material-symbols-rounded">arrow_back</i> Retour
                         </a>
-                    </div>
+                    </div>#}
                 </div>
 
                 <div class="row">

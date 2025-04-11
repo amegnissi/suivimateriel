@@ -76,7 +76,16 @@
             <a class="nav-link {% if app.request.attributes.get('_route') starts with 'societe_service' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
                 href="{{ path('societe_service_index') }}">
                     <i class="material-symbols-rounded opacity-5">apartment</i>
-                    <span class="nav-link-text ms-1">Sociétés de Service</span>
+                    <span class="nav-link-text ms-1">Clients</span>
+                </a>
+            </li>
+
+            {# Section Lieux d'Affectation #}
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.attributes.get('_route') starts with 'lieux_affectation' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
+                    href="{{ path('lieux_affectation_index') }}">
+                    <i class="material-symbols-rounded opacity-5">location_on</i>
+                    <span class="nav-link-text ms-1">Lieux / Services</span>
                 </a>
             </li>
 
@@ -84,17 +93,35 @@
             <li class="nav-item">
             <a class="nav-link {% if app.request.attributes.get('_route') starts with 'affectations' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
                 href="{{ path('affectations_index') }}">
-                    <i class="material-symbols-rounded opacity-5">assignment</i>
+                    <i class="material-symbols-rounded opacity-5">swap_horiz</i>
                     <span class="nav-link-text ms-1">Affectations</span>
+                </a>
+            </li>
+
+            {# Section Types Maintenances #} 
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.attributes.get('_route') starts with 'types_maintenances' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
+                    href="{{ path('types_maintenances_index') }}">
+                    <i class="material-symbols-rounded opacity-5">construction</i>
+                    <span class="nav-link-text ms-1">Types Maintenances</span>
                 </a>
             </li>
 
             {# Section Maintenance #} 
             <li class="nav-item">
-            <a class="nav-link {% if app.request.attributes.get('_route') starts with 'maintenances' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
-                href="{{ path('maintenances_index') }}">
-                    <i class="material-symbols-rounded opacity-5">build</i>
+                <a class="nav-link {% if app.request.attributes.get('_route') starts with 'maintenances' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
+                    href="{{ path('maintenances_index') }}">
+                    <i class="material-symbols-rounded opacity-5">engineering</i>
                     <span class="nav-link-text ms-1">Maintenance</span>
+                </a>
+            </li>
+
+            {# Section Types Opérations #}
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.attributes.get('_route') starts with 'type_assurance' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
+                    href="{{ path('type_assurance_index') }}">
+                    <i class="material-symbols-rounded opacity-5">tune</i>
+                    <span class="nav-link-text ms-1">Types Opérations</span>
                 </a>
             </li>
 
@@ -103,14 +130,14 @@
                 <a class="nav-link {% if app.request.attributes.get('_route') starts with 'assurances' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
                     href="{{ path('assurances_index') }}">
                     <i class="material-symbols-rounded opacity-5">verified_user</i>
-                    <span class="nav-link-text ms-1">Assurances</span>
+                    <span class="nav-link-text ms-1">Opérations</span>
                 </a>
             </li>
 
             {# Section Départs Employés #} 
             <li class="nav-item">
-            <a class="nav-link {% if app.request.attributes.get('_route') starts with 'depart' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
-                href="{{ path('depart_employe_index') }}">
+                <a class="nav-link {% if app.request.attributes.get('_route') starts with 'depart' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
+                    href="{{ path('depart_employe_index') }}">
                     <i class="material-symbols-rounded opacity-5">logout</i>
                     <span class="nav-link-text ms-1">Départs Employés</span>
                 </a>

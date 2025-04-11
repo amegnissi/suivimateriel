@@ -6,6 +6,7 @@ use App\Entity\Marque;
 use App\Entity\Materiel;
 use App\Entity\Entreprise;
 use App\Form\MaterielType;
+use App\Service\ExportService;
 use App\Repository\MaterielRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -42,6 +43,47 @@ class MaterielController extends BaseController
         ]);
     }
 
+    #[Route('/export-excel', name: 'materiels_export_excel')]
+    public function exportExcel(MaterielRepository $materielRepository, ExportService $exportService): Response
+    {
+        $materiels = $materielRepository->findAll();
+    
+        $headers = [
+            'N°', 'Marque', 'Modèle', 'Immatriculation', 'Numéro de série', 'Type', 
+            'Date d\'acquisition', 'Lieu d\'affectation', 'Statut'
+        ];
+    
+        // Préparer les données à exporter
+        $data = [];
+        foreach ($materiels as $index => $materiel) {
+            $data[] = [
+                $index + 1,
+                $materiel->getMarque() ? $materiel->getMarque()->getLibelle() : 'Non défini',
+                $materiel->getModele() ?: 'Non défini',
+                $materiel->getImmatriculation() ?: 'Non défini',
+                $materiel->getNumeroSerie() ?: 'Non défini',
+                $materiel->getType()->getLibelle() ?: 'Non défini',
+                $materiel->getDateAcquisition() ? $materiel->getDateAcquisition()->format('d/m/Y') : 'Non défini',
+                $materiel->getLieuAffactation() ?: 'Non défini',
+                count($materiel->getAffectations()) > 0 ? 'Affecté' : 'Non Affecté',
+            ];
+        }
+    
+        // Utilisation du service ExportService
+        return $exportService->exportExcel($data, $headers, 'materiels.xlsx');
+    }
+
+    #[Route('/export-pdf', name: 'materiels_export_pdf')]
+    public function exportPdf(MaterielRepository $materielRepository, ExportService $exportService): Response
+    {    
+        $materiels = $materielRepository->findAll();
+
+        // Utilisation du service ExportService
+        return $exportService->exportPdf('materiels/export_pdf.html.twig', [
+            'materiels' => $materiels
+        ], 'materiels.pdf');
+    }
+
     #[Route('/new', name: 'materiels_create', methods: ['GET', 'POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -64,13 +106,13 @@ class MaterielController extends BaseController
             }
 
             // Associer un matériel à une entreprise
-            $entreprise = $entityManager->getRepository(Entreprise::class)->find(1); // ID de l'entreprise
+            $entreprise = $entityManager->getRepository(Entreprise::class)->findOneBy([]);
             if ($entreprise) {
                 $materiel->setEntreprise($entreprise);
             }
 
             // Si le matériel est un véhicule, mettre à jour la marque
-            if ($materiel->getType() === 'vehicule') {
+            if ($materiel->getType() && strtolower($materiel->getType()->getLibelle()) === 'véhicule') {
                 $marque = $materiel->getMarque();
                 if ($marque) {
                     $marque->setEstVehicule(true);  // Mettre estVehicule à true
@@ -85,16 +127,16 @@ class MaterielController extends BaseController
             return $this->redirectToRoute('materiels_index', [], Response::HTTP_SEE_OTHER);
         }
 
-            // Récupération des ID des marques de véhicules
-            $marquesVehicules = $entityManager->getRepository(Marque::class)
-                ->createQueryBuilder('m')
-                ->select('m.id')
-                ->where('m.estVehicule = true')
-                ->getQuery()
-                ->getResult();
+        // Récupération des ID des marques de véhicules
+        $marquesVehicules = $entityManager->getRepository(Marque::class)
+            ->createQueryBuilder('m')
+            ->select('m.id')
+            ->where('m.estVehicule = true')
+            ->getQuery()
+            ->getResult();
             
-            // Conversion en tableau simple
-            $marquesVehicules = array_map(fn($marque) => $marque['id'], $marquesVehicules);
+        // Conversion en tableau simple
+        $marquesVehicules = array_map(fn($marque) => $marque['id'], $marquesVehicules);
 
         return $this->render('materiels/create.html.twig', [
             'materiel' => $materiel,

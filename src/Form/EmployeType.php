@@ -70,6 +70,31 @@ class EmployeType extends AbstractType
             'mapped' => false,
             'attr' => ['class' => 'form-control'],
             'label' => 'Certificat Acuité Visuelle'
+        ])
+        ->add('contactUrgenceNom', TextType::class, [
+            'label' => 'Nom du contact d\'urgence',
+            'required' => false,
+            'attr' => ['class' => 'form-control'],
+        ])
+        ->add('contactUrgencePrenom', TextType::class, [
+            'label' => 'Prénom du contact d\'urgence',
+            'required' => false,
+            'attr' => ['class' => 'form-control'],
+        ])
+        ->add('contactUrgenceTelephone', TextType::class, [
+            'label' => 'Téléphone du contact d\'urgence',
+            'required' => false,
+            'attr' => ['class' => 'form-control'],
+        ])
+        ->add('contactUrgenceAdresse', TextType::class, [
+            'label' => 'Adresse du contact d\'urgence',
+            'required' => false,
+            'attr' => ['class' => 'form-control'],
+        ])
+        ->add('contactUrgenceLien', TextType::class, [
+            'label' => 'Lien de familiarité',
+            'required' => false,
+            'attr' => ['class' => 'form-control'],
         ]);
     }
 

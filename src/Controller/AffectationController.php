@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Entreprise;
 use App\Entity\Affectation;
 use App\Form\AffectationType;
+use App\Service\ExportService;
 use App\Repository\EmployeRepository;
 use App\Repository\MaterielRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -45,6 +47,45 @@ class AffectationController extends BaseController
         ]);
     }
 
+    #[Route('/export-excel', name: 'affectations_export_excel')]
+    public function exportExcel(AffectationRepository $affectationRepository, ExportService $exportService): Response
+    {
+        // Récupérer les affectations
+        $affectations = $affectationRepository->findAll();
+
+        // Définir les en-têtes du fichier Excel
+        $headers = [
+            'N°', 'Matériel', 'Employé', 'Société', 'Date d\'Affectation'
+        ];
+
+        // Préparer les données à exporter
+        $data = [];
+        foreach ($affectations as $index => $affectation) {
+            $data[] = [
+                $index + 1,
+                $affectation->getMateriel() ? $affectation->getMateriel()->getMarque()->getLibelle() . ' - ' . $affectation->getMateriel()->getImmatriculation() : 'N/A',
+                $affectation->getEmploye() ? $affectation->getEmploye()->getPrenom() . ' ' . $affectation->getEmploye()->getNom() : 'N/A',
+                $affectation->getSociete() ? $affectation->getSociete()->getNom() : 'N/A',
+                $affectation->getDateAffectation() ? $affectation->getDateAffectation()->format('d/m/Y') : 'N/A'
+            ];
+        }
+
+        // Utilisation du service ExportService
+        return $exportService->exportExcel($data, $headers, 'affectations.xlsx');
+    }
+
+    #[Route('/export-pdf', name: 'affectations_export_pdf')]
+    public function exportPdf(AffectationRepository $affectationRepository, ExportService $exportService): Response
+    {
+        // Récupérer les affectations
+        $affectations = $affectationRepository->findAll();
+
+        // Utilisation du service ExportService pour exporter en PDF
+        return $exportService->exportPdf('affectations/export_pdf.html.twig', [
+            'affectations' => $affectations
+        ], 'affectations.pdf');
+    }
+
     /**
      * Formulaire de création d'une affectation.
      */
@@ -54,34 +95,58 @@ class AffectationController extends BaseController
         if ($redirect = $this->checkEntreprise($entityManager)) {
             return $redirect;
         }
-        
+    
         $affectation = new Affectation();
         $form = $this->createForm(AffectationType::class, $affectation);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
             // Valider que le matériel et l'employé sont affectés correctement
             if ($affectation->getSociete() && !$affectation->getEmploye()) {
                 $this->addFlash('error', 'L\'employé doit être affecté en même temps que le matériel à une société.');
                 return $this->redirectToRoute('affectations_create');
             }
-
-            // Mise à jour du statut du matériel et de son lieu d'affectation
+    
+            // Récupérer les entités nécessaires
             $materiel = $affectation->getMateriel();
+            $lieu = $form->get('lieuAffectation')->getData();
+            $affectation->setLieuAffectation($lieu);
+            $entreprise = $entityManager->getRepository(Entreprise::class)->findOneBy([]);
+    
             if ($materiel) {
-                $materiel->setStatut(1); 
-                $materiel->setLieuAffactation($form->get('lieuAffectation')->getData());
+                // Mise à jour du statut et du lieu
+                $materiel->setStatut(1);
+                // $materiel->setLieuAffactation($lieu);
+    
+                // 🔐 Génération du code automatique
+                $annee = (new \DateTime())->format('Y');
+                $sigle = $entreprise ? $entreprise->getSigle() : 'ENT';
+                $type = $materiel->getType() ? $materiel->getType()->getLibelle() : 'TYPE';
+                $numero = str_pad((string) $materiel->getId(), 4, '0', STR_PAD_LEFT);
+    
+                // Selon type de lieu
+                $categorie = $lieu && $lieu->getType() === 'interne' 
+                    ? $lieu->getNom()
+                    : ($affectation->getSociete() ? $affectation->getSociete()->getNom() : 'Externe');
+    
+                // Nettoyage
+                $categorie = strtoupper(str_replace(' ', '_', $categorie));
+                $type = strtoupper(str_replace(' ', '_', $type));
+                $sigle = strtoupper($sigle);
+    
+                $code = "{$sigle}_{$annee}/{$categorie}/{$type}/{$numero}";
+                $materiel->setCode($code);
+    
                 $entityManager->persist($materiel);
             }
-
-            // Enregistrer l'affectation dans la base de données
+    
             $entityManager->persist($affectation);
             $entityManager->flush();
-
+    
             $this->addFlash('success', 'Affectation ajoutée avec succès.');
             return $this->redirectToRoute('affectations_index');
         }
-
+    
         return $this->render('affectations/create.html.twig', [
             'form' => $form->createView(),
         ]);
@@ -101,6 +166,7 @@ class AffectationController extends BaseController
     /**
      * Formulaire de modification d'une affectation.
      */
+    /*
     #[Route('/{id}/edit', name: 'affectations_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Affectation $affectation, EntityManagerInterface $entityManager): Response
     {
@@ -135,7 +201,7 @@ class AffectationController extends BaseController
             'form' => $form->createView(),
             'affectation' => $affectation,
         ]);
-    }
+    }*/
 
     #[Route('/{id}/delete', name: 'affectations_delete', methods: ['POST'])]
     public function delete(Request $request, Affectation $affectation, EntityManagerInterface $entityManager): Response

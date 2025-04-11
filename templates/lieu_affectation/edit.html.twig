@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier un Lieu d'Affectation{% endblock %}
+
+{% block breadcrumb %}LIEUX D'AFFECTATION > MODIFIER{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-12">
+            <h4>Modifier le Lieu d'Affectation</h4>
+            <div class="card my-4">
+                <div class="card-body">
+                    {{ form_start(form) }}
+                    
+                    <div class="input-group input-group-static my-3">
+                        {{ form_label(form.nom, 'Nom du Lieu', { 'label_attr': { 'class': 'ms-0' } }) }}
+                        {{ form_widget(form.nom, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_errors(form.nom) }}
+                    </div>
+
+                    <div class="input-group input-group-static my-3">
+                        {{ form_label(form.type, 'Type de Lieu', { 'label_attr': { 'class': 'ms-0' } }) }}
+                        {{ form_widget(form.type, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_errors(form.type) }}
+                    </div>
+
+                    <div class="input-group input-group-static my-3">
+                        {{ form_label(form.societeService, 'Société de Service (si externe)', { 'label_attr': { 'class': 'ms-0' } }) }}
+                        {{ form_widget(form.societeService, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_errors(form.societeService) }}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                    <a href="{{ path('lieux_affectation_index') }}" class="btn btn-secondary">Annuler</a>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

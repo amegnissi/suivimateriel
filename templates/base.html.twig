@@ -22,8 +22,93 @@
     <!-- Main Content -->
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
         <!-- Navbar -->
-        {% include 'partials/navbar.html.twig' %}
-            
+         <nav class="navbar navbar-main navbar-expand-lg px-0 mx-3 shadow-none border-radius-xl">
+            <div class="container-fluid py-1 px-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-3">
+                        <li class="breadcrumb-item text-sm">
+                            <a href="{{ path('dashboard') }}" class="opacity-5 text-dark">Accueil</a>
+                        </li>
+                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">
+                            {% block breadcrumb %}Tableau de bord{% endblock %}
+                        </li>
+                    </ol>
+                </nav>
+                <ul class="navbar-nav justify-content-end">
+                    
+                    <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                        <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                            <div class="sidenav-toggler-inner">
+                            <i class="sidenav-toggler-line"></i>
+                            <i class="sidenav-toggler-line"></i>
+                            <i class="sidenav-toggler-line"></i>
+                            </div>
+                        </a>
+                    </li>
+
+                    {#<li class="nav-item px-3 d-flex align-items-center">
+                        <a href="#" class="nav-link text-body p-0" data-bs-toggle="modal" data-bs-target="#entrepriseModal">
+                            <i class="material-symbols-rounded">settings</i>
+                        </a>
+                    </li>#}
+
+                    <li class="nav-item dropdown pe-3 d-flex align-items-center">
+                        <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="material-symbols-rounded">notifications</i>
+                            {% if notifications|length > 0 %}
+                                <span class="badge badge-danger">{{ notifications|length }}</span>
+                            {% endif %}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
+                            {% if notifications|length == 0 %}
+                                <li class="mb-2">
+                                    <a class="dropdown-item text-center" href="#">
+                                        <p>Aucune notification disponible</p>
+                                    </a>
+                                </li>
+                            {% else %}
+                                {% for notification in notifications %}
+                                    <li class="mb-2">
+                                        <a class="dropdown-item border-radius-md" href="#">
+                                            <div class="d-flex py-1">
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="text-sm font-weight-normal mb-1">
+                                                        {{ notification.message }}
+                                                    </h6>
+                                                    <p class="text-xs text-secondary mb-0">
+                                                        <i class="fa fa-clock me-1"></i>
+                                                        {{ notification.dateCreation|date('d/m/Y H:i') }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    </li>
+                    
+                    <li class="nav-item dropdown pe-3 d-flex align-items-center">
+                        <a class="nav-link text-body dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="material-symbols-rounded">account_circle</i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <i class="material-symbols-rounded me-2 text-info">person</i> Profil
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center border-radius-md" href="{{ path('app_logout') }}">
+                                    <i class="material-symbols-rounded me-2 text-danger">logout</i> Déconnexion
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
         <!-- Affichage des alertes -->
         <div class="container">
             {% for label, messages in app.flashes %}

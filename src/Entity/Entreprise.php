@@ -36,6 +36,9 @@ class Entreprise
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $gerant = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $sigle = null;
+
     #[ORM\Column(nullable: true)]
     private ?float $kilometrage = null;
 
@@ -149,6 +152,17 @@ class Entreprise
     {
         $this->gerant = $gerant;
 
+        return $this;
+    }
+
+    public function getSigle(): ?string
+    {
+        return $this->sigle;
+    }
+
+    public function setSigle(?string $sigle): static
+    {
+        $this->sigle = $sigle;
         return $this;
     }
 

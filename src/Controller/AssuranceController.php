@@ -6,6 +6,7 @@ use App\Entity\Materiel;
 use App\Entity\Assurance;
 use App\Entity\Entreprise;
 use App\Form\AssuranceType;
+use App\Service\ExportService;
 use App\Repository\MaterielRepository;
 use App\Repository\AssuranceRepository;
 use App\Repository\EntrepriseRepository;
@@ -41,6 +42,58 @@ class AssuranceController extends BaseController
         ]);
     }
 
+    #[Route('/export-excel', name: 'assurances_export_excel')]
+    public function exportExcel(AssuranceRepository $assuranceRepository, ExportService $exportService): Response
+    {
+        // Récupérer les opérations
+        $assurances = $assuranceRepository->findAll();
+    
+        // Définir les en-têtes du fichier Excel
+        $headers = [
+            'N°', 'Véhicule', 'Type Opération', 'Date de Début', 'Date d\'Expiration', 'Montant Payé', 'Statut'
+        ];
+    
+        // Préparer les données à exporter
+        $data = [];
+        foreach ($assurances as $index => $assurance) {
+            $vehicule = $assurance->getVehicule();
+            $typeAssurance = $assurance->getTypeAssurance();
+            $dateDebut = $assurance->getDateDebut();
+            $dateFin = $assurance->getDateFin();
+            $montant = $assurance->getMontantPaye();
+    
+            $statut = 'Valide';
+            if ($dateFin && $dateFin < new \DateTime()) {
+                $statut = 'Expirée';
+            }
+    
+            $data[] = [
+                $index + 1,
+                $vehicule ? $vehicule->getMarque()->getLibelle() . ' - ' . $vehicule->getImmatriculation() : 'N/A',
+                $typeAssurance ? $typeAssurance->getLibelle() : 'N/A',
+                $dateDebut ? $dateDebut->format('d/m/Y') : '-',
+                $dateFin ? $dateFin->format('d/m/Y') : '-',
+                $montant !== null ? number_format($montant, 0, '.', ' ') . ' FCFA' : 'N/A',
+                $statut,
+            ];
+        }
+    
+        // Utilisation du service ExportService
+        return $exportService->exportExcel($data, $headers, 'operations.xlsx');
+    }
+    
+    #[Route('/export-pdf', name: 'assurances_export_pdf')]
+    public function exportPdf(AssuranceRepository $assuranceRepository, ExportService $exportService): Response
+    {
+        // Récupérer les opérations
+        $assurances = $assuranceRepository->findAll();
+
+        // Utilisation du service ExportService pour exporter en PDF
+        return $exportService->exportPdf('assurances/export_pdf.html.twig', [
+            'assurances' => $assurances
+        ], 'operations.pdf');
+    }
+
     #[Route('/new', name: 'assurances_create', methods: ['GET', 'POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager, MaterielRepository $materielRepository): Response
     {
@@ -65,14 +118,14 @@ class AssuranceController extends BaseController
         if ($form->isSubmitted() && $form->isValid()) {
             $materiel = $assurance->getMateriel();
             if (!$materiel) {
-                $this->addFlash('danger', 'Veuillez sélectionner un matériel.');
+                $this->addFlash('danger', 'Veuillez sélectionner un véhicule.');
                 return $this->redirectToRoute('assurances_create');
             }
 
             $entityManager->persist($assurance);
             $entityManager->flush();
     
-            $this->addFlash('success', 'Assurance enregistrée avec succès.');
+            $this->addFlash('success', 'Opération enregistrée avec succès.');
             return $this->redirectToRoute('assurances_index');
         }
     

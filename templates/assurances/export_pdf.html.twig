@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Export Opérations</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 5px; text-align: center; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h2>Liste des Opérations</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>N°</th>
+                <th>Véhicule</th>
+                <th>Type Opération</th>
+                <th>Date de Début</th>
+                <th>Date d'Expiration</th>
+                <th>Montant Payé</th>
+                <th>Statut</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for assurance in assurances %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ assurance.vehicule.marque.libelle ?? 'N/A' }} - {{ assurance.vehicule.immatriculation ?? 'N/A' }}</td>
+                    <td>{{ assurance.typeAssurance.libelle }}</td>
+                    <td>{{ assurance.dateDebut ? assurance.dateDebut|date('d/m/Y') : 'N/A' }}</td>
+                    <td>{{ assurance.dateFin ? assurance.dateFin|date('d/m/Y') : 'N/A' }}</td>
+                    <td>{{ assurance.montantPaye ? assurance.montantPaye|number_format(0, '.', ' ') ~ ' FCFA' : 'N/A' }}</td>
+                    <td>
+                        {% if assurance.dateFin and assurance.dateFin < "now"|date("Y-m-d") %}
+                            Expirée
+                        {% else %}
+                            Valide
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">Aucune opération trouvée.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

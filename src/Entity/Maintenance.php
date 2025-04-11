@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\MaintenanceRepository;
 use Doctrine\DBAL\Types\Types;
+use App\Entity\TypeMaintenance;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\MaintenanceRepository;
 
 #[ORM\Entity(repositoryClass: MaintenanceRepository::class)]
 class Maintenance
@@ -14,8 +15,8 @@ class Maintenance
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $typeMaintenance = null;
+    #[ORM\ManyToOne(inversedBy: 'mainteannces')]
+    private ?TypeMaintenance $typeMaintenance = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
@@ -47,12 +48,12 @@ class Maintenance
         return $this->id;
     }
 
-    public function getTypeMaintenance(): ?string
+    public function getTypeMaintenance(): ?TypeMaintenance
     {
         return $this->typeMaintenance;
     }
-
-    public function setTypeMaintenance(string $typeMaintenance): static
+    
+    public function setTypeMaintenance(?TypeMaintenance $typeMaintenance): static
     {
         $this->typeMaintenance = $typeMaintenance;
         return $this;
@@ -144,5 +145,10 @@ class Maintenance
     {
         $this->statut = $statut;
         return $this;
+    }
+
+    public function isStatut(): ?bool
+    {
+        return $this->statut;
     }
 }

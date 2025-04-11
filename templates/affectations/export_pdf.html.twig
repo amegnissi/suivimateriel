@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Export Affectations</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 5px; text-align: center; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h2>Liste des Affectations</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>N°</th>
+                <th>Matériel</th>
+                <th>Employé</th>
+                <th>Société</th>
+                <th>Date d'Affectation</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for affectation in affectations %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ affectation.materiel.marque.libelle ?? 'N/A' }} - {{ affectation.materiel.immatriculation ?? 'N/A' }}</td>
+                    <td>{{ affectation.employe.prenom ?? 'N/A' }} {{ affectation.employe.nom ?? '' }}</td>
+                    <td>{{ affectation.societe.nom ?? 'N/A' }}</td>
+                    <td>{{ affectation.dateAffectation ? affectation.dateAffectation|date('d/m/Y') : 'N/A' }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">Aucune affectation trouvée.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

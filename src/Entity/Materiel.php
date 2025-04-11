@@ -30,9 +30,6 @@ class Materiel
     private ?string $statut = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $lieuAffactation = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
     private ?string $etat = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -43,6 +40,9 @@ class Materiel
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $imageFilename = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $code = null;
 
     /**
      * @Assert\File(
@@ -130,18 +130,6 @@ class Materiel
         return $this;
     }
 
-    public function getLieuAffactation(): ?string
-    {
-        return $this->lieuAffactation;
-    }
-
-    public function setLieuAffactation(?string $lieuAffactation): static
-    {
-        $this->lieuAffactation = $lieuAffactation;
-
-        return $this;
-    }
-
     public function getEtat(): ?string
     {
         return $this->etat;
@@ -203,6 +191,17 @@ class Materiel
             $this->imageFilename = uniqid().'.'.$imageFile->guessExtension();
         }
 
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(?string $code): static
+    {
+        $this->code = $code;
         return $this;
     }
 
@@ -288,13 +287,15 @@ class Materiel
         return $this;
     }
 
-    public function removeMateriel(Assurance $assurance): static
+    public function removeAssurance(Assurance $assurance): static
     {
         if ($this->assurances->removeElement($assurance)) {
-            if ($assurance->getMateriel() === $this) {
-                $assurance->setMateriel(null);
+            // set the owning side to null (unless already changed)
+            if ($assurance->getVehicule() === $this) {
+                $assurance->setVehicule(null);
             }
         }
+
         return $this;
     }
 }
