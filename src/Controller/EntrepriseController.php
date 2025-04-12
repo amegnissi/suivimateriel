@@ -33,7 +33,7 @@ class EntrepriseController extends AbstractController
             $logo = $form->get('logo')->getData();
             if ($logo) {
                 $newFilename = uniqid().'.'.$logo->guessExtension();
-                $logo->move($this->getParameter('uploads_directory').'/logos', $newFilename);
+                $logo->move($this->getParameter('uploads_directory').'/entreprise', $newFilename);
                 $entreprise->setLogo($newFilename);
             }
 
@@ -64,13 +64,13 @@ class EntrepriseController extends AbstractController
 
                 // Suppression de l'ancien logo s'il existe
                 if ($entreprise->getLogo()) {
-                    $oldLogoPath = $this->getParameter('uploads_directory').'/logos/'.$entreprise->getLogo();
+                    $oldLogoPath = $this->getParameter('uploads_directory').'/entreprise/'.$entreprise->getLogo();
                     if (file_exists($oldLogoPath)) {
                         unlink($oldLogoPath);
                     }
                 }
 
-                $logo->move($this->getParameter('uploads_directory').'/logos', $newFilename);
+                $logo->move($this->getParameter('uploads_directory').'/entreprise', $newFilename);
                 $entreprise->setLogo($newFilename);
             }
 

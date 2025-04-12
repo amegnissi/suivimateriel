@@ -78,6 +78,7 @@ class EntrepriseType extends AbstractType
             ->add('logo', FileType::class, [
                 'label' => 'Logo (PNG, JPG, JPEG)',
                 'required' => false,
+                'data_class' => null,
                 'constraints' => [
                     new File([
                         'maxSize' => '2M',

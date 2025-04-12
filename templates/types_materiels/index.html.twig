@@ -39,7 +39,7 @@
                                             <span class="badge bg-gradient-success">{{ typeMateriel.materiels|length ?: 0 }}</span>
                                         </td>
                                         <td class="align-middle text-center">
-                                            <a href="{{ path('types_materiels_show', { 'id': typeMateriel.id }) }}" class="btn btn-info btn-sm">Voir</a>
+                                            {#<a href="{{ path('types_materiels_show', { 'id': typeMateriel.id }) }}" class="btn btn-info btn-sm">Voir</a>#}
                                             <a href="{{ path('types_materiels_edit', { 'id': typeMateriel.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
                                             <form action="{{ path('types_materiels_delete', { 'id': typeMateriel.id }) }}" method="POST" class="d-inline">
                                                 <input type="hidden" name="_method" value="DELETE">
