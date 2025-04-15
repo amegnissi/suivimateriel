@@ -62,7 +62,7 @@
                                 <ul class="list-group">
                                     <li class="list-group-item border-0 ps-0 text-sm">
                                         <strong class="text-dark">Kilométrage avant vidange :</strong> 
-                                        &nbsp; {{ entreprise.kilometrage | default('Non spécifié') }} km
+                                        &nbsp; {{ entreprise.kilometrage is not null ? entreprise.kilometrage|number_format(0, ',', ' ') ~ ' km' : 'Non spécifié' }}
                                     </li>
                                     <li class="list-group-item border-0 ps-0 text-sm">
                                         <strong class="text-dark">Délai de rappel - Assurance :</strong> 

@@ -41,7 +41,7 @@ class EntrepriseController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Entreprise ajoutée avec succès.');
-            return $this->redirectToRoute('dashboard');
+            return $this->redirectToRoute('entreprise_index');
         }
 
         return $this->render('entreprise/create.html.twig', [
@@ -77,7 +77,7 @@ class EntrepriseController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Entreprise mise à jour avec succès.');
-            return $this->redirectToRoute('dashboard');
+            return $this->redirectToRoute('entreprise_index');
         }
 
         return $this->render('entreprise/edit.html.twig', [
