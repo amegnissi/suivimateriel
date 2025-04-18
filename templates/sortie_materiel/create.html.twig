@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sortie de Matériel{% endblock %}
+
+{% block breadcrumb %}MATÉRIELS > SORTIE{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <h4>Déclarer la Sortie d'un Matériel</h4>
+            <div class="card my-4">
+                <div class="card-body">
+                    {{ form_start(form) }}
+
+                    <div class="input-group input-group-static mb-4">
+                        {{ form_label(form.materiel, 'Matériel', { 'label_attr': {'class': 'ms-0'} }) }}
+                        {{ form_widget(form.materiel, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_errors(form.materiel) }}
+                    </div>
+
+                    <div class="input-group input-group-static mb-4">
+                        {{ form_label(form.motif, 'Motif de la Sortie', { 'label_attr': {'class': 'ms-0'} }) }}
+                        {{ form_widget(form.motif, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_errors(form.motif) }}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    <a href="{{ path('sortie_materiels_index') }}" class="btn btn-secondary">Annuler</a>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

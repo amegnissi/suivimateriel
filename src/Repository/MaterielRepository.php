@@ -27,6 +27,14 @@ class MaterielRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findMaterielsDisponiblesPourSortie(): array
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.estSorti = false')
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Materiel[] Returns an array of Materiel objects
     //     */

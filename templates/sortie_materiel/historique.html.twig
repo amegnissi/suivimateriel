@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Historique des Sorties{% endblock %}
+
+{% block breadcrumb %}MATERIELS > HISTORIQUE SORTIES{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <h4>Historique des Sorties de Matériel</h4>
+            <div class="card my-4">
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-3">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Matériel</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date de Sortie</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Motif</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date de Retour</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for sortie in sorties %}
+                                    <tr>
+                                        <td class="text-sm">{{ sortie.materiel.marque.libelle ?: 'N/A' }} - {{ sortie.materiel.immatriculation ?: 'N/A' }}</td>
+                                        <td class="text-sm">{{ sortie.dateSortie|date('d/m/Y') }}</td>
+                                        <td class="text-sm">{{ sortie.motif }}</td>
+                                        <td class="text-sm">
+                                            {% if sortie.dateRetour %}
+                                                {{ sortie.dateRetour|date('d/m/Y') }}
+                                            {% else %}
+                                                <span class="badge bg-gradient-warning">Non revenu</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted">Aucune sortie enregistrée.</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <a href="{{ path('sortie_materiels_index') }}" class="btn btn-outline-secondary">← Retour à la liste</a>
+        </div>
+    </div>
+{% endblock %}

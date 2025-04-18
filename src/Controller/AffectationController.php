@@ -239,6 +239,7 @@ class AffectationController extends BaseController
             $affectation->setEmploye(null); // Dissocier l'employé
             $affectation->setSociete(null); // Dissocier la société
             $affectation->setLieuAffectation(null);
+            $affectation->setMateriel(null);
 
             // Mettre à jour le statut du matériel
             $materiel = $affectation->getMateriel();
