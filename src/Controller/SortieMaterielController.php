@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Materiel;
 use App\Entity\Entreprise;
 use App\Entity\SortieMateriel;
+use App\Form\RetourMaterielType;
 use App\Form\SortieMaterielType;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -79,21 +80,23 @@ class SortieMaterielController extends BaseController
         ]);
     }
 
-    #[Route('/retour/{id}', name: 'sorties_retour', methods: ['GET', 'POST'])]
-    public function retour(SortieMateriel $sortie, EntityManagerInterface $em): Response
+    #[Route('/{id}/retour', name: 'sorties_retour', methods: ['GET', 'POST'])]
+    public function retour(Request $request, SortieMateriel $sortieMateriel, EntityManagerInterface $em): Response
     {
-        if ($sortie->getDateRetour() !== null) {
-            $this->addFlash('warning', 'Ce matériel a déjà été retourné.');
-            return $this->redirectToRoute('sortie_materiels_historique');
+        $form = $this->createForm(RetourMaterielType::class, $sortieMateriel);
+        $form->handleRequest($request);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+        
+            $this->addFlash('success', 'Le retour a été enregistré avec succès.');
+            return $this->redirectToRoute('sortie_materiels_index');
         }
-
-        $sortie->setDateRetour(new \DateTime());
-        $sortie->getMateriel()->setEstSorti(false); // Le matériel est revenu
-
-        $em->flush();
-
-        $this->addFlash('success', 'Matériel retourné avec succès.');
-        return $this->redirectToRoute('sorties_historique');
+    
+        return $this->render('sortie_materiel/retour.html.twig', [
+            'form' => $form->createView(),
+            'sortie' => $sortieMateriel,
+        ]);
     }
 
     #[Route('/historique', name: 'sorties_historique', methods: ['GET'])]

@@ -22,6 +22,9 @@ class SortieMateriel
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateRetour = null;
 
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $etatRetour = null;
+
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $motif = null;
 
@@ -44,4 +47,15 @@ class SortieMateriel
 
     public function getEmploye(): ?Employe { return $this->employe; }
     public function setEmploye(?Employe $employe): static { $this->employe = $employe; return $this; }
+
+    public function getEtatRetour(): ?string
+    {
+        return $this->etatRetour;
+    }
+
+    public function setEtatRetour(?string $etatRetour): self
+    {
+        $this->etatRetour = $etatRetour;
+        return $this;
+    }
 }
