@@ -18,4 +18,9 @@ abstract class BaseController extends AbstractController
         }
         return null; // Pas de redirection si une entreprise existe
     }
+
+    protected function getEntreprise(EntityManagerInterface $entityManager): ?Entreprise
+    {
+        return $entityManager->getRepository(Entreprise::class)->findOneBy([]);
+    }
 }

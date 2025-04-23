@@ -20,11 +20,7 @@ class MaterielType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('libelle', TextareaType::class, [
-                'required' => false,
-                'label' => 'Description',
-                'attr' => ['class' => 'form-control'],
-            ])
+
             ->add('numeroSerie', TextType::class, [
                 'label' => 'Numéro de série',
                 'required' => false,
@@ -33,7 +29,7 @@ class MaterielType extends AbstractType
             ->add('date_acquisition', DateType::class, [
                 'required' => false,
                 'label' => 'Date d\'acquisition',
-                'widget' => 'single_text',    
+                'widget' => 'single_text',
                 'attr' => [
                     'class' => 'form-control',
                     'type' => 'date',
@@ -67,6 +63,11 @@ class MaterielType extends AbstractType
                     'class' => 'form-control',
                     'onchange' => 'checkImmatriculationField()',
                 ],
+            ])
+            ->add('libelle', TextareaType::class, [
+                'required' => false,
+                'label' => 'Description',
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('imageFile', FileType::class, [
                 'label' => 'Image du matériel (jpg, png, gif)',

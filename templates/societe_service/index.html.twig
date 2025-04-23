@@ -1,12 +1,12 @@
 {% extends 'base_table.html.twig' %}
 
-{% block title %}Sociétés Services{% endblock %}
+{% block title %}Clients{% endblock %}
 
 {% block breadcrumb %}SOCIETES SERVICES{% endblock %}
 {% block  breadcrumb_item %}SOCIETES SERVICES{% endblock %}
-{% block  breadcrumb_t %} Liste des Sociétés Services{% endblock %}
-{% block table_titre %}Liste des Sociétés Services{% endblock %}
- {% block btntitle %}Ajouter une Société de Servicel{% endblock %}
+{% block  breadcrumb_t %} Liste des Clients{% endblock %}
+{% block table_titre %}Liste des Clients{% endblock %}
+ {% block btntitle %}Ajouter un Client{% endblock %}
 {% block btnpath %}{{ path('societe_service_create') }}{% endblock %}
 {% block tableContent %}
     <thead>
@@ -21,22 +21,22 @@
     <tbody>
     {% for societe in pagination %}
         <tr>
-            <td class="align-middle text-center text-xs font-weight-bold">{{ loop.index }}</td>
+            <td>{{ loop.index }}</td>
             <td class="">{{ societe.nom }}</td>
-            <td class="align-middle text-xs font-weight-bold">{{ societe.adresse ?: 'N/A' }}</td>
-            <td class="align-middle text-center text-xs font-weight-bold">
+            <td >{{ societe.adresse ?: 'N/A' }}</td>
+            <td >
                 {{ societe.telephone ?: 'N/A' }}
             </td>
-            <td class="align-middle text-center text-xs font-weight-bold">
+            <td >
                 <span class="badge bg-gradient-success">{{ societe.affectations|length }}</span>
             </td>
             <td class="align-middle text-center">
                 <div class="common-align gap-2 justify-content-start">
-                    <a href="{{ path('societe_service_show', { 'id': societe.id }) }}"
+                    <a class="btn btn-success btn-sm" href="{{ path('societe_service_show', { 'id': societe.id }) }}"
                        title="Plus de details">
                         <i class="fa fa-eye"></i>
                     </a>
-                    <a class="square-white" title="Modifier"
+                    <a class="btn btn-primary btn-sm" title="Modifier"
                        href="{{ path('societe_service_edit', { 'id': societe.id }) }}">
                         <i class="far fa-edit"></i>
                     </a>
@@ -44,6 +44,7 @@
                           class="d-inline">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ societe.id) }}">
                         <a type="submit"
+                           class="btn btn-danger btn-sm"
                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce poste ?');"
                            title="Supprimer le type de materiel">
 

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Export Matériels</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 5px; text-align: center; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h2>Liste des Matériels</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>N°</th>
+                <th>Marque</th>
+                <th>Modèle</th>
+                <th>Immatriculation</th>
+                <th>Numéro de série</th>
+                <th>Type</th>
+                <th>Date d'acquisition</th>
+                <th>Lieu d'affectation</th>
+                <th>Statut</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for materiel in materiels %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ materiel.marque.libelle ?? 'Non défini' }}</td>
+                    <td>{{ materiel.modele ?? 'Non défini' }}</td>
+                    <td>{{ materiel.immatriculation ?? 'Non défini' }}</td>
+                    <td>{{ materiel.numeroSerie ?? 'Non défini' }}</td>
+                    <td>{{ materiel.type.libelle ?? 'Non défini' }}</td>
+                    <td>{{ materiel.dateAcquisition ? materiel.dateAcquisition|date('d/m/Y') : 'Non défini' }}</td>
+                    <td>{{ materiel.lieuAffactation ?? 'Non défini' }}</td>
+                    <td>
+                        {% if materiel.affectations|length > 0 %}
+                            Affecté
+                        {% else %}
+                            Non Affecté
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="9">Aucun matériel trouvé.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -7,6 +7,29 @@
 
 {% block content %}
 
+    <style>
+        .card-blog .card-body {
+            padding-top: 0.5rem;
+            padding-bottom: 1rem;
+        }
+
+        .card-blog img {
+            height: 200px;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .card-blog .btn {
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .card-blog img {
+                height: 150px;
+            }
+        }
+    </style>
+
     <div class="container-fluid px-2 px-md-4">
         <div class="page-header min-height-300 border-radius-xl mt-4" style="background-image: url('{{ asset('assets/img/employe-background.jpg') }}');">
             <span class="mask bg-gradient-dark opacity-6"></span>
@@ -16,7 +39,7 @@
                 <div class="col-auto">
                     <div class="avatar avatar-xl position-relative">
                         {% if employe.photo %}
-                            <img src="{{ asset('uploads/employes' ~ employe.photo) }}" class="w-100 border-radius-lg shadow-sm" alt="Photo de l'employé">
+                            <img src="{{ asset('uploads/employes/' ~ employe.photo) }}" class="w-100 border-radius-lg shadow-sm" alt="Photo de l'employé">
                         {% else %}
                             <img src="{{ asset('assets/img/account-avatar.png') }}" class="w-100 border-radius-lg shadow-sm" alt="Avatar par défaut">
                         {% endif %}
@@ -35,7 +58,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 col-xl-6">
+                <div class="col-12 col-xl-4">
                     <div class="card card-plain h-100">
                         <div class="card-header pb-0 p-3">
                             <h6 class="mb-0">Informations personnelles</h6>
@@ -49,7 +72,33 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-xl-6">
+                <div class="col-12 col-xl-4">
+                    <div class="card card-plain h-100">
+                        <div class="card-header pb-0 p-3">
+                            <h6 class="mb-0">Contact d'urgence</h6>
+                        </div>
+                        <div class="card-body p-3">
+                            <ul class="list-group">
+                                <li class="list-group-item border-0 ps-0 text-sm">
+                                    <strong class="text-dark">Nom:</strong> &nbsp; {{ employe.contactUrgenceNom ?? 'Non spécifié' }}
+                                </li>
+                                <li class="list-group-item border-0 ps-0 text-sm">
+                                    <strong class="text-dark">Prénom:</strong> &nbsp; {{ employe.contactUrgencePrenom ?? 'Non spécifié' }}
+                                </li>
+                                <li class="list-group-item border-0 ps-0 text-sm">
+                                    <strong class="text-dark">Téléphone:</strong> &nbsp; {{ employe.contactUrgenceTelephone ?? 'Non spécifié' }}
+                                </li>
+                                <li class="list-group-item border-0 ps-0 text-sm">
+                                    <strong class="text-dark">Adresse:</strong> &nbsp; {{ employe.contactUrgenceAdresse ?? 'Non spécifié' }}
+                                </li>
+                                <li class="list-group-item border-0 ps-0 text-sm">
+                                    <strong class="text-dark">Lien de familiarité:</strong> &nbsp; {{ employe.contactUrgenceLien ?? 'Non spécifié' }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-xl-4">
                     <div class="card card-plain h-100">
                         <div class="card-header pb-0 p-3">
                             <h6 class="mb-0">Matériel Affecté</h6>
@@ -89,16 +138,19 @@
                                     <div class="card card-blog card-plain">
                                         <div class="card-header p-0 m-2">
                                             <a class="d-block shadow-xl border-radius-xl">
-                                                {% if doc matches '/\.pdf$/' %}
-                                                    <img src="{{ asset('assets/images/pdf-placeholder.png') }}" alt="PDF" class="img-fluid shadow border-radius-lg">
+                                                {% if doc|lower ends with '.pdf' %}
+                                                    <img src="{{ asset('assets/images/pdf-placeholder.png') }}" alt="PDF" class="img-fluid card-img shadow border-radius-lg">
+                                                {% elseif doc|lower matches '/\.(jpg|jpeg|png|gif|webp)$/' %}
+                                                    <img src="{{ asset('uploads/employes/' ~ doc) }}" alt="Document" class="img-fluid card-img shadow border-radius-lg"
+                                                        onerror="this.onerror=null;this.src='{{ asset('assets/images/file-placeholder.png') }}';">
                                                 {% else %}
-                                                    <img src="{{ asset('uploads/' ~ doc) }}" alt="Document" class="img-fluid shadow border-radius-lg">
+                                                    <img src="{{ asset('assets/images/file-placeholder.png') }}" alt="Fichier" class="img-fluid card-img shadow border-radius-lg">
                                                 {% endif %}
                                             </a>
                                         </div>
                                         <div class="card-body p-3">
                                             <p class="mb-0 text-sm">{{ label }}</p>
-                                            <a href="{{ asset('uploads/' ~ doc) }}" target="_blank">
+                                            <a href="{{ asset('uploads/employes/' ~ doc) }}" target="_blank">
                                                 <button type="button" class="btn btn-outline-primary btn-sm mb-0">Voir le document</button>
                                             </a>
                                         </div>

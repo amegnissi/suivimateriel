@@ -23,6 +23,11 @@ class EntrepriseType extends AbstractType
                 'label' => 'Nom de l’entreprise',
                 'attr' => ['class' => 'form-control']
             ])
+            ->add('sigle', TextType::class, [
+                'label' => 'SIGLE',
+                'required' => false,
+                'attr' => ['class' => 'form-control']
+            ])
             ->add('adresse', TextType::class, [
                 'label' => 'Adresse',
                 'required' => false,
@@ -70,18 +75,17 @@ class EntrepriseType extends AbstractType
                 'label' => 'Délai avant expiration visite technique (jours)',
                 'required' => false,
             ])
-//            ->add('logo', FileType::class, [
-//                'label' => 'Logo (PNG, JPG, JPEG)',
-//                'required' => false,
-//                'constraints' => [
-//                    new File([
-//                        'maxSize' => '2M',
-//                        'mimeTypes' => ['image/jpeg', 'image/png'],
-//                        'mimeTypesMessage' => 'Veuillez télécharger une image valide (PNG, JPG, JPEG)',
-//                    ])
-//                ],
-//            ])
-        ;
+            ->add('logo', FileType::class, [
+                'label' => 'Logo (PNG, JPG, JPEG)',
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '2M',
+                        'mimeTypes' => ['image/jpeg', 'image/png'],
+                        'mimeTypesMessage' => 'Veuillez télécharger une image valide (PNG, JPG, JPEG)',
+                    ])
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

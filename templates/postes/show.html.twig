@@ -1,85 +1,39 @@
-{% extends 'baseC.html.twig' %}
-{% block title %}Postes{% endblock %}
+{% extends 'base.html.twig' %}
 
-{% block breadcrumb %}POSTES{% endblock %}
-{% block  breadcrumb_item %}Gestion des postes{% endblock %}
-{% block  breadcrumb_t %} Details poste{% endblock %}
+{% block title %}Détails du Poste{% endblock %}
+
+{% block breadcrumb %}POSTES > DÉTAILS{% endblock %}
 
 {% block content %}
     <div class="row">
-        <div class="col-sm-10 offset-sm-1">
-            <div class="card list-with-icon">
-                <div class="card-header border-b-5 border-l-primary">
-                    <h6>Détails du Poste</h6>
-
-                </div>
+        <div class="col-12">
+            <h4>Détails du Poste</h4>
+            <div class="card my-4">
                 <div class="card-body">
-                    <div class="card-body table-responsive">
-                        <table class="table table-hover table-sm table-bordered table-striped">
-                            <thead class="text-muted table-light">
-                            <tbody>
-                            <tr>
-                                <th> Intitule :</th>
-                                <td> {{ poste.libelle }} </td>
-                            </tr>
-                            <tr>
-                                <th> Nombre d'employés affectés  :</th>
-                                <td> {{ poste.employe|length }} </td>
-                            </tr>
-                            <tr>
-                                <th colspan="2" class="text-center"> Employés affectés :
-                                </th>
+                    <p><strong>Libellé :</strong> {{ poste.libelle }}</p>
+                    <p><strong>Nombre d'employés affectés :</strong> {{ poste.employe|length }}</p>
 
-                            </tr>
-                            <tr>
-                                <th colspan="2">
-                                    {% if poste.employe is not empty %}
-                                        <ul class="list-group list-group-flush">
-                                            {% for employe in poste.employe %}
-                                                <li class="list-group-item">
-                                                    <i class="icofont icofont-arrow-right"></i>
-                                                    {{ employe.nom }} {{ employe.prenom }} - {{ employe.email }}</li>
-                                            {% endfor %}
-                                        </ul>
-                                    {% else %}
-                                        <p>Aucun employé affecté à ce poste.</p>
-                                    {% endif %}
-                                </th>
+                    <h5>Employés affectés :</h5>
+                    {% if poste.employe is not empty %}
+                    <ul>
+                        {% for employe in poste.employe %}
+                            <li>{{ employe.nom }} {{ employe.prenom }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p>Aucun employé affecté à ce poste.</p>
+                    {% endif %}
 
-                            </tr>
-                            </tbody>
-                        </table><!-- end table -->
+                    <a href="{{ path('postes_edit', {'id': poste.id}) }}" class="btn btn-warning">Modifier</a>
 
-                    </div>
-                    <div class="col-12">
-                        <div class="common-flex d-grid gap-2 d-md-flex justify-content-md-end buttons-box">
-                            <a href="{{ path('postes_edit', {'id': poste.id}) }}" class="btn btn-outline-success
-                            btn-sm b-r-6">
-                                <i class="fa-solid fa-check"></i>
-                                Modifier
-                            </a>
-                            <form action="{{ path('postes_delete', {'id': poste.id}) }}" method="POST" class="d-inline">
-                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ poste.id) }}">
-                                <button type="submit" class="btn btn-outline-danger" onclick="return confirm
-                                ('Êtes-vous sûr ' +
-                                 'de vouloir désactiver ce poste ?');">
-                                    <i class="fa-solid fa-warning"></i>
-                                    Désactiver</button>
-                            </form>
+                    <form action="{{ path('postes_delete', {'id': poste.id}) }}" method="POST" class="d-inline">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ poste.id) }}">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir désactiver ce poste ?');">Désactiver</button>
+                    </form>
 
-
-                            <a href="{{ path('postes_index') }}" class="btn btn-outline-dark b-r-8">
-                                <i class="fa-solid fa-arrow-left"></i>
-                                Retour</a>
-
-                        </div>
-                    </div>
-
-
-
+                    <a href="{{ path('postes_index') }}" class="btn btn-secondary">Retour</a>
                 </div>
             </div>
         </div>
     </div>
-
 {% endblock %}

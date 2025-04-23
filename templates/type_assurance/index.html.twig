@@ -1,0 +1,145 @@
+{% extends 'base_table.html.twig' %}
+{% block title %}Operations{% endblock %}
+{% block breadcrumb %}Operations{% endblock %}
+{% block  breadcrumb_item %} Operations{% endblock %}
+{% block  breadcrumb_t %} Gestion des Operations{% endblock %}
+{% block table_titre %}Liste des Types d'Opération{% endblock %}
+{% block btntitle %}Ajouter un type d'Opération{% endblock %}
+{% block btnpath %}{{ path('type_assurance_create') }}{% endblock %}
+
+{% block tableContent %}
+<thead>
+<tr>
+    <th>N°</th>
+    <th>Nom de l'Opération</th>
+    <th>Opérations Associées</th>
+    <th>Actions</th>
+    {#    <th class="col">Actions</th>#}
+</tr>
+</thead>
+<tbody>
+{% for type in pagination %}
+    <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ type.libelle }}</td>
+        <td>
+            <span class="badge bg-gradient-success">{{ type.assurances|length ?: 0 }}</span>
+        </td>
+        <td class="align-middle text-center">
+            <div class="common-align gap-2 justify-content-start">
+
+                <a class="btn btn-success btn-sm" href="{{ path('type_assurance_edit', {id: type.id}) }}"
+                   title="Plus de details">
+                    <i class="far fa-edit"></i>
+                </a>
+
+            <form action="{{ path('type_assurance_delete', {id: type.id}) }}" method="POST" class="d-inline">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ type.id) }}">
+                <a class="btn btn-danger btn-sm" type="submit"
+                   onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce poste ?');"
+                   title="Supprimer le poste">
+
+                    <i class="fa fa-trash"></i>
+
+
+                </a>
+            </form>
+            </div>
+{#            <form method="post" action="{{ path('type_assurance_delete', {id: type.id}) }}" style="display:inline-block;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce type ?');">#}
+{#                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ type.id) }}">#}
+{#                <button class="btn btn-sm btn-danger">Supprimer</button>#}
+{#            </form>#}
+        </td>
+    </tr>
+{% else %}
+    <tr>
+        <td colspan="3" class="text-center text-secondary">Aucun type d'opération enregistré.</td>
+    </tr>
+{% endfor %}
+</tbody>
+{% endblock %}
+{#{% block content %}#}
+
+{#<div class="row">#}
+{#    <div class="col-12">#}
+{#        <div class="d-flex justify-content-between align-items-center mb-4">#}
+{#            <h4>Gestion des Types d'Opération</h4>#}
+{#            <a href="{{ path('type_assurance_create') }}" class="btn btn-primary">Ajouter un Type</a>#}
+{#        </div>#}
+
+{#        <div class="card my-4">#}
+{#            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">#}
+{#                <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">#}
+{#                    <h6 class="text-white text-capitalize ps-3">Liste des Types d'Opération</h6>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="card-body px-0 pb-2">#}
+{#                <div class="table-responsive">#}
+{#                    <table class="table align-items-center mb-0">#}
+{#                        <thead>#}
+{#                            <tr>#}
+{#                                <th>N°</th>#}
+{#                                <th>Nom de l'Opération</th>#}
+{#                                <th>Opérations Associées</th>#}
+{#                                <th>Actions</th>#}
+{#                            </tr>#}
+{#                        </thead>#}
+{#                        <tbody>#}
+{#                            {% for type in pagination %}#}
+{#                                <tr>#}
+{#                                    <td class="align-middle text-center text-xs font-weight-bold">{{ loop.index }}</td>#}
+{#                                    <td class="align-middle text-sm">{{ type.libelle }}</td>#}
+{#                                        <td class="align-middle text-center text-xs font-weight-bold">#}
+{#                                            <span class="badge bg-gradient-success">{{ type.assurances|length ?: 0 }}</span>#}
+{#                                        </td>#}
+{#                                    <td class="align-middle text-center">#}
+{#                                        <a href="{{ path('type_assurance_edit', {id: type.id}) }}" class="btn btn-sm btn-warning">Modifier</a>#}
+{#                                        <form method="post" action="{{ path('type_assurance_delete', {id: type.id}) }}" style="display:inline-block;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce type ?');">#}
+{#                                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ type.id) }}">#}
+{#                                            <button class="btn btn-sm btn-danger">Supprimer</button>#}
+{#                                        </form>#}
+{#                                    </td>#}
+{#                                </tr>#}
+{#                            {% else %}#}
+{#                                <tr>#}
+{#                                    <td colspan="3" class="text-center text-secondary">Aucun type d'opération enregistré.</td>#}
+{#                                </tr>#}
+{#                            {% endfor %}#}
+{#                        </tbody>#}
+{#                    </table>#}
+
+{#                    <!-- Pagination -->#}
+{#                    {% if pagination.getTotalItemCount() > 10 %}#}
+{#                        <nav aria-label="Page navigation example">#}
+{#                            <ul class="pagination justify-content-center mt-3">#}
+{#                                {% if pagination.currentPageNumber > 1 %}#}
+{#                                    <li class="page-item">#}
+{#                                        <a class="page-link" href="{{ path('type_assurance_index', {'page': pagination.currentPageNumber - 1}) }}">#}
+{#                                            <span class="material-symbols-rounded">keyboard_arrow_left</span>#}
+{#                                        </a>#}
+{#                                    </li>#}
+{#                                {% endif %}#}
+
+{#                                {% for page in 1..pagination.pageCount %}#}
+{#                                    <li class="page-item {% if page == pagination.currentPageNumber %}active{% endif %}">#}
+{#                                        <a class="page-link" href="{{ path('type_assurance_index', {'page': page}) }}">{{ page }}</a>#}
+{#                                    </li>#}
+{#                                {% endfor %}#}
+
+{#                                {% if pagination.currentPageNumber < pagination.pageCount %}#}
+{#                                    <li class="page-item">#}
+{#                                        <a class="page-link" href="{{ path('type_assurance_index', {'page': pagination.currentPageNumber + 1}) }}">#}
+{#                                            <span class="material-symbols-rounded">keyboard_arrow_right</span>#}
+{#                                        </a>#}
+{#                                    </li>#}
+{#                                {% endif %}#}
+{#                            </ul>#}
+{#                        </nav>#}
+{#                    {% endif %}#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+
+{#{% endblock %}#}

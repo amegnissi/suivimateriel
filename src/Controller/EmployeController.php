@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Employe;
 use App\Form\EmployeType;
 use App\Entity\Entreprise;
+use App\Service\ExportService;
 use App\Repository\EmployeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -41,6 +42,51 @@ class EmployeController extends BaseController
         ]);
     }
 
+    #[Route('/export-excel', name: 'employes_export_excel')]
+    public function exportExcel(EmployeRepository $employeRepository, ExportService $exportService): Response
+    {
+        $employes = $employeRepository->createQueryBuilder('e')
+            ->where('e.depart IS NULL OR e.depart = :depart')
+            ->setParameter('depart', false)
+            ->getQuery()
+            ->getResult();
+    
+        // Définir les en-têtes du fichier Excel
+        $headers = ['N°', 'Nom', 'Prénom', 'Poste', 'Téléphone Pro', 'Téléphone Perso', 'Statut'];
+    
+        // Préparer les données à exporter
+        $data = [];
+        foreach ($employes as $index => $employe) {
+            $data[] = [
+                $index + 1,
+                $employe->getNom(),
+                $employe->getPrenom(),
+                $employe->getPoste() ? $employe->getPoste()->getLibelle() : 'Non défini',
+                $employe->getTelephoneCorporate() ?: 'N/A',
+                $employe->getTelephonePersonnel() ?: 'N/A',
+                count($employe->getAffectations()) > 0 ? 'Affecté' : 'Non Affecté',
+            ];
+        }
+    
+        // Utilisation du service ExportService
+        return $exportService->exportExcel($data, $headers, 'employes.xlsx');
+    }
+
+    #[Route('/export-pdf', name: 'employes_export_pdf')]
+    public function exportPdf(EmployeRepository $employeRepository, ExportService $exportService): Response
+    {    
+        $employes = $employeRepository->createQueryBuilder('e')
+            ->where('e.depart IS NULL OR e.depart = :depart')
+            ->setParameter('depart', false)
+            ->getQuery()
+            ->getResult();
+    
+        // Utilisation du service ExportService
+        return $exportService->exportPdf('employes/export_pdf.html.twig', [
+            'employes' => $employes
+        ], 'employes.pdf');
+    }
+    
     #[Route('/new', name: 'employes_create', methods: ['GET', 'POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {

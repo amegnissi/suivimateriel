@@ -6,6 +6,7 @@ use App\Entity\Employe;
 use App\Entity\Materiel;
 use App\Entity\Affectation;
 use App\Entity\SocieteService;
+use App\Entity\LieuAffectation;
 use App\Repository\EmployeRepository;
 use App\Repository\MaterielRepository;
 use Symfony\Component\Form\AbstractType;
@@ -40,7 +41,8 @@ class AffectationType extends AbstractType
                 'placeholder' => 'Choisissez un Employé',
                 'required' => false,
             ])
-            
+
+
             ->add('materiel', EntityType::class, [
                 'class' => Materiel::class,
                 'query_builder' => function (MaterielRepository $mr) {
@@ -63,11 +65,20 @@ class AffectationType extends AbstractType
                 'placeholder' => 'Choisissez un Société',
                 'required' => false,
             ])
-            ->add('lieuAffectation', TextType::class, [
-                'label' => 'Lieu d\'Affectation',
+            ->add('lieuAffectation', EntityType::class, [
+                'class' => LieuAffectation::class,
+                'choice_label' => 'nom',
+                'placeholder' => 'Sélectionnez un lieu ou service',
+                'attr' => ['class' => 'form-control select2'],
+                'choice_attr' => function (LieuAffectation $lieu) {
+                    return ['data-type' => $lieu->getType()];
+                },
+            ])
+            ->add('codification',TextType::class, [
+                'mapped' => false,
                 'required' => false,
-                'attr' => ['class' => 'form-control'],
-            ]);
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

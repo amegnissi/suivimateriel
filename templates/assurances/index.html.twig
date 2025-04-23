@@ -1,181 +1,61 @@
 {% extends 'base_table.html.twig' %}
-{% block title %}ASSURANCES{% endblock %}
-{% block breadcrumb %}ASSURANCES{% endblock %}
-{% block  breadcrumb_item %} ASSURANCES{% endblock %}
-{% block  breadcrumb_t %} Gestion des Assurances{% endblock %}
-{% block table_titre %}Liste des assurances{% endblock %}
-{% block btntitle %}Ajouter une Assurance{% endblock %}
+{% block title %}Operations{% endblock %}
+{% block breadcrumb %}OPERATIONS{% endblock %}
+{% block  breadcrumb_item %} OPERATIONS{% endblock %}
+{% block  breadcrumb_t %} Gestion des Operations{% endblock %}
+{% block table_titre %}Liste des Operation{% endblock %}
+{% block btntitle %}Ajouter une  Operation{% endblock %}
+{% block otherbtn %}
+    <a href="{{ path('assurances_export_pdf') }}" class="btn btn-danger">Exporter en PDF</a>
+    <a href="{{ path('assurances_export_excel') }}" class="btn btn-success">Exporter en Excel</a>
+{% endblock %}
 {% block btnpath %}{{ path('assurances_create') }}{% endblock %}
-
 {% block tableContent %}
-<thead>
-<tr>
-    <th class="col">N°</th>
-    <th class="col">Matériel</th>
-    <th class="col">Type</th>
-    <th class="col">Date de Début</th>
-    <th class="col">Date d'Expiration</th>
-    <th class="col">Statut</th>
-{#    <th class="col">Actions</th>#}
-</tr>
-</thead>
-<tbody>
-{% set dateExpiration = '' %}
+    <thead>
+    <tr>
+        <th>N°</th>
+        <th>Véhicule</th>
+        <th>Type</th>
+        <th>Date de Début</th>
+        <th>Date d'Expiration</th>
+        <th>Montant(FCFA)</th>
+        <th>Statut</th>
+        {#<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Actions</th>#}
+    </tr>
+    </thead>
+    <tbody>
     {% for assurance in pagination %}
         <tr>
-            <td >{{ loop.index }}</td>
+            <td class="align-middle text-center text-xs font-weight-bold">{{ loop.index }}</td>
             <td class="align-middle">
-                <div class="d-flex flex-column justify-content-center">
-                   {{ assurance.materiel.marque.libelle }} - {{ assurance.materiel.immatriculation }}
+                <div>
+                    <h6 class="mb-0 text-sm">{{ assurance.materiel.marque.libelle }} - {{ assurance.materiel.immatriculation }}</h6>
                 </div>
             </td>
-            <td class="align-middle text-xs font-weight-bold">{{ assurance.typeAssurance | capitalize }}</td>
-            <td >
-                {% if assurance.typeAssurance == 'assurance' and assurance.dateAssuranceDebut %}
-                    {{ assurance.dateAssuranceDebut|date('d/m/Y') }}
-                {% elseif assurance.typeAssurance == 'visite_technique' and assurance.dateVisiteTechniqueDebut %}
-                    {{ assurance.dateVisiteTechniqueDebut|date('d/m/Y') }}
-                {% elseif assurance.typeAssurance == 'tvm' and assurance.dateTVMDebut %}
-                    {{ assurance.dateTVMDebut|date('d/m/Y') }}
-                {% endif %}
-            </td>
-            <td >
-                {% if assurance.typeAssurance == 'assurance' and assurance.dateAssuranceFin %}
-                    {{ assurance.dateAssuranceFin|date('d/m/Y') }}
-                    {% set dateExpiration = assurance.dateAssuranceFin|date('d/m/Y') %}
-                {% elseif assurance.typeAssurance == 'visite_technique' and assurance.dateVisiteTechniqueFin %}
-                    {{ assurance.dateVisiteTechniqueFin|date('d/m/Y') }}
-                    {% set dateExpiration = assurance.dateVisiteTechniqueFin|date('d/m/Y') %}
-                {% elseif assurance.typeAssurance == 'tvm' and assurance.dateTVMFin %}
-                    {{ assurance.dateTVMFin|date('d/m/Y') }}
-                    {% set dateExpiration = assurance.dateTVMFin|date('d/m/Y') %}
-                {% endif %}
+            <td class="align-middle text-xs font-weight-bold">{{ assurance.typeAssurance.libelle ?? '-' | capitalize }}</td>
+            <td class="align-middle text-center text-xs font-weight-bold">{{ assurance.dateDebut|date('d/m/Y') }}</td>
+            <td class="align-middle text-center text-xs font-weight-bold">{{ assurance.dateFin|date('d/m/Y') }}</td>
+            <td class="align-middle text-center text-xs font-weight-bold">
+                {{ assurance.montantPaye ? (assurance.montantPaye|number_format(0, '.', ' ') ~ ' FCFA') : '-' }}
             </td>
             <td class="align-middle text-center">
-                {% if dateExpiration < "now"|date("Y-m-d") %}
+                {% if assurance.dateFin and assurance.dateFin|date('Y-m-d') < "now"|date('Y-m-d') %}
                     <span class="badge bg-danger text-white">⏳ Expirée</span>
                 {% else %}
                     <span class="badge bg-success">✅ Valide</span>
                 {% endif %}
             </td>
             {#<td class="align-middle text-center">
-                                        <a href="{{ path('assurances_show', {'id': assurance.id}) }}" class="btn btn-info btn-sm">Voir</a>
-                                        <a href="{{ path('assurances_edit', {'id': assurance.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
-                                    </td>#}
+                                            <a href="{{ path('assurances_show', {'id': assurance.id}) }}" class="btn btn-info btn-sm">Voir</a>
+                                            <a href="{{ path('assurances_edit', {'id': assurance.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
+                                        </td>#}
         </tr>
     {% else %}
         <tr>
             <td colspan="6" class="text-center text-secondary">Aucune assurance trouvée.</td>
         </tr>
     {% endfor %}
-</tbody>
-{#    <div class="row">#}
-{#        <div class="col-12">#}
-{#            <div class="d-flex justify-content-between align-items-center mb-4">#}
-{#                <h4>Gestion des Assurances</h4>#}
-{#                <a href="{{ path('assurances_create') }}" class="btn btn-primary">Ajouter une Assurance</a>#}
-{#            </div>#}
-
-{#            <div class="card my-4">#}
-{#                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">#}
-{#                    <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">#}
-{#                        <h6 class="text-white text-capitalize ps-3">Liste des Assurances</h6>#}
-{#                    </div>#}
-{#                </div>#}
-{#                <div class="card-body px-0 pb-2">#}
-{#                    <div class="table-responsive">#}
-{#                        <table class="table align-items-center mb-0">#}
-{#                            <thead>#}
-{#                                <tr>#}
-{#                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">N°</th>#}
-{#                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Matériel</th>#}
-{#                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Type</th>#}
-{#                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Date de Début</th>#}
-{#                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Date d'Expiration</th>#}
-{#                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Statut</th>#}
-{#                                    #}{#<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Actions</th>#}
-{#                                </tr>#}
-{#                            </thead>#}
-{#                            <tbody>#}
-{#                                {% for assurance in pagination %}#}
-{#                                <tr>#}
-{#                                    <td >{{ loop.index }}</td>#}
-{#                                    <td class="align-middle">#}
-{#                                        <div class="d-flex flex-column justify-content-center">#}
-{#                                            <h6 class="mb-0 text-sm">{{ assurance.materiel.marque.libelle }} - {{ assurance.materiel.immatriculation }}</h6>#}
-{#                                        </div>#}
-{#                                    </td>#}
-{#                                    <td class="align-middle text-xs font-weight-bold">{{ assurance.typeAssurance | capitalize }}</td>#}
-{#                                    <td >#}
-{#                                        {% if assurance.typeAssurance == 'assurance' and assurance.dateAssuranceDebut %}#}
-{#                                            {{ assurance.dateAssuranceDebut|date('d/m/Y') }}#}
-{#                                        {% elseif assurance.typeAssurance == 'visiteTechnique' and assurance.dateVisiteTechniqueDebut %}#}
-{#                                            {{ assurance.dateVisiteTechniqueDebut|date('d/m/Y') }}#}
-{#                                        {% elseif assurance.typeAssurance == 'tvm' and assurance.dateTVMDebut %}#}
-{#                                            {{ assurance.dateTVMDebut|date('d/m/Y') }}#}
-{#                                        {% endif %}#}
-{#                                    </td>#}
-{#                                    <td >#}
-{#                                        {% if assurance.typeAssurance == 'assurance' and assurance.dateAssuranceFin %}#}
-{#                                            {{ assurance.dateAssuranceFin|date('d/m/Y') }}#}
-{#                                        {% elseif assurance.typeAssurance == 'visiteTechnique' and assurance.dateVisiteTechniqueFin %}#}
-{#                                            {{ assurance.dateVisiteTechniqueFin|date('d/m/Y') }}#}
-{#                                        {% elseif assurance.typeAssurance == 'tvm' and assurance.dateTVMFin %}#}
-{#                                            {{ assurance.dateTVMFin|date('d/m/Y') }}#}
-{#                                        {% endif %}#}
-{#                                    </td>#}
-{#                                    <td class="align-middle text-center">#}
-{#                                        {% if assurance.dateExpiration < "now"|date("Y-m-d") %}#}
-{#                                            <span class="badge bg-danger text-white">⏳ Expirée</span>#}
-{#                                        {% else %}#}
-{#                                            <span class="badge bg-success">✅ Valide</span>#}
-{#                                        {% endif %}#}
-{#                                    </td>#}
-{#                                    #}{#<td class="align-middle text-center">#}
-{#                                        <a href="{{ path('assurances_show', {'id': assurance.id}) }}" class="btn btn-info btn-sm">Voir</a>#}
-{#                                        <a href="{{ path('assurances_edit', {'id': assurance.id}) }}" class="btn btn-warning btn-sm">Modifier</a>#}
-{#                                    </td>#}
-{#                                </tr>#}
-{#                                {% else %}#}
-{#                                <tr>#}
-{#                                    <td colspan="6" class="text-center text-secondary">Aucune assurance trouvée.</td>#}
-{#                                </tr>#}
-{#                                {% endfor %}#}
-{#                            </tbody>#}
-{#                        </table>#}
-
-{#                        <!-- Pagination -->#}
-{#                        {% if pagination.getTotalItemCount() > 10 %}#}
-{#                            <nav aria-label="Page navigation example">#}
-{#                                <ul class="pagination justify-content-center">#}
-{#                                    {% if pagination.currentPageNumber > 1 %}#}
-{#                                        <li class="page-item">#}
-{#                                            <a class="page-link" href="{{ path('assurances_index', {'page': pagination.currentPageNumber - 1}) }}">#}
-{#                                                <span class="material-symbols-rounded">keyboard_arrow_left</span>#}
-{#                                            </a>#}
-{#                                        </li>#}
-{#                                    {% endif %}#}
-
-{#                                    {% for page in 1..pagination.pageCount %}#}
-{#                                        <li class="page-item {% if page == pagination.currentPageNumber %}active{% endif %}">#}
-{#                                            <a class="page-link" href="{{ path('assurances_index', {'page': page}) }}">{{ page }}</a>#}
-{#                                        </li>#}
-{#                                    {% endfor %}#}
-
-{#                                    {% if pagination.currentPageNumber < pagination.pageCount %}#}
-{#                                        <li class="page-item">#}
-{#                                            <a class="page-link" href="{{ path('assurances_index', {'page': pagination.currentPageNumber + 1}) }}">#}
-{#                                                <span class="material-symbols-rounded">keyboard_arrow_right</span>#}
-{#                                            </a>#}
-{#                                        </li>#}
-{#                                    {% endif %}#}
-{#                                </ul>#}
-{#                            </nav>#}
-{#                        {% endif %}#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
+    </tbody>
 
 {% endblock %}
+

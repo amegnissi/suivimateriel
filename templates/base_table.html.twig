@@ -19,13 +19,17 @@
                     {#                        <h1>{% block titles %} Departement{% endblock %}</h1> #}
                 </div>
                 <div class="col-sm-12">
+                    <div class="common-align gap-2 justify-content-start">
+                    {% block otherbtn %}
 
+                    {% endblock %}
                     <a href="{% block btnpath %}{% endblock %}" class="btn btn-outline-primary float-lg-end btnapath">
                         <i class="fa fa-plus"></i>
                         {% block btntitle %}
 
                         {% endblock %}
                     </a>
+                    </div>
                 </div>
             </div>
         </div>

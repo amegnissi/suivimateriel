@@ -22,7 +22,7 @@ class AssuranceRepository extends ServiceEntityRepository
         $dateSeuil->modify("+$delai days");
 
         return $this->createQueryBuilder('a')
-            ->where('a.dateAssuranceFin <= :dateSeuil OR a.dateVisiteTechniqueFin <= :dateSeuil OR a.dateTVMFin <= :dateSeuil')
+            ->where('a.dateFin <= :dateSeuil')
             ->setParameter('dateSeuil', $dateSeuil)
             ->andWhere('a.notifEnvoyee = false')
             ->getQuery()
@@ -33,18 +33,10 @@ class AssuranceRepository extends ServiceEntityRepository
         $dateSeuil = new \DateTime();
         $dateSeuil->modify("+$delai days");
 
-        $qb = $this->createQueryBuilder('a');
-//            ->where('a.dateAssuranceFin <= :dateSeuil OR a.dateVisiteTechniqueFin <= :dateSeuil OR a.dateTVMFin <= :dateSeuil')
+        $qb = $this->createQueryBuilder('a')
+            ->where('a.dateFin <= :dateSeuil');
 
-        if ($type == 'assurance'){
-            $qb ->where('a.dateAssuranceFin <= :dateSeuil');
-        }elseif ($type == 'visite_technique'){
-            $qb ->where('a.dateVisiteTechniqueFin <= :dateSeuil');
 
-        }elseif ($type == 'tvm'){
-            $qb ->where('a.dateTVMFin <= :dateSeuil');
-
-        }
         return
         $qb ->andWhere('a.notifEnvoyee = false')
             ->setParameter('dateSeuil', $dateSeuil)

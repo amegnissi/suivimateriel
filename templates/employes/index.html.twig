@@ -5,6 +5,10 @@
 {% block  breadcrumb_t %} Gestion des Employés{% endblock %}
 {% block table_titre %}Liste des Employés{% endblock %}
 {% block btntitle %}Ajouter un Employé{% endblock %}
+{% block otherbtn %}
+    <a href="{{ path('employes_export_pdf') }}" class="btn btn-danger">Exporter en PDF</a>
+    <a href="{{ path('employes_export_excel') }}" class="btn btn-success">Exporter en Excel</a>
+{% endblock %}
 {% block btnpath %}{{ path('employes_create') }}{% endblock %}
 {% block tableContent %}
     <thead>
@@ -56,37 +60,5 @@
         </tr>
     {% endfor %}
     </tbody>
-{% endblock %}
-{% block pagination %}
-    <!-- Pagination -->
-    {% if pagination.getTotalItemCount() > 10 %}
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-                {% if pagination.currentPageNumber > 1 %}
-                    <li class="page-item">
-                        <a class="page-link"
-                           href="{{ path('employes_index', {'page': pagination.currentPageNumber - 1}) }}">
-                            <span class="material-symbols-rounded">keyboard_arrow_left</span>
-                        </a>
-                    </li>
-                {% endif %}
-
-                {% for page in 1..pagination.pageCount %}
-                    <li class="page-item {% if page == pagination.currentPageNumber %}active{% endif %}">
-                        <a class="page-link" href="{{ path('employes_index', {'page': page}) }}">{{ page }}</a>
-                    </li>
-                {% endfor %}
-
-                {% if pagination.currentPageNumber < pagination.pageCount %}
-                    <li class="page-item">
-                        <a class="page-link"
-                           href="{{ path('employes_index', {'page': pagination.currentPageNumber + 1}) }}">
-                            <span class="material-symbols-rounded">keyboard_arrow_right</span>
-                        </a>
-                    </li>
-                {% endif %}
-            </ul>
-        </nav>
-    {% endif %}
 {% endblock %}
 

@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Materiel;
 use App\Entity\Affectation;
 use App\Entity\Maintenance;
+use App\Entity\TypeMaintenance;
 use App\Repository\MaterielRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -37,13 +38,12 @@ class MaintenanceType extends AbstractType
                 'label' => 'Matériel concerné',
                 'required' => true,
             ])
-            ->add('typeMaintenance', ChoiceType::class, [
-                'choices' => [
-                    'Vidange' => 'Vidange',
-                    'Réparation' => 'Réparation',
-                ],
+            ->add('typeMaintenance', EntityType::class, [
+                'class' => TypeMaintenance::class,
+                'choice_label' => 'libelle',
                 'label' => 'Type de maintenance',
                 'placeholder' => 'Sélectionnez un type',
+                'attr' => ['class' => 'form-control'],
                 'required' => true,
             ])
             ->add('description', TextType::class, [

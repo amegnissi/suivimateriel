@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Export Maintenances</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 5px; text-align: center; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h2>Liste des Maintenances</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>N°</th>
+                <th>Matériel</th>
+                <th>Type</th>
+                <th>Date d'Intervention</th>
+                <th>Kilométrage Actuel</th>
+                <th>Kilométrage Prévisionnel</th>
+                <th>Statut</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for maintenance in maintenances %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ maintenance.materiel.marque.libelle ?? 'N/A' }} - {{ maintenance.materiel.immatriculation ?? 'N/A' }}</td>
+                    <td>{{ maintenance.typeMaintenance ?? 'N/A' }}</td>
+                    <td>{{ maintenance.dateIntervention ? maintenance.dateIntervention|date('d/m/Y') : 'N/A' }}</td>
+                    <td>{{ maintenance.kilometrageActuel ? maintenance.kilometrageActuel|number_format(0, ',', ' ') ~ ' km' : '-' }}</td>
+                    <td>{{ maintenance.kilometragePrevisionnel ? maintenance.kilometragePrevisionnel|number_format(0, ',', ' ') ~ ' km' : '-' }}</td>
+                    <td>{{ maintenance.statut == 0 ? 'En cours' : 'Terminé' }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">Aucune maintenance trouvée.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
