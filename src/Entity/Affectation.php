@@ -31,6 +31,9 @@ class Affectation
     #[ORM\ManyToOne(inversedBy: 'affectations')]
     private ?Employe $employe = null;
 
+    #[ORM\Column(type: 'boolean')]
+    private bool $active = true;
+
     /**
      * @var Collection<int, Maintenance>
      */
@@ -136,4 +139,16 @@ class Affectation
 
         return $this;
     }*/
+
+    public function isActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): static
+    {
+        $this->active = $active;
+
+        return $this;
+    }
 }

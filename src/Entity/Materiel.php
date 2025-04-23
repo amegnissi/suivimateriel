@@ -43,6 +43,9 @@ class Materiel
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $code = null;
+    
+    #[ORM\Column(type: 'boolean')]
+    private bool $estSorti  = false;
 
     /**
      * @Assert\File(
@@ -65,6 +68,9 @@ class Materiel
     #[ORM\OneToMany(targetEntity: Assurance::class, mappedBy: 'vehicule', cascade: ['remove'])]
     private Collection $assurances;
 
+    #[ORM\OneToMany(targetEntity: SortieMateriel::class, mappedBy: 'materiel')]
+    private Collection $sorties;
+
     /**
      * @var Collection<int, Affectation>
      */
@@ -75,6 +81,12 @@ class Materiel
     {
         $this->affectations = new ArrayCollection();
         $this->assurances = new ArrayCollection();
+        $this->sorties = new ArrayCollection();
+    }
+
+    public function getSorties(): Collection
+    {
+        return $this->sorties;
     }
 
     public function getId(): ?int
@@ -202,6 +214,18 @@ class Materiel
     public function setCode(?string $code): static
     {
         $this->code = $code;
+        return $this;
+    }
+
+    public function getEstSorti(): ?bool
+    {
+        return $this->estSorti;
+    }
+
+    public function setEstSorti(bool $estSorti): self
+    {
+        $this->estSorti = $estSorti;
+
         return $this;
     }
 

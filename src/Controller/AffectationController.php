@@ -22,7 +22,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/affectations')]
 class AffectationController extends BaseController
 {
-     /**
+    /**
      * Liste des affectations.
      */
     #[Route('/', name: 'affectations_index', methods: ['GET'])]
@@ -33,7 +33,10 @@ class AffectationController extends BaseController
         }
         
         $query = $affectationRepository->createQueryBuilder('e')
-            ->getQuery();
+            ->where('e.active = :active')
+            ->setParameter('active', true)
+            ->getQuery()
+            ->getResult();
 
         // Paginer les résultats
         $pagination = $paginator->paginate(
@@ -111,6 +114,7 @@ class AffectationController extends BaseController
             $materiel = $affectation->getMateriel();
             $lieu = $form->get('lieuAffectation')->getData();
             $affectation->setLieuAffectation($lieu);
+            $affectation->setActive(true);
             $entreprise = $entityManager->getRepository(Entreprise::class)->findOneBy([]);
     
             if ($materiel) {
@@ -134,7 +138,7 @@ class AffectationController extends BaseController
                 $type = strtoupper(str_replace(' ', '_', $type));
                 $sigle = strtoupper($sigle);
     
-                $code = "{$sigle}_{$annee}/{$categorie}/{$type}/{$numero}";
+                $code = "{$sigle}/{$annee}/{$categorie}/{$type}/{$numero}";
                 $materiel->setCode($code);
     
                 $entityManager->persist($materiel);
@@ -231,9 +235,11 @@ class AffectationController extends BaseController
         
         if ($this->isCsrfTokenValid('cancel' . $affectation->getId(), $request->request->get('_token'))) {
             // Réinitialiser les informations de l'affectation au lieu de la supprimer
+            $affectation->setActive(false);
             $affectation->setEmploye(null); // Dissocier l'employé
             $affectation->setSociete(null); // Dissocier la société
             $affectation->setLieuAffectation(null);
+            $affectation->setMateriel(null);
 
             // Mettre à jour le statut du matériel
             $materiel = $affectation->getMateriel();
@@ -242,7 +248,7 @@ class AffectationController extends BaseController
                 $entityManager->persist($materiel);
             }
 
-            $entityManager->remove($affectation);
+            $entityManager->persist($affectation);
             $entityManager->flush();
 
             $this->addFlash('success', 'L\'affectation a été annulée avec succès.');

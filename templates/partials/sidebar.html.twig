@@ -70,6 +70,15 @@
                     <span class="nav-link-text ms-1">Matériels</span>
                 </a>
             </li>
+
+            {# Section Sortie Matériel #} 
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.attributes.get('_route') starts with 'sortie_materiels' or app.request.attributes.get('_route') starts with 'sorties_' %}active bg-gradient-dark text-white{% else %}text-dark{% endif %}" 
+                    href="{{ path('sortie_materiels_index') }}">
+                    <i class="material-symbols-rounded opacity-5">format_text_wrap</i>
+                    <span class="nav-link-text ms-1">Sortie Matériel</span>
+                </a>
+            </li>
             
             {# Section Sociétés de Service #}  
             <li class="nav-item">

@@ -33,7 +33,7 @@ class EntrepriseController extends AbstractController
             $logo = $form->get('logo')->getData();
             if ($logo) {
                 $newFilename = uniqid().'.'.$logo->guessExtension();
-                $logo->move($this->getParameter('uploads_directory').'/logos', $newFilename);
+                $logo->move($this->getParameter('uploads_directory').'/entreprise', $newFilename);
                 $entreprise->setLogo($newFilename);
             }
 
@@ -41,7 +41,7 @@ class EntrepriseController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Entreprise ajoutée avec succès.');
-            return $this->redirectToRoute('dashboard');
+            return $this->redirectToRoute('entreprise_index');
         }
 
         return $this->render('entreprise/create.html.twig', [
@@ -64,20 +64,20 @@ class EntrepriseController extends AbstractController
 
                 // Suppression de l'ancien logo s'il existe
                 if ($entreprise->getLogo()) {
-                    $oldLogoPath = $this->getParameter('uploads_directory').'/logos/'.$entreprise->getLogo();
+                    $oldLogoPath = $this->getParameter('uploads_directory').'/entreprise/'.$entreprise->getLogo();
                     if (file_exists($oldLogoPath)) {
                         unlink($oldLogoPath);
                     }
                 }
 
-                $logo->move($this->getParameter('uploads_directory').'/logos', $newFilename);
+                $logo->move($this->getParameter('uploads_directory').'/entreprise', $newFilename);
                 $entreprise->setLogo($newFilename);
             }
 
             $entityManager->flush();
 
             $this->addFlash('success', 'Entreprise mise à jour avec succès.');
-            return $this->redirectToRoute('dashboard');
+            return $this->redirectToRoute('entreprise_index');
         }
 
         return $this->render('entreprise/edit.html.twig', [
