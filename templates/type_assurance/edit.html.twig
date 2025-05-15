@@ -1,31 +1,13 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_formulaire.html.twig' %}
+{% block title %}Types d'Opération{% endblock %}
+{% block breadcrumb %}Types d'Opération{% endblock %}
+{% block  breadcrumb_item %} Types d'Opération{% endblock %}
+{% block  breadcrumb_t %}Modification d'un types d'Opération{% endblock %}
+{% block annuler %} {{ path('type_assurance_index') }}{% endblock %}
 
-{% block title %}Modifier un Type Opération{% endblock %}
-
-{% block breadcrumb %}TYPES OPÉRATIONS > MODIFIER{% endblock %}
-
-{% block content %}
-
-<div class="row">
-    <div class="col-12">
-        <h4>Modifier un Type Opération</h4>
-        <div class="card my-4">
-            <div class="card-body">
-                {{ form_start(form) }}
-
-                <div class="input-group input-group-static mb-4">
-                    {{ form_label(form.libelle, 'Nom du Type d\'Opération', { 'label_attr': { 'class': 'ms-0' } }) }}
-                    {{ form_widget(form.libelle, { 'attr': { 'class': 'form-control' } }) }}
-                    {{ form_errors(form.libelle) }}
-                </div>
-
-                <button type="submit" class="btn btn-primary">Mettre à Jour</button>
-                <a href="{{ path('type_assurance_index') }}" class="btn btn-secondary">Annuler</a>
-
-                {{ form_end(form) }}
-            </div>
-        </div>
-    </div>
-</div>
+{% block form_titre %} Modifie un type d'opération{% endblock %}
+{% block formContent %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
 
 {% endblock %}

@@ -3,52 +3,74 @@
 {% block breadcrumb %}OPERATIONS{% endblock %}
 {% block  breadcrumb_item %} OPERATIONS{% endblock %}
 {% block  breadcrumb_t %} Gestion des Operations{% endblock %}
-{% block table_titre %}Liste des Operation{% endblock %}
-{% block btntitle %}Ajouter une  Operation{% endblock %}
+{% block table_titre %}Liste des Operations{% endblock %}
+{% block btntitle %}Ajouter une operation{% endblock %}
 {% block otherbtn %}
     <a href="{{ path('assurances_export_pdf') }}" class="btn btn-danger">Exporter en PDF</a>
     <a href="{{ path('assurances_export_excel') }}" class="btn btn-success">Exporter en Excel</a>
 {% endblock %}
 {% block btnpath %}{{ path('assurances_create') }}{% endblock %}
+{% block filtre %}
+    {#    {% form_theme form 'bootstrap_5_horizontal_layout.html.twig' %} #}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    {{ form_end(form) }}
+
+{% endblock %}
 {% block tableContent %}
     <thead>
     <tr>
         <th>N°</th>
-        <th>Véhicule</th>
-        <th>Type</th>
+        <th>Matériel</th>
+        <th>Type operation</th>
         <th>Date de Début</th>
         <th>Date d'Expiration</th>
         <th>Montant(FCFA)</th>
         <th>Statut</th>
-        {#<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Actions</th>#}
+        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Actions</th>
     </tr>
     </thead>
     <tbody>
     {% for assurance in pagination %}
         <tr>
-            <td class="align-middle text-center text-xs font-weight-bold">{{ loop.index }}</td>
+            <td>{{ loop.index }}</td>
             <td class="align-middle">
                 <div>
-                    <h6 class="mb-0 text-sm">{{ assurance.materiel.marque.libelle }} - {{ assurance.materiel.immatriculation }}</h6>
+                    <h6 class="mb-0 text-sm">{{ assurance.materiel.marque.libelle }}
+                        - {{ assurance.materiel.immatriculation }}</h6>
                 </div>
             </td>
-            <td class="align-middle text-xs font-weight-bold">{{ assurance.typeAssurance.libelle ?? '-' | capitalize }}</td>
-            <td class="align-middle text-center text-xs font-weight-bold">{{ assurance.dateDebut|date('d/m/Y') }}</td>
-            <td class="align-middle text-center text-xs font-weight-bold">{{ assurance.dateFin|date('d/m/Y') }}</td>
-            <td class="align-middle text-center text-xs font-weight-bold">
+            <td>{{ assurance.typeAssurance.libelle ?? '-' | capitalize }}</td>
+            <td>{{ assurance.dateDebut|date('d/m/Y') }}</td>
+            <td>{{ assurance.dateFin|date('d/m/Y') }}</td>
+            <td>
                 {{ assurance.montantPaye ? (assurance.montantPaye|number_format(0, '.', ' ') ~ ' FCFA') : '-' }}
             </td>
             <td class="align-middle text-center">
                 {% if assurance.dateFin and assurance.dateFin|date('Y-m-d') < "now"|date('Y-m-d') %}
                     <span class="badge bg-danger text-white">⏳ Expirée</span>
                 {% else %}
-                    <span class="badge bg-success">✅ Valide</span>
+                    <span class="badge bg-success">✅ Encours</span>
                 {% endif %}
             </td>
-            {#<td class="align-middle text-center">
-                                            <a href="{{ path('assurances_show', {'id': assurance.id}) }}" class="btn btn-info btn-sm">Voir</a>
-                                            <a href="{{ path('assurances_edit', {'id': assurance.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
-                                        </td>#}
+            <td class="align-middle text-center">
+                {% if assurance.dateFin and assurance.dateFin|date('Y-m-d') < "now"|date('Y-m-d') %}
+                    <a  href="{{ path('assurances_renew', {'id': assurance.id}) }}" class="btn btn-primary btn-sm"
+                       title="Renouveler">
+                        <i class="fas fa-reply"></i>
+                    </a>
+                {% else %}
+
+                    <a  href="{{ path('assurances_edit', {'id': assurance.id}) }}" class="btn btn-success btn-sm"
+                       title="Modifier">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                {% endif %}
+{#                <a href="{{ path('assurances_show', {'id': assurance.id}) }}" class="btn btn-info btn-sm">Voir</a>#}
+{#                <a href="{{ path('assurances', {'id': assurance.id}) }}"#}
+{#                   class="btn btn-warning btn-sm">Modifier</a>#}
+            </td>
         </tr>
     {% else %}
         <tr>

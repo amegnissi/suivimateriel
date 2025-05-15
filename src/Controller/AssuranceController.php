@@ -5,13 +5,18 @@ namespace App\Controller;
 use App\Entity\Materiel;
 use App\Entity\Assurance;
 use App\Entity\Entreprise;
+use App\Entity\TypeAssurance;
+use App\Entity\TypeMateriel;
+use App\Form\AssuranceRenewType;
 use App\Form\AssuranceType;
+use App\Form\TypeAssuranceType;
 use App\Service\ExportService;
 use App\Repository\MaterielRepository;
 use App\Repository\AssuranceRepository;
 use App\Repository\EntrepriseRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,24 +26,106 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/assurances')]
 class AssuranceController extends BaseController
 {
-    #[Route('/', name: 'assurances_index', methods: ['GET'])]
-    public function index(Request $request, AssuranceRepository $assuranceRepository, PaginatorInterface $paginator, EntityManagerInterface $entityManager): Response
+    #[Route('/', name: 'assurances_index', methods: ['GET', 'POST'])]
+    public function index(Request                $request, AssuranceRepository $assuranceRepository, PaginatorInterface $paginator,
+                          EntityManagerInterface $entityManager): Response
     {
         if ($redirect = $this->checkEntreprise($entityManager)) {
             return $redirect;
         }
 
+        $form = $this->createFormBuilder()
+            ->add('service', EntityType::class, [
+                'class' => TypeMateriel::class,
+                'choice_label' => 'libelle',
+                'label' => 'Type de materiel',
+                'placeholder' => 'Choisissez le type de materiel',
+                'attr' => ['onchange' => 'this.form.submit();']
+            ],
+            )
+            ->getForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $typeMateriel = $form->get('service')->getData();
+            $materiels = $assuranceRepository->assuranceParTypeMateriel($typeMateriel);
+            $pagination = $paginator->paginate(
+                $materiels,
+                $request->query->getInt('page', 1),
+                50
+            );
+
+            return $this->render('assurances/index.html.twig', [
+                'pagination' => $pagination,
+                'form' => $form->createView(),
+            ]);
+        }
+
         $query = $assuranceRepository->createQueryBuilder('a')
+            ->where('a.estRenouvelle = false')
             ->getQuery();
 
         $pagination = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1),
-            10
+            50
         );
 
         return $this->render('assurances/index.html.twig', [
             'pagination' => $pagination,
+            'form' => $form->createView(),
+        ]);
+    }
+    #[Route('/{id}/edit', name: 'assurances_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Assurance $assurance, EntityManagerInterface $em): Response
+    {
+        $form = $this->createForm(AssuranceType::class, $assurance);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+
+            $this->addFlash('success', 'L\'opération modifié avec succès.');
+            return $this->redirectToRoute('assurances_index');
+        }
+
+        return $this->render('assurances/edit.html.twig', [
+            'assurance' => $assurance,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/{id}/renouvellement', name: 'assurances_renew', methods: ['GET', 'POST'])]
+    public function renouvellement(Request $request, Assurance $assurance, EntityManagerInterface $em): Response
+    {
+        $assuranceRe = new Assurance();
+
+        $assuranceRe->setDateDebut($assurance->getDateFin());
+        $assuranceRe->setDateFin(null);
+        $assuranceRe->setEstRenouvelle(false);
+        $assuranceRe->setMateriel($assurance->getMateriel());
+        $assurance->setEstRenouvelle(true);
+//        dd($assurance->getMateriel());
+        $assuranceRe->setTypeAssurance($assurance->getTypeAssurance());
+        $assuranceRe->setVehicule($assurance->getVehicule());
+//        $assuranceRe->sett($assurance->getVehicule());
+//        $assuranceRe->set($assurance->getVehicule());
+//        dd($assuranceRe);
+
+        $form = $this->createForm(AssuranceRenewType::class, $assuranceRe);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($assurance);
+            $em->persist($assuranceRe);
+            $em->flush();
+
+            $this->addFlash('success', 'L\'opération modifié avec succès.');
+            return $this->redirectToRoute('assurances_index');
+        }
+
+        return $this->render('assurances/renew.html.twig', [
+            'assurance' => $assurance,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -116,12 +203,15 @@ class AssuranceController extends BaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $materiel = $assurance->getMateriel();
-            if (!$materiel) {
-                $this->addFlash('danger', 'Veuillez sélectionner un véhicule.');
-                return $this->redirectToRoute('assurances_create');
-            }
+//            $materielid = $request->request->get("materiel");
+//            $materiel = $materielRepository->find($materielid);
 
+//            if (!$materiel) {
+//                $this->addFlash('danger', 'Veuillez sélectionner un véhicule.');
+//                return $this->redirectToRoute('assurances_create');
+//            }
+//            $assurance->setMateriel($materiel);;
+//            $materiel = $assurance->getMateriel();
             $entityManager->persist($assurance);
             $entityManager->flush();
 
@@ -150,8 +240,10 @@ class AssuranceController extends BaseController
 
         return $this->redirectToRoute('assurances_index');
     }
-    #[Route('/type/{type}', name: 'assurances_fin', methods: ['GET'])]
-    public function indexEnd(Request $request, AssuranceRepository $assuranceRepository, PaginatorInterface $paginator,
+
+    #[Route('/type/{id}', name: 'assurances_fin', methods: ['GET'])]
+    public function indexEnd(Request                $request, TypeAssurance $typeAssurance, AssuranceRepository $assuranceRepository,
+                             PaginatorInterface     $paginator,
                              EntityManagerInterface $entityManager): Response
     {
         if ($redirect = $this->checkEntreprise($entityManager)) {
@@ -159,29 +251,35 @@ class AssuranceController extends BaseController
         }
 
         $type = $request->get('type');
-        if ($type == 'assurance'){
-            $query =  $assuranceRepository->findAssurancesExpirantParTypes(30,'assurance');
-        }elseif ($type == 'visite-technique'){
-            $query =  $assuranceRepository->findAssurancesExpirantParTypes(30,'visite_technique');
-
-        }elseif ($type == 'TVM'){
-            $query =  $assuranceRepository->findAssurancesExpirantParTypes(30,'tvm');
-
+        $ids = [];
+        $data = $assuranceRepository->findAssurancesExpirantParTypes(0, $typeAssurance);
+        foreach ($data as $item) {
+            $ids[] = $item['id'];
         }
-        else {
-            $query = $assuranceRepository->createQueryBuilder('a')
-                ->getQuery();
-        }
-
+//        dd($id);
+        $query = $assuranceRepository->findby(['id' => $ids]);
+//        if ($type == 'assurance'){
+//
+//        }elseif ($type == 'visite-technique'){
+//            $query =  $assuranceRepository->findAssurancesExpirantParTypes(30,'visite_technique');
+//
+//        }elseif ($type == 'TVM'){
+//            $query =  $assuranceRepository->findAssurancesExpirantParTypes(30,'tvm');
+//
+//        }
+//        else {
+//            $query = $assuranceRepository->createQueryBuilder('a')
+//                ->getQuery();
+//        }
 
 
         $pagination = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1),
-            10
+            50
         );
 
-        return $this->render('assurances/index.html.twig', [
+        return $this->render('assurances/typeindex.html.twig', [
             'pagination' => $pagination,
         ]);
     }

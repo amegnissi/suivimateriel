@@ -1,7 +1,6 @@
 {% extends 'base_table.html.twig' %}
 
 {% block title %}Postes{% endblock %}
-
 {% block breadcrumb %}POSTES{% endblock %}
 {% block  breadcrumb_item %}Gestion des postes{% endblock %}
 {% block  breadcrumb_t %} Liste des postes{% endblock %}
@@ -11,22 +10,23 @@
 {% block tableContent %}
     <thead>
     <tr>
-        <th class="col">N°</th>
-        <th class="col">Libellé</th>
-        <th class="col">Employés associés</th>
-        <th class="col">Actions</th>
+        <th >N°</th>
+        <th>Libellé</th>
+        <th >Employés associés
+        </th>
+        <th >Actions</th>
     </tr>
     </thead>
-
     <tbody>
     {% for poste in pagination %}
         <tr>
-            <td >{{ loop.index }}</td>
-            <td class="">{{ poste.libelle ?: 'N/A' }}</td>
-            <td >
+            <td>{{ loop.index }}</td>
+            <td >{{ poste.libelle ?: 'N/A' }}</td>
+            <td>
                 <span class="badge bg-gradient-success">{{ poste.employe|length }}</span>
             </td>
-            <td class="">
+            <td class="align-middle text-center">
+                {# <a href="{{ path('postes_show', {id: poste.id}) }}" class="btn btn-info btn-sm" aria-label="Voir le poste">Voir</a> #}
                 <div class="common-align gap-2 justify-content-start">
 
                     <a class="btn btn-primary btn-sm" href="{{ path('postes_show', {id: poste.id}) }}"
@@ -60,10 +60,42 @@
     {% endfor %}
     </tbody>
 {% endblock %}
-{# {% block content %} #}
+{% block pagination %}
+    {% if pagination.getTotalItemCount() > 10 %}
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                {% if pagination.currentPageNumber > 1 %}
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="{{ path('employes_index', {'page': pagination.currentPageNumber - 1}) }}">
+                            <span class="material-symbols-rounded">keyboard_arrow_left</span>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% for page in 1..pagination.pageCount %}
+                    <li class="page-item {% if page == pagination.currentPageNumber %}active{% endif %}">
+                        <a class="page-link" href="{{ path('employes_index', {'page': page}) }}">{{ page }}</a>
+                    </li>
+                {% endfor %}
+
+                {% if pagination.currentPageNumber < pagination.pageCount %}
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="{{ path('employes_index', {'page': pagination.currentPageNumber + 1}) }}">
+                            <span class="material-symbols-rounded">keyboard_arrow_right</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+{% endblock %}
+{# <thead> #}
 {#    <div class="row"> #}
 {#        <div class="col-12"> #}
 {#            <div class="d-flex justify-content-between align-items-center mb-4"> #}
+{#                <h4>Gestion des Postes</h4> #}
 {#                <a href="{{ path('postes_create') }}" class="btn btn-primary">Ajouter un Poste</a> #}
 {#            </div> #}
 
@@ -78,22 +110,22 @@
 {#                        <table class="table align-items-center mb-0"> #}
 {#                            <thead> #}
 {#                                <tr> #}
-{#                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">N°</th> #}
+{#                                    <th >N°</th> #}
 {#                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Libellé</th> #}
-{#                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Employés associés</th> #}
-{#                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Actions</th> #}
+{#                                    <th >Employés associés</th> #}
+{#                                    <th >Actions</th> #}
 {#                                </tr> #}
 {#                            </thead> #}
 {#                            <tbody> #}
 {#                                {% for poste in pagination %} #}
 {#                                    <tr> #}
-{#                                        <td >{{ loop.index }}</td> #}
-{#                                        <td class="align-middle text-xs font-weight-bold">{{ poste.libelle ?: 'N/A' }}</td> #}
-{#                                        <td > #}
+{#                                        <td>{{ loop.index }}</td> #}
+{#                                        <td >{{ poste.libelle ?: 'N/A' }}</td> #}
+{#                                        <td> #}
 {#                                            <span class="badge bg-gradient-success">{{ poste.employe|length }}</span> #}
 {#                                        </td> #}
 {#                                        <td class="align-middle text-center"> #}
-{#                                            <a href="{{ path('postes_show', {id: poste.id}) }}" class="btn btn-info btn-sm" aria-label="Voir le poste">Voir</a> #}
+{#                                            #}{# <a href="{{ path('postes_show', {id: poste.id}) }}" class="btn btn-info btn-sm" aria-label="Voir le poste">Voir</a> #}
 {#                                            <a href="{{ path('postes_edit', {id: poste.id}) }}" class="btn btn-warning btn-sm" aria-label="Modifier le poste">Modifier</a> #}
 {#                                            <form action="{{ path('postes_delete', {id: poste.id}) }}" method="POST" class="d-inline"> #}
 {#                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ poste.id) }}"> #}
@@ -108,35 +140,9 @@
 {#                                {% endfor %} #}
 {#                            </tbody> #}
 {#                        </table> #}
-
+{#                                                                                                #}
 {#                        <!-- Pagination --> #}
-{#                        {% if pagination.getTotalItemCount() > 10 %} #}
-{#                            <nav aria-label="Page navigation example"> #}
-{#                                <ul class="pagination justify-content-center"> #}
-{#                                    {% if pagination.currentPageNumber > 1 %} #}
-{#                                        <li class="page-item"> #}
-{#                                            <a class="page-link" href="{{ path('employes_index', {'page': pagination.currentPageNumber - 1}) }}"> #}
-{#                                                <span class="material-symbols-rounded">keyboard_arrow_left</span> #}
-{#                                            </a> #}
-{#                                        </li> #}
-{#                                    {% endif %} #}
-
-{#                                    {% for page in 1..pagination.pageCount %} #}
-{#                                        <li class="page-item {% if page == pagination.currentPageNumber %}active{% endif %}"> #}
-{#                                            <a class="page-link" href="{{ path('employes_index', {'page': page}) }}">{{ page }}</a> #}
-{#                                        </li> #}
-{#                                    {% endfor %} #}
-
-{#                                    {% if pagination.currentPageNumber < pagination.pageCount %} #}
-{#                                        <li class="page-item"> #}
-{#                                            <a class="page-link" href="{{ path('employes_index', {'page': pagination.currentPageNumber + 1}) }}"> #}
-{#                                                <span class="material-symbols-rounded">keyboard_arrow_right</span> #}
-{#                                            </a> #}
-{#                                        </li> #}
-{#                                    {% endif %} #}
-{#                                </ul> #}
-{#                            </nav> #}
-{#                        {% endif %} #}
+{#                      #}
 {#                    </div> #}
 {#                </div> #}
 {#            </div> #}

@@ -6,6 +6,8 @@
             background-color: RGBA(13, 110, 253, 1) !important;
         }
     </style>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css"/>
 {% endblock %}
 {% block title %}Tableau de bord{% endblock %}
 
@@ -16,64 +18,70 @@
         <div class="container-fluid">
             <!-- Small boxes (Stat box) -->
             <div class="row">
-                <div class="col-lg-3 col-6">
-                    <!-- small box -->
-                    <div class="small-box text-bg-primary">
-                        <div class="inner">
-                            <p>TVM</p>
-                            <h3>{{ TVM | length }}</h3>
+                {% set couleurs = ['text-bg-primary','bg-success', 'bg-warning', 'bg-light','bg-lightblue','bg-navy',
+                    'bg-dark'] %}
+                {% set icon = ['ion-bag','ion-stats-bars', 'ion-person-add','ion-android-cloud-done','ion-upload'] %}
+                {% for types in operations %}
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box {{ couleurs[loop.index0] }}">
+                            <div class="inner">
+                                <p>{{ types.typeoperation }}</p>
+                                <h3>{{ types.total }}</h3>
 
 
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-bag"></i>
-                        </div>
-                        <a href="{{ path('assurances_fin',{'type':'TVM'}) }}" class="small-box-footer">Plus de détails
-                            <i
-                                    class="fas
+                            </div>
+                            <div class="icon">
+                                <i class="ion {{ icon[loop.index0] }}"></i>
+                            </div>
+                            <a href="{{ path('assurances_fin',{'id':types.idtype}) }}" class="small-box-footer">Plus de
+                                détails
+                                <i
+                                        class="fas
                     fa-arrow-circle-right"></i></a>
+                        </div>
                     </div>
-                </div>
-                <!-- ./col -->
-                <div class="col-lg-3 col-6">
-                    <!-- small box -->
-                    <div class="small-box bg-success">
-                        <div class="inner">
-                            <p>VISITE TECHNIQUE</p>
-                            <h3>
-                                {{ VISITE | length }}
-                            </h3>
+                {% endfor %}
+                {#                <!-- ./col --> #}
+                {#                <div class="col-lg-3 col-6"> #}
+                {#                    <!-- small box --> #}
+                {#                    <div class="small-box bg-success"> #}
+                {#                        <div class="inner"> #}
+                {#                            <p>VISITE TECHNIQUE</p> #}
+                {#                            <h3> #}
+                {#                                {{ VISITE | length }} #}
+                {#                            </h3> #}
 
 
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-stats-bars"></i>
-                        </div>
-                        <a href="{{ path('assurances_fin',{'type':'visite-technique'}) }}" class="small-box-footer">Plus
-                            de détails <i class="fas fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-                <!-- ./col -->
-                <div class="col-lg-3 col-6">
-                    <!-- small box -->
-                    <div class="small-box bg-warning">
-                        <div class="inner">
-                            <p>ASSURANCE</p>
-                            <h3>
-                                {{ ASSURANCE | length }}
-                            </h3>
+                {#                        </div> #}
+                {#                        <div class="icon"> #}
+                {#                            <i class="ion ion-stats-bars"></i> #}
+                {#                        </div> #}
+                {#                        <a href="{{ path('assurances_fin',{'type':'visite-technique'}) }}" class="small-box-footer">Plus #}
+                {#                            de détails <i class="fas fa-arrow-circle-right"></i></a> #}
+                {#                    </div> #}
+                {#                </div> #}
+                {#                <!-- ./col --> #}
+                {#                <div class="col-lg-3 col-6"> #}
+                {#                    <!-- small box --> #}
+                {#                    <div class="small-box bg-warning"> #}
+                {#                        <div class="inner"> #}
+                {#                            <p>ASSURANCE</p> #}
+                {#                            <h3> #}
+                {#                                {{ ASSURANCE | length }} #}
+                {#                            </h3> #}
 
 
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-person-add"></i>
-                        </div>
-                        <a href="{{ path('assurances_fin',{'type':'assurance'}) }}" class="small-box-footer">Plus de
-                            détails
-                            <i class="fas fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-                <!-- ./col -->
+                {#                        </div> #}
+                {#                        <div class="icon"> #}
+                {#                            <i class="ion ion-person-add"></i> #}
+                {#                        </div> #}
+                {#                        <a href="{{ path('assurances_fin',{'type':'assurance'}) }}" class="small-box-footer">Plus de #}
+                {#                            détails #}
+                {#                            <i class="fas fa-arrow-circle-right"></i></a> #}
+                {#                    </div> #}
+                {#                </div> #}
+                {#                <!-- ./col --> #}
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
                     <div class="small-box bg-danger">
@@ -88,7 +96,7 @@
                     fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-                <!-- ./col -->
+                {#                <!-- ./col --> #}
             </div>
             <div class="row">
                 <div class="col-lg-12">
@@ -144,10 +152,66 @@
 
         </div>
     </section>
+
+    {% if operations is not empty %}
+
+
+        <div class="modal fade bd-example-modal-lg" id="myModal" tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Liste des operations Expiréees </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-striped">
+                            <tr>
+                                <th> Materiel</th>
+                                <th> Operations</th>
+                                <th> Date début</th>
+                                <th> Date fin</th>
+                                <th> </th>
+                            </tr>
+
+                            {% for assurance in operations %}
+                                <tr>
+                                    <td> {{ assurance.op.materiel.marque.libelle }}
+                                        - {{ assurance.op.materiel.immatriculation }} </td>
+                                    <td> {{ assurance.op.typeAssurance.libelle ?? '-' | capitalize }}</td>
+                                    <td> {{ assurance.op.dateDebut|date('d/m/Y')}}</td>
+                                    <td> {{ assurance.op.dateFin|date('d/m/Y') }}</td>
+
+                                    <td>
+                                        <span class="badge bg-danger text-white">⏳ Expirée</span>
+                                    </td>
+                                    <td>
+                                        <a  href="{{ path('assurances_renew', {'id': assurance.op.id}) }}" class="btn
+                                        btn-primary btn-sm"
+                                            title="Renouveler">
+                                            <i class="fas fa-reply"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
 {% endblock %}
 {% block javascript %}
 <script src="{{ asset('adminlte/plugins/chart.js/Chart.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+
 <script>
+
   $(function () {
 
       var areaChartData = {
@@ -183,6 +247,15 @@
 
     })
  </script>
+ {% if operations is not empty %}
+    <script>
+  $(document).ready(function() {
+
+    $('#myModal').modal('show');
+  });
+
+</script>
+{% endif %}
 {% endblock %}
 {% block scripts %}
     <script src="{{ asset('cuba/assets/js/clock.js') }}"></script>
@@ -191,7 +264,9 @@
     <script src="{{ asset('cuba/assets/js/chart/apex-chart/moment.min.js') }}"></script>
     <script src="{{ asset('cuba/assets/js/notify/bootstrap-notify.min.js') }}"></script>
     <script src="{{ asset('cuba/assets/js/dashboard/default.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+
         // Comma/Separator counter
         (function () {
             const counters = document.querySelectorAll (".counter");

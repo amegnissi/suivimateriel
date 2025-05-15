@@ -3,57 +3,24 @@
 {% block breadcrumb %}Operations{% endblock %}
 {% block  breadcrumb_item %} Operations{% endblock %}
 {% block  breadcrumb_t %} Gestion des Operations{% endblock %}
-{% block form_titre %}Ajouter une nouvelle operation{% endblock %}
+{% block form_titre %}Renouvllement {{ assurance.typeAssurance.libelle }} du materiel
+    {% if assurance.materiel.marque.estVehicule %}
+        {{ assurance.materiel.marque.libelle ~ " " ~ assurance.materiel.immatriculation }}
+    {% else %}
+        {{ assurance.materiel.libelle }}
+    {% endif %}
+
+{% endblock %}
 {% block formContent %}
     {{ form_start(form) }}
-{#    <div class="col-md-12">#}
-{#        <div class="mb-3">#}
-{#            {{ form_row(form.type) }}#}
-{#        </div>#}
 
-{#    </div>#}
-{#    <div class="col-md-12">#}
-{#        <div class="mb-3">#}
-{#            <label class="form-label required" for="dossier_defendeur_departement">Matériel</label>#}
-{#            <select id="materiel" name="materiel" class="form-control">#}
-{#                <option value="0">Sélectionnez le materiel </option>#}
-{#            </select>#}
-{#        </div>#}
-
-{#    </div>#}
-
-{#    <div class="col-md-12">#}
-{#        <div class="mb-3">#}
-{#            {{ form_row(form.typeAssurance) }}#}
-{#        </div>#}
-
-{#    </div>#}
     {{ form_widget(form) }}
-
 
 {% endblock %}
 {% block javascript %}
 <script>
-    var $assurance_typemateriel = $("#assurance_typemateriel")
-    var $token = $("#assurance__token")
-
-    $assurance_typemateriel.change(function ()
-    {
-    var $form = $(this).closest( 'form')
-    var data = {}
-    data[$token.attr('name') ] = $token.val()
-    data[$assurance_typemateriel.attr('name')] = $assurance_typemateriel.val()
-    $.post($form.attr('action'), data).then(function(response)
-    {
-        $( "#assurance_vehicule").replaceWith(
-        $(response). find ( "#assurance_vehicule")
-        )
-    })
-    })
-</script>
-<script>
     $(document).ready(function() {
-    $('.select2').select2();
+    $ ('.select2').select2 ();
 });
 
     class LinkedSelect {
@@ -61,7 +28,7 @@
     /**
      * @param {HTMLSelectElement} $select
      */
-    constructor($select) {
+    constructor ($select) {
     this.$select = $select
     this.$target = document.querySelector(this.$select.dataset.target)
     this.$placeholder = this.$target.firstElementChild
@@ -139,7 +106,7 @@
 
     let $selects = document.querySelectorAll('.linked-select')
     $selects.forEach(function ($select) {
-    new LinkedSelect($select)
+    new LinkedSelect ($select)
 
 })
 </script>

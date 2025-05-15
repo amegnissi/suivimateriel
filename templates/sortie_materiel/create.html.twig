@@ -1,0 +1,16 @@
+{% extends 'base_formulaire.html.twig' %}
+{% block title %}Sortie de matériel{% endblock %}
+{% block breadcrumb %}Sortie de matériel{% endblock %}
+{% block  breadcrumb_item %} Sortie de matériel{% endblock %}
+{% block  breadcrumb_t %} Gestion des sorties de matériel{% endblock %}
+{% block form_titre %}Ajouter une sortie de matériel{% endblock %}
+{% block formContent %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+        });
+    </script>
+{% endblock %}

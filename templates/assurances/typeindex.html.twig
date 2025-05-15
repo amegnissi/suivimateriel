@@ -1,0 +1,62 @@
+{% extends 'base_table.html.twig' %}
+{% block title %}Operations{% endblock %}
+{% block breadcrumb %}OPERATIONS{% endblock %}
+{% block  breadcrumb_item %} OPERATIONS{% endblock %}
+{% block  breadcrumb_t %} Gestion des Operations{% endblock %}
+{% block table_titre %}Liste des Operations{% endblock %}
+{% block btntitle %}Ajouter une operation{% endblock %}
+{% block otherbtn %}
+    <a href="{{ path('assurances_export_pdf') }}" class="btn btn-danger">Exporter en PDF</a>
+    <a href="{{ path('assurances_export_excel') }}" class="btn btn-success">Exporter en Excel</a>
+{% endblock %}
+{% block btnpath %}{{ path('assurances_create') }}{% endblock %}
+
+{% block tableContent %}
+    <thead>
+    <tr>
+        <th>N°</th>
+        <th>Matériel</th>
+        <th>Type operation</th>
+        <th>Date de Début</th>
+        <th>Date d'Expiration</th>
+        <th>Montant(FCFA)</th>
+        <th>Statut</th>
+        {#<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Actions</th>#}
+    </tr>
+    </thead>
+    <tbody>
+    {% for assurance in pagination %}
+        <tr>
+            <td >{{ loop.index }}</td>
+            <td class="align-middle">
+                <div>
+                    <h6 class="mb-0 text-sm">{{ assurance.materiel.marque.libelle }} - {{ assurance.materiel.immatriculation }}</h6>
+                </div>
+            </td>
+            <td >{{ assurance.typeAssurance.libelle ?? '-' | capitalize }}</td>
+            <td >{{ assurance.dateDebut|date('d/m/Y') }}</td>
+            <td >{{ assurance.dateFin|date('d/m/Y') }}</td>
+            <td >
+                {{ assurance.montantPaye ? (assurance.montantPaye|number_format(0, '.', ' ') ~ ' FCFA') : '-' }}
+            </td>
+            <td class="align-middle text-center">
+                {% if assurance.dateFin and assurance.dateFin|date('Y-m-d') < "now"|date('Y-m-d') %}
+                    <span class="badge bg-danger text-white">⏳ Expirée</span>
+                {% else %}
+                    <span class="badge bg-success">✅ Valide</span>
+                {% endif %}
+            </td>
+            {#<td class="align-middle text-center">
+                                            <a href="{{ path('assurances_show', {'id': assurance.id}) }}" class="btn btn-info btn-sm">Voir</a>
+                                            <a href="{{ path('assurances_edit', {'id': assurance.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
+                                        </td>#}
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="6" class="text-center text-secondary">Aucune assurance trouvée.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+
+{% endblock %}
+

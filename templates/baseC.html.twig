@@ -125,6 +125,38 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </div>
             </li>
 
+            <li class="nav-item dropdown user-menu">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                    <img src="{{ asset('adminlte/img/avatar3.png') }}" class="user-image img-circle elevation-2"
+                         alt="admin"/>
+
+                    <span class="d-none d-md-inline">{% if app.user %}
+{#                            {{ app.user.fullName }}#}
+
+                        {% endif %}
+
+                    </span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <!-- User image -->
+                    <li class="user-header bg-primary">
+                        <img src="{{ asset('adminlte/img/avatar4.png') }}" class="img-circle elevation-2" alt="admin"/>
+
+
+
+                    </li>
+
+
+                    <!-- Menu Footer-->
+                    <li class="user-footer">
+{#                        <a href="{{ path('account_profile_update_by_user') }}"#}
+{#                           class="btn btn-default btn-flat">{% trans %}Mon Profil{% endtrans %}</a>#}
+                        <a href="{{ path('app_logout') }}"
+                           class="btn btn-default btn-flat float-right">{% trans %}Déconnexion{% endtrans %}</a>
+                    </li>
+                </ul>
+            </li>
+
         </ul>
     </nav>
     <!-- /.navbar -->

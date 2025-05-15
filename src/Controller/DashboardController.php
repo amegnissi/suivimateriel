@@ -7,6 +7,7 @@ use App\Repository\AssuranceRepository;
 use App\Repository\EmployeRepository;
 use App\Repository\MaintenanceRepository;
 use App\Repository\MaterielRepository;
+use App\Repository\TypeAssuranceRepository;
 use App\Repository\TypeMaterielRepository;
 
 use Knp\Component\Pager\PaginatorInterface;
@@ -20,7 +21,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class DashboardController extends AbstractController
 {
     #[Route('/dashboard', name: 'dashboard')]
-    public function index(Request $request, MaterielRepository $materielRepository,
+    public function index(Request $request, MaterielRepository $materielRepository,TypeAssuranceRepository
+    $typeAssuranceRepository,
                           AffectationRepository $affectationRepository, MaintenanceRepository $maintenanceRepository,
                           AssuranceRepository $assuranceRepository, TypeMaterielRepository $typeMaterielRepository,PaginatorInterface $paginator):
     Response
@@ -31,6 +33,9 @@ class DashboardController extends AbstractController
         $totalAffectations = $affectationRepository->count([]);
         $totalMaintenances = $maintenanceRepository->count([]);
 
+        //
+        $typeAssurances = $typeAssuranceRepository->findAll();
+
         // Récupérer uniquement les maintenances de type "Vidange"
         $vidanges = $maintenanceRepository->findBy(['typeMaintenance' => 'Vidange'], ['dateIntervention' => 'DESC'], 5);
 
@@ -38,9 +43,11 @@ class DashboardController extends AbstractController
 
         $orders = [];
         $assurances = $assuranceRepository->findAssurancesExpirant(30);
-         $endTvm =  $assuranceRepository->findAssurancesExpirantParTypes(30,'tvm');
-        $endAssurance =   $assuranceRepository->findAssurancesExpirantParTypes(30,'assurance');
-        $endVisite =   $assuranceRepository->findAssurancesExpirantParTypes(30,'visite_technique');
+         $finOperations =  $assuranceRepository->findAssurancesExpirantParTypes(30);
+//         dd( $finOperations);
+//         dd($finOperations);
+//        $endAssurance =   $assuranceRepository->findAssurancesExpirantParTypes(30,'assurance');
+//        $endVisite =   $assuranceRepository->findAssurancesExpirantParTypes(30,'visite_technique');
             foreach ($assurances as $assurance) {
                 $dateExpiration = new \DateTime();
                 if ($assurance->getTypeAssurance() == 'assurance' ){
@@ -119,11 +126,13 @@ class DashboardController extends AbstractController
             'affectations' => json_encode($affectations),
             'materiels' => json_encode($materiels),
             'pagination' => $pagination,
-            'TVM' =>$endTvm,
-            'VISITE' =>$endVisite,
-            'ASSURANCE' =>$endAssurance,
+//            'TVM' =>$endTvm,
+//            'VISITE' =>$endVisite,
+//            'ASSURANCE' =>$endAssurance,
             'labels' => json_encode($labels),
             'values' => json_encode($values),
+            'typesAssurances'=> $typeAssurances,
+            'operations' =>   $finOperations,
         ]);
     }
 }

@@ -3,7 +3,9 @@
 {% block breadcrumb %}Types d'Opération{% endblock %}
 {% block  breadcrumb_item %} Types d'Opération{% endblock %}
 {% block  breadcrumb_t %} Nouvelle Types d'Opération{% endblock %}
-{% block form_titre %}Ajouter un nouveau Types d'Opération{% endblock %}
+{% block annuler %} {{ path('type_assurance_index') }}{% endblock %}
+
+{% block form_titre %}Ajouter un nouveau type d'opération{% endblock %}
 {% block formContent %}
     {{ form_start(form) }}
     {{ form_widget(form) }}

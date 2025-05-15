@@ -4,7 +4,9 @@
 {% block breadcrumb %}Materiel{% endblock %}
 {% block  breadcrumb_item %} Gestion des Materiel{% endblock %}
 {% block  breadcrumb_t %} Nouvel materiel{% endblock %}
+{% block annuler %} {{ path('materiels_index') }}{% endblock %}
 {% block form_titre %}Ajouter un Matériel{% endblock %}
+
 {% block formContent %}
     {{ form_start(form) }}
     {{ form_widget(form) }}
