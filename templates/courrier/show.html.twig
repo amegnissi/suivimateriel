@@ -1,0 +1,123 @@
+{% extends 'baseC.html.twig' %}
+
+{% block title %}Courrier{% endblock %}
+{% block breadcrumb %}Courrier{% endblock %}
+{% block  breadcrumb_item %} Courrier{% endblock %}
+{% block  breadcrumb_t %} Gestion des courriers{% endblock %}
+{% block table_titre %}Details du courrier{% endblock %}
+{% block btntitle %}Details courrier{% endblock %}
+
+{% block content %}
+    <div class="row">
+
+        <div class="col-sm-12">
+            <div class="card card-primary card-success">
+                <div class="card-header">
+                    <h3 class="card-title ">
+                        <i class="fas fa-edit"></i> Détails de courrier
+                    </h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body table-responsive">
+                    <table class="table table-bordered table-striped text-nowrap table-valign-middle">
+                        <tbody>
+
+                        <tr>
+                            <th>Référence du courrier</th>
+                            <td>{{ courrier.reference }}</td>
+                        </tr>
+                        <tr>
+                            <th>Référence interne</th>
+                            <td>{{ courrier.referenceInterne }}</td>
+                        </tr>
+                        <tr>
+                            <th>Objet</th>
+                            <td>{{ courrier.objet }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nature</th>
+                            <td>{{ courrier.nature.libelle }}</td>
+                        </tr>
+                        <tr>
+                            {% set nature = ' Expédteurs - Destinataires' %}
+
+                            {% if  courrier.typeCourrier.code =='ARRIVEE' %}
+                                {% set nature =' Expédteurs ' %}
+                            {% elseif   courrier.typeCourrier.code == 'DEPART'%}
+                                {% set nature = ' Destinataires '%}
+                            {% else %}
+                                {% set nature = ' Expédteurs - Destinataires' %}
+                            {% endif %}
+                            <th>{{ nature }}</th>
+                            <td>{{ courrier.partenaire.nomOuRaisonSocial }}</td>
+                        </tr>
+                        <tr>
+                            <th>Signataire</th>
+                            <td>{{ courrier.signataire }}</td>
+                        </tr>
+                        <tr>
+
+                            <th>Date {{ courrier.typeCourrier.libelle }}</th>
+                            <td>{{ courrier.dateArivee ? courrier.dateArivee|date('Y-m-d') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Date de Signature</th>
+                            <td>{{ courrier.dateSignature ? courrier.dateSignature|date('Y-m-d') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Fichier</th>
+                            <td>
+                                {% if courrier.url %}
+                                    <a
+                                            class="btn btn-info btn-sm" href="{{ app.request.schemeAndHttpHost ~ courrier.fichier
+                                    }} "
+                                            target="_blank">
+
+
+                                        {# <i class="bi bi-file"></i> #}
+                                        <i class="fa fa-file"></i>
+
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+
+
+                        </tbody>
+                    </table>
+
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    {% block footerBtn %}
+                        <div class="float-end">
+                            <a class="btn btn-primary" type="button" href="{{ path('app_courrier_index') }}">
+                                <i class="fa fa-arrow-left"></i>
+                                Retour á la liste des courriers
+                            </a>
+
+                            <a class="btn btn-warning bg-gradient-orange" href="{{ path('app_courrier_edit',
+                                {'id':courrier.id})
+                            }}">
+                                <i class="fas fa-edit"></i>
+                                Modifier le courrier</a>
+
+                        </div>
+                    {% endblock %}
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+    {#    <a href="{{ path('app_courrier_courrier_index') }}">back to list</a> #}
+
+    {#    <a href="{{ path('app_courrier_courrier_edit', {'id': courrier.id}) }}">edit</a> #}
+
+    {#    {{ include('courrier/courrier/_delete_form.html.twig') }} #}
+{% endblock %}

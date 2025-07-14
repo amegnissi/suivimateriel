@@ -58,23 +58,23 @@ class EntrepriseType extends AbstractType
                 'required' => false,
                 'attr' => ['class' => 'form-control']
             ])
-            ->add('kilometrage', NumberType::class, [
-                'label' => 'Kilométrage',
-                'required' => false,
-                'attr' => ['class' => 'form-control']
-            ])
-            ->add('delaiAssurance', IntegerType::class, [
-                'label' => 'Délai avant expiration assurance (jours)',
-                'required' => false,
-            ])
-            ->add('delaiTVM', IntegerType::class, [
-                'label' => 'Délai avant expiration TVM (jours)',
-                'required' => false,
-            ])
-            ->add('delaiVisiteTechnique', IntegerType::class, [
-                'label' => 'Délai avant expiration visite technique (jours)',
-                'required' => false,
-            ])
+//            ->add('kilometrage', NumberType::class, [
+//                'label' => 'Kilométrage',
+//                'required' => false,
+//                'attr' => ['class' => 'form-control']
+//            ])
+//            ->add('delaiAssurance', IntegerType::class, [
+//                'label' => 'Délai avant expiration assurance (jours)',
+//                'required' => false,
+//            ])
+//            ->add('delaiTVM', IntegerType::class, [
+//                'label' => 'Délai avant expiration TVM (jours)',
+//                'required' => false,
+//            ])
+//            ->add('delaiVisiteTechnique', IntegerType::class, [
+//                'label' => 'Délai avant expiration visite technique (jours)',
+//                'required' => false,
+//            ])
             ->add('logo', FileType::class, [
                 'label' => 'Logo (PNG, JPG, JPEG)',
                 'required' => false,

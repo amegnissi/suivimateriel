@@ -1,0 +1,85 @@
+{% extends 'base_table.html.twig' %}
+{% block title %}Courrier{% endblock %}
+{% block breadcrumb %}Courrier{% endblock %}
+{% block  breadcrumb_item %} Courrier{% endblock %}
+{% block  breadcrumb_t %} Gestion des courriers{% endblock %}
+{% block table_titre %}Liste des courriers{% endblock %}
+{% block btntitle %}Enregistrer un courrier arrive{% endblock %}
+
+{% block btnpath %}{{ path('app_courrier_new') }}{% endblock %}
+ {% block otherbtn %}
+     <a href="{{ path('app_courrier_depart_new') }}" class="btn btn-warning">Enregistrer un courrier départ</a>
+
+ {% endblock %}
+{% block tableContent %}
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Référence</th>
+                <th>Date Arrivée</th>
+
+                <th>Objet</th>
+                <th>Expéditeurs / Destinataires </th>
+                <th> </th>
+
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for courrier in courriers %}
+            <tr>
+                <td>
+                    {% if courrier.typeCourrier %}
+                        {% if courrier.typeCourrier.code == "ARRIVEE" %}
+                            <span class=" badge bg-warning"> {{ courrier.typeCourrier.libelle }}</span>
+                        {% elseif courrier.typeCourrier.code == "DEPART" %}
+                            <span class=" badge bg-success">
+								{{ courrier.typeCourrier.libelle }}</span>
+                        {% elseif courrier.typeCourrier.code == "INTERNE" %}
+                            <span class=" badge bg-info">
+								{{ courrier.typeCourrier.libelle }}</span>
+                        {% endif %}
+                    {% endif %}
+                </td>
+                <td>{{ courrier.referenceInterne }}</td>
+                <td>{{ courrier.dateArivee ? courrier.dateArivee|date('Y-m-d') : '' }}</td>
+{#                <td>{{ courrier.url }}</td>#}
+                <td>{{ courrier.objet }}
+
+                </td>
+                <td class="text-center">{{ courrier.partenaire.nomOuRaisonSocial }}</td>
+                <td>
+                    {% if courrier.url %}
+                        <a
+                                class="btn btn-info btn-sm" href="{{ app.request.schemeAndHttpHost ~ courrier.fichier
+                        }} "
+                                target="_blank">
+
+
+                            {# <i class="bi bi-file"></i> #}
+                            <i class="fa fa-file"></i>
+
+                        </a>
+                    {% endif %}
+                </td>
+
+                <td class="align-middle text-center">
+                    <div class="common-align gap-2 justify-content-start">
+                        <a href="{{ path('app_courrier_show', {'id': courrier.id}) }}" class="btn btn-primary btn-sm">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                        <a href="{{ path('app_courrier_edit', {'id': courrier.id}) }}" class="btn btn-success btn-sm">
+                            <i class="far fa-edit"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+
+{#    <a href="{{ path('app_courrier_courrier_new') }}">Create new</a>#}
+{% endblock %}

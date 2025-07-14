@@ -1,0 +1,38 @@
+{% extends 'base_formulaire.html.twig' %}
+{% block title %}Courrier{% endblock %}
+{% block breadcrumb %}Courrier{% endblock %}
+{% block  breadcrumb_item %} Courrier{% endblock %}
+{% block  breadcrumb_t %} Gestion des Courriers{% endblock %}
+{% block form_titre %} {{ titre }} {% endblock %}
+{% block formContent %}
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-6">{{ form_row(form.nature) }}</div>
+        <div class="col-md-6"> {{ form_row(form.partenaire) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">{{ form_row(form.objet) }}</div>
+    </div>
+    <div class="row">
+        {% set md = 6 %}
+        {% if form.reference is defined %}
+            <div class="col-md-6"> {{ form_row(form.reference) }}</div>
+            {% set md = 6 %}
+        {% else %}
+            {% set md = 12 %}
+        {% endif %}
+
+        <div class="col-md-{{ md }}"> {{ form_row(form.referenceInterne) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 "> {{ form_row(form.signataire) }}</div>
+        <div class="col-md-4"> {{ form_row(form.dateSignature) }}</div>
+        <div class="col-md-4"> {{ form_row(form.dateArivee) }}</div>
+    </div>
+
+    {{ form_widget(form) }}
+
+    {#    {{ include('courrier/_form.html.twig') }} #}
+
+
+{% endblock %}

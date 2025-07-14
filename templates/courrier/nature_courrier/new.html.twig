@@ -1,0 +1,15 @@
+{% extends 'base_formulaire.html.twig' %}
+{% block title %}Courrier{% endblock %}
+{% block breadcrumb %}Courrier{% endblock %}
+{% block  breadcrumb_item %} Courrier{% endblock %}
+{% block  breadcrumb_t %} Gestion des natures{% endblock %}
+{% block form_titre %}Nouvelle nature {% endblock %}
+{% block formContent %}
+
+
+    {{ include('courrier/nature_courrier/_form.html.twig') }}
+
+
+{% endblock %}
+
+

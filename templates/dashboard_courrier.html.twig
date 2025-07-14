@@ -1,0 +1,160 @@
+{% extends 'baseC.html.twig' %}
+{% block css %}
+    <style>
+        .text-bg-primary {
+            color: #fff !important;
+            background-color: RGBA(13, 110, 253, 1) !important;
+        }
+    </style>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css"/>
+{% endblock %}
+{% block title %}Tableau de bord{% endblock %}
+
+{% block breadcrumb %}TABLEAU DE BORD{% endblock %}
+
+{% block content %}
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
+                {% set couleurs = ['text-bg-primary','bg-success', 'bg-warning', 'bg-light','bg-lightblue','bg-navy',
+                    'bg-dark'] %}
+                {% set icon = ['ion-bag','ion-stats-bars', 'ion-person-add','ion-android-cloud-done','ion-upload'] %}
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <p>Courriers Arrivés</p>
+                            <h3>1</h3>
+
+
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-bag"></i>
+                        </div>
+                        <a href="" class="small-box-footer">Plus de
+                            détails
+                            <i
+                                    class="fas
+                    fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box text-bg-primary">
+                        <div class="inner">
+                            <p>Courriers Envoyés</p>
+                            <h3>2</h3>
+
+
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-upload"></i>
+                        </div>
+                        <a href="" class="small-box-footer">Plus de
+                            détails
+                            <i
+                                    class="fas
+                    fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-warning">
+                        <div class="inner">
+                            <p>Courriers en attente</p>
+                            <h3>3</h3>
+
+
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-android-cloud-done"></i>
+                        </div>
+                        <a href="" class="small-box-footer">Plus de
+                            détails
+                            <i
+                                    class="fas
+                    fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-lightblue">
+                        <div class="inner">
+                            <p>Courriers repondus</p>
+                            <h3>3</h3>
+
+
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-android-cloud-done }}"></i>
+                        </div>
+                        <a href="" class="small-box-footer">Plus de
+                            détails
+                            <i
+                                    class="fas
+                    fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                {#                <!-- ./col --> #}
+            </div>
+
+        </div>
+    </section>
+
+{% endblock %}
+{% block javascript %}
+<script src="{{ asset('adminlte/plugins/chart.js/Chart.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+{% endblock %}
+{% block scripts %}
+    <script src="{{ asset('cuba/assets/js/clock.js') }}"></script>
+    <script src="{{ asset('cuba/assets/js/chart/apex-chart/apex-chart.js') }}"></script>
+    <script src="{{ asset('cuba/assets/js/chart/apex-chart/stock-prices.js') }}"></script>
+    <script src="{{ asset('cuba/assets/js/chart/apex-chart/moment.min.js') }}"></script>
+    <script src="{{ asset('cuba/assets/js/notify/bootstrap-notify.min.js') }}"></script>
+    <script src="{{ asset('cuba/assets/js/dashboard/default.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+
+        // Comma/Separator counter
+        (function () {
+            const counters = document.querySelectorAll (".counter");
+            const speed = 70;
+
+            counters.forEach ((counter) => {
+                const updateCount = () => {
+                    const target = parseInt (counter.getAttribute ("data-target"));
+                    const count = parseInt (counter.innerText.replace (/,/g, "")); // Remove commas from displayed count
+
+                    const increment = Math.trunc (target / speed);
+
+                    if (count < target) {
+                        let updatedCount = count + increment;
+
+                        // Format the number with commas for lakh and crore
+                        updatedCount = updatedCount.toLocaleString ("en-IN");
+
+                        counter.innerText = updatedCount;
+                        setTimeout (updateCount, 1);
+                    } else {
+                        // Update counter.innerText with formatted target value
+                        counter.innerText = target.toLocaleString ("en-IN");
+                    }
+                };
+
+                updateCount ();
+            });
+        }) ();
+    </script>
+    {#    <script src="{{ asset('cuba/assets/js/notify/index.js') }}"></script> #}
+    {#    <script src="{{ asset('cuba/assets/js/typeahead/handlebars.js') }}"></script> #}
+    {#    <script src="{{ asset('cuba/assets/js/typeahead/typeahead.bundle.js') }}"></script> #}
+    {#    <script src="{{ asset('cuba/assets/js/typeahead/typeahead.custom.js') }}"></script> #}
+    {#    <script src="{{ asset('cuba/assets/js/typeahead-search/handlebars.js') }}"></script> #}
+    {#    <script src="{{ asset('cuba/assets/js/typeahead-search/typeahead-custom.js') }}"></script> #}
+    {#    <script src="{{ asset('cuba/assets/js/height-equal.js') }}"></script> #}
+    <script src="{{ asset('cuba/assets/js/animation/wow/wow.min.js') }}"></script>
+{% endblock %}

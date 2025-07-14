@@ -14,13 +14,14 @@ services:
             $notificationRepository: '@App\Repository\NotificationRepository'
         tags: ['twig.extension']
 
-        
+
     App\EventListener\EntrepriseListener:
         arguments:
             $twig: '@twig'
             $entityManager: '@doctrine.orm.entity_manager'
         tags:
             - { name: 'kernel.event_listener', event: 'kernel.controller', priority: 10 }
+
 
     # default configuration for services in *this* file
     _defaults:
@@ -35,6 +36,8 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
-
+    App\Service\FileUploader:
+        arguments:
+            $targetDirectory: '%kernel.project_dir%/public/uploads'
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

@@ -1,0 +1,236 @@
+{% extends 'baseC.html.twig' %}
+{% block content %}
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-edit"></i>
+                                Recherche multicritere
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            {{ form_start(form) }}
+                            <div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        {#                                        <div class="form-group"> #}
+                                        {#                                            <label class="control-label" for="appbundle_courrier_nature"> #}
+                                        {#                                                Nature #}
+                                        {#                                            </label> #}
+                                        {#                                            {{ form_widget(form.nature, {'attr' : {'class' : 'form-control select2 #}
+                                        {#                                            form-control custom-select' }} #}
+                                        {#                                            ) }} #}
+                                        {#                                            <span class="text-danger"> #}
+                                        {#                                                {{ form_errors(form.nature) }} #}
+                                        {#                                            </span> #}
+                                        {#                                        </div> #}
+                                        {{ form_row(form.nature) }}
+                                    </div>
+                                    <div class="col-md-4">{{ form_row(form.objet) }}</div>
+                                    <div class="col-md-4">{{ form_row(form.reference) }}</div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label" for="appbundle_courrier_partenaires">
+                                                Partenaires
+                                            </label>
+                                            {{ form_widget(form.partenaire, {'attr' : {'class' : 'form-control select2
+                                            form-control custom-select' }}
+                                            ) }}
+                                            <span class="text-danger">
+												{{ form_errors(form.partenaire) }}
+											</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label" for="appbundle_courrier_datearrivee">
+                                                Date Debut
+                                            </label>
+                                            {{ form_widget(form.dateDebut, {'attr' : {'class' : 'form-control' }}
+                                            ) }}
+                                            <span style="display: none;" class="text-danger"
+                                                  id="appbundle_courrierarrivee_datearrivee_error">
+												Veuillez verifier la date debut
+											</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label" for="appbundle_courrier_datelimreponse">
+                                                Date fin
+                                            </label>
+                                            {{ form_widget(form.dateFin, {'attr' : {'class' : 'form-control' }}
+                                            ) }}
+                                            <span style="display: none;" class="text-danger"
+                                                  id="appbundle_courrierarrivee_datelimrep_error">
+												Veuillez verifier la date fin
+											</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 offset-md-2">
+                                        <br>
+                                        <button id="searchButton" class="btn btn-primary mt-1 col-12">
+                                            {{ button_label|default('Rechercher') }}
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <br>
+                                        <button type="button" id="resetButton" class="btn btn-secondary mt-1 col-12">
+                                            <i class="fas fa-undo"></i> Réinitialiser
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                        <th>Type</th>
+                        <th>Référence</th>
+                        <th>Date Arrivée</th>
+
+                        <th>Objet</th>
+                        <th>Expéditeurs / Destinataires</th>
+                        <th></th>
+
+                        <th>actions</th>
+                        </thead>
+                        <tbody id='results'></tbody>
+                    </table>
+                </div>
+                <!-- /.row -->
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+{% endblock %}
+{% block javascript %}
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const searchForm = document.querySelector('form');
+    const resultsTable = document.getElementById('results');
+    const searchButton = document.getElementById('searchButton');
+
+    searchForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Désactiver le bouton pendant la requête
+    searchButton.disabled = true;
+    searchButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Recherche en cours...';
+
+    // Récupérer les données du formulaire
+    const formData = new FormData(searchForm);
+
+    // Envoyer la requête AJAX
+    fetch('{{ path('app_courrier_recherche') }}', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erreur réseau');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Mettre à jour le tableau avec les résultats
+                    updateResultsTable(data);
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    resultsTable.innerHTML = '<tr><td colspan="6" class="text-center text-danger">Une erreur est survenue lors de la recherche</td></tr>';
+                })
+                .finally(() => {
+                    // Réactiver le bouton
+                    searchButton.disabled = false;
+                    searchButton.innerHTML = '{{ button_label|default("Rechercher") }}';
+                });
+            });
+
+            function updateResultsTable(data) {
+                if (data.length === 0) {
+                    resultsTable.innerHTML = '<tr><td colspan="6" class="text-center">Aucun résultat trouvé</td></tr>';
+                    return;
+                }
+
+                let html = '';
+
+                data.forEach(courrier => {
+                    html += `
+                        <tr>
+                            <td>
+                                ${courrier.type == "Arrivée" ? '<span class="badge bg-warning">' + courrier.type +
+                                    '</span>' : ''}
+
+                                ${courrier.type == "Départ" ? '<span class="badge bg-success">' + courrier.type + '</span>' : ''
+                                }
+
+                                ${courrier.type == "INTERNE" ? '<span class="badge bg-info">' + courrier.type + '</span>' : ''
+                                }
+
+</td>
+
+
+                            <td>${courrier.reference || ''}</td>
+                            <td>${courrier.date || ''}</td>
+                            <td>${courrier.objet || ''}</td>
+                             <td>${courrier.partenaire || ''}</td>
+                            <td>
+                                <a href="${courrier.fichier || '#'}" class="btn btn-info btn-sm" target="_blank">
+                                    <i class="fa fa-file"></i>
+                                </a>
+                            </td>
+<td class="align-middle text-center">
+                    <div class="common-align gap-2 justify-content-start">
+                        <a href="${courrier.showUrl || '#'}" class="btn btn-primary btn-sm">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                        <a href="${courrier.editUrl || '#'}" class="btn btn-success btn-sm">
+                            <i class="far fa-edit"></i>
+                        </a>
+                    </div>
+                </td>
+                        </tr>
+                    `;
+                });
+
+                resultsTable.innerHTML = html;
+            }
+        });
+
+    document.getElementById('resetButton').addEventListener('click', function() {
+    // Réinitialiser le formulaire
+    const form = document.querySelector('form');
+    form.reset();
+
+    // Si vous utilisez Select2, réinitialisez aussi ces champs
+    if (typeof $ !== 'undefined' && $.fn.select2) {
+        $('.select2').val(null).trigger('change');
+    }
+
+    // Vider les résultats
+    document.getElementById('results').innerHTML = '';
+
+    // Si vous voulez aussi réinitialiser les champs de date
+    const dateFields = form.querySelectorAll('input[type="date"]');
+    dateFields.forEach(field => {
+        field.value = '';
+    });
+});
+    </script>
+{% endblock %}
+

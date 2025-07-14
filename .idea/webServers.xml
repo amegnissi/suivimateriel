@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="19b1fcf8-e796-4752-99b9-46bff51af287" name="suivimaterial" url="https://suivimateriel.pischon-tech.com/">
+        <fileTransfer rootFolder="/ARCHIVE/suivimateriel" host="pischon-tech.com" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

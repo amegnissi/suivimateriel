@@ -1,0 +1,56 @@
+{% extends 'base_table.html.twig' %}
+{% block title %}Courrier{% endblock %}
+{% block breadcrumb %}Courrier{% endblock %}
+{% block  breadcrumb_item %} Courrier{% endblock %}
+{% block  breadcrumb_t %} Gestion des courriers{% endblock %}
+{% block table_titre %}Liste des natures de courrier{% endblock %}
+{% block btntitle %}Ajouter une nature de courrier{% endblock %}
+{#{% block otherbtn %}#}
+{#    <a href="{{ path('employes_export_pdf') }}" class="btn btn-danger">Exporter en PDF</a>#}
+{#    <a href="{{ path('employes_export_excel') }}" class="btn btn-success">Exporter en Excel</a>#}
+{#{% endblock %}#}
+{% block btnpath %}{{ path('app_courrier_nature_courrier_new') }}{% endblock %}
+{% block tableContent %}
+    <thead>
+            <tr>
+                <th>Id</th>
+                <th>Code</th>
+                <th>Libelle</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for nature_courrier in nature_courriers %}
+            <tr>
+                <td>{{ nature_courrier.id }}</td>
+                <td>{{ nature_courrier.code }}</td>
+                <td>{{ nature_courrier.libelle }}</td>
+                <td class="align-middle text-center">
+                    <div class="common-align gap-2 justify-content-start">
+{#                        <a class="btn btn-primary btn-sm" href="{{ path('employes_show', {'id': employe.id}) }}"#}
+{#                           title="Plus de details">#}
+{#                            <i class="fa fa-eye"></i>#}
+{#                        </a>#}
+
+
+                        <a class="btn btn-success btn-sm" href="{{ path('app_courrier_nature_courrier_edit', {'id': nature_courrier.id}) }}"
+                           title="Plus de details">
+                            <i class="far fa-edit"></i>
+                        </a>
+                    </div>
+                </td>
+{#                <td>#}
+{#                    <a href="{{ path('app_courrier_nature_courrier_show', {'id': nature_courrier.id}) }}">show</a>#}
+{#                    <a href="{{ path('app_courrier_nature_courrier_edit', {'id': nature_courrier.id}) }}">edit</a>#}
+{#                </td>#}
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+
+
+    <a href="{{ path('app_courrier_nature_courrier_new') }}">Create new</a>
+{% endblock %}

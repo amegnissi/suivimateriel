@@ -77,6 +77,18 @@ class Materiel
     #[ORM\OneToMany(targetEntity: Affectation::class, mappedBy: 'materiel')]
     private Collection $affectations;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $kilometrage = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $delaiAssurance = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $delaiTVM = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $delaiVisiteTechnique = null;
+
     public function __construct()
     {
         $this->affectations = new ArrayCollection();
@@ -319,6 +331,54 @@ class Materiel
                 $assurance->setVehicule(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getKilometrage(): ?int
+    {
+        return $this->kilometrage;
+    }
+
+    public function setKilometrage(?int $kilometrage): static
+    {
+        $this->kilometrage = $kilometrage;
+
+        return $this;
+    }
+
+    public function getDelaiAssurance(): ?int
+    {
+        return $this->delaiAssurance;
+    }
+
+    public function setDelaiAssurance(?int $delaiAssurance): static
+    {
+        $this->delaiAssurance = $delaiAssurance;
+
+        return $this;
+    }
+
+    public function getDelaiTVM(): ?int
+    {
+        return $this->delaiTVM;
+    }
+
+    public function setDelaiTVM(?int $delaiTVM): static
+    {
+        $this->delaiTVM = $delaiTVM;
+
+        return $this;
+    }
+
+    public function getDelaiVisiteTechnique(): ?int
+    {
+        return $this->delaiVisiteTechnique;
+    }
+
+    public function setDelaiVisiteTechnique(?int $delaiVisiteTechnique): static
+    {
+        $this->delaiVisiteTechnique = $delaiVisiteTechnique;
 
         return $this;
     }

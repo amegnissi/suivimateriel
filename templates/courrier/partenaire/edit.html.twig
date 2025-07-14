@@ -1,0 +1,15 @@
+{% extends 'base_formulaire.html.twig' %}
+{% block title %}Courrier{% endblock %}
+{% block breadcrumb %}Courrier{% endblock %}
+{% block  breadcrumb_item %} Courrier{% endblock %}
+{% block  breadcrumb_t %} Gestion des partenaires{% endblock %}
+{% block form_titre %}Modifie un partenaire {% endblock %}
+{% block formContent %}
+
+
+
+    {{ include('courrier/partenaire/_form.html.twig') }}
+
+
+
+{% endblock %}

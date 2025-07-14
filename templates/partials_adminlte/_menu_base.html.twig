@@ -13,6 +13,53 @@
             </a>
         </li>
         <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                    Courriers
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="{{ path('app_courrier_index') }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Liste des courriers</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('app_courrier_depart_new') }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Courrier départ</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('app_courrier_new') }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Courrier arrivé</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('app_courrier_partenaire_index') }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Partenaires</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('app_courrier_recherche') }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Recherche courriers</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('app_courrier_nature_index') }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Nature des courriers</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
             <a href="{{ path('entreprise_index') }}" class="nav-link">
                 <i class="nav-icon fas fa-th"></i>
                 <p>
@@ -155,5 +202,7 @@
                 </p>
             </a>
         </li>
+
+
     </ul>
 </nav>

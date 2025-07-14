@@ -8,8 +8,127 @@
 {% block form_titre %}Ajouter un Matériel{% endblock %}
 
 {% block formContent %}
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {{ form_start(form, {'attr': {'id': 'materiel', 'novalidate': 'novalidate'}}) }}
+
+    <div class="row">
+        <div class="col-md-6">
+            {{ form_row(form.type) }}
+        </div>
+
+        <div class="col-md-6">
+            {{ form_row(form.numeroSerie) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.date_acquisition) }}
+        </div>
+    </div>
+    <div id="vehicule">
+        {% for child in form %}
+            {% if child.vars.name not in ['type', 'numeroSerie','numeroSerie', 'date_acquisition', '_token'] and not child.rendered%}
+                <div class="mb-3 conditional-field">
+                    {{ form_label(child) }}
+                    {{ form_widget(child, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(child) }}
+                </div>
+            {% endif %}
+        {% endfor %}
+{#    <div class="row" >#}
+{#        <div class="col-md-6">#}
+{#            {{ form_row(form.marque) }}#}
+{#        </div>#}
+{#        <div class="col-md-6">#}
+{#            {{ form_row(form.modele) }}#}
+{#        </div>#}
+{#        <div class="col-md-6">#}
+{#            {{ form_row(form.immatriculation) }}#}
+{#        </div>#}
+{#        <div class="col-md-6">#}
+{#            {{ form_row(form.kilometrage) }}#}
+{#        </div>#}
+{#        <div class="col-md-4">#}
+{#            {{ form_row(form.delaiAssurance) }}#}
+{#        </div>#}
+{#        <div class="col-md-4">#}
+{#            {{ form_row(form.delaiTVM) }}#}
+{#        </div>#}
+{#        <div class="col-md-4">#}
+{#            {{ form_row(form.delaiVisiteTechnique) }}#}
+{#        </div>#}
+
+{#    </div>#}
+    </div>
+    {{ form_end(form) }}
 
 {% endblock %}
 
+{% block javascript %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const typeBolSelect = document.getElementById('materiel_type');
+    const conditionalFields = document.getElementById('vehicule');
+console.log(conditionalFields);
+    // Fonction pour recharger le formulaire avec les champs conditionnels
+    function reloadFormWithConditionalFields() {
+        const formData = new FormData(document.getElementById('materiel'));
+
+        fetch(window.location.href, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newConditionalFields = doc.getElementById('vehicule');
+                console.log(doc);
+                if (newConditionalFields) {
+                    conditionalFields.innerHTML = newConditionalFields.innerHTML;
+                    console.log(newConditionalFields.innerHTML);
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors du rechargement des champs:', error);
+            });
+    }
+
+    // Écouter les changements sur le select du type de bol
+    typeBolSelect.addEventListener('change', function() {
+        if (this.value) {
+
+            reloadFormWithConditionalFields();
+        } else {
+            // Vider les champs conditionnels si aucun type n'est sélectionné
+            conditionalFields.innerHTML = '';
+        }
+    });
+});
+//
+//     document.addEventListener('DOMContentLoaded', function () {
+//         const serviceSelect = document.getElementById('materiel_type');
+//         const chambreContainer = document.getElementById('vehicule');
+//
+//         function toggleChambreField() {
+//             const selectedText = serviceSelect.options[serviceSelect.selectedIndex].text.toLowerCase();
+// console.log(selectedText);
+//             if (selectedText.includes('véhicule')) {
+//                 chambreContainer.style.display = 'block';
+//             } else {
+//                 chambreContainer.style.display = 'none';
+//                 // Optionally clear chambre selection
+//                 const chambreSelect = chambreContainer.querySelector('select');
+//                 if (chambreSelect) {
+//                     chambreSelect.value = '';
+//                 }
+//             }
+//         }
+//
+//         serviceSelect.addEventListener('change', toggleChambreField);
+//
+//         // Initial check on page load
+//         toggleChambreField();
+//     });
+</script>
+{% endblock %}

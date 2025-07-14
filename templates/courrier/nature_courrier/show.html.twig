@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}NatureCourrier{% endblock %}
+
+{% block body %}
+    <h1>NatureCourrier</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ nature_courrier.id }}</td>
+            </tr>
+            <tr>
+                <th>Code</th>
+                <td>{{ nature_courrier.code }}</td>
+            </tr>
+            <tr>
+                <th>Libelle</th>
+                <td>{{ nature_courrier.libelle }}</td>
+            </tr>
+            <tr>
+                <th>Couleur</th>
+                <td>{{ nature_courrier.couleur }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ nature_courrier.description }}</td>
+            </tr>
+            <tr>
+                <th>CreeLe</th>
+                <td>{{ nature_courrier.creeLe ? nature_courrier.creeLe|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>ModifieLe</th>
+                <td>{{ nature_courrier.modifieLe ? nature_courrier.modifieLe|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_courrier_nature_courrier_index') }}">back to list</a>
+
+    <a href="{{ path('app_courrier_nature_courrier_edit', {'id': nature_courrier.id}) }}">edit</a>
+
+    {{ include('courrier/nature_courrier/_delete_form.html.twig') }}
+{% endblock %}

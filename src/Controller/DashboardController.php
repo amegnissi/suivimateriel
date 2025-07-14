@@ -135,4 +135,15 @@ class DashboardController extends AbstractController
             'operations' =>   $finOperations,
         ]);
     }
+    #[Route('/demarrage', name: 'demarrage')]
+
+    public function demmarrage(){
+        return $this->render('demarrage.html.twig');
+    }
+
+    #[Route('/dashboard/courrier', name: 'app_dashboard_courrier')]
+    public function dashbooardCourrier(): Response
+    {
+        return $this->render('dashboard_courrier.html.twig', []);
+    }
 }
