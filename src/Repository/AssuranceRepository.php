@@ -35,9 +35,11 @@ class AssuranceRepository extends ServiceEntityRepository
         $dateSeuil->modify("+$delai days");
 
         $qb = $this->createQueryBuilder('a')
-            ->select('a as op','COUNT(a) as total', 'type.libelle as typeoperation','type.id as idtype','a.id as id')
+//            ->select('a as op','COUNT(a) as total', 'type.libelle as typeoperation','type.id as idtype','a.id as id')
+            ->select('a as op','COUNT(a) as total', 'type.libelle as typeoperation', 'type.id as idtype')
             ->leftJoin('a.typeAssurance','type')
-            ->groupBy('a.typeAssurance')
+            ->groupBy('type.id', 'type.libelle','a')
+//            ->groupBy('type.id', 'type.libelle','op','a.id','a')
             ->where('a.dateFin <= :dateSeuil')
             ->andWhere('a.estRenouvelle = false')
             ->andWhere('a.notifEnvoyee = false');
@@ -65,7 +67,7 @@ class AssuranceRepository extends ServiceEntityRepository
             ->where('t.id = :type')
             ->andWhere('t.id = :type')
             ->andWhere('a.estRenouvelle = :ex')
-            
+
             ;
 
 
