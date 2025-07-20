@@ -198,13 +198,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        {% include'partials_adminlte/_breadcumb.html.twig' %}
-        {# templates/partials_adminlte/_breadcrumb.html.twig #}
+        {% set _title = block('title') is defined ? block('title') : '' %}
+        {% set _breadcrumb = block('breadcrumb') is defined ? block('breadcrumb') : '' %}
+        {% set _breadcrumb_item = block('breadcrumb_item') is defined ? block('breadcrumb_item') : '' %}
+        {% set _breadcrumb_t = block('breadcrumb_t') is defined ? block('breadcrumb_t') : '' %}
+        {% set _btntitle = block('btntitle') is defined ? block('btntitle') : '' %}
+        {% set _btnpath = block('btnpath') is defined ? block('btnpath') : '' %}
+        {% set _otherbtn = block('otherbtn') is defined ? block('otherbtn') : '' %}
 
-        {% set breadcrumb = breadcrumb|default([
-            { label: 'Accueil', url: path('dashboard') },
-            { label: 'Page actuelle' }
-        ]) %}
+        {% block page_header %}
+            {% include 'partials_adminlte/_breadcumb.html.twig' with {
+                title: _title,
+                breadcrumb: _breadcrumb,
+                breadcrumb_item: _breadcrumb_item,
+                breadcrumb_t: _breadcrumb_t,
+                btntitle: _btntitle,
+                btnpath: _btnpath,
+                otherbtn: _otherbtn
+            } %}
+        {% endblock %}
+
+
+
+        
+        {# templates/partials_adminlte/_breadcrumb.html.twig #}
+       
 
         <!-- /.content-header -->
 

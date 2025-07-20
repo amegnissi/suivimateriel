@@ -7,8 +7,10 @@
     'app_courrier_recherche',
     'app_courrier_nature_index'
 ] %}
-{% set isCourrierActive = currentRoute in courrierRoutes %}
+
 {% set currentRoute = app.request.attributes.get('_route') %}
+{% set currentRoute = app.request.attributes.get('_route') %}
+{% set isCourrierActive = currentRoute starts with 'app_courrier_' %}
 <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
@@ -36,7 +38,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ path('app_courrier_depart_new') }}" class="nav-link {% if currentRoute == 'app_courrier_depart_new' %}active{% endif %}">
-                        <p>Courrier départ</p>
+                      <p>Courrier départ</p>
                     </a>
                 </li>
                 <li class="nav-item">

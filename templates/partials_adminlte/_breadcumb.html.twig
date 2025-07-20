@@ -5,6 +5,8 @@
 {% set description = description|default(null) %}
 {% set actions = actions|default([]) %}
 {% set breadcrumb = breadcrumb|default([]) %}
+
+
 <style>
 .breadcrumb-item {
     font-size:small;
@@ -14,6 +16,8 @@
     color: #4384a5;
 }
 </style>
+{# partials_adminlte/_breadcumb.html.twig #}
+
 <div class="content-header bg-white shadow-1 mb-4 border-bottom">
     <div class="container-fluid">
         {% if breadcrumb is not empty %}
@@ -22,6 +26,9 @@
                     <ol class="breadcrumb breadcrumb-arrow mb-0">
                         <li class="breadcrumb-item">
                             <a href="{{ path('dashboard') }}">Accueil</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            {{ breadcrumb_t }}
                         </li>
                         {% for item in breadcrumb %}
                             <li class="breadcrumb-item {{ loop.last ? 'active' : '' }}">
@@ -44,20 +51,20 @@
                     {% endif %}
                     <h4 class="mb-0 fw-bold">{{ title }}</h4>
                 </div>
-                {% if description %}
-                    <p class="text-muted mt-1 mb-0 small">{{ description }}</p>
+                 {% if breadcrumb_t is defined %}
+                <p class="text-muted opacity-75 mt-1 mb-0 small">{{ breadcrumb_t }}</p>
                 {% endif %}
             </div>
 
             <div class="col-md-6 col-sm-12 text-md-end text-start mt-2 mt-md-0">
-                {% for action in actions %}
-                    <a href="{{ action.url }}" class="btn btn-sm btn-{{ action.type|default('primary') }} ms-1">
-                        {% if action.icon is defined %}
-                            <i class="{{ action.icon }}"></i>
-                        {% endif %}
-                        {{ action.label }}
+                 {% if otherbtn is defined %}
+                    {{ otherbtn|raw }}
+                {% endif %}
+                {% if btnpath is defined %}
+                    <a href="{{ btnpath }}" class="btn btn-primary">
+                      <i class="fa fa-plus"></i>   {{ btntitle|default('Ajouter') }}
                     </a>
-                {% endfor %}
+                {% endif %}
             </div>
         </div>
 
