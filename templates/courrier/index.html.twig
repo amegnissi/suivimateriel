@@ -8,7 +8,7 @@
 
 {% block btnpath %}{{ path('app_courrier_new') }}{% endblock %}
  {% block otherbtn %}
-     <a href="{{ path('app_courrier_depart_new') }}" class="btn btn-warning">Enregistrer un courrier départ</a>
+     <a href="{{ path('app_courrier_depart_new') }}" class="btn btn-default">Enregistrer un courrier départ</a>
 
  {% endblock %}
 {% block tableContent %}
@@ -68,7 +68,7 @@
                         <a href="{{ path('app_courrier_show', {'id': courrier.id}) }}" class="btn btn-primary btn-sm">
                             <i class="fa fa-eye"></i>
                         </a>
-                        <a href="{{ path('app_courrier_edit', {'id': courrier.id}) }}" class="btn btn-success btn-sm">
+                        <a href="{{ path('app_courrier_edit', {'id': courrier.id}) }}" class="btn btn-primary btn-sm">
                             <i class="far fa-edit"></i>
                         </a>
                     </div>

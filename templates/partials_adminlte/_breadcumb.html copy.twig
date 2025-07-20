@@ -1,0 +1,16 @@
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-1">
+            <div class="col-sm-6">
+{#                <h2 class="m-0">{% if titre is defined %} {{ titre }} {% endif %}</h2>#}
+                <h2 class="m-0">{% block breadcrumb %}{% endblock %}</h2>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-end">
+                    <li class="breadcrumb-item">{% block  breadcrumb_item %}{% endblock %}</li>
+                    <li class="breadcrumb-item active">{% block  breadcrumb_t %} {% endblock %}</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>

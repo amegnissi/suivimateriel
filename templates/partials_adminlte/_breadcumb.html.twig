@@ -1,16 +1,66 @@
-<div class="content-header">
+{# templates/partials_adminlte/_breadcrumb.html.twig #}
+
+{% set title = title|default('') %}
+{% set icon = icon|default(null) %}
+{% set description = description|default(null) %}
+{% set actions = actions|default([]) %}
+{% set breadcrumb = breadcrumb|default([]) %}
+<style>
+.breadcrumb-item {
+    font-size:small;
+}
+.breadcrumb-item a{
+    text-decoration: none;
+    color: #4384a5;
+}
+</style>
+<div class="content-header bg-white shadow-1 mb-4 border-bottom">
     <div class="container-fluid">
-        <div class="row mb-1">
-            <div class="col-sm-6">
-{#                <h2 class="m-0">{% if titre is defined %} {{ titre }} {% endif %}</h2>#}
-                <h2 class="m-0">{% block breadcrumb %}{% endblock %}</h2>
-            </div><!-- /.col -->
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-end">
-                    <li class="breadcrumb-item">{% block  breadcrumb_item %}{% endblock %}</li>
-                    <li class="breadcrumb-item active">{% block  breadcrumb_t %} {% endblock %}</li>
-                </ol>
-            </div><!-- /.col -->
-        </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
+        {% if breadcrumb is not empty %}
+            <div class="row">
+                <div class="col">
+                    <ol class="breadcrumb breadcrumb-arrow mb-0">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('dashboard') }}">Accueil</a>
+                        </li>
+                        {% for item in breadcrumb %}
+                            <li class="breadcrumb-item {{ loop.last ? 'active' : '' }}">
+                                {% if not loop.last and item.url is defined %}
+                                    <a href="{{ item.url }}">{{ item.label }}</a>
+                                {% else %}
+                                    {{ item.label }}
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            </div>
+        {% endif %}
+        <div class="row align-items-center justify-content-between">
+            <div class="col-md-6 col-sm-12">
+                <div class="d-flex align-items-center gap-2">
+                    {% if icon %}
+                        <i class="{{ icon }} fs-4 opacity-75"></i>
+                    {% endif %}
+                    <h4 class="mb-0 fw-bold">{{ title }}</h4>
+                </div>
+                {% if description %}
+                    <p class="text-muted mt-1 mb-0 small">{{ description }}</p>
+                {% endif %}
+            </div>
+
+            <div class="col-md-6 col-sm-12 text-md-end text-start mt-2 mt-md-0">
+                {% for action in actions %}
+                    <a href="{{ action.url }}" class="btn btn-sm btn-{{ action.type|default('primary') }} ms-1">
+                        {% if action.icon is defined %}
+                            <i class="{{ action.icon }}"></i>
+                        {% endif %}
+                        {{ action.label }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        
+    </div>
 </div>

@@ -1,27 +1,24 @@
 {% extends 'base-dashboard.html.twig' %}
 {% block css %}
-<link rel="stylesheet"
+    <style>
+        .text-bg-primary {
+            color: #fff !important;
+            background-color: RGBA(13, 110, 253, 1) !important;
+        }
+    </style>
+    <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css"/>
 {% endblock %}
 {% block title %}Tableau de bord{% endblock %}
 
 {% block breadcrumb %}TABLEAU DE BORD{% endblock %}
 
-{% set title = 'Tableau de bord' %}
-{% set icon = 'ion-ios-pie' %}
-{% set breadcrumb = [
-    { label: 'Tableau de bord' }
-] %}
-{% set actions = [
-    { label: 'Nouveau corrier', url: path('app_courrier_depart_new'), icon: 'fas fa-plus', type: 'primary' }
-] %}
 {% block content %}
     <section class="content">
         <div class="container-fluid">
-
             <!-- Small boxes (Stat box) -->
             <div class="row">
-                {% set couleurs = ['card-bg-primary','card-bg-success', 'card-bg-warning', 'card-bg-light','card-bg-lightblue','card-bg-gray',
+                {% set couleurs = ['text-bg-primary','bg-success', 'bg-warning', 'bg-light','bg-lightblue','bg-navy',
                     'bg-dark','text-bg-primary'] %}
                 {% set icon = ['ion-bag','ion-stats-bars', 'ion-person-add','ion-android-cloud-done','ion-upload','ion-android-cloud-done'] %}
                 {% for types in operations %}
@@ -107,8 +104,8 @@
                         <div class="card-header">
                             <h3 class="card-title"> Nombre de materiels par catégorie</h3>
                         </div>
-                        <div class="p-0 table-responsive">
-                            <table class="table table-hover table-dotted table-striped table-borderless ">
+                        <div class="card-body table-responsive">
+                            <table class="table table-hover table-sm table-bordered table-striped">
                                 <thead>
                                 <tr>
                                     <th class="col">Type de materiel</th>
@@ -163,14 +160,14 @@
             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="card-title fw-bold">Liste des operations expiréees </h5>
-                        <button type="button" class="close btnclose-dialog" data-dismiss="modal" aria-label="Fermer">
-                            <span aria-hidden="true">×</span>
+                        <h5 class="card-title">Liste des operations Expiréees </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                            <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div >
-                        <table class="table table-hover text-nowrap table-valign-middle mb-0 ">
-                            <tr class="bg-light">
+                    <div class="modal-body">
+                        <table class="table table-striped">
+                            <tr>
                                 <th> Materiel</th>
                                 <th> Operations</th>
                                 <th> Date début</th>
@@ -201,7 +198,7 @@
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default btnclose-dialog"  data-dismiss="modal">Fermer</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
                     </div>
                 </div>
             </div>
@@ -253,10 +250,8 @@
  {% if operations is not empty %}
     <script>
   $(document).ready(function() {
+
     $('#myModal').modal('show');
-     $('.btnclose-dialog').on('click', function() {
-        $('#myModal').modal('hide');
-    });
   });
 
 </script>

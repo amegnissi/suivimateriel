@@ -1,27 +1,16 @@
-{% set currentRoute = app.request.attributes.get('_route') %}
-{% set courrierRoutes = [
-    'app_courrier_index',
-    'app_courrier_depart_new',
-    'app_courrier_new',
-    'app_courrier_partenaire_index',
-    'app_courrier_recherche',
-    'app_courrier_nature_index'
-] %}
-{% set isCourrierActive = currentRoute in courrierRoutes %}
-{% set currentRoute = app.request.attributes.get('_route') %}
 <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
         <li class="nav-item">
             <a href="{{ path('dashboard') }}"
-                class="nav-link {% if currentRoute starts with 'dashboard' %}active{% endif %}">
+                class="nav-link {% if app.request.attributes.get('_route') starts with 'dashboard' %}active{% endif %}">
                 <i class="nav-icon ion-ios-pie"></i>
                 <p>Tableau de Bord</p>
             </a>
         </li>
 
-        <li class="nav-item {% if isCourrierActive %}menu-is-opening menu-open{% endif %}">
-            <a href="#" class="nav-link {% if isCourrierActive %}active{% endif %}">
+        <li class="nav-item">
+            <a href="#" class="nav-link">
                 <i class="nav-icon ion-email"></i>
                 <p>
                     Courriers
@@ -30,32 +19,32 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="{{ path('app_courrier_index') }}" class="nav-link {% if currentRoute == 'app_courrier_index' %}active{% endif %}">
+                    <a href="{{ path('app_courrier_index') }}" class="nav-link">
                         <p>Liste des courriers</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ path('app_courrier_depart_new') }}" class="nav-link {% if currentRoute == 'app_courrier_depart_new' %}active{% endif %}">
+                    <a href="{{ path('app_courrier_depart_new') }}" class="nav-link">
                         <p>Courrier départ</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ path('app_courrier_new') }}" class="nav-link {% if currentRoute == 'app_courrier_new' %}active{% endif %}">
+                    <a href="{{ path('app_courrier_new') }}" class="nav-link">
                         <p>Courrier arrivé</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ path('app_courrier_partenaire_index') }}" class="nav-link {% if currentRoute == 'app_courrier_partenaire_index' %}active{% endif %}">
+                    <a href="{{ path('app_courrier_partenaire_index') }}" class="nav-link">
                         <p>Partenaires</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ path('app_courrier_recherche') }}" class="nav-link {% if currentRoute == 'app_courrier_recherche' %}active{% endif %}">
+                    <a href="{{ path('app_courrier_recherche') }}" class="nav-link">
                         <p>Recherche courriers</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ path('app_courrier_nature_index') }}" class="nav-link {% if currentRoute == 'app_courrier_nature_index' %}active{% endif %}">
+                    <a href="{{ path('app_courrier_nature_index') }}" class="nav-link">
                         <p>Nature des courriers</p>
                     </a>
                 </li>
@@ -63,70 +52,70 @@
         </li>
 
         <li class="nav-item">
-            <a href="{{ path('entreprise_index') }}" class="nav-link {% if currentRoute == 'entreprise_index' %}active{% endif %}">
+            <a href="{{ path('entreprise_index') }}" class="nav-link">
                 <i class="nav-icon ion-briefcase"></i>
                 <p>Entreprise</p>
             </a>
         </li>
 
         <li class="nav-item">
-            <a href="{{ path('postes_index') }}" class="nav-link {% if currentRoute == 'postes_index' %}active{% endif %}">
+            <a href="{{ path('postes_index') }}" class="nav-link">
                 <i class="nav-icon ion-person"></i>
                 <p>Postes</p>
             </a>
         </li>
 
         <li class="nav-item">
-            <a href="{{ path('marques_index') }}" class="nav-link {% if currentRoute == 'marques_index' %}active{% endif %}">
+            <a href="{{ path('marques_index') }}" class="nav-link">
                 <i class="nav-icon ion-flag"></i>
                 <p>Marques</p>
             </a>
         </li>
 
         <li class="nav-item">
-            <a href="{{ path('employes_index') }}" class="nav-link {% if currentRoute == 'employes_index' %}active{% endif %}">
+            <a href="{{ path('employes_index') }}" class="nav-link">
                 <i class="nav-icon ion-ios-people"></i>
                 <p>Employés</p>
             </a>
         </li>
 
         <li class="nav-item">
-            <a href="{{ path('types_materiels_index') }}" class="nav-link {% if currentRoute == 'types_materiels_index' %}active{% endif %}">
+            <a href="{{ path('types_materiels_index') }}" class="nav-link">
                 <i class="nav-icon ion-cube"></i>
                 <p>Types materiels</p>
             </a>
         </li>
 
         <li class="nav-item">
-            <a href="{{ path('materiels_index') }}" class="nav-link {% if currentRoute == 'materiels_index' %}active{% endif %}">
+            <a href="{{ path('materiels_index') }}" class="nav-link">
                 <i class="nav-icon ion-gear-a"></i>
                 <p>Matériels</p>
             </a>
         </li>
 
         <li class="nav-item">
-            <a href="{{ path('sortie_materiels_index') }}" class="nav-link {% if currentRoute == 'sortie_materiels_index' %}active{% endif %}">
+            <a href="{{ path('sortie_materiels_index') }}" class="nav-link">
                 <i class="nav-icon ion-log-out"></i>
                 <p>Sortie Matériel</p>
             </a>
         </li>
 
         <li class="nav-item">
-            <a href="{{ path('societe_service_index') }}" class="nav-link {% if currentRoute == 'societe_service_index' %}active{% endif %}">
+            <a href="{{ path('societe_service_index') }}" class="nav-link">
                 <i class="nav-icon ion-person-stalker"></i>
                 <p>Clients</p>
             </a>
         </li>
 
         <li class="nav-item">
-            <a href="{{ path('lieux_affectation_index') }}" class="nav-link {% if currentRoute == 'lieux_affectation_index' %}active{% endif %}">
+            <a href="{{ path('lieux_affectation_index') }}" class="nav-link">
                 <i class="nav-icon ion-location"></i>
                 <p>Lieux / Services</p>
             </a>
         </li>
 
         <li class="nav-item">
-            <a href="{{ path('affectations_index') }}" class="nav-link {% if currentRoute == 'affectations_index' %}active{% endif %}">
+            <a href="{{ path('affectations_index') }}" class="nav-link">
                 <i class="nav-icon ion-shuffle"></i>
                 <p>Affectations</p>
             </a>

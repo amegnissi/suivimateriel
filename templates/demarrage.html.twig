@@ -38,13 +38,19 @@
             .call.callout-info {
                 border-left-color: #117a8b;
             }
-
+            #start-body {
+                background-image: url('{{ asset('adminlte/img/fond2.jpeg') }}');
+                background-size: cover;
+                background-position: center;
+                min-height: 100vh;
+                background-repeat: no-repeat;
+            }
 
         </style>
     {% endblock %}
 
 </head>
-<body style="background-image: url('{{ asset('adminlte/img/fond2.jpeg') }}');">
+<body id="start-body" >
 {% block body %}
 <div class="container">
     <div class="col-lg-4 offset-lg-4 col-6">

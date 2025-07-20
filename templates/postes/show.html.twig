@@ -1,4 +1,4 @@
-{% extends 'baseC.html.twig' %}
+{% extends 'base-dashboard.html.twig' %}
 
 {% block title %}Details Postes{% endblock %}
 {% block breadcrumb %}POSTES{% endblock %}
@@ -9,7 +9,7 @@
 {% block content %}
     <div class="row">
         <div class="col-12">
-            <div class="card card-primary card-success">
+            <div class="card __cadr-default">
                 <div class="card-header">
                     <h3 class="card-title ">
                         Employés affectés au poste : {{ poste.libelle }}
@@ -50,7 +50,7 @@
                     <div class="text-end">
 
 
-                        <a href="{{ path('postes_edit', {'id': poste.id}) }}" class="btn btn-warning">Modifier</a>
+                        <a href="{{ path('postes_edit', {'id': poste.id}) }}" class="btn btn-default">Modifier</a>
 
                         <form action="{{ path('postes_delete', {'id': poste.id}) }}" method="POST" class="d-inline">
                             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ poste.id) }}">

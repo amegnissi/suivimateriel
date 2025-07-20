@@ -7,7 +7,7 @@
 {% block btntitle %}Ajouter une nature de courrier{% endblock %}
 {#{% block otherbtn %}#}
 {#    <a href="{{ path('employes_export_pdf') }}" class="btn btn-danger">Exporter en PDF</a>#}
-{#    <a href="{{ path('employes_export_excel') }}" class="btn btn-success">Exporter en Excel</a>#}
+{#    <a href="{{ path('employes_export_excel') }}" class="btn btn-primary">Exporter en Excel</a>#}
 {#{% endblock %}#}
 {% block btnpath %}{{ path('app_courrier_nature_courrier_new') }}{% endblock %}
 {% block tableContent %}
@@ -33,7 +33,7 @@
 {#                        </a>#}
 
 
-                        <a class="btn btn-success btn-sm" href="{{ path('app_courrier_nature_courrier_edit', {'id': nature_courrier.id}) }}"
+                        <a class="btn btn-primary btn-sm" href="{{ path('app_courrier_nature_courrier_edit', {'id': nature_courrier.id}) }}"
                            title="Plus de details">
                             <i class="far fa-edit"></i>
                         </a>

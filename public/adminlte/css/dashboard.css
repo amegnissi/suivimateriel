@@ -1,0 +1,95 @@
+:root {
+  --bs-table-accent-bg: #6c757d;
+  --bs-table-hover-bg: #6c757d;
+  /******************************************/
+  --default-text-color: #454444;
+  --card-primary-bg-color: rgb(193 218 255);
+  --card-success-bg-color: #bfd9d9;
+  --card-warning-bg-color: #fff3cf;
+  --card-light-bg-color: #eeefff;
+  --card-lightblue-bg-color: #abe0ff;
+  --card-gray-bg-color: #d8e2e8;
+  --card-danger-bg-color: #dae9f5;
+}
+html,
+body,
+.text-body,
+p {
+  font-family: "Source Sans Pro", "Open Sans", Arial, Helvetica, sans-serif;
+  font-size: 0.95rem;
+}
+
+.card-header,
+.text-suse,
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: "SUSE", Arial, Helvetica, sans-serif;
+}
+.small-box {
+  box-shadow: none;
+}
+.small-box > .inner {
+  opacity: 0.7;
+}
+.card-header,
+.card-title {
+  font-weight: bold;
+}
+.text-bg-primary,
+.card-bg-primary/*,
+.text-bg-success,
+.card-bg-success,
+.text-bg-warning,
+.card-bg-warning,
+.text-bg-lightblue,
+.card-bg-lightblue,
+.text-bg-gray,
+.card-bg-gray,
+.text-bg-danger,
+.card-bg-danger*/ {
+  color: var(--default-text-color) !important;
+  background-color: var(--card-primary-bg-color) !important;
+}
+
+.text-bg-success,
+.card-bg-success {
+  color: var(--default-text-color) !important;
+  background-color: var(--card-success-bg-color) !important;
+}
+.text-bg-warning,
+.card-bg-warning {
+  color: var(--default-text-color) !important;
+  background-color: var(--card-warning-bg-color) !important;
+}
+.text-bg-lightblue,
+.card-bg-lightblue {
+  color: var(--default-text-color) !important;
+  background-color: var(--card-lightblue-bg-color) !important;
+}
+
+.text-bg-light,
+.card-bg-light {
+  color: var(--default-text-color) !important;
+  background-color: var(--card-light-bg-color) !important;
+}
+
+.text-bg-gray,
+.card-bg-gray {
+  color: var(--default-text-color) !important;
+  background-color: var(--card-gray-bg-color) !important;
+}
+.text-bg-danger,
+.card-bg-danger {
+  color: var(--default-text-color) !important;
+  background-color: var(--card-danger-bg-color) !important;
+}
+.content-wrapper {
+  background-color: rgb(237 244 255 / 10%);
+}
+.small-box > .small-box-footer {
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 0 0 5px 5px;
+}

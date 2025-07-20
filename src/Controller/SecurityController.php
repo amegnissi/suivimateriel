@@ -6,12 +6,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Bundle\SecurityBundle\Security;
 
 class SecurityController extends AbstractController
 {
     #[Route('/', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
-    {
+    public function login(AuthenticationUtils $authenticationUtils, Security $security): Response
+    {        
+        // Si l'utilisateur est déjà connecté, on le redirige vers /dashboard
+        if ($security->getUser()) {
+            return $this->redirectToRoute('dashboard'); // 'dashboard' doit être le nom de ta route
+        }
         // Récupère l'erreur de connexion s'il y en a une
         $error = $authenticationUtils->getLastAuthenticationError();
         
