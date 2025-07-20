@@ -15,11 +15,13 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/courriers/partenaire')]
 final class PartenaireController extends AbstractController
 {
+    const COURRIER_ICON= "ion-email";
     #[Route(name: 'app_courrier_partenaire_index', methods: ['GET'])]
     public function index(PartenaireRepository $partenaireRepository): Response
     {
         return $this->render('courrier/partenaire/index.html.twig', [
             'partenaires' => $partenaireRepository->findAll(),
+            'icon'=> self::COURRIER_ICON
         ]);
     }
 
@@ -40,6 +42,7 @@ final class PartenaireController extends AbstractController
         return $this->render('courrier/partenaire/new.html.twig', [
             'partenaire' => $partenaire,
             'form' => $form,
+            'icon'=> self::COURRIER_ICON
         ]);
     }
 
@@ -49,7 +52,8 @@ final class PartenaireController extends AbstractController
         return $this->render('courrier/partenaire/show.html.twig', [
             'partenaire' => $partenaire,
             'courriers' => $courrierRepository->findBy([
-                'partenaire'=>$partenaire
+                'partenaire'=>$partenaire,
+                'icon'=> self::COURRIER_ICON
             ])
         ]);
     }
@@ -69,6 +73,7 @@ final class PartenaireController extends AbstractController
         return $this->render('courrier/partenaire/edit.html.twig', [
             'partenaire' => $partenaire,
             'form' => $form,
+            'icon'=> self::COURRIER_ICON
         ]);
     }
 
