@@ -73,17 +73,6 @@ a.text-inherit,
   opacity: 0.9;
 }
 
-/* 
-[class*="sidebar-dark-"] {
-  background: linear-gradient(to bottom, #2297ff 1%, #020202 100%);
-  background: -moz-linear-gradient(top, #2297ff 1%, #020202 100%);
-  background: -webkit-linear-gradient(top, #2297ff 1%, #020202 100%);
-  background: -o-linear-gradient(top, #2297ff 1%, #020202 100%);
-  background: -ms-linear-gradient(top, #2297ff 1%, #020202 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2297ff', endColorstr='#020202', GradientType=0);
-}
-*/
-
 .btn-primary {
   --bs-btn-bg: var(--primary-color);
   --bs-btn-border-color: var(--primary-border-color);
@@ -129,8 +118,6 @@ h5 {
 }
 
 [class*="sidebar-dark-"] {
-  /* background-color: #343a40; 
-     background-color: #169bff; */
   background-color: var(--primary-color);
 }
 
