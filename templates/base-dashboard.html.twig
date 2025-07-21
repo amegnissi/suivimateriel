@@ -40,91 +40,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <div class="wrapper">
 
     <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-  <ul class="navbar-nav ms-auto">
-
-    <!-- Messages Dropdown Menu -->
-    <li class="nav-item dropdown px-0">
-      <a class="nav-link dropdown-toggle px-0 position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="icon ion-chatbubble-working" style="font-size: 1.3rem;"></i>
-        <span class="absolute  start-100 translate-middle badge rounded-pill bg-danger">
-          3
-          <span class="visually-hidden">messages non lus</span>
-        </span>
-      </a>
-      
-      <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-        <li>
-          <a href="#" class="dropdown-item d-flex align-items-center">
-            <img src="{{ asset("data/users/img/user1-128x128.jpg") }}" class="rounded-circle me-2" style="width: 40px;" alt="Avatar">
-            <div>
-              <strong>Brad Diesel</strong><br>
-              <small>Call me whenever you can...</small><br>
-              <small class="text-muted"><i class="icon ion-clock"></i> 4 Hours Ago</small>
-            </div>
-          </a>
-        </li>
-        <li><hr class="dropdown-divider"></li>
-        <li>
-          <a href="#" class="dropdown-item d-flex align-items-center">
-            <img src="{{ asset("data/users/img/user8-128x128.jpg") }}" class="rounded-circle me-2" style="width: 40px;" alt="Avatar">
-            <div>
-              <strong>John Pierce</strong><br>
-              <small>I got your message bro</small><br>
-              <small class="text-muted"><i class="icon ion-clock"></i> 4 Hours Ago</small>
-            </div>
-          </a>
-        </li>
-        <li><hr class="dropdown-divider"></li>
-        <li>
-          <a href="#" class="dropdown-item d-flex align-items-center">
-            <img src="{{ asset("data/users/img/user3-128x128.jpg") }}" class="rounded-circle me-2" style="width: 40px;" alt="Avatar">
-            <div>
-              <strong>Nora Silvester</strong><br>
-              <small>The subject goes here</small><br>
-              <small class="text-muted"><i class="icon ion-clock"></i> 4 Hours Ago</small>
-            </div>
-          </a>
-        </li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a href="#" class="dropdown-item dropdown-footer">Voir tous les messages</a></li>
-      </ul>
-    </li>
-
-    <!-- User Dropdown -->
-    <li class="nav-item dropdown user-menu">
-      <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="{{ asset('data/users/img/avatar3.png') }}" class="user-image img-circle p-1 border rounded-circle" alt="admin" style="width: 35px; height: 35px; object-fit: cover;">
-      </a>
-      <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end shadow border-0 border-top mt-2 me-1">
-        <li class="user-header_  text-center py-3">
-          <img src="{{ asset('data/users/img/avatar4.png') }}" class="img-circle mb-2 rounded-circle" alt="admin" style="width: 60px; height: 60px; object-fit: cover;">
-          <p class=" mb-0">
-            {% if app.user %}
-              {{ app.user.name }}
-            {% endif %}
-          </p>
-        </li>
-        <li>
-          <ul class="list-unstyled mb-0">
-            <li><a href="#" class="dropdown-item"><i class="icon ion-person"></i> Mon Profil</a></li>
-            <li><a href="#" class="dropdown-item"><i class="icon ion-gear-a"></i> Paramètres</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a href="{{ path('app_logout') }}" class="dropdown-item text-danger"><i class="icon ion-log-out"></i> Déconnexion</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-
-  </ul>
-</nav>
+     {% include "partials/navbar.html.twig" with {
+      bg_navbar:'border-bottom nav-light'
+     } %}
     <!-- /.navbar -->
 
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary">
         <!-- Brand Logo -->
         <a href="{{ path('dashboard') }}" class="brand-link border-end">
-            <img src="{{ asset('cuba/assets/images/logo/gpaclogo.jpeg') }}" alt="AdminLTE Logo"
+            <img src="{{ asset('data/app/app-logo.png') }}" alt="Logo E-suivi"
                  class="brand-image" >
         </a>
 

@@ -1,81 +1,85 @@
-<nav class="navbar navbar-main navbar-expand-lg px-0 mx-3 shadow-none border-radius-xl">
-    <div class="container-fluid py-1 px-3">
 
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-3">
-                <li class="breadcrumb-item text-sm">
-                    <a href="{{ path('dashboard') }}" class="opacity-5 text-dark">Accueil</a>
-                </li>
-                <li class="breadcrumb-item text-sm text-dark active" aria-current="page">
-                    {% block breadcrumb %}Tableau de bord{% endblock %}
-                </li>
-            </ol>
-        </nav>
-        <ul class="navbar-nav justify-content-end">
-            
-            <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
-              <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
-                <div class="sidenav-toggler-inner">
-                  <i class="sidenav-toggler-line"></i>
-                  <i class="sidenav-toggler-line"></i>
-                  <i class="sidenav-toggler-line"></i>
-                </div>
-              </a>
-            </li>
+<nav class="navbar navbar-expand {{ bg_navbar is defined and bg_navbar ? bg_navbar : '' }}">
+  {% if has_logo is defined and has_logo == 'Yes' %}
+  <a class="navbar-brand d-flex align-items-center me-3" href="{{ path('dashboard') }}">
+    <img src="{{ asset('data/app/app-logo.png') }}" alt="Logo E-suivi" height="40" class="mx-2">
+  </a>
+{% endif %}
 
-            <li class="nav-item px-3 d-flex align-items-center">
-                <a href="#" class="nav-link text-body p-0" data-bs-toggle="modal" data-bs-target="#entrepriseModal">
-                    <i class="material-symbols-rounded">settings</i>
-                </a>
-            </li>
+  <ul class="navbar-nav ms-auto">
 
-            <li class="nav-item dropdown pe-3 d-flex align-items-center">
-                <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="material-symbols-rounded">notifications</i>
-                    {% if notifications|length > 0 %}
-                        <span class="badge badge-danger">{{ notifications|length }}</span>
-                    {% endif %}
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
-                    {% if notifications|length == 0 %}
-                        <li class="mb-2">
-                            <a class="dropdown-item text-center" href="#">
-                                <p>Aucune notification disponible</p>
-                            </a>
-                        </li>
-                    {% else %}
-                        {% for notification in notifications %}
-                            <li class="mb-2">
-                                <a class="dropdown-item border-radius-md" href="#">
-                                    <div class="d-flex py-1">
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="text-sm font-weight-normal mb-1">
-                                                {{ notification.message }}
-                                            </h6>
-                                            <p class="text-xs text-secondary mb-0">
-                                                <i class="fa fa-clock me-1"></i>
-                                                {{ notification.dateCreation|date('d/m/Y H:i') }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                        {% endfor %}
-                    {% endif %}
-                </ul>
-            </li>
-            
-            <li class="nav-item dropdown">
-                <a class="nav-link text-body dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="material-symbols-rounded">account_circle</i>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#">Profil</a></li>
-                    <li>
-                        <a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </div>
+    <!-- Messages Dropdown Menu -->
+    <li class="nav-item dropdown px-0">
+      <a class="nav-link dropdown-toggle px-0 position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="icon ion-chatbubble-working" style="font-size: 1.3rem;"></i>
+        <span class="absolute  start-100 translate-middle badge rounded-pill bg-danger">
+          3
+          <span class="visually-hidden">messages non lus</span>
+        </span>
+      </a>
+      
+      <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+        <li>
+          <a href="#" class="dropdown-item d-flex align-items-center">
+            <img src="{{ asset("data/users/img/user1-128x128.jpg") }}" class="rounded-circle me-2" style="width: 40px;" alt="Avatar">
+            <div>
+              <strong>Brad Diesel</strong><br>
+              <small>Call me whenever you can...</small><br>
+              <small class="text-muted"><i class="icon ion-clock"></i> 4 Hours Ago</small>
+            </div>
+          </a>
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <li>
+          <a href="#" class="dropdown-item d-flex align-items-center">
+            <img src="{{ asset("data/users/img/user8-128x128.jpg") }}" class="rounded-circle me-2" style="width: 40px;" alt="Avatar">
+            <div>
+              <strong>John Pierce</strong><br>
+              <small>I got your message bro</small><br>
+              <small class="text-muted"><i class="icon ion-clock"></i> 4 Hours Ago</small>
+            </div>
+          </a>
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <li>
+          <a href="#" class="dropdown-item d-flex align-items-center">
+            <img src="{{ asset("data/users/img/user3-128x128.jpg") }}" class="rounded-circle me-2" style="width: 40px;" alt="Avatar">
+            <div>
+              <strong>Nora Silvester</strong><br>
+              <small>The subject goes here</small><br>
+              <small class="text-muted"><i class="icon ion-clock"></i> 4 Hours Ago</small>
+            </div>
+          </a>
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a href="#" class="dropdown-item dropdown-footer">Voir tous les messages</a></li>
+      </ul>
+    </li>
+
+    <!-- User Dropdown -->
+    <li class="nav-item dropdown user-menu">
+      <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
+        <img src="{{ asset('data/users/img/avatar3.png') }}" class="user-image img-circle p-1 border rounded-circle" alt="admin" style="width: 35px; height: 35px; object-fit: cover;">
+      </a>
+      <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end shadow border-0 border-top mt-2 me-1">
+        <li class="user-header_  text-center py-3">
+          <img src="{{ asset('data/users/img/avatar4.png') }}" class="img-circle mb-2 rounded-circle" alt="admin" style="width: 60px; height: 60px; object-fit: cover;">
+          <p class=" mb-0">
+            {% if app.user %}
+              {{ app.user.name }}
+            {% endif %}
+          </p>
+        </li>
+        <li>
+          <ul class="list-unstyled mb-0">
+            <li><a href="#" class="dropdown-item"><i class="icon ion-person"></i> Mon Profil</a></li>
+            <li><a href="#" class="dropdown-item"><i class="icon ion-gear-a"></i> Paramètres</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a href="{{ path('app_logout') }}" class="dropdown-item text-danger"><i class="icon ion-log-out"></i> Déconnexion</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+
+  </ul>
 </nav>

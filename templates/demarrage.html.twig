@@ -6,10 +6,17 @@
 {% endblock %}
 
 {% block body %}
+<!-- Navbar -->
+    {% include "partials/navbar.html.twig" with {
+        has_logo:'Yes',
+        bg_navbar:'bg-start-nav'
+    } %}
+<!-- /.navbar -->
+
 <div id="main-login">
 
 <div class="container justify-content-center align-items-center d-flex flex-column">
-<h1 class="text-suse text-center mt-5"> Bienvenue sur E-SUIVI </h1>
+<h1 class="text-suse text-center  my-4"> Bienvenue sur E-SUIVI </h1>
 		<div class="middle bg-none w-100 row  align-items-center shadow-sm">
 			<div class="col-6 order-2 order-md-1 border-r-1 border-end pb-4">
                <div class="p-3 pb-4">

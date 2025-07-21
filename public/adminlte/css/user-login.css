@@ -24,7 +24,6 @@
   background-size: cover;
   background-position: center;
   background-color: #f7f7f8;
-  background-color: var(--bs-primary);
   background-repeat: no-repeat;
   min-height: 100vh;
   background-attachment: fixed;
@@ -75,7 +74,7 @@
   margin: auto;
   left: 50%;
   position: fixed;
-  top: 40%;
+  top: 42%;
   transform: translate(-50%, -50%);
 }
 

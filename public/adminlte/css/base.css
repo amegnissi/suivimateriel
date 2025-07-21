@@ -2926,7 +2926,6 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
 .main-sidebar .brand-image {
   /*float: left;*/
   height: 50px;
-  background: red;
   width: auto;
 }
 
@@ -58292,21 +58291,3 @@ a.badge-dark.focus {
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(52, 58, 64, 0.5);
 }
-/*
-
-.btn-primary {
-  --bs-btn-color: #fff;
-  --bs-btn-bg: #4073bd;
-  --bs-btn-border-color: #365076;
-  --bs-btn-hover-color: #fff;
-  --bs-btn-hover-bg: #195ab9;
-  --bs-btn-hover-border-color: #304f7d;
-  --bs-btn-focus-shadow-rgb: 49, 132, 253;
-  --bs-btn-active-color: #fff;
-  --bs-btn-active-bg: #0a58ca;
-  --bs-btn-active-border-color: #3f6791;
-  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-  --bs-btn-disabled-color: #fff;
-  --bs-btn-disabled-bg: #333c49;
-  --bs-btn-disabled-border-color: #484f59;
-}*/
