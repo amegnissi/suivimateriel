@@ -22,7 +22,7 @@
                 <th>Expéditeurs / Destinataires </th>
                 <th> </th>
 
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -36,7 +36,7 @@
                             <span class=" badge bg-success">
 								{{ courrier.typeCourrier.libelle }}</span>
                         {% elseif courrier.typeCourrier.code == "INTERNE" %}
-                            <span class=" badge bg-info">
+                            <span class=" badge badge-info">
 								{{ courrier.typeCourrier.libelle }}</span>
                         {% endif %}
                     {% endif %}
@@ -51,7 +51,7 @@
                 <td>
                     {% if courrier.url %}
                         <a
-                                class="btn btn-info btn-sm" href="{{ app.request.schemeAndHttpHost ~ courrier.fichier
+                                class="btn text-muted btn-sm" href="{{ app.request.schemeAndHttpHost ~ courrier.fichier
                         }} "
                                 target="_blank">
 
@@ -65,10 +65,10 @@
 
                 <td class="align-middle text-center">
                     <div class="common-align gap-2 justify-content-start">
-                        <a href="{{ path('app_courrier_show', {'id': courrier.id}) }}" class="btn btn-primary btn-sm">
+                        <a href="{{ path('app_courrier_show', {'id': courrier.id}) }}" class="btn  btn-sm">
                             <i class="fa fa-eye"></i>
                         </a>
-                        <a href="{{ path('app_courrier_edit', {'id': courrier.id}) }}" class="btn btn-primary btn-sm">
+                        <a href="{{ path('app_courrier_edit', {'id': courrier.id}) }}" class="btn btn-sm">
                             <i class="far fa-edit"></i>
                         </a>
                     </div>

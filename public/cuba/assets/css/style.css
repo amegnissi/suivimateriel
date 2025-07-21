@@ -33784,6 +33784,7 @@ select.crypto-select.primary {
     transform: scale(1);
   }
 }
+
 .badge-light-primary {
   background-color: rgba(115, 102, 255, 0.34);
   color: #7366FF;
@@ -33818,11 +33819,11 @@ select.crypto-select.primary {
 
 .badge-light-success {
   background-color: rgba(101, 193, 92, 0.34);
-  color: #65c15c;
+  --bs-badge-color: #65c15c;
 }
 .badge-light-success:hover {
   background-color: rgba(101, 193, 92, 0.34);
-  color: #65c15c;
+  --bs-badge-color: #65c15c;
 }
 
 .badge-l-success {
@@ -33834,11 +33835,11 @@ select.crypto-select.primary {
 
 .badge-light-danger {
   background-color: rgba(252, 86, 74, 0.34);
-  color: #fc564a;
+  --bs-badge-color: #fc564a;
 }
 .badge-light-danger:hover {
   background-color: rgba(252, 86, 74, 0.34);
-  color: #fc564a;
+  --bs-badge-color: #fc564a;
 }
 
 .badge-l-danger {
@@ -33850,11 +33851,11 @@ select.crypto-select.primary {
 
 .badge-light-info {
   background-color: rgba(64, 184, 245, 0.34);
-  color: #40b8f5;
+  --bs-badge-color: #40b8f5;
 }
 .badge-light-info:hover {
   background-color: rgba(64, 184, 245, 0.34);
-  color: #40b8f5;
+  --bs-badge-color: #40b8f5;
 }
 
 .badge-l-info {

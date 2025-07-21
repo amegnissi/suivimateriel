@@ -56,13 +56,13 @@
             </td>
             <td class="align-middle text-center">
                 {% if assurance.dateFin and assurance.dateFin|date('Y-m-d') < "now"|date('Y-m-d') %}
-                    <a  href="{{ path('assurances_renew', {'id': assurance.id}) }}" class="btn btn-primary btn-sm"
+                    <a  href="{{ path('assurances_renew', {'id': assurance.id}) }}" class="btn btn-sm"
                        title="Renouveler">
                         <i class="fas fa-reply"></i>
                     </a>
                 {% else %}
 
-                    <a  href="{{ path('assurances_edit', {'id': assurance.id}) }}" class="btn btn-primary btn-sm"
+                    <a  href="{{ path('assurances_edit', {'id': assurance.id}) }}" class="btn  btn-sm"
                        title="Modifier">
                         <i class="fa fa-edit"></i>
                     </a>

@@ -31,7 +31,7 @@
   --bs-btn-focus-shadow-rgb: 49, 132, 253;
   --bs-btn-active-color: #fff;
   --bs-btn-active-bg: #0a58ca;
-  --bs-btn-active-border-color: #0a53be;
+  --bs-btn-active-border-color: #0a3370;
   --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   --bs-btn-disabled-color: #fff;
   --bs-btn-disabled-bg: #22395b;
@@ -124,4 +124,157 @@ h5 {
 .small-box > .small-box-footer {
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 0 0 5px 5px;
+}
+
+.badge-light-primary {
+  background-color: rgba(115, 102, 255, 0.34);
+  color: #7366ff;
+}
+.badge-light-primary:hover {
+  background-color: rgba(115, 102, 255, 0.34);
+  color: #7366ff;
+}
+
+.badge-l-primary {
+  background-color: white;
+}
+.badge-l-primary:hover {
+  background-color: white;
+}
+
+.badge-light-secondary {
+  background-color: rgba(131, 131, 131, 0.34);
+  color: #838383;
+}
+.badge-light-secondary:hover {
+  background-color: rgba(131, 131, 131, 0.34);
+  color: #838383;
+}
+
+.badge-l-secondary {
+  background-color: #d5d5d5;
+}
+.badge-l-secondary:hover {
+  background-color: #d5d5d5;
+}
+
+.badge-light-success {
+  background-color: rgba(101, 193, 92, 0.34);
+  color: #65c15c;
+}
+.badge-light-success:hover {
+  background-color: rgba(101, 193, 92, 0.34);
+  color: #65c15c;
+}
+
+.badge-l-success {
+  background-color: #d5eed2;
+}
+.badge-l-success:hover {
+  background-color: #d5eed2;
+}
+
+.badge-light-danger {
+  background-color: rgba(252, 86, 74, 0.34);
+  color: #fc564a;
+}
+.badge-light-danger:hover {
+  background-color: rgba(252, 86, 74, 0.34);
+  color: #fc564a;
+}
+
+.badge-l-danger {
+  background-color: #ffeceb;
+}
+.badge-l-danger:hover {
+  background-color: #ffeceb;
+}
+
+.badge-light-info {
+  background-color: rgba(64, 184, 245, 0.34);
+  color: #40b8f5;
+}
+.badge-light-info:hover {
+  background-color: rgba(64, 184, 245, 0.34);
+  color: #40b8f5;
+}
+
+.badge-l-info {
+  background-color: #dbf2fd;
+}
+.badge-l-info:hover {
+  background-color: #dbf2fd;
+}
+
+.badge-light-light {
+  background-color: rgba(82, 82, 108, 0.34);
+  color: #52526c;
+}
+.badge-light-light:hover {
+  background-color: rgba(82, 82, 108, 0.34);
+  color: #52526c;
+}
+
+.badge-l-light {
+  background-color: #a6a6bb;
+}
+.badge-l-light:hover {
+  background-color: #a6a6bb;
+}
+
+.badge-light-dark {
+  background-color: rgba(63, 71, 90, 0.34);
+  color: #3f475a;
+}
+.badge-light-dark:hover {
+  background-color: rgba(63, 71, 90, 0.34);
+  color: #3f475a;
+}
+
+.badge-l-dark {
+  background-color: #8d97af;
+}
+.badge-l-dark:hover {
+  background-color: #8d97af;
+}
+
+.badge-light-warning {
+  background-color: rgba(255, 184, 41, 0.34);
+  color: #ffb829;
+}
+.badge-light-warning:hover {
+  background-color: rgba(255, 184, 41, 0.34);
+  color: #ffb829;
+}
+
+.badge-l-warning {
+  background-color: #ffeecc;
+}
+.badge-l-warning:hover {
+  background-color: #ffeecc;
+}
+
+.badge-light-light {
+  background-color: #e9e9ee !important;
+}
+
+.badge-light-primary,
+.badge-l-primary {
+  background-color: rgba(115, 102, 255, 0.1);
+}
+.badge-light-primary:hover,
+.badge-l-primary:hover {
+  background-color: rgba(115, 102, 255, 0.1);
+}
+
+.badge-light-success {
+  background-color: rgba(101, 193, 92, 0.15);
+}
+
+.badge-light-secondary {
+  background-color: rgba(131, 131, 131, 0.08);
+}
+
+.badge-light-danger {
+  background-color: rgba(252, 86, 74, 0.15);
 }

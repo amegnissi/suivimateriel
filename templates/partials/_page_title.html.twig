@@ -28,19 +28,21 @@
     </div>
 
     {% if block('breadcrumb') is not empty %}
+    {{ dd(block('breadcrumb')) }}
+    {% if block('breadcrumb_item')!=='' %}
         <div class="row mt-2">
             <div class="col">
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item">
                         <a href="{{ path('dashboard') }}">Accueil</a>
                     </li>
-                    {% if block('breadcrumb_item') is not empty %}
-                        <li class="breadcrumb-item active">
-                            {{ block('breadcrumb_item') }}
-                        </li>
-                    {% endif %}
+                    <li class="breadcrumb-item active">
+                        {{ block('breadcrumb_item') }}
+                    </li>
+                    
                 </ol>
             </div>
         </div>
+        {% endif %}
     {% endif %}
 </div>

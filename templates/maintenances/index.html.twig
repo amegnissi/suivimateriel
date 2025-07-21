@@ -57,13 +57,13 @@
             </td>
             <td class="align-middle text-center">
                 <div class="common-align gap-2 justify-content-start">
-                <a href="{{ path('maintenances_show', {'id': maintenance.id}) }}" class="btn btn-primary btn-sm">
+                <a href="{{ path('maintenances_show', {'id': maintenance.id}) }}" class="btn btn-sm">
                     <i class="fa fa-eye"></i>
                 </a>
                 {% if maintenance.statut == 0 %}
                     <form action="{{ path('maintenances_finish', {'id': maintenance.id}) }}" method="post" class="d-inline">
                         <input type="hidden" name="_token" value="{{ csrf_token('finish' ~ maintenance.id) }}">
-                        <button type="submit" class="btn btn-primary btn-sm" onclick="return confirm('Confirmer la fin de cette maintenance ?');">
+                        <button type="submit" class="btn btn-sm" onclick="return confirm('Confirmer la fin de cette maintenance ?');">
                             <i class="fa fa-check"></i>
                         </button>
                     </form>

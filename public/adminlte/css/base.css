@@ -1881,7 +1881,7 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
 }
 
 .content-header {
-  padding: 10px 0.5rem 15px;
+  padding: 10px 0.5rem;
 }
 
 .text-sm .content-header {
@@ -3406,8 +3406,8 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
 
 .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active,
 .sidebar-light-primary .nav-sidebar > .nav-item > .nav-link.active {
-    background-color: #ffffff;
-    color: #101317;
+  background-color: #ffffff;
+  color: #101317;
 }
 
 .sidebar-dark-primary .nav-sidebar.nav-legacy > .nav-item > .nav-link.active,
@@ -58314,4 +58314,3 @@ a.badge-dark.focus {
   --bs-btn-disabled-bg: #333c49;
   --bs-btn-disabled-border-color: #484f59;
 }*/
-

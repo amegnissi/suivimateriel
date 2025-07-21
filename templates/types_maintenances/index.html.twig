@@ -28,11 +28,11 @@
                 <div class="common-align gap-2 justify-content-start">
                 <a  href="{{ path('types_maintenances_edit', { 'id': typesMaintenance.id }) }}"
                     class="
-         btn btn-success btn-sm">  <i class="far fa-edit"></i></a>
+         btn btn-sm">  <i class="far fa-edit"></i></a>
                 <form action="{{ path('types_maintenances_delete', { 'id': typesMaintenance.id }) }}" method="POST" class="d-inline">
                     <input type="hidden" name="_method" value="DELETE">
                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ typesMaintenance.id) }}">
-                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce type de Maintenance ?');">
+                    <button type="submit" class="btn text-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce type de Maintenance ?');">
                         <i class="fa fa-trash"></i>
                     </button>
                 </form>

@@ -25,7 +25,7 @@
         <th>Immatriculation</th>
         <th>Date d'Acquisition</th>
         <th>Statut</th>
-        <th>Actions</th>
+        <th class"col text-center">Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -52,11 +52,11 @@
             <td class="align-middle text-center">
                 <div class="common-align gap-2 justify-content-start">
 
-                    <a href="{{ path('materiels_show', {'id': materiel.id}) }}" class="btn btn-primary btn-sm">
+                    <a href="{{ path('materiels_show', {'id': materiel.id}) }}" class="btn btn-sm">
                         <i class="fa fa-eye"></i>
                        </a>
                     <a href="{{ path('materiels_edit', {'id': materiel.id}) }}"
-                       class="btn btn-default btn-sm">
+                       class="btn btn-sm">
                         <i class="fas fa-edit"></i>
                     </a>
                 </div>

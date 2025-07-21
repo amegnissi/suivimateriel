@@ -16,7 +16,7 @@
         <th class="col">Adresse</th>
         <th class="col">Téléphone</th>
         <th class="col">Matériels Associés</th>
-        <th class="col">Actions</th>
+        <th class"col text-center">Actions</th>
     </thead>
     <tbody>
     {% for societe in pagination %}
@@ -32,11 +32,11 @@
             </td>
             <td class="align-middle text-center">
                 <div class="common-align gap-2 justify-content-start">
-                    <a class="btn btn-primary btn-sm" href="{{ path('societe_service_show', { 'id': societe.id }) }}"
+                    <a class="btn btn-sm" href="{{ path('societe_service_show', { 'id': societe.id }) }}"
                        title="Plus de details">
                         <i class="fa fa-eye"></i>
                     </a>
-                    <a class="btn btn-primary btn-sm" title="Modifier"
+                    <a class="btn btn-sm" title="Modifier"
                        href="{{ path('societe_service_edit', { 'id': societe.id }) }}">
                         <i class="far fa-edit"></i>
                     </a>
@@ -44,7 +44,7 @@
                           class="d-inline">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ societe.id) }}">
                         <a type="submit"
-                           class="btn btn-danger btn-sm"
+                           class="btn text-danger btn-sm"
                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce poste ?');"
                            title="Supprimer le type de materiel">
 

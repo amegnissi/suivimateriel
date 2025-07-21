@@ -13,7 +13,7 @@
     <th>N°</th>
     <th>Nom de l'Opération</th>
     <th>Opérations Associées</th>
-    <th>Actions</th>
+    <th class"col text-center">Actions</th>
     {#    <th class="col">Actions</th>#}
 </tr>
 </thead>
@@ -28,14 +28,14 @@
         <td class="align-middle text-center">
             <div class="common-align gap-2 justify-content-start">
 
-                <a class="btn btn-primary btn-sm" href="{{ path('type_assurance_edit', {id: type.id}) }}"
+                <a class="btn btn-sm" href="{{ path('type_assurance_edit', {id: type.id}) }}"
                    title="Plus de details">
                     <i class="far fa-edit"></i>
                 </a>
 
             <form action="{{ path('type_assurance_delete', {id: type.id}) }}" method="POST" class="d-inline">
                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ type.id) }}">
-                <a class="btn btn-danger btn-sm" type="submit"
+                <a class="btn text-danger btn-sm" type="submit"
                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce poste ?');"
                    title="Supprimer le poste">
 

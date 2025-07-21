@@ -11,7 +11,7 @@
     <a href="{{ path('affectations_export_pdf') }}" class="btn btn-danger  mr-2">
         <i class="fas fa-file-pdf"></i> Exporter en PDF
     </a>
-    <a href="{{ path('affectations_export_excel') }}" class="btn btn-primary ">
+    <a href="{{ path('affectations_export_excel') }}" class="btn">
         <i class="fas fa-file-excel"></i> Exporter en Excel
     </a>
 {% endblock %}
@@ -45,7 +45,7 @@
             </td>
             <td class="align-middle text-center">
                 <div class="common-align gap-2 justify-content-start">
-                <a href="{{ path('affectations_show', {'id': affectation.id}) }}" class="btn btn-primary btn-sm">
+                <a href="{{ path('affectations_show', {'id': affectation.id}) }}" class="btnbtn-sm">
                     <i class="fa fa-eye"></i> </a>
                 <form action="{{ path('affectations_cancel', { 'id': affectation.id }) }}" method="POST" class="d-inline">
                     <input type="hidden" name="_token" value="{{ csrf_token('cancel' ~ affectation.id) }}">
