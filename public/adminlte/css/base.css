@@ -3023,10 +3023,6 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
   position: relative;
 }
 
-[class*="sidebar-dark"] .user-panel {
-  border-bottom: 1px solid #4f5962;
-}
-
 [class*="sidebar-light"] .user-panel {
   border-bottom: 1px solid #dee2e6;
 }
