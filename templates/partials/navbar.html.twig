@@ -1,13 +1,21 @@
 
 <nav class="navbar navbar-expand {{ bg_navbar is defined and bg_navbar ? bg_navbar : '' }}">
   {% if has_logo is defined and has_logo == 'Yes' %}
-  <a class="navbar-brand d-flex align-items-center me-3" href="{{ path('dashboard') }}">
+  <a class="navbar-brand d-flex align-items-center px-0 mx-2" href="{{ path('dashboard') }}">
     <img src="{{ asset('data/app/app-logo.png') }}" alt="Logo E-suivi" height="40" class="mx-2">
   </a>
 {% endif %}
 
   <ul class="navbar-nav ms-auto">
-
+  {% if show_nav_icon is defined and show_nav_icon == 'Yes' %}
+     <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+                    <i class="icon ion-navicon-round"></i> <!-- Icône menu Ionicons 2.0 -->
+                </a>
+            </li>
+        </ul>
+        {% endif %}
     <!-- Messages Dropdown Menu -->
     <li class="nav-item dropdown px-0">
       <a class="nav-link dropdown-toggle px-0 position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
