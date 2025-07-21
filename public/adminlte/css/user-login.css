@@ -129,13 +129,11 @@
 
   .middle {
     position: relative;
-    margin-top: 10%;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin: auto;
     transform: none;
-    top: 40px;
-    left: 0;
-    width: calc(100% - 20px);
+    margin-top: 25px;
+    width: calc(100% - 30px) !important;
+    top: 45%;
   }
   .logo {
     width: 100%;

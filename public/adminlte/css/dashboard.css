@@ -328,3 +328,15 @@ h5 {
 .badge-light-danger {
   background-color: rgba(252, 86, 74, 0.15);
 }
+
+@media (max-width: 767.98px) {
+  .card-img-start {
+    height: 120px;
+    overflow: hidden;
+    border-radius: 10px;
+  }
+  .middle {
+    width: 85%;
+    margin: auto;
+  }
+}
