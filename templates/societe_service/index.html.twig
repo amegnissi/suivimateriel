@@ -4,9 +4,11 @@
 
 {% block breadcrumb %}SOCIETES SERVICES{% endblock %}
 {% block  breadcrumb_item %}SOCIETES SERVICES{% endblock %}
-{% block  breadcrumb_t %} Liste des Clients{% endblock %}
-{% block table_titre %}Liste des Clients{% endblock %}
- {% block btntitle %}Ajouter un Client{% endblock %}
+
+{% block  breadcrumb_t %} Liste des clients{% endblock %}
+{% block table_titre %} Liste des clients{% endblock %}
+{% block btntitle %} Ajouter un client{% endblock %}
+
 {% block btnpath %}{{ path('societe_service_create') }}{% endblock %}
 {% block tableContent %}
     <thead>
@@ -16,7 +18,7 @@
         <th class="col">Adresse</th>
         <th class="col">Téléphone</th>
         <th class="col">Matériels Associés</th>
-        <th class"col text-center">Actions</th>
+        <th class="col text-center">Actions</th>
     </thead>
     <tbody>
     {% for societe in pagination %}
@@ -27,7 +29,7 @@
             <td >
                 {{ societe.telephone ?: 'N/A' }}
             </td>
-            <td >
+            <td>
                 <span class="badge bg-gradient-success">{{ societe.affectations|length }}</span>
             </td>
             <td class="align-middle text-center">

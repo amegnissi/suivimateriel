@@ -3299,11 +3299,7 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
   border-color: rgba(0, 0, 0, 0.1);
 }
 
-[class*="sidebar-dark-"] {
-  /*background-color: #343a40; 
-  background-color: #169bff;*/
-  background-color: #205079;
-}
+
 
 [class*="sidebar-dark-"] .user-panel a:hover {
   color: #fff;

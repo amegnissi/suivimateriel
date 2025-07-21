@@ -6,8 +6,8 @@
 {% block table_titre %}Liste des Operations{% endblock %}
 {% block btntitle %}Ajouter une operation{% endblock %}
 {% block otherbtn %}
-    <a href="{{ path('assurances_export_pdf') }}" class="btn btn-danger">Exporter en PDF</a>
-    <a href="{{ path('assurances_export_excel') }}" class="btn btn-primary">Exporter en Excel</a>
+    <a href="{{ path('assurances_export_pdf') }}" class="btn btn-danger"><i class="fas fa-file-pdf"></i> Exporter en PDF</a>
+    <a href="{{ path('assurances_export_excel') }}" class="btn btn-secondary"><i class="fas fa-file-excel"></i> Exporter en Excel</a>
 {% endblock %}
 {% block btnpath %}{{ path('assurances_create') }}{% endblock %}
 

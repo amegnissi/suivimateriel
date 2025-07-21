@@ -20,17 +20,18 @@
   z-index: 0;
 }
 #main-body {
-  background-image: url("../img/fond2.jpeg");
+  background-image: url("../../data/users/img/fond2.jpeg");
   background-size: cover;
   background-position: center;
-  min-height: 100vh;
+  background-color: #f7f7f8;
+  background-color: var(--bs-primary);
   background-repeat: no-repeat;
   min-height: 100vh;
   background-attachment: fixed;
 }
 
-div#main-login {
-  /* background: radial-gradient(ellipse at center, #2297ff 1%, #020202 100%);
+#main-login2 {
+  background: radial-gradient(ellipse at center, #2297ff 1%, #020202 100%);
   background: -moz-radial-gradient(
     center,
     ellipse cover,
@@ -59,8 +60,7 @@ div#main-login {
 
   height: calc(100vh);
   min-height: 700px;
-  width: 100%;*/
-  /*background: #123c5f;*/
+  width: 100%;
 }
 
 .container .middle {
@@ -78,6 +78,7 @@ div#main-login {
   top: 40%;
   transform: translate(-50%, -50%);
 }
+
 .login-footer {
   display: flex;
   gap: 8px;
@@ -86,11 +87,13 @@ div#main-login {
   position: absolute;
   color: rgba(255, 255, 255, 0.8);
   text-align: center;
-  bottom: 30px;
+  bottom: calc(min(40px, 8%));
   font-size: small;
   flex-wrap: wrap;
-
+  background-color: var(--bs-primary);
   left: 50%;
+  padding: 0.2rem 0.5rem;
+  border-radius: 5px;
   transform: translateX(-50%);
 }
 

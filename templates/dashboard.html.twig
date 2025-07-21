@@ -108,24 +108,24 @@
                             <h3 class="card-title"> Nombre de materiels par catégorie</h3>
                         </div>
                         <div class="p-0 table-responsive">
-                            <table class="table table-hover table-dotted table-striped__ table-hover table-borderless ">
+                            <table class="table table-hover table-striped table-dotted table-striped__ table-hover table-borderless ">
                                 <thead>
                                 <tr>
-                                    <th class="col">Type de materiel</th>
+                                    <th class="col ps-2">Type de matériel</th>
                                     <th class="col">nombre</th>
                                 </tr>
                                 </thead>
                                 {% for typeMateriel in pagination %}
                                     <tr>
-                                        <td>{{ typeMateriel.libelle ?: 'N/A' }}</td>
-                                        <td>
+                                        <td class="col" >{{ typeMateriel.libelle ?: 'N/A' }}</td>
+                                        <td class="col" >
                                             <span class="badge bg-gradient-success">{{ typeMateriel.materiels|length ?: 0 }}</span>
-                                        </td>
+                                        </td class="col" >
 
                                     </tr>
                                 {% else %}
                                     <tr>
-                                        <td colspan="4" class="text-center text-secondary">Aucun type de matériel
+                                        <td  class="col" colspan="4" class="text-center text-secondary">Aucun type de matériel
                                             trouvé.
                                         </td>
                                     </tr>
@@ -170,21 +170,21 @@
                     </div>
                     <div >
                         <table class="table table-hover text-nowrap table-valign-middle mb-0 ">
-                            <tr class="bg-light">
-                                <th> Materiel</th>
-                                <th> Operations</th>
-                                <th> Date début</th>
-                                <th> Date fin</th>
-                                <th colspan="2"> &nbsp;</th>
+                            <tr class="">
+                                <th class="col px-2 bg-head"> Materiel</th>
+                                <th class="col bg-head"> Operations</th>
+                                <th class="col bg-head"> Date début</th>
+                                <th class="col bg-head"> Date fin</th>
+                                <th colspan="2" class="bg-head"> &nbsp;</th>
                             </tr>
 
                             {% for assurance in operations %}
                                 <tr>
-                                    <td> {{ assurance.op.materiel.marque.libelle }}
+                                    <td class="px-2"> {{ assurance.op.materiel.marque.libelle }}
                                         - {{ assurance.op.materiel.immatriculation }} </td>
-                                    <td> {{ assurance.op.typeAssurance.libelle ?? '-' | capitalize }}</td>
-                                    <td> {{ assurance.op.dateDebut|date('d/m/Y')}}</td>
-                                    <td> {{ assurance.op.dateFin|date('d/m/Y') }}</td>
+                                    <td class="col"> {{ assurance.op.typeAssurance.libelle ?? '-' | capitalize }}</td>
+                                    <td class="col"> {{ assurance.op.dateDebut|date('d/m/Y')}}</td>
+                                    <td class="col"> {{ assurance.op.dateFin|date('d/m/Y') }}</td>
 
                                     <td>
                                         <span class="badge bg-danger text-white">⏳ Expirée</span>

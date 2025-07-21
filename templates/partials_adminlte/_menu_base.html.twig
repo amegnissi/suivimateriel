@@ -37,20 +37,16 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ path('app_courrier_depart_new') }}" class="nav-link {% if currentRoute == 'app_courrier_depart_new' %}active{% endif %}">
-                      <p>Courrier départ</p>
+                    <a href="{{ path('app_courrier_depart_new') }}" class="nav-link">
+                        <i class="fa fa-plus"></i> <p>Ajouter un courrier départ</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ path('app_courrier_new') }}" class="nav-link {% if currentRoute == 'app_courrier_new' %}active{% endif %}">
-                        <p>Courrier arrivé</p>
+                    <a href="{{ path('app_courrier_new') }}" class="nav-link">
+                        <i class="fa fa-plus"></i> <p>Ajouter un courrier arrivé</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ path('app_courrier_partenaire_index') }}" class="nav-link {% if currentRoute == 'app_courrier_partenaire_index' %}active{% endif %}">
-                        <p>Partenaires</p>
-                    </a>
-                </li>
+                
                 <li class="nav-item">
                     <a href="{{ path('app_courrier_recherche') }}" class="nav-link {% if currentRoute == 'app_courrier_recherche' %}active{% endif %}">
                         <p>Recherche courriers</p>
@@ -70,20 +66,25 @@
                 <p>Entreprise</p>
             </a>
         </li>
-
+        <li class="nav-item">
+            <a href="{{ path('app_courrier_partenaire_index') }}" class="nav-link {% if currentRoute == 'app_courrier_partenaire_index' %}active{% endif %}">
+                <i class="nav-icon ion-pull-request"></i>
+                <p>Partenaires</p>
+            </a>
+        </li>
         <li class="nav-item">
             <a href="{{ path('postes_index') }}" class="nav-link {% if currentRoute == 'postes_index' %}active{% endif %}">
-                <i class="nav-icon ion-person"></i>
+                <i class="nav-icon ion-person-add"></i>
                 <p>Postes</p>
             </a>
         </li>
-
         <li class="nav-item">
             <a href="{{ path('marques_index') }}" class="nav-link {% if currentRoute == 'marques_index' %}active{% endif %}">
                 <i class="nav-icon ion-flag"></i>
                 <p>Marques</p>
             </a>
         </li>
+
 
         <li class="nav-item">
             <a href="{{ path('employes_index') }}" class="nav-link {% if currentRoute == 'employes_index' %}active{% endif %}">
@@ -108,8 +109,8 @@
 
         <li class="nav-item">
             <a href="{{ path('sortie_materiels_index') }}" class="nav-link {% if currentRoute == 'sortie_materiels_index' %}active{% endif %}">
-                <i class="nav-icon ion-log-out"></i>
-                <p>Sortie Matériel</p>
+                <i class="nav-icon ion-refresh"></i>
+                <p>Sortie de matériels</p>
             </a>
         </li>
 
@@ -133,9 +134,12 @@
                 <p>Affectations</p>
             </a>
         </li>
-
+      
         {% if app.user and is_granted('IS_AUTHENTICATED_FULLY') %}
             {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_PDG') %}
+                <li class="nav-separator py-2">
+                    <hr class="my-2" style="border-color: rgba(255, 255, 255, 0.2);" />
+                </li>
                 <li class="nav-item">
                     <a href="{{ path('maintenances_index') }}" class="nav-link">
                         <i class="nav-icon ion-wrench"></i>
@@ -146,7 +150,7 @@
                 <li class="nav-item">
                     <a href="{{ path('type_assurance_index') }}" class="nav-link">
                         <i class="nav-icon ion-clipboard"></i>
-                        <p>Types Opérations</p>
+                        <p>Types d'opérations</p>
                     </a>
                 </li>
 
@@ -161,7 +165,7 @@
 
         <li class="nav-item">
             <a href="{{ path('depart_employe_index') }}" class="nav-link">
-                <i class="nav-icon ion-log-out"></i>
+                <i class="nav-icon ion-arrow-return-right"></i>
                 <p>Départs Employés</p>
             </a>
         </li>

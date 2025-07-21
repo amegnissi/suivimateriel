@@ -16,14 +16,14 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/courrier')]
 final class CourrierController extends AbstractController
 {
-    const COURRIER_ICON= "ion-email";
+    
     #[Route(name: 'app_courrier_index', methods: ['GET'])]
     public function index(CourrierRepository $courrierRepository): Response
     {
         
         return $this->render('courrier/index.html.twig', [
             'courriers' => $courrierRepository->findAll(),
-            'icon'=> self::COURRIER_ICON
+            
         ]);
     }
 
@@ -53,7 +53,7 @@ final class CourrierController extends AbstractController
             'courrier' => $courrier,
             'form' => $form,
             'titre'=> 'Nouveau courrier départ',
-            'icon'=> self::COURRIER_ICON
+            
         ]);
     }
 
@@ -83,7 +83,7 @@ final class CourrierController extends AbstractController
             'courrier' => $courrier,
             'form' => $form,
             'titre'=> 'Nouveau courrier arrivé',
-            'icon'=> self::COURRIER_ICON
+            
         ]);
     }
 
@@ -92,7 +92,7 @@ final class CourrierController extends AbstractController
     {
         return $this->render('courrier/show.html.twig', [
             'courrier' => $courrier,
-            'icon'=> self::COURRIER_ICON
+            
         ]);
     }
 
@@ -111,7 +111,7 @@ final class CourrierController extends AbstractController
         return $this->render('courrier/edit.html.twig', [
             'courrier' => $courrier,
             'form' => $form,
-            'icon'=> self::COURRIER_ICON
+            
         ]);
     }
 

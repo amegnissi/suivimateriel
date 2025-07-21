@@ -27,38 +27,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     
     <!-- Theme style -->
+    
+
+    {% block css %}
+
+    {% endblock %}
     <link rel="stylesheet" href="{{ asset('adminlte/css/adminlte.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte/css/base.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte/css/dashboard.css') }}">
-
-    {% block css %}
-        <style>
-            .field {
-                padding: 3px 12px;
-                border: 2px #616569 !important;
-            }
-
-            legend {
-                width: auto;
-            }
-
-            .ctn-btn {
-                position: absolute;
-                top: 57%;
-                transform: translateY(-50%);
-            }
-        </style>
-        {#        <!-- DataTables --> #}
-        {#        <link rel="stylesheet" #}
-        {#              href="{{ asset('assets/adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}"> #}
-
-        {#        <link rel="stylesheet" #}
-        {#              href="{{ asset('assets/adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}"> #}
-
-        {#        <link rel="stylesheet" #}
-        {#              href="{{ asset('assets/adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}"> #}
-
-    {% endblock %}
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">

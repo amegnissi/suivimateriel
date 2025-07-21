@@ -14,20 +14,20 @@
     <th>Nom</th>
     <th>Type</th>
     <th>Client / Interne</th>
-    <th class"col text-center">Actions</th>
+    <th class="col text-center">Actions</th>
 </tr>
 </thead>
 <tbody>
 {% for lieu in pagination %}
     <tr>
-        <td class="align-middle text-center text-xs font-weight-bold">{{ loop.index }}</td>
-        <td class="align-middle text-xs font-weight-bold">{{ lieu.nom }}</td>
-        <td class="align-middle text-center text-xs font-weight-bold">
+        <td class="align-middle text-center  font-weight-bold">{{ loop.index }}</td>
+        <td class="align-middle font-weight-bold">{{ lieu.nom }}</td>
+        <td class="align-middle text-center font-weight-bold">
                                             <span class="badge {{ lieu.type == 'interne' ? 'bg-gradient-info' : 'bg-gradient-warning' }}">
                                                 {{ lieu.type|capitalize }}
                                             </span>
         </td>
-        <td class="align-middle text-xs font-weight-bold">
+        <td class="align-middle font-weight-bold">
             {% if lieu.type == 'interne' %}
                 {{ lieu.entreprise.nom }}
             {% else %}

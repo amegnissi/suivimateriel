@@ -1,15 +1,18 @@
 {% extends 'base_table.html.twig' %}
 
-{% block title %}Sorties de Matériels{% endblock %}
+{% block title %}Sorties de matériels{% endblock %}
 
 {% block breadcrumb %}MARQUES{% endblock %}
-{% block  breadcrumb_item %}Gestion des Sorties de Matériels{% endblock %}
-{% block  breadcrumb_t %} Liste des sorties de Matériels{% endblock %}
-{% block table_titre %}Liste des sorties de Matériels {% endblock %}
- {% block btntitle %}Ajouter une sortie de Matériels{% endblock %}
+{% block  breadcrumb_item %}Gestion des Sorties de matériels{% endblock %}
+{% block  breadcrumb_t %} Liste des sorties de matériels{% endblock %}
+{% block table_titre %}Liste des sorties de matériels {% endblock %}
+ {% block btntitle %}Ajouter une sortie de matériels{% endblock %}
 {% block btnpath %}{{ path('sortie_materiel_create') }}{% endblock %}
 {% block otherbtn %}
-    <a href="{{ path('sorties_historique') }}" class="btn btn-danger">Historique</a>
+    <a href="{{ path('sorties_historique') }}" class="btn btn-secondary">
+    <i class=""></i>
+    Historique
+    </a>
 
 {% endblock %}
 {% block tableContent %}
@@ -20,8 +23,8 @@
         <th>Type</th>
         <th>Marque</th>
         <th>Date de Sortie</th>
-        <th>Statut</th>
-        <th class"col text-center">Actions</th>
+        <th  class="col text-center">Statut</th>
+        <th class="col text-center">Actions</th>
     </tr>
     </thead>
     <tbody>

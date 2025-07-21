@@ -1,18 +1,77 @@
 :root {
   --bs-table-accent-bg: #6c757d;
   --bs-table-hover-bg: #6c757d;
-  /******************************************/
+
+  --primary-color: #205079;
+  --primary-border-color: #34578b;
+
+  --primary-hover-bg: #2f69b9;
+  --primary-hover-border-color: #20406f;
+
+  --primary-focus-shadow-rgb: 49, 132, 253;
+
+  --primary-active-bg: #0a58ca;
+  --primary-active-border-color: #0a3370;
+  --primary-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+
+  --primary-disabled-bg: #22395b;
+  --primary-disabled-border-color: #173a6d;
+  --primary-text-color: #fff;
+
+  --primary-color-rgb: 32, 80, 121;
+  --bs-table-hover-bg: rgba(var(--primary-color-rgb), 0.075);
+  --bs-table-accent-bg: #6c757d;
+
   --default-text-color: #454444;
   --card-primary-bg-color: rgb(193 218 255);
-  --card-success-bg-color: #bfd9d9;
-  --card-warning-bg-color: #fff3cf;
-  --card-light-bg-color: #eeefff;
+  --card-success-bg-color: #a5cfcf;
+  --card-warning-bg-color: #e1be55;
+  --card-light-bg-color: #b9bdff;
   --card-lightblue-bg-color: #abe0ff;
   --card-gray-bg-color: #d8e2e8;
-  --card-danger-bg-color: #dae9f5;
+  --card-danger-bg-color: #c1e7ba;
 }
 
-/*
+.table {
+  --bs-table-hover-bg: rgba(var(--primary-color-rgb), 0.075);
+  --bs-table-striped-bg: rgba(var(--primary-color-rgb), 0.05);
+}
+
+.table > tr.bg-head,
+.bg-head {
+  background: rgba(var(--primary-color-rgb), 0.075) !important;
+}
+
+.table.table-hover > tbody > tr:hover {
+  background-color: var(--bs-table-hover-bg);
+}
+
+a.text-inherit,
+.text-inherit {
+  color: inherit;
+  text-decoration: none;
+}
+
+.card-img-start {
+  height: 180px;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.card-img-start .card-img-top {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.card-img-start:hover .card-img-top {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+/* 
 [class*="sidebar-dark-"] {
   background: linear-gradient(to bottom, #2297ff 1%, #020202 100%);
   background: -moz-linear-gradient(top, #2297ff 1%, #020202 100%);
@@ -20,28 +79,32 @@
   background: -o-linear-gradient(top, #2297ff 1%, #020202 100%);
   background: -ms-linear-gradient(top, #2297ff 1%, #020202 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2297ff', endColorstr='#020202', GradientType=0);
-}*/
-.btn-primary {
-  --bs-btn-color: #fff;
-  --bs-btn-bg: #305c9d;
-  --bs-btn-border-color: #34578b;
-  --bs-btn-hover-color: #fff;
-  --bs-btn-hover-bg: #2b5ea7;
-  --bs-btn-hover-border-color: #20406f;
-  --bs-btn-focus-shadow-rgb: 49, 132, 253;
-  --bs-btn-active-color: #fff;
-  --bs-btn-active-bg: #0a58ca;
-  --bs-btn-active-border-color: #0a3370;
-  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-  --bs-btn-disabled-color: #fff;
-  --bs-btn-disabled-bg: #22395b;
-  --bs-btn-disabled-border-color: #173a6d;
 }
+*/
+
+.btn-primary {
+  --bs-btn-bg: var(--primary-color);
+  --bs-btn-border-color: var(--primary-border-color);
+  --bs-btn-color: var(--primary-text-color);
+  --bs-btn-hover-color: var(--primary-text-color);
+  --bs-btn-hover-bg: var(--primary-hover-bg);
+  --bs-btn-hover-border-color: var(--primary-hover-border-color);
+  --bs-btn-focus-shadow-rgb: var(--primary-focus-shadow-rgb);
+  --bs-btn-active-color: var(--primary-text-color);
+  --bs-btn-active-bg: var(--primary-active-bg);
+  --bs-btn-active-border-color: var(--primary-active-border-color);
+  --bs-btn-active-shadow: var(--primary-active-shadow);
+  --bs-btn-disabled-color: var(--primary-text-color);
+  --bs-btn-disabled-bg: var(--primary-disabled-bg);
+  --bs-btn-disabled-border-color: var(--primary-disabled-border-color);
+}
+
 .btn.btn-default {
   border: 1px solid #c3c3c3;
 }
+
 .content-wrapper {
-  background-color: #f5f5f5;
+  background-color: rgba(var(--primary-color-rgb), 0.075);
 }
 
 html,
@@ -51,6 +114,7 @@ p {
   font-family: "Source Sans Pro", "Open Sans", Arial, Helvetica, sans-serif;
   font-size: 0.95rem;
 }
+
 .card-header,
 .card-header *,
 .text-suse,
@@ -61,29 +125,29 @@ h4,
 h5 {
   font-family: "SUSE", Arial, Helvetica, sans-serif;
 }
+
+[class*="sidebar-dark-"] {
+  /* background-color: #343a40; 
+     background-color: #169bff; */
+  background-color: var(--primary-color);
+}
+
 .small-box {
   box-shadow: none;
 }
+
 .small-box > .inner {
   opacity: 0.7;
 }
+
 .card-header,
 .card-header *,
 .card-title {
   font-weight: bold;
 }
+
 .text-bg-primary,
-.card-bg-primary/*,
-.text-bg-success,
-.card-bg-success,
-.text-bg-warning,
-.card-bg-warning,
-.text-bg-lightblue,
-.card-bg-lightblue,
-.text-bg-gray,
-.card-bg-gray,
-.text-bg-danger,
-.card-bg-danger*/ {
+.card-bg-primary {
   color: var(--default-text-color) !important;
   background-color: var(--card-primary-bg-color) !important;
 }
@@ -93,11 +157,13 @@ h5 {
   color: var(--default-text-color) !important;
   background-color: var(--card-success-bg-color) !important;
 }
+
 .text-bg-warning,
 .card-bg-warning {
   color: var(--default-text-color) !important;
   background-color: var(--card-warning-bg-color) !important;
 }
+
 .text-bg-lightblue,
 .card-bg-lightblue {
   color: var(--default-text-color) !important;
@@ -115,6 +181,7 @@ h5 {
   color: var(--default-text-color) !important;
   background-color: var(--card-gray-bg-color) !important;
 }
+
 .text-bg-danger,
 .card-bg-danger {
   color: var(--default-text-color) !important;
@@ -126,6 +193,7 @@ h5 {
   border-radius: 0 0 5px 5px;
 }
 
+/* Badge Styles */
 .badge-light-primary {
   background-color: rgba(115, 102, 255, 0.34);
   color: #7366ff;
@@ -134,14 +202,12 @@ h5 {
   background-color: rgba(115, 102, 255, 0.34);
   color: #7366ff;
 }
-
 .badge-l-primary {
   background-color: white;
 }
 .badge-l-primary:hover {
   background-color: white;
 }
-
 .badge-light-secondary {
   background-color: rgba(131, 131, 131, 0.34);
   color: #838383;
@@ -150,14 +216,12 @@ h5 {
   background-color: rgba(131, 131, 131, 0.34);
   color: #838383;
 }
-
 .badge-l-secondary {
   background-color: #d5d5d5;
 }
 .badge-l-secondary:hover {
   background-color: #d5d5d5;
 }
-
 .badge-light-success {
   background-color: rgba(101, 193, 92, 0.34);
   color: #65c15c;
@@ -166,14 +230,12 @@ h5 {
   background-color: rgba(101, 193, 92, 0.34);
   color: #65c15c;
 }
-
 .badge-l-success {
   background-color: #d5eed2;
 }
 .badge-l-success:hover {
   background-color: #d5eed2;
 }
-
 .badge-light-danger {
   background-color: rgba(252, 86, 74, 0.34);
   color: #fc564a;
@@ -182,14 +244,12 @@ h5 {
   background-color: rgba(252, 86, 74, 0.34);
   color: #fc564a;
 }
-
 .badge-l-danger {
   background-color: #ffeceb;
 }
 .badge-l-danger:hover {
   background-color: #ffeceb;
 }
-
 .badge-light-info {
   background-color: rgba(64, 184, 245, 0.34);
   color: #40b8f5;
@@ -198,14 +258,12 @@ h5 {
   background-color: rgba(64, 184, 245, 0.34);
   color: #40b8f5;
 }
-
 .badge-l-info {
   background-color: #dbf2fd;
 }
 .badge-l-info:hover {
   background-color: #dbf2fd;
 }
-
 .badge-light-light {
   background-color: rgba(82, 82, 108, 0.34);
   color: #52526c;
@@ -214,14 +272,12 @@ h5 {
   background-color: rgba(82, 82, 108, 0.34);
   color: #52526c;
 }
-
 .badge-l-light {
   background-color: #a6a6bb;
 }
 .badge-l-light:hover {
   background-color: #a6a6bb;
 }
-
 .badge-light-dark {
   background-color: rgba(63, 71, 90, 0.34);
   color: #3f475a;
@@ -230,14 +286,12 @@ h5 {
   background-color: rgba(63, 71, 90, 0.34);
   color: #3f475a;
 }
-
 .badge-l-dark {
   background-color: #8d97af;
 }
 .badge-l-dark:hover {
   background-color: #8d97af;
 }
-
 .badge-light-warning {
   background-color: rgba(255, 184, 41, 0.34);
   color: #ffb829;
@@ -246,18 +300,15 @@ h5 {
   background-color: rgba(255, 184, 41, 0.34);
   color: #ffb829;
 }
-
 .badge-l-warning {
   background-color: #ffeecc;
 }
 .badge-l-warning:hover {
   background-color: #ffeecc;
 }
-
 .badge-light-light {
   background-color: #e9e9ee !important;
 }
-
 .badge-light-primary,
 .badge-l-primary {
   background-color: rgba(115, 102, 255, 0.1);
@@ -266,15 +317,12 @@ h5 {
 .badge-l-primary:hover {
   background-color: rgba(115, 102, 255, 0.1);
 }
-
 .badge-light-success {
   background-color: rgba(101, 193, 92, 0.15);
 }
-
 .badge-light-secondary {
   background-color: rgba(131, 131, 131, 0.08);
 }
-
 .badge-light-danger {
   background-color: rgba(252, 86, 74, 0.15);
 }

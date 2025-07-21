@@ -10,7 +10,7 @@
     <a href="{{ path('materiels_export_pdf') }}" class="btn btn-danger  mr-2">
         <i class="fas fa-file-pdf"></i> Exporter en PDF
     </a>
-    <a href="{{ path('materiels_export_excel') }}" class="btn btn-primary ">
+    <a href="{{ path('materiels_export_excel') }}" class="btn btn-secondary ">
         <i class="fas fa-file-excel"></i> Exporter en Excel
     </a>
 {% endblock %}
@@ -24,8 +24,8 @@
         <th>Marque</th>
         <th>Immatriculation</th>
         <th>Date d'Acquisition</th>
-        <th>Statut</th>
-        <th class"col text-center">Actions</th>
+        <th class="col text-center">Statut</th>
+        <th class="col text-center">Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -76,7 +76,7 @@
     {#                    <a href="{{ path('materiels_export_pdf') }}" class="btn btn-danger"> #}
     {#                        <i class="fas fa-file-pdf"></i> Exporter en PDF #}
     {#                    </a> #}
-    {#                    <a href="{{ path('materiels_export_excel') }}" class="btn btn-primary"> #}
+    {#                    <a href="{{ path('materiels_export_excel') }}" class="btn btn-secondary"> #}
     {#                        <i class="fas fa-file-excel"></i> Exporter en Excel #}
     {#                    </a> #}
     {#                    <a href="{{ path('materiels_create') }}" class="btn btn-primary">Ajouter un Matériel</a> #}
