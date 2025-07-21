@@ -119,20 +119,14 @@
     position: relative;
   }
   .login-footer {
-    position: relative;
     height: auto;
-    color: inherit;
     padding-top: 10px;
     padding-bottom: 10px;
+    width: 100%;
+    padding: 0.5rem 0.6rem;
+    background-color: transparent;
   }
-  .login-footer,
-  .login-footer span,
-  .login-footer a {
-    color: #5c5c5c;
-  }
-  .login-footer a {
-    color: #123c5f;
-  }
+
   .middle {
     position: relative;
     margin-top: 10%;
