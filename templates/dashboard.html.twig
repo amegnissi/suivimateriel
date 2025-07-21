@@ -171,7 +171,8 @@
                     <div >
                         <table class="table table-hover text-nowrap table-valign-middle mb-0 ">
                             <tr class="">
-                                <th class="col px-2 bg-head"> Materiel</th>
+                                <th class="col ps-3 bg-head"> N°</th>
+                                <th class="col  bg-head"> Materiel</th>
                                 <th class="col bg-head"> Operations</th>
                                 <th class="col bg-head"> Date début</th>
                                 <th class="col bg-head"> Date fin</th>
@@ -180,7 +181,8 @@
 
                             {% for assurance in operations %}
                                 <tr>
-                                    <td class="px-2"> {{ assurance.op.materiel.marque.libelle }}
+                                <td class="ps-3">{{loop.index}}</td>
+                                    <td class="col">{{ assurance.op.materiel.marque.libelle }}
                                         - {{ assurance.op.materiel.immatriculation }} </td>
                                     <td class="col"> {{ assurance.op.typeAssurance.libelle ?? '-' | capitalize }}</td>
                                     <td class="col"> {{ assurance.op.dateDebut|date('d/m/Y')}}</td>
