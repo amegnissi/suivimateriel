@@ -61,7 +61,7 @@
                     {{ otherbtn|raw }}
                 {% endif %}
                 {% if btnpath and btntitle is defined %}
-                    <a href="{{ btnpath }}" class="btn btn-primary">
+                    <a data-pjax href="{{ btnpath }}" class="btn btn-primary">
                       <i class="fa fa-plus"></i>   {{ btntitle|default('Ajouter') }}
                     </a>
                 {% endif %}

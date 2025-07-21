@@ -37,7 +37,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('adminlte/css/dashboard.css') }}">
 </head>
 <body class="hold-transition sidebar-mini">
-<div class="wrapper">
+<div class="wrapper" id="">
 
     <!-- Navbar -->
      {% include "partials/navbar.html.twig" with {
@@ -109,7 +109,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <!-- Main content -->
         {#        <div class="content"> #}
-        <div class="container">
+        <div class="container" id="main-container">
             {% block content %}
             {% endblock %}
             <!-- /.row -->
@@ -145,6 +145,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <!-- AdminLTE App -->
 <script src="{{ asset('adminlte/js/adminlte.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.pjax/2.0.1/jquery.pjax.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $(document).pjax('a[data-pjax]', '#main-container');
+  });
+</script>
 {% block javascript %}
 {% endblock %}
 </body>
