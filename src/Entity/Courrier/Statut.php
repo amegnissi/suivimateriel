@@ -28,9 +28,16 @@ class Statut
     #[ORM\OneToMany(targetEntity: Courrier::class, mappedBy: 'Statut')]
     private Collection $courriers;
 
+    /**
+     * @var Collection<int, AffectationCourrier>
+     */
+    #[ORM\OneToMany(targetEntity: AffectationCourrier::class, mappedBy: 'statut')]
+    private Collection $affectations;
+
     public function __construct()
     {
         $this->courriers = new ArrayCollection();
+        $this->affectations = new ArrayCollection();
     }
 
     use AttributsCommunsTraits;
@@ -88,6 +95,36 @@ class Statut
             // set the owning side to null (unless already changed)
             if ($courrier->getStatut() === $this) {
                 $courrier->setStatut(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AffectationCourrier>
+     */
+    public function getAffectations(): Collection
+    {
+        return $this->affectations;
+    }
+
+    public function addAffectation(AffectationCourrier $affectation): static
+    {
+        if (!$this->affectations->contains($affectation)) {
+            $this->affectations->add($affectation);
+            $affectation->setStatut($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAffectation(AffectationCourrier $affectation): static
+    {
+        if ($this->affectations->removeElement($affectation)) {
+            // set the owning side to null (unless already changed)
+            if ($affectation->getStatut() === $this) {
+                $affectation->setStatut(null);
             }
         }
 

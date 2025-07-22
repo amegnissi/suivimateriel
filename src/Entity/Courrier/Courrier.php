@@ -2,7 +2,9 @@
 
 namespace App\Entity\Courrier;
 
-use App\Repository\courrier\CourrierRepository;
+use App\Repository\Courrier\CourrierRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -49,6 +51,17 @@ class Courrier
 
     #[ORM\ManyToOne(inversedBy: 'courriers')]
     private ?NatureCourrier $nature = null;
+
+    /**
+     * @var Collection<int, AffectationCourrier>
+     */
+    #[ORM\OneToMany(targetEntity: AffectationCourrier::class, mappedBy: 'courrier')]
+    private Collection $affectations;
+
+    public function __construct()
+    {
+        $this->affectations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -202,5 +215,35 @@ class Courrier
     public function getFichier()
     {
         return  '/uploads/courriers/' . $this->url;
+    }
+
+    /**
+     * @return Collection<int,AffectationCourrier>
+     */
+    public function getAffectations(): Collection
+    {
+        return $this->affectations;
+    }
+
+    public function addAffectation(AffectationCourrier $affectation): static
+    {
+        if (!$this->affectations->contains($affectation)) {
+            $this->affectations->add($affectation);
+            $affectation->setCourrier($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAffectation(AffectationCourrier $affectation): static
+    {
+        if ($this->affectations->removeElement($affectation)) {
+            // set the owning side to null (unless already changed)
+            if ($affectation->getCourrier() === $this) {
+                $affectation->setCourrier(null);
+            }
+        }
+
+        return $this;
     }
 }

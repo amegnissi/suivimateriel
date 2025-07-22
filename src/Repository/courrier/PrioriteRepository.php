@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository\courrier;
+namespace App\Repository\Courrier;
 
 class PrioriteRepository
 {

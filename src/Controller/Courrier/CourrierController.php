@@ -4,8 +4,8 @@ namespace App\Controller\Courrier;
 
 use App\Entity\Courrier\Courrier;
 use App\Form\Courrier\CourrierType;
-use App\Repository\courrier\CourrierRepository;
-use App\Repository\courrier\TypeCourrierRepository;
+use App\Repository\Courrier\CourrierRepository;
+use App\Repository\Courrier\TypeCourrierRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

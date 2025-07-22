@@ -2,7 +2,8 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
+use App\Entity\Affectation;
+use App\Entity\Courrier\AffectationCourrier;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\EmployeRepository;
 use Doctrine\Common\Collections\Collection;
@@ -86,9 +87,26 @@ class Employe
     #[ORM\OneToMany(targetEntity: Affectation::class, mappedBy: 'employe')]
     private Collection $affectations;
 
+    #[ORM\OneToOne(mappedBy: 'employe', cascade: ['persist', 'remove'])]
+    private ?User $user = null;
+
+    /**
+     * @var Collection<int, AffectationCourrier>
+     */
+    #[ORM\OneToMany(targetEntity: AffectationCourrier::class, mappedBy: 'destinataire')]
+    private Collection $affectationsRecu;
+
+    /**
+     * @var Collection<int, AffectationCourrier>
+     */
+    #[ORM\OneToMany(targetEntity: AffectationCourrier::class, mappedBy: 'expediteur')]
+    private Collection $affectationsEnvoyes;
+
     public function __construct()
     {
         $this->affectations = new ArrayCollection();
+        $this->affectationsRecu = new ArrayCollection();
+        $this->affectationsEnvoyes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -402,6 +420,94 @@ class Employe
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($user === null && $this->user !== null) {
+            $this->user->setEmploye(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($user !== null && $user->getEmploye() !== $this) {
+            $user->setEmploye($this);
+        }
+
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getFullName() {
+
+
+        return "{$this->prenom} {$this->nom}";
+    }
+
+    /**
+     * @return Collection<int, Affectation>
+     */
+    public function getAffectationsRecu(): Collection
+    {
+        return $this->affectationsRecu;
+    }
+
+    public function addAffectationsRecu(AffectationCourrier $affectationsRecu): static
+    {
+        if (!$this->affectationsRecu->contains($affectationsRecu)) {
+            $this->affectationsRecu->add($affectationsRecu);
+            $affectationsRecu->setDestinataire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAffectationsRecu(AffectationCourrier $affectationsRecu): static
+    {
+        if ($this->affectationsRecu->removeElement($affectationsRecu)) {
+            // set the owning side to null (unless already changed)
+            if ($affectationsRecu->getDestinataire() === $this) {
+                $affectationsRecu->setDestinataire(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AffectationCourrier>
+     */
+    public function getAffectationsEnvoyes(): Collection
+    {
+        return $this->affectationsEnvoyes;
+    }
+
+    public function addAffectationsEnvoye(AffectationCourrier $affectationsEnvoye): static
+    {
+        if (!$this->affectationsEnvoyes->contains($affectationsEnvoye)) {
+            $this->affectationsEnvoyes->add($affectationsEnvoye);
+            $affectationsEnvoye->setExpediteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAffectationsEnvoye(AffectationCourrier $affectationsEnvoye): static
+    {
+        if ($this->affectationsEnvoyes->removeElement($affectationsEnvoye)) {
+            // set the owning side to null (unless already changed)
+            if ($affectationsEnvoye->getExpediteur() === $this) {
+                $affectationsEnvoye->setExpediteur(null);
+            }
+        }
 
         return $this;
     }

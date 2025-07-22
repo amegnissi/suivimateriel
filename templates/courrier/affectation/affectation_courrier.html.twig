@@ -1,0 +1,77 @@
+{% extends 'baseC.html.twig' %}
+
+{% block title %}Courrier{% endblock %}
+{% block breadcrumb %}Courrier{% endblock %}
+{% block  breadcrumb_item %} Courrier{% endblock %}
+{% block  breadcrumb_t %} Gestion des courriers{% endblock %}
+{% block table_titre %}Details du courrier{% endblock %}
+{% block btntitle %}Details courrier{% endblock %}
+
+{% block content %}
+<div class="row">
+
+    <div class="col-sm-12">
+        <div class="card card-primary card-success">
+            <div class="card-header">
+                <h3 class="card-title ">
+                    <i class="fas fa-reply"></i> Affectation du courrier {{ courrier.referenceInterne }}
+                </h3>
+            </div>
+            <div class="card-body table-responsive">
+                {{ form_start(form) }}
+
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <div class="form-group">
+                            <label class="control-label" for="appbundle_aff_type_annotation">Courrier à affecter
+                            </label>
+                            {#{{ form_widget(form.typeannotation, {'attr' : {'class' : ' form-control select2 form-control custom-select '}}) }}#}
+                            <input class="form-control" value="{{ courrier.reference }} - ( Réf. interne : {{ courrier.referenceInterne }} )" readonly>
+                        </div>
+                    </div>
+                    {{ form_widget(form) }}
+
+                    <div class="col-md-12">
+                        <table id="example1" class="table table-bordered table-striped">
+
+                            <thead>
+                            <tr>
+
+                                <th>Agent</th>
+                                <th>Fonction</th>
+                                <th class="text-center">Sélectionner</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for agent in agents %}
+                                <tr>
+                                    <td>{{ agent.fullname }}</td>
+                                    <td>
+                                        {{ agent.poste.libelle }}
+                                    </td>
+
+                                    <td style="font-size:14px;" class="text-center">
+
+                                        <input type="checkbox" name="idsAgentsSel[]" value="{{agent.id}}"/> {#<input type="checkbox" name="mesIds[]" value={{agent.id}}" />#}
+                                        {#<button class='regular' name='but_comment'
+										    onclick="this.getElementsByTagName('span')[0].innerHTML=(this.getElementsByTagName('span')[0].innerHTML=='Ajouter un commentaire'? 'Masquer la zone de commentaire':'Ajouter un commentaire');">
+										                <img alt="" src="/img/img_bouton.png" />  <span>Ajouter un commentaire</span>
+										                </button>#}
+                                        {#id="user_username" name="user[username]"#}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-primary" name="saveAffectation" value="Enregistrer"/>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
