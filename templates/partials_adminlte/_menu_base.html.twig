@@ -53,15 +53,15 @@
           <i class="right ion-chevron-right"></i>
         </p>
       </a>
-      <ul class="nav nav-treeview">
-        <li class="nav-item">
-          <a data-pjax href="{{ path('postes_index') }}" class="nav-link {% if currentRoute == 'postes_index' %}active{% endif %}">
-            <p>Postes</p>
-          </a>
-        </li>
+      <ul class="nav nav-treeview">        
         <li class="nav-item">
           <a data-pjax href="{{ path('employes_index') }}" class="nav-link {% if currentRoute == 'employes_index' %}active{% endif %}">
             <p>Employés</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a data-pjax href="{{ path('postes_index') }}" class="nav-link {% if currentRoute == 'postes_index' %}active{% endif %}">
+            <p>Postes</p>
           </a>
         </li>
         <li class="nav-item">
