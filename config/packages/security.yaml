@@ -35,7 +35,7 @@ security:
     - { path: ^/login, roles: PUBLIC_ACCESS }
     - { path: ^/terms, roles: PUBLIC_ACCESS }
     - { path: ^/contact, roles: PUBLIC_ACCESS }
-    - { path: ^/documentation, roles: PUBLIC_ACCESS }
+    - { path: ^/guide, roles: PUBLIC_ACCESS }
     - { path: ^/dashboard, roles: ROLE_USER }
     - { path: ^/, roles: ROLE_USER }
 
