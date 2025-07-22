@@ -1,4 +1,4 @@
-{% extends 'baseC.html.twig' %}
+{% extends 'base-dashboard.html.twig' %}
 {% block css %}
     <style>
         .text-bg-primary {
@@ -23,7 +23,7 @@
                 {% set icon = ['ion-bag','ion-stats-bars', 'ion-person-add','ion-android-cloud-done','ion-upload'] %}
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-success">
+                    <div class="small-box card-bg-success">
                         <div class="inner">
                             <p>Courriers Arrivés</p>
                             <h3>1</h3>
@@ -62,7 +62,7 @@
 
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-warning">
+                    <div class="small-box card-bg-warning">
                         <div class="inner">
                             <p>Courriers en attente</p>
                             <h3>3</h3>

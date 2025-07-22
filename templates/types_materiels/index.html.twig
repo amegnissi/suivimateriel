@@ -1,12 +1,12 @@
 {% extends 'base_table.html.twig' %}
 
-{% block title %}Types de materiels{% endblock %}
+{% block title %}Types de matériels{% endblock %}
 
 {% block breadcrumb %}Materiels{% endblock %}
 {% block  breadcrumb_item %}Gestion du materiel{% endblock %}
-{% block  breadcrumb_t %} Liste des types de materiels{% endblock %}
-{% block table_titre %}Liste des types de materiels {% endblock %}
- {% block btntitle %}Ajouter un type de materiels{% endblock %}
+{% block  breadcrumb_t %} Liste des types de matériels{% endblock %}
+{% block table_titre %}Liste des types de matériels {% endblock %}
+ {% block btntitle %}Ajouter un type de matériels{% endblock %}
 {% block btnpath %}{{ path('types_materiels_create') }}{% endblock %}
 {% block tableContent %}
     <thead>
@@ -14,7 +14,7 @@
         <th class="col">N°</th>
         <th class="col">Libellé</th>
         <th class="col">Matériels Associés</th>
-        <th class="col">Actions</th>
+        <th class="col text-center">Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -27,11 +27,11 @@
             </td>
             <td class="align-middle text-center">
                 <div class="common-align gap-2 justify-content-start">
-                    <a class="btn btn-primary btn-sm" href="{{ path('types_materiels_show', { 'id': typeMateriel.id }) }}"
+                    <a class="btn  btn-sm" href="{{ path('types_materiels_show', { 'id': typeMateriel.id }) }}"
                        title="Plus de details">
                         <i class="fa fa-eye"></i>
                     </a>
-                    <a class="btn btn-success btn-sm" title="Modifier"
+                    <a class="btn  btn-sm" title="Modifier"
                        href="{{ path('types_materiels_edit', { 'id': typeMateriel.id }) }}">
                         <i class="far fa-edit"></i>
                     </a>
@@ -39,7 +39,7 @@
                           class="d-inline">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ typeMateriel.id) }}">
                         <a type="submit"
-                           class="btn btn-danger btn-sm"
+                           class="btn text-danger btn-sm"
                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce poste ?');"
                            title="Supprimer le type de materiel">
 

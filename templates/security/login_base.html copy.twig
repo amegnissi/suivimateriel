@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html	lang="en">
+	<head>
+		<meta	charset="UTF-8">
+		<title>
+			{% block title %}
+				CEDIOO | Gestion des courriers
+			{% endblock %}
+		</title>
+		<link	rel="icon"	href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+		<!-- Favicons -->
+		<link	href="perso/images/logo_cmmb.jpeg"	rel="icon">
+		<link	href="perso/images/logo_cmmb.jpeg"	rel="apple-touch-icon">
+		<!-- Google Fonts -->
+		<link	href="https://fonts.gstatic.com"	rel="preconnect">
+		<link	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"	rel="stylesheet">
+{#		{% include 'includes/link.html.twig' %}#}
+		<!-- Google Font: Source Sans Pro -->
+		<link rel="stylesheet"
+			  href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+		<!-- Font Awesome Icons -->
+		<link rel="stylesheet" href="{{ asset('adminlte/plugins/fontawesome-free/css/all.min.css') }}">
+
+		<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+		<!-- Theme style -->
+		<link rel="stylesheet" href="{{ asset('adminlte/css/adminlte.css') }}">
+		<link rel="stylesheet" href="{{ asset('adminlte/css/base.css') }}">
+		{% block stylesheets %}{% endblock %}
+
+	</head>
+	<body style="background-image: url('{{ asset('adminlte/img/fond2.jpeg') }}');">
+		{% block body %}{% endblock %}
+		<!-- End #main -->
+		<a	href="#"	class="back-to-top d-flex align-items-center justify-content-center">
+			<i	class="fas fa-arrow-up-short"></i>
+		</a>
+
+		{# ///************fos js routing *************// #}
+{#		{% include 'includes/script.html.twig' %}#}
+		<!-- jQuery -->
+		<script src="{{ asset('adminlte/plugins/jquery/jquery.js') }}"></script>
+		<!-- Bootstrap 5 -->
+		<script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.js') }}"></script>
+		<!-- AdminLTE App -->
+		<script src="{{ asset('adminlte/js/adminlte.js') }}"></script>
+	</body>
+</html>

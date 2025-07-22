@@ -7,7 +7,7 @@
 {% block btntitle %}Ajouter une nature de courrier{% endblock %}
 {#{% block otherbtn %}#}
 {#    <a href="{{ path('employes_export_pdf') }}" class="btn btn-danger">Exporter en PDF</a>#}
-{#    <a href="{{ path('employes_export_excel') }}" class="btn btn-success">Exporter en Excel</a>#}
+{#    <a href="{{ path('employes_export_excel') }}" class="btn btn-secondary">Exporter en Excel</a>#}
 {#{% endblock %}#}
 {% block btnpath %}{{ path('app_courrier_nature_courrier_new') }}{% endblock %}
 {% block tableContent %}
@@ -27,13 +27,13 @@
                 <td>{{ nature_courrier.libelle }}</td>
                 <td class="align-middle text-center">
                     <div class="common-align gap-2 justify-content-start">
-{#                        <a class="btn btn-primary btn-sm" href="{{ path('employes_show', {'id': employe.id}) }}"#}
+{#                        <a class="btn btn-sm" href="{{ path('employes_show', {'id': employe.id}) }}"#}
 {#                           title="Plus de details">#}
 {#                            <i class="fa fa-eye"></i>#}
 {#                        </a>#}
 
 
-                        <a class="btn btn-success btn-sm" href="{{ path('app_courrier_nature_courrier_edit', {'id': nature_courrier.id}) }}"
+                        <a class="btn btn-sm" href="{{ path('app_courrier_nature_courrier_edit', {'id': nature_courrier.id}) }}"
                            title="Plus de details">
                             <i class="far fa-edit"></i>
                         </a>
@@ -52,5 +52,4 @@
         </tbody>
 
 
-    <a href="{{ path('app_courrier_nature_courrier_new') }}">Create new</a>
 {% endblock %}

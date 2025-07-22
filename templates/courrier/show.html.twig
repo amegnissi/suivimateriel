@@ -1,4 +1,4 @@
-{% extends 'baseC.html.twig' %}
+{% extends 'base-dashboard.html.twig' %}
 
 {% block title %}Courrier{% endblock %}
 {% block breadcrumb %}Courrier{% endblock %}
@@ -11,7 +11,7 @@
     <div class="row">
 
         <div class="col-sm-12">
-            <div class="card card-primary card-success">
+            <div class="card __cadr-default">
                 <div class="card-header">
                     <h3 class="card-title ">
                         <i class="fas fa-edit"></i> Détails de courrier
@@ -19,7 +19,7 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive">
-                    <table class="table table-bordered table-striped text-nowrap table-valign-middle">
+                    <table class="table table-bordered table-striped__ table-hover text-nowrap table-valign-middle">
                         <tbody>
 
                         <tr>
@@ -96,7 +96,7 @@
                                 Retour á la liste des courriers
                             </a>
 
-                            <a class="btn btn-warning bg-gradient-orange" href="{{ path('app_courrier_edit',
+                            <a class="btn btn-default bg-gradient-orange" href="{{ path('app_courrier_edit',
                                 {'id':courrier.id})
                             }}">
                                 <i class="fas fa-edit"></i>

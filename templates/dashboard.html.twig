@@ -1,24 +1,27 @@
-{% extends 'baseC.html.twig' %}
+{% extends 'base-dashboard.html.twig' %}
 {% block css %}
-    <style>
-        .text-bg-primary {
-            color: #fff !important;
-            background-color: RGBA(13, 110, 253, 1) !important;
-        }
-    </style>
-    <link rel="stylesheet"
+<link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css"/>
 {% endblock %}
 {% block title %}Tableau de bord{% endblock %}
 
 {% block breadcrumb %}TABLEAU DE BORD{% endblock %}
 
+{% set title = 'Tableau de bord' %}
+{% set icon = 'ion-ios-pie' %}
+{% set breadcrumb = [
+    { label: 'Tableau de bord' }
+] %}
+{% set actions = [
+    { label: 'Nouveau corrier', url: path('app_courrier_depart_new'), icon: 'fas fa-plus', type: 'primary' }
+] %}
 {% block content %}
     <section class="content">
         <div class="container-fluid">
+
             <!-- Small boxes (Stat box) -->
             <div class="row">
-                {% set couleurs = ['text-bg-primary','bg-success', 'bg-warning', 'bg-light','bg-lightblue','bg-navy',
+                {% set couleurs = ['card-bg-primary','card-bg-success', 'card-bg-warning', 'card-bg-light','card-bg-lightblue','card-bg-gray',
                     'bg-dark','text-bg-primary'] %}
                 {% set icon = ['ion-bag','ion-stats-bars', 'ion-person-add','ion-android-cloud-done','ion-upload','ion-android-cloud-done'] %}
                 {% for types in operations %}
@@ -45,7 +48,7 @@
                 {#                <!-- ./col --> #}
                 {#                <div class="col-lg-3 col-6"> #}
                 {#                    <!-- small box --> #}
-                {#                    <div class="small-box bg-success"> #}
+                {#                    <div class="small-box card-bg-success"> #}
                 {#                        <div class="inner"> #}
                 {#                            <p>VISITE TECHNIQUE</p> #}
                 {#                            <h3> #}
@@ -64,7 +67,7 @@
                 {#                <!-- ./col --> #}
                 {#                <div class="col-lg-3 col-6"> #}
                 {#                    <!-- small box --> #}
-                {#                    <div class="small-box bg-warning"> #}
+                {#                    <div class="small-box card-bg-warning"> #}
                 {#                        <div class="inner"> #}
                 {#                            <p>ASSURANCE</p> #}
                 {#                            <h3> #}
@@ -84,7 +87,7 @@
                 {#                <!-- ./col --> #}
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-danger">
+                    <div class="small-box card-bg-danger">
                         <div class="inner">
                             <p>Nombre d'affectations</p>
                             <h3>{{ totalAffectations }}</h3>
@@ -100,29 +103,29 @@
             </div>
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="card card-primary card-success">
+                    <div class="card __cadr-default">
                         <div class="card-header">
                             <h3 class="card-title"> Nombre de materiels par catégorie</h3>
                         </div>
-                        <div class="card-body table-responsive">
-                            <table class="table table-hover table-sm table-bordered table-striped">
+                        <div class="p-0 table-responsive">
+                            <table class="table table-hover table-striped table-dotted table-striped__ table-hover table-borderless ">
                                 <thead>
                                 <tr>
-                                    <th class="col">Type de materiel</th>
+                                    <th class="col ps-2">Type de matériel</th>
                                     <th class="col">nombre</th>
                                 </tr>
                                 </thead>
                                 {% for typeMateriel in pagination %}
                                     <tr>
-                                        <td>{{ typeMateriel.libelle ?: 'N/A' }}</td>
-                                        <td>
+                                        <td class="col" >{{ typeMateriel.libelle ?: 'N/A' }}</td>
+                                        <td class="col" >
                                             <span class="badge bg-gradient-success">{{ typeMateriel.materiels|length ?: 0 }}</span>
-                                        </td>
+                                        </td class="col" >
 
                                     </tr>
                                 {% else %}
                                     <tr>
-                                        <td colspan="4" class="text-center text-secondary">Aucun type de matériel
+                                        <td  class="col" colspan="4" class="text-center text-secondary">Aucun type de matériel
                                             trouvé.
                                         </td>
                                     </tr>
@@ -134,7 +137,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="card card-success">
+                    <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Coût de maintenance par mois</h3>
 
@@ -160,28 +163,30 @@
             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Liste des operations Expiréees </h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
-                            <span aria-hidden="true">&times;</span>
+                        <h5 class="card-title fw-bold">Liste des operations expiréees </h5>
+                        <button type="button" class="close btnclose-dialog" data-dismiss="modal" aria-label="Fermer">
+                            <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <div class="modal-body">
-                        <table class="table table-striped">
-                            <tr>
-                                <th> Materiel</th>
-                                <th> Operations</th>
-                                <th> Date début</th>
-                                <th> Date fin</th>
-                                <th> </th>
+                    <div >
+                        <table class="table table-hover text-nowrap table-valign-middle mb-0 ">
+                            <tr class="">
+                                <th class="col ps-3 bg-head"> N°</th>
+                                <th class="col  bg-head"> Materiel</th>
+                                <th class="col bg-head"> Operations</th>
+                                <th class="col bg-head"> Date début</th>
+                                <th class="col bg-head"> Date fin</th>
+                                <th colspan="2" class="bg-head"> &nbsp;</th>
                             </tr>
 
                             {% for assurance in operations %}
                                 <tr>
-                                    <td> {{ assurance.op.materiel.marque.libelle }}
+                                <td class="ps-3">{{loop.index}}</td>
+                                    <td class="col">{{ assurance.op.materiel.marque.libelle }}
                                         - {{ assurance.op.materiel.immatriculation }} </td>
-                                    <td> {{ assurance.op.typeAssurance.libelle ?? '-' | capitalize }}</td>
-                                    <td> {{ assurance.op.dateDebut|date('d/m/Y')}}</td>
-                                    <td> {{ assurance.op.dateFin|date('d/m/Y') }}</td>
+                                    <td class="col"> {{ assurance.op.typeAssurance.libelle ?? '-' | capitalize }}</td>
+                                    <td class="col"> {{ assurance.op.dateDebut|date('d/m/Y')}}</td>
+                                    <td class="col"> {{ assurance.op.dateFin|date('d/m/Y') }}</td>
 
                                     <td>
                                         <span class="badge bg-danger text-white">⏳ Expirée</span>
@@ -198,7 +203,7 @@
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
+                        <button type="button" class="btn btn-default btnclose-dialog"  data-dismiss="modal">Fermer</button>
                     </div>
                 </div>
             </div>
@@ -250,8 +255,10 @@
  {% if operations is not empty %}
     <script>
   $(document).ready(function() {
-
     $('#myModal').modal('show');
+     $('.btnclose-dialog').on('click', function() {
+        $('#myModal').modal('hide');
+    });
   });
 
 </script>

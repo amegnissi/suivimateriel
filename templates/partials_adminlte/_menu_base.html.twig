@@ -1,214 +1,174 @@
+{% set currentRoute = app.request.attributes.get('_route') %}
+{% set courrierRoutes = [
+    'app_courrier_index',
+    'app_courrier_depart_new',
+    'app_courrier_new',
+    'app_courrier_partenaire_index',
+    'app_courrier_recherche',
+    'app_courrier_nature_index'
+] %}
+
+{% set currentRoute = app.request.attributes.get('_route') %}
+{% set currentRoute = app.request.attributes.get('_route') %}
+{% set isCourrierActive = currentRoute starts with 'app_courrier_' %}
 <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-        <!-- Add icons to the links using the .nav-icon class
-             with font-awesome or any other icon font library -->
 
         <li class="nav-item">
-            <a href="{{ path('dashboard') }}" class="nav-link">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
-                <p>
-                    Tableau de Bord
-
-                </p>
+            <a data-pjax href="{{ path('dashboard') }}"
+                class="nav-link {% if currentRoute starts with 'dashboard' %}active{% endif %}">
+                <i class="nav-icon ion-ios-pie"></i>
+                <p>Tableau de Bord</p>
             </a>
         </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
+
+        <li class="nav-item {% if isCourrierActive %}menu-is-opening menu-open{% endif %}">
+            <a data-pjax href="#" class="nav-link {% if isCourrierActive %}active{% endif %}">
+                <i class="nav-icon ion-email"></i>
                 <p>
                     Courriers
-                    <i class="right fas fa-angle-left"></i>
+                    <i class="right ion-chevron-right"></i>
                 </p>
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="{{ path('app_affectation_courrier_affectation_agent') }}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Mes affectations</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ path('app_courrier_index') }}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
+                    <a data-pjax href="{{ path('app_courrier_index') }}" class="nav-link {% if currentRoute == 'app_courrier_index' %}active{% endif %}">
                         <p>Liste des courriers</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ path('app_courrier_depart_new') }}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Courrier départ</p>
+                    <a data-pjax href="{{ path('app_courrier_depart_new') }}" class="nav-link">
+                        <i class="fa fa-plus"></i> <p>Ajouter un courrier départ</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ path('app_courrier_new') }}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Courrier arrivé</p>
+                    <a data-pjax href="{{ path('app_courrier_new') }}" class="nav-link">
+                        <i class="fa fa-plus"></i> <p>Ajouter un courrier arrivé</p>
                     </a>
                 </li>
+                
                 <li class="nav-item">
-                    <a href="{{ path('app_courrier_partenaire_index') }}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Partenaires</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ path('app_courrier_recherche') }}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
+                    <a data-pjax href="{{ path('app_courrier_recherche') }}" class="nav-link {% if currentRoute == 'app_courrier_recherche' %}active{% endif %}">
                         <p>Recherche courriers</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ path('app_courrier_nature_index') }}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
+                    <a data-pjax href="{{ path('app_courrier_nature_index') }}" class="nav-link {% if currentRoute == 'app_courrier_nature_index' %}active{% endif %}">
                         <p>Nature des courriers</p>
                     </a>
                 </li>
             </ul>
         </li>
+
         <li class="nav-item">
-            <a href="{{ path('entreprise_index') }}" class="nav-link">
-                <i class="nav-icon fas fa-th"></i>
-                <p>
-                    Entreprise
-                </p>
+            <a data-pjax href="{{ path('entreprise_index') }}" class="nav-link {% if currentRoute == 'entreprise_index' %}active{% endif %}">
+                <i class="nav-icon ion-briefcase"></i>
+                <p>Entreprise</p>
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ path('postes_index') }}" class="nav-link">
-                <i class="nav-icon fas fa-th"></i>
-                <p>
-                    Postes
-
-                </p>
+            <a data-pjax href="{{ path('app_courrier_partenaire_index') }}" class="nav-link {% if currentRoute == 'app_courrier_partenaire_index' %}active{% endif %}">
+                <i class="nav-icon ion-pull-request"></i>
+                <p>Partenaires</p>
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ path('marques_index') }}" class="nav-link">
-                <i class="nav-icon fas fa-th"></i>
-                <p>
-                    Marques
-
-                </p>
+            <a data-pjax href="{{ path('postes_index') }}" class="nav-link {% if currentRoute == 'postes_index' %}active{% endif %}">
+                <i class="nav-icon ion-person-add"></i>
+                <p>Postes</p>
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ path('employes_index') }}" class="nav-link">
-                <i class="nav-icon fas fa-th"></i>
-                <p>
-                    Employés
-
-                </p>
+            <a data-pjax href="{{ path('marques_index') }}" class="nav-link {% if currentRoute == 'marques_index' %}active{% endif %}">
+                <i class="nav-icon ion-flag"></i>
+                <p>Marques</p>
             </a>
         </li>
 
-        <li class="nav-item">
-            <a href="{{ path('types_materiels_index') }}" class="nav-link">
-                <i class="nav-icon fas fa-th"></i>
-                <p>
-                    Types materiels
 
-                </p>
-            </a>
-        </li>
         <li class="nav-item">
-            <a href="{{ path('materiels_index') }}" class="nav-link">
-                <i class="nav-icon fas fa-th"></i>
-                <p>
-                    Matériels
-
-                </p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ path('sortie_materiels_index') }}" class="nav-link">
-                <i class="nav-icon fas fa-th"></i>
-                <p>
-                    Sortie Matériel
-
-                </p>
+            <a data-pjax href="{{ path('employes_index') }}" class="nav-link {% if currentRoute == 'employes_index' %}active{% endif %}">
+                <i class="nav-icon ion-ios-people"></i>
+                <p>Employés</p>
             </a>
         </li>
 
         <li class="nav-item">
-            <a href="{{ path('societe_service_index') }}" class="nav-link">
-                <i class="nav-icon fas fa-th"></i>
-                <p>
-                   Clients
-
-                </p>
+            <a data-pjax href="{{ path('types_materiels_index') }}" class="nav-link {% if currentRoute == 'types_materiels_index' %}active{% endif %}">
+                <i class="nav-icon ion-cube"></i>
+                <p>Types materiels</p>
             </a>
         </li>
+
         <li class="nav-item">
-            <a href="{{ path('lieux_affectation_index') }}" class="nav-link">
-                <i class="nav-icon fas fa-th"></i>
-                <p>
-                    Lieux / Services
-
-                </p>
+            <a data-pjax href="{{ path('materiels_index') }}" class="nav-link {% if currentRoute == 'materiels_index' %}active{% endif %}">
+                <i class="nav-icon ion-gear-a"></i>
+                <p>Matériels</p>
             </a>
         </li>
+
         <li class="nav-item">
-            <a href="{{ path('affectations_index') }}" class="nav-link">
-                <i class="nav-icon fas fa-th"></i>
-                <p>
-                    Affectations
-
-                </p>
+            <a data-pjax href="{{ path('sortie_materiels_index') }}" class="nav-link {% if currentRoute == 'sortie_materiels_index' %}active{% endif %}">
+                <i class="nav-icon ion-refresh"></i>
+                <p>Sortie de matériels</p>
             </a>
         </li>
-        {#        <li class="nav-item"> lien pour retouner sur le site #}
-        {#            <a href="{{ path('admin_produit_hebergement') }}" class="nav-link"> #}
-        {#                <i class="nav-icon fas fa-tachometer-alt"></i> #}
-        {#                <p> #}
-        {#                    Hébergement #}
 
-        {#                </p> #}
-        {#            </a> #}
+        <li class="nav-item">
+            <a data-pjax href="{{ path('societe_service_index') }}" class="nav-link {% if currentRoute == 'societe_service_index' %}active{% endif %}">
+                <i class="nav-icon ion-person-stalker"></i>
+                <p>Clients</p>
+            </a>
+        </li>
 
-        {#        </li> #}
-        {% if app.user  and is_granted('IS_AUTHENTICATED_FULLY')  %}
+        <li class="nav-item">
+            <a data-pjax href="{{ path('lieux_affectation_index') }}" class="nav-link {% if currentRoute == 'lieux_affectation_index' %}active{% endif %}">
+                <i class="nav-icon ion-location"></i>
+                <p>Lieux / Services</p>
+            </a>
+        </li>
 
-            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_PDG')  %}
-                <li class="nav-item">
-                    <a href="{{ path('maintenances_index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Maintenance
-
-                        </p>
-                    </a>
+        <li class="nav-item">
+            <a data-pjax href="{{ path('affectations_index') }}" class="nav-link {% if currentRoute == 'affectations_index' %}active{% endif %}">
+                <i class="nav-icon ion-shuffle"></i>
+                <p>Affectations</p>
+            </a>
+        </li>
+      
+        {% if app.user and is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_PDG') %}
+                <li class="nav-separator">
+                    <hr class="my-2" style="border-color: rgba(255, 255, 255, 0.4);" />
                 </li>
                 <li class="nav-item">
-                    <a href="{{ path('type_assurance_index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Types Opérations
-
-                        </p>
+                    <a data-pjax href="{{ path('maintenances_index') }}" class="nav-link">
+                        <i class="nav-icon ion-wrench"></i>
+                        <p>Maintenance</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ path('assurances_index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Opérations
+                    <a data-pjax href="{{ path('type_assurance_index') }}" class="nav-link">
+                        <i class="nav-icon ion-clipboard"></i>
+                        <p>Types d'opérations</p>
+                    </a>
+                </li>
 
-                        </p>
+                <li class="nav-item">
+                    <a data-pjax href="{{ path('assurances_index') }}" class="nav-link">
+                        <i class="nav-icon ion-document-text"></i>
+                        <p>Opérations</p>
                     </a>
                 </li>
             {% endif %}
         {% endif %}
-        <li class="nav-item">
-            <a href="{{ path('depart_employe_index') }}" class="nav-link">
-                <i class="nav-icon fas fa-th"></i>
-                <p>
-                    Départs Employés
 
-                </p>
+        <li class="nav-item">
+            <a data-pjax href="{{ path('depart_employe_index') }}" class="nav-link">
+                <i class="nav-icon ion-arrow-return-right"></i>
+                <p>Départs Employés</p>
             </a>
         </li>
-
 
     </ul>
 </nav>

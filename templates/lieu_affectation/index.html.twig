@@ -14,20 +14,20 @@
     <th>Nom</th>
     <th>Type</th>
     <th>Client / Interne</th>
-    <th>Actions</th>
+    <th class="col text-center">Actions</th>
 </tr>
 </thead>
 <tbody>
 {% for lieu in pagination %}
     <tr>
-        <td class="align-middle text-center text-xs font-weight-bold">{{ loop.index }}</td>
-        <td class="align-middle text-xs font-weight-bold">{{ lieu.nom }}</td>
-        <td class="align-middle text-center text-xs font-weight-bold">
+        <td class="align-middle text-center  font-weight-bold">{{ loop.index }}</td>
+        <td class="align-middle font-weight-bold">{{ lieu.nom }}</td>
+        <td class="align-middle text-center font-weight-bold">
                                             <span class="badge {{ lieu.type == 'interne' ? 'bg-gradient-info' : 'bg-gradient-warning' }}">
                                                 {{ lieu.type|capitalize }}
                                             </span>
         </td>
-        <td class="align-middle text-xs font-weight-bold">
+        <td class="align-middle font-weight-bold">
             {% if lieu.type == 'interne' %}
                 {{ lieu.entreprise.nom }}
             {% else %}
@@ -36,10 +36,10 @@
         </td>
         <td class="align-middle text-center">
             <div class="common-align gap-2 justify-content-start">
-            <a href="{{ path('lieux_affectation_edit', { 'id': lieu.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
+            <a href="{{ path('lieux_affectation_edit', { 'id': lieu.id }) }}" class="btn btn-sm"><i class="fa fa-eye"></i></a>
             <form action="{{ path('lieux_affectation_delete', { 'id': lieu.id }) }}" method="POST" class="d-inline">
                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ lieu.id) }}">
-                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce lieu ?');">Supprimer</button>
+                <button type="submit" class="btn text-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce lieu ?');"><i class="fa fa-trash"></i></button>
             </form>
             </div>
         </td>
@@ -95,7 +95,7 @@
 {#                                            {% endif %}#}
 {#                                        </td>#}
 {#                                        <td class="align-middle text-center">#}
-{#                                            <a href="{{ path('lieux_affectation_edit', { 'id': lieu.id }) }}" class="btn btn-warning btn-sm">Modifier</a>#}
+{#                                            <a href="{{ path('lieux_affectation_edit', { 'id': lieu.id }) }}" class="btn btn-default btn-sm">Modifier</a>#}
 {#                                            <form action="{{ path('lieux_affectation_delete', { 'id': lieu.id }) }}" method="POST" class="d-inline">#}
 {#                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ lieu.id) }}">#}
 {#                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce lieu ?');">Supprimer</button>#}

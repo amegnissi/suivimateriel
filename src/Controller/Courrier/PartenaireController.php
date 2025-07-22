@@ -20,6 +20,7 @@ final class PartenaireController extends AbstractController
     {
         return $this->render('courrier/partenaire/index.html.twig', [
             'partenaires' => $partenaireRepository->findAll(),
+            
         ]);
     }
 
@@ -40,6 +41,7 @@ final class PartenaireController extends AbstractController
         return $this->render('courrier/partenaire/new.html.twig', [
             'partenaire' => $partenaire,
             'form' => $form,
+            
         ]);
     }
 
@@ -49,7 +51,8 @@ final class PartenaireController extends AbstractController
         return $this->render('courrier/partenaire/show.html.twig', [
             'partenaire' => $partenaire,
             'courriers' => $courrierRepository->findBy([
-                'partenaire'=>$partenaire
+                'partenaire'=>$partenaire,
+                
             ])
         ]);
     }
@@ -69,6 +72,7 @@ final class PartenaireController extends AbstractController
         return $this->render('courrier/partenaire/edit.html.twig', [
             'partenaire' => $partenaire,
             'form' => $form,
+            
         ]);
     }
 

@@ -1,16 +1,73 @@
-<div class="content-header">
+{# templates/partials_adminlte/_breadcrumb.html.twig #}
+
+{% set title = title|default('') %}
+{% set icon = icon|default(null) %}
+{% set description = description|default(null) %}
+{% set actions = actions|default([]) %}
+{% set breadcrumb = breadcrumb|default([]) %}
+
+
+<style>
+.breadcrumb-item {
+    font-size:small;
+}
+.breadcrumb-item a{
+    text-decoration: none;
+    color: #4384a5;
+}
+</style>
+{# partials_adminlte/_breadcumb.html.twig #}
+
+<div class="content-header bg-white shadow-1 mb-4 border-bottom">
     <div class="container-fluid">
-        <div class="row mb-1">
-            <div class="col-sm-6">
-{#                <h2 class="m-0">{% if titre is defined %} {{ titre }} {% endif %}</h2>#}
-                <h2 class="m-0">{% block breadcrumb %}{% endblock %}</h2>
-            </div><!-- /.col -->
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-end">
-                    <li class="breadcrumb-item">{% block  breadcrumb_item %}{% endblock %}</li>
-                    <li class="breadcrumb-item active">{% block  breadcrumb_t %} {% endblock %}</li>
-                </ol>
-            </div><!-- /.col -->
-        </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
+        {% if breadcrumb and breadcrumb_t is not empty %}
+            <div class="row">
+                <div class="col">
+                    <ol class="breadcrumb breadcrumb-arrow mb-0">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('dashboard') }}">Accueil</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            {{ breadcrumb_t }}
+                        </li>
+                        {% for item in breadcrumb %}
+                            <li class="breadcrumb-item {{ loop.last ? 'active' : '' }}">
+                                {% if not loop.last and item.url is defined %}
+                                    <a href="{{ item.url }}">{{ item.label }}</a>
+                                {% else %}
+                                    {{ item.label }}
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            </div>
+        {% endif %}
+        <div class="row align-items-center justify-content-between">
+            <div class="col-md-6 col-sm-12">
+                <div class="d-flex align-items-center gap-2">
+                    {% if icon %}
+                        <i class="{{ icon }} fs-4 opacity-75"></i>
+                    {% endif %}
+                    <h4 class="mb-0 fw-bold">{{ title }}</h4>
+                </div>
+                 {% if breadcrumb_t is defined %}
+                <p class="text-muted opacity-75 mt-1 mb-0 small">{{ breadcrumb_t }}</p>
+                {% endif %}
+            </div>
+
+            <div class="col-md-6 col-sm-12 text-md-end text-start mt-2 mt-md-0">
+                 {% if otherbtn is defined %}
+                    {{ otherbtn|raw }}
+                {% endif %}
+                {% if btnpath and btntitle is defined %}
+                    <a data-pjax href="{{ btnpath }}" class="btn btn-primary">
+                      <i class="fa fa-plus"></i>   {{ btntitle|default('Ajouter') }}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+
+        
+    </div>
 </div>

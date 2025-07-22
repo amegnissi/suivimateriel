@@ -16,11 +16,14 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/courrier')]
 final class CourrierController extends AbstractController
 {
+    
     #[Route(name: 'app_courrier_index', methods: ['GET'])]
     public function index(CourrierRepository $courrierRepository): Response
     {
+        
         return $this->render('courrier/index.html.twig', [
             'courriers' => $courrierRepository->findAll(),
+            
         ]);
     }
 
@@ -50,6 +53,7 @@ final class CourrierController extends AbstractController
             'courrier' => $courrier,
             'form' => $form,
             'titre'=> 'Nouveau courrier départ',
+            
         ]);
     }
 
@@ -79,6 +83,7 @@ final class CourrierController extends AbstractController
             'courrier' => $courrier,
             'form' => $form,
             'titre'=> 'Nouveau courrier arrivé',
+            
         ]);
     }
 
@@ -87,6 +92,7 @@ final class CourrierController extends AbstractController
     {
         return $this->render('courrier/show.html.twig', [
             'courrier' => $courrier,
+            
         ]);
     }
 
@@ -105,6 +111,7 @@ final class CourrierController extends AbstractController
         return $this->render('courrier/edit.html.twig', [
             'courrier' => $courrier,
             'form' => $form,
+            
         ]);
     }
 

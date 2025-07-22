@@ -10,7 +10,7 @@
     <a href="{{ path('maintenances_export_pdf') }}" class="btn btn-danger  mr-2">
         <i class="fas fa-file-pdf"></i> Exporter en PDF
     </a>
-    <a href="{{ path('maintenances_export_excel') }}" class="btn btn-success ">
+    <a href="{{ path('maintenances_export_excel') }}" class="btn btn-secondary ">
         <i class="fas fa-file-excel"></i> Exporter en Excel
     </a>
 {% endblock %}
@@ -57,13 +57,13 @@
             </td>
             <td class="align-middle text-center">
                 <div class="common-align gap-2 justify-content-start">
-                <a href="{{ path('maintenances_show', {'id': maintenance.id}) }}" class="btn btn-primary btn-sm">
+                <a href="{{ path('maintenances_show', {'id': maintenance.id}) }}" class="btn btn-sm">
                     <i class="fa fa-eye"></i>
                 </a>
                 {% if maintenance.statut == 0 %}
                     <form action="{{ path('maintenances_finish', {'id': maintenance.id}) }}" method="post" class="d-inline">
                         <input type="hidden" name="_token" value="{{ csrf_token('finish' ~ maintenance.id) }}">
-                        <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Confirmer la fin de cette maintenance ?');">
+                        <button type="submit" class="btn btn-sm" onclick="return confirm('Confirmer la fin de cette maintenance ?');">
                             <i class="fa fa-check"></i>
                         </button>
                     </form>
@@ -83,7 +83,7 @@
 {#                <h4>Gestion des Maintenances</h4>#}
 {#                <div>#}
 {#                    <a href="{{ path('maintenances_export_pdf') }}" class="btn btn-danger">Exporter en PDF</a>#}
-{#                    <a href="{{ path('maintenances_export_excel') }}" class="btn btn-success">Exporter en Excel</a>#}
+{#                    <a href="{{ path('maintenances_export_excel') }}" class="btn btn-primary">Exporter en Excel</a>#}
 {#                    <a href="{{ path('maintenances_create') }}" class="btn btn-primary">Ajouter une Maintenance</a>#}
 {#                </div>#}
 {#            </div>#}
@@ -140,7 +140,7 @@
 {#                                        {% if maintenance.statut == 0 %}#}
 {#                                        <form action="{{ path('maintenances_finish', {'id': maintenance.id}) }}" method="post" class="d-inline">#}
 {#                                            <input type="hidden" name="_token" value="{{ csrf_token('finish' ~ maintenance.id) }}">#}
-{#                                            <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Confirmer la fin de cette maintenance ?');">#}
+{#                                            <button type="submit" class="btn btn-primary btn-sm" onclick="return confirm('Confirmer la fin de cette maintenance ?');">#}
 {#                                                Terminer#}
 {#                                            </button>#}
 {#                                        </form>#}

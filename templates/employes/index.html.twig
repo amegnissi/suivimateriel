@@ -6,8 +6,8 @@
 {% block table_titre %}Liste des Employés{% endblock %}
 {% block btntitle %}Ajouter un Employé{% endblock %}
 {% block otherbtn %}
-    <a href="{{ path('employes_export_pdf') }}" class="btn btn-danger">Exporter en PDF</a>
-    <a href="{{ path('employes_export_excel') }}" class="btn btn-success">Exporter en Excel</a>
+    <a href="{{ path('employes_export_pdf') }}" class="btn btn-danger"> <i class="fas fa-file-pdf"></i> Exporter en PDF</a>
+    <a href="{{ path('employes_export_excel') }}" class="btn btn-secondary"><i class="fas fa-file-excel"></i> Exporter en Excel</a>
 {% endblock %}
 {% block btnpath %}{{ path('employes_create') }}{% endblock %}
 {% block tableContent %}
@@ -17,9 +17,9 @@
         <th class="col">Employés</th>
         <th class="col">Prénom</th>
         <th class="col">Poste</th>
-        <th class="col">Tel Corporate</th>
-        <th class="col">Statut</th>
-        <th class="col">Actions</th>
+        <th class="col">Tel corporate</th>
+        <th class="col text-center">Statut</th>
+        <th class="col text-center">Actions</th>
     </thead>
     <tbody>
 
@@ -41,13 +41,13 @@
             </td>
             <td class="align-middle text-center">
                 <div class="common-align gap-2 justify-content-start">
-                    <a class="btn btn-primary btn-sm" href="{{ path('employes_show', {'id': employe.id}) }}"
+                    <a class="btn btn-sm" href="{{ path('employes_show', {'id': employe.id}) }}"
                        title="Plus de details">
                         <i class="fa fa-eye"></i>
                     </a>
 
 
-                    <a class="btn btn-success btn-sm" href="{{ path('employes_edit', {'id': employe.id}) }}"
+                    <a class="btn btn-sm" href="{{ path('employes_edit', {'id': employe.id}) }}"
                        title="Plus de details">
                         <i class="far fa-edit"></i>
                     </a>

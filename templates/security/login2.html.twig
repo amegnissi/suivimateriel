@@ -1,0 +1,80 @@
+{% extends 'security/login_base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+<div id="main-login2">
+ 	<!--
+ 	<svg class="bg-curves" viewBox="0 0 1440 800" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+		<path fill="#FFFFFF" fill-opacity="0.03" d="M0,160 C360,320 1080,0 1440,160 L1440,800 L0,800 Z"/>
+		<path fill="#FFFFFF" fill-opacity="0.05" d="M0,320 C480,480 960,160 1440,320 L1440,800 L0,800 Z"/>
+		<path fill="#FFFFFF" fill-opacity="0.08" d="M0,480 C600,640 840,320 1440,480 L1440,800 L0,800 Z"/>
+  	</svg>
+  	-->
+	<div class="container justify-content-center align-items-center d-flex flex-column">
+		<div class="middle w-100 row p-0 m-0 align-items-center shadow-sm">
+			<div class="col-md-7 order-2 order-md-1 p-4 border-r-1 border-end">
+				<form method="post" action="{{ path('app_login') }}" class="w-100">
+					<h3 class="fw-bold mb-0 text-center text-md-start">Connexion</h3>
+					<p class="mb-3 text-muted text-center text-md-start">Veuillez vous connecter</p>
+
+					{% if error %}
+						<div class="alert alert-danger alert-dismissible fade show px-3" role="alert">
+							{{ error.messageKey|trans(error.messageData, 'security') }}
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+						</div>
+					{% endif %}
+
+					{% if app.user %}
+						<div class="alert alert-info alert-dismissible fade show py-1 px-3" role="alert">
+							Vous êtes connecté en tant que {{ app.user.userIdentifier }}.
+							<a href="{{ path('app_logout') }}" class="text-unstyled btn btn-danger btn-sm">Se déconnecter</a>
+						</div>
+					{% endif %}
+
+					<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}" placeholder="Nom d'utilisateur" required autofocus>
+						<label for="username" class="fw-normal">Nom d'utilisateur</label>
+					</div>
+
+					<div class="form-floating mb-3">
+						<input type="password" class="form-control" id="password" name="_password" placeholder="Mot de passe" required>
+						<label for="password" class="fw-normal">Mot de passe</label>
+					</div>
+
+					<div class="form-check form-switch mb-3">
+						<input class="form-check-input" type="checkbox" role="switch" id="rememberMe" name="_remember_me" value="true">
+						<label class="form-check-label" for="rememberMe">Rester connecté</label>
+					</div>
+
+					<button class="btn btn-primary w-100 mb-3 py-2" type="submit">Connexion</button>
+				</form>
+			</div>
+			<div class="col-md-5 order-1 order-md-2 d-flex flex-column justify-content-center align-items-center" style="min-height: 100%;">
+				<div class="logo text-center">
+					<img src="{{ asset('cuba/assets/images/logo/gpaclogo.png') }}" alt="Logo" class="img-fluid">
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</div>
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-6 text-center mt-3">
+			
+			<div class="col-12 order-3 text-center mt-3">
+				<div class="foter-menu login-footer text-center">
+					 
+					<a href="/contact" >Nous contacter</a>
+					<a href="/terms" >Conditions d'utilisation</a>
+					<a href="/guide" >Guide d'utilisation</a>		
+					<span class=" text-xs">© 2023–{{ "now"|date("Y") }} E-SUIVI : Gestion des matériels et courriers</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
