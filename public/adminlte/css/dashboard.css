@@ -312,6 +312,7 @@ h5 {
 .badge-light-secondary {
   background-color: rgba(131, 131, 131, 0.08);
 }
+
 .badge-light-danger {
   background-color: rgba(252, 86, 74, 0.15);
 }
@@ -325,5 +326,9 @@ h5 {
   .middle {
     width: 85%;
     margin: auto;
+  }
+
+  .btn {
+    margin-bottom: 5px;
   }
 }
