@@ -10,12 +10,21 @@ use Symfony\Bundle\SecurityBundle\Security;
 
 class SecurityController extends AbstractController
 {
-    #[Route('/', name: 'app_login')]
+    #[Route('/', name: 'app_home')]
+    public function home(AuthenticationUtils $authenticationUtils, Security $security): Response
+    {        
+        // Si l'utilisateur est déjà connecté, on le redirige vers /dashboard
+        if ($security->getUser()) {
+            return $this->redirectToRoute('dashboard'); 
+        }
+       return $this->redirectToRoute('app_login');
+    }
+    #[Route('/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils, Security $security): Response
     {        
         // Si l'utilisateur est déjà connecté, on le redirige vers /dashboard
         if ($security->getUser()) {
-            return $this->redirectToRoute('dashboard'); // 'dashboard' doit être le nom de ta route
+            return $this->redirectToRoute('dashboard'); 
         }
         // Récupère l'erreur de connexion s'il y en a une
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -24,25 +33,6 @@ class SecurityController extends AbstractController
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('security/login.html.twig', [
-            'last_username' => $lastUsername,
-            'error' => $error,
-        ]);
-    }
-    
-    #[Route('/login', name: 'app_login2')]
-    public function login2(AuthenticationUtils $authenticationUtils, Security $security): Response
-    {        
-        // Si l'utilisateur est déjà connecté, on le redirige vers /dashboard
-        if ($security->getUser()) {
-            return $this->redirectToRoute('dashboard'); // 'dashboard' doit être le nom de ta route
-        }
-        // Récupère l'erreur de connexion s'il y en a une
-        $error = $authenticationUtils->getLastAuthenticationError();
-        
-        // Dernier email saisi par l'utilisateur
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        return $this->render('security/login2.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
         ]);
