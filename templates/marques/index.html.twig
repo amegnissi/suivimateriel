@@ -12,9 +12,9 @@
     <thead>
     <tr>
         <th class="col">N°</th>
-        <th class="col">Nom de la Marque</th>
-        <th class="col">Est un Véhicule ?</th>
-        <th class="col">Matériels Associés</th>
+        <th class="col">Nom de la marque</th>
+        <th class="col text-center">Est un véhicule ?</th>
+        <th class="col text-center">Matériels associés</th>
         <th class="col text-center">Actions</th>
     </tr>
     </thead>
@@ -23,13 +23,13 @@
         <tr>
             <td>{{ loop.index }}</td>
             <td>{{ marque.libelle ?: 'N/A' }}</td>
-            <td>
+            <td class="text-center">
                 {% if marque.estVehicule is not null %}
                     <span class="badge badge-{{ marque.estVehicule ? 'info' : 'success' }}">
                                                     {{ marque.estVehicule ? 'Oui' : 'Non' }}
                                                 </span>
                 {% else %}
-                    <span class="badge badge-secondary">Non Défini</span>
+                    <span class="badge badge-secondary">Non défini</span>
                 {% endif %}
             </td>
             <td class="align-middle text-center text-xs font-weight-bold">{{ marque.materiels|length ?: 0 }}</td>
@@ -89,7 +89,7 @@
 {#                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">N°</th>#}
 {#                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nom de la Marque</th>#}
 {#                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Est un Véhicule ?</th>#}
-{#                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Matériels Associés</th>#}
+{#                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Matériels associés</th>#}
 {#                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Actions</th>#}
 {#                                </tr>#}
 {#                            </thead>#}
