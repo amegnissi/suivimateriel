@@ -7,20 +7,22 @@
 {% endif %}
 
   <ul class="navbar-nav ms-auto">
+   {% if has_navicon is defined and has_navicon == 'Yes' %}
     <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" data-widget="pushmenu" href="#" role="button">
-                    <i class="icon ion-navicon-round"></i> dzdzdz
+                    <i class="icon ion-navicon-round"></i> 
                 </a>
             </li>
         </ul>
+    {% endif %}  
     <!-- Messages Dropdown Menu -->
     <li class="nav-item dropdown px-0">
       <a class="nav-link dropdown-toggle px-0 position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="icon ion-chatbubble-working" style="font-size: 1.3rem;"></i>
         <span class="absolute  start-100 translate-middle badge rounded-pill bg-danger">
           3
-          <span class="visually-hidden">messages non lus</span>
+          <span class="visually-hidden">Messages non lus</span>
         </span>
       </a>
       
