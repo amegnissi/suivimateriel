@@ -94,6 +94,7 @@
   padding: 0.2rem 0.5rem;
   border-radius: 5px;
   transform: translateX(-50%);
+  width: 90%;
 }
 
 .login-footer a {

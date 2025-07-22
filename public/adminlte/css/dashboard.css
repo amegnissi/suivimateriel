@@ -181,7 +181,17 @@ h5 {
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 0 0 5px 5px;
 }
-
+.dash-footer a {
+  color: rgba(var(--primary-color-rgb), 0.81);
+  text-decoration: none;
+}
+.dash-footer {
+  margin-left: 250px;
+}
+.dash-footer a:hover {
+  color: rgba(var(--primary-color-rgb), 1);
+  text-decoration: underline;
+}
 /* Badge Styles */
 .badge-light-primary {
   background-color: rgba(115, 102, 255, 0.34);
