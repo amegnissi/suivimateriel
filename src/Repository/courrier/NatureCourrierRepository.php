@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository\courrier;
+namespace App\Repository\Courrier;
 
 use App\Entity\Courrier\NatureCourrier;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

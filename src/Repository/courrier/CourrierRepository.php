@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository\courrier;
+namespace App\Repository\Courrier;
 
 use App\Data\RechercheData;
 use App\Entity\Courrier\Courrier;
