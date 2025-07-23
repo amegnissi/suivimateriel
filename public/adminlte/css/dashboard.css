@@ -347,4 +347,7 @@ h5 {
   .btn {
     margin-bottom: 5px;
   }
+  .sidebar-collapse .dash-footer {
+    margin-left: 0px;
+  }
 }
