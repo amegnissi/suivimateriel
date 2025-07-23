@@ -1,0 +1,71 @@
+body {
+  background: #f8f9fa;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.error-container {
+  text-align: center;
+  padding: 2rem 3rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  max-width: 420px;
+  width: 90%;
+}
+
+.error-container h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #dc3545;
+}
+
+.error-container p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  opacity: 0.8;
+}
+
+.error-container a {
+  text-decoration: none;
+  color: white;
+  background-color: #007bff;
+  padding: 0.6rem 1.4rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  display: inline-block;
+}
+
+.error-container a:hover {
+  background-color: #0056b3;
+}
+.btn-retour {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background-color: #1459a3;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+.btn-retour:hover,
+.btn-retour:focus {
+  background-color: #0d4683;
+  box-shadow: 0 0 8px rgba(0, 86, 179, 0.6);
+  outline: none;
+}
+
+.btn-retour:active {
+  background-color: #004085;
+  box-shadow: none;
+}

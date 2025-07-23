@@ -3338,6 +3338,7 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
 [class*="sidebar-dark-"] .nav-sidebar > .nav-item > .nav-treeview {
   background-color: #d0d0d03d;
   border-radius: 5px;
+  padding: 5px 0;
 }
 
 [class*="sidebar-dark-"] .nav-header {
@@ -3365,13 +3366,15 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
 [class*="sidebar-dark-"] .nav-treeview > .nav-item > .nav-link:focus {
   background-color: rgba(255, 255, 255, 0.1);
   color: #fff;
+  border-radius: 0;
 }
 
 [class*="sidebar-dark-"] .nav-treeview > .nav-item > .nav-link.active,
 [class*="sidebar-dark-"] .nav-treeview > .nav-item > .nav-link.active:hover,
 [class*="sidebar-dark-"] .nav-treeview > .nav-item > .nav-link.active:focus {
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.6);
   color: #343a40;
+  border-radius: 0;
 }
 
 [class*="sidebar-dark-"] .nav-flat .nav-item .nav-treeview .nav-treeview {

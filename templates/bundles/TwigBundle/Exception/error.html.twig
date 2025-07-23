@@ -1,0 +1,16 @@
+{% extends 'base_error.html.twig' %}
+
+{% block title %}Erreur{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{{ asset('adminlte/css/error-page.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="container  d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="card shadow-sm p-4" style="max-width: 400px; width: 100%; text-align: center;">
+        <h2>Une erreur est survenue</h2>
+        <p>{{ status_code }} - {{ status_text }}</p>
+        <a href="{{ path('app_home') }}" class="btn-retour" role="button">Retour à l'accueil</a>
+    </div>
+</div>
+{% endblock %}
