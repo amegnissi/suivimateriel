@@ -93,6 +93,9 @@ a.text-inherit,
 .btn.btn-default {
   border: 1px solid #c3c3c3;
 }
+.bg-opacity-75 {
+  background: rgba(0, 0, 0, 0.75);
+}
 
 .content-wrapper {
   background-color: rgba(var(--primary-color-rgb), 0.075);
