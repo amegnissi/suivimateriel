@@ -191,6 +191,9 @@ h5 {
 .dash-footer {
   margin-left: 250px;
 }
+.sidebar-collapse .dash-footer {
+  margin-left: 70px;
+}
 .dash-footer a:hover {
   color: rgba(var(--primary-color-rgb), 1);
   text-decoration: underline;
