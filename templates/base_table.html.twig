@@ -21,16 +21,16 @@
             <div class="col-sm-12">
                 <div class="card__cadr-default">
                     <!-- /.card-header -->
-                    <div class="card-body table-responsive">
+                    <div class="card-body table-responsive ">
                         {% block filtre %}
 
                         {% endblock %}
-                        <table
-                                id="example1"
-                                class="table table-bordered table-striped__ table-hover text-nowrap table-valign-middle">
-                            {% block tableContent %}
-                            {% endblock %}
-                        </table>
+                            <table
+                                    id="example1"
+                                    class="table border overflow-hidden table-bordered__table-striped__ table-hover text-nowrap table-valign-middle">
+                                {% block tableContent %}
+                                {% endblock %}
+                            </table>
 
                         {% block panigination %}
                         {% endblock %}
