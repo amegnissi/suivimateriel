@@ -33,8 +33,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('adminlte/css/base.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte/css/dashboard.css') }}">
 </head>
-<body class="hold-transition sidebar-mini">
-<div class="wrapper">
+<body class="hold-transition sidebar-mini" data-barba="wrapper">
+<div class="wrapper" data-barba="container" data-barba-namespace="home">
  <div id="loader" >
   <div class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-opacity-75" style="z-index: 10050;">
     <div class="spinner-border text-white" role="status" style="width: 3rem; height: 3rem;">
@@ -255,12 +255,37 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <!-- AdminLTE App -->
 <script src="{{ asset('adminlte/js/adminlte.js') }}"></script>
+<script src="https://unpkg.com/@barba/core"></script>
 <script>
-  $(document).ready(function () {
+  //$(document).ready(function () {
     $('#loader').fadeOut(200);
-  }); 
+    //barba
+     barba.init({
+      transitions: [
+        {
+          name: 'fade',
+          leave(data) {
+            return new Promise(resolve => {
+              data.current.container.classList.add('opacity-75');
+              $('#loader').fadeIn(0);
+              setTimeout(resolve, 500);
+            });
+          },
+          enter(data) {
+            data.next.container.classList.add('opacity-100');
+            setTimeout(() => {
+              $('#loader').fadeOut(200);
+              data.next.container.classList.add('opacity-100');
+            }, 0);
+          }
+        }
+      ]
+    });
+ // }); 
 </script>
+
 {% block javascript %}
 {% endblock %}
 </body>
 </html>
+
