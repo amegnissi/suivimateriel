@@ -35,6 +35,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
+ <div id="loader" >
+  <div class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-white bg-opacity-75" style="z-index: 10050;">
+    <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+      <span class="visually-hidden">Chargement...</span>
+    </div>
+  </div>
+</div>
+
     <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
   <ul class="navbar-nav">
@@ -247,18 +255,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <!-- AdminLTE App -->
 <script src="{{ asset('adminlte/js/adminlte.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.pjax/2.0.1/jquery.pjax.min.js"></script>
 <script>
   $(document).ready(function () {
-    // Cible uniquement le conteneur principal 
-    $(document).pjax('a[data-pjax]', '.content-wrapper', {
-      timeout: 1000,
-      scrollTo: false 
-    });
-
-    // Exemple d'action une fois chargé 
-    console.log('PJAX is ready');
+    $('#loader').fadeOut(200);
   });
+
+ 
 </script>
 {% block javascript %}
 {% endblock %}
