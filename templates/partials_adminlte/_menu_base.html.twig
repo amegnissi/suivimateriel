@@ -1,6 +1,6 @@
 {% set currentRoute = app.request.attributes.get('_route') %}
 
-{% set isCourrierActive = currentRoute starts with 'app_courrier_' %}
+{% set isCourrierActive = currentRoute starts with 'app_courrier_' or currentRoute == 'app_affectation_courrier_affectation_agent' %}
 {% set isRessourceHumaineActive = currentRoute in ['postes_index', 'employes_index', 'depart_employe_index'] %}
 {% set isMaterielActive = currentRoute in ['types_materiels_index', 'materiels_index', 'sortie_materiels_index', 'maintenances_index'] %}
 {% set isGestionActive = currentRoute in ['entreprise_index', 'app_courrier_partenaire_index', 'societe_service_index', 'lieux_affectation_index', 'affectations_index', 'marques_index'] %}
@@ -18,32 +18,40 @@
     </li>
 
     <!-- Courriers -->
+    <!-- Courriers -->
     <li class="nav-item {% if isCourrierActive %}menu-is-opening menu-open{% endif %}">
-      <a data-pjax href="#" class="nav-link {% if isCourrierActive %}active{% endif %}">
+    <a data-pjax href="#" class="nav-link {% if isCourrierActive %}active{% endif %}">
         <i class="nav-icon ion-email"></i>
         <p>
-          Courriers
-          <i class="right ion-chevron-right"></i>
+        Courriers
+        <i class="right ion-chevron-right"></i>
         </p>
-      </a>
-      <ul class="nav nav-treeview">
+    </a>
+    <ul class="nav nav-treeview">
+        
         <li class="nav-item">
-          <a data-pjax href="{{ path('app_courrier_index') }}" class="nav-link {% if currentRoute == 'app_courrier_index' %}active{% endif %}">
+        <a data-pjax href="{{ path('app_courrier_index') }}" class="nav-link {% if currentRoute == 'app_courrier_index' %}active{% endif %}">
             <p>Liste des courriers</p>
-          </a>
+        </a>
         </li>
         <li class="nav-item">
-          <a data-pjax href="{{ path('app_courrier_recherche') }}" class="nav-link {% if currentRoute == 'app_courrier_recherche' %}active{% endif %}">
+        <a data-pjax href="/app_affectation_courrier_affectation_agent" class="nav-link {% if currentRoute == 'app_affectation_courrier_affectation_agent' %}active{% endif %}">
+            <p>Mes affectations</p>
+        </a>
+        </li>
+        <li class="nav-item">
+        <a data-pjax href="{{ path('app_courrier_recherche') }}" class="nav-link {% if currentRoute == 'app_courrier_recherche' %}active{% endif %}">
             <p>Recherche courriers</p>
-          </a>
+        </a>
         </li>
         <li class="nav-item">
-          <a data-pjax href="{{ path('app_courrier_nature_index') }}" class="nav-link {% if currentRoute == 'app_courrier_nature_index' %}active{% endif %}">
+        <a data-pjax href="{{ path('app_courrier_nature_index') }}" class="nav-link {% if currentRoute == 'app_courrier_nature_index' %}active{% endif %}">
             <p>Nature des courriers</p>
-          </a>
+        </a>
         </li>
-      </ul>
+    </ul>
     </li>
+
     <!-- Ressources Humaines -->
     <li class="nav-item {% if isRessourceHumaineActive %}menu-is-opening menu-open{% endif %}">
       <a data-pjax href="#" class="nav-link {% if isRessourceHumaineActive %}active{% endif %}">
@@ -91,7 +99,7 @@
           <a data-pjax href="{{ path('materiels_index') }}" class="nav-link {% if currentRoute == 'materiels_index' %}active{% endif %}">
             <p>Liste des matériels</p>
           </a>
-        </li>
+        </li>        
         <li class="nav-item">
           <a data-pjax href="{{ path('sortie_materiels_index') }}" class="nav-link {% if currentRoute == 'sortie_materiels_index' %}active{% endif %}">
             <p>Sorties de matériels</p>
@@ -173,7 +181,7 @@
         </li>
         <li class="nav-item">
           <a data-pjax href="{{ path('assurances_index') }}" class="nav-link {% if currentRoute == 'assurances_index' %}active{% endif %}">
-            <p>Liste des opérations</p>
+            <p>Opérations</p>
           </a>
         </li>
       </ul>
