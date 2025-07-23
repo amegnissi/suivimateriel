@@ -247,6 +247,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <!-- AdminLTE App -->
 <script src="{{ asset('adminlte/js/adminlte.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.pjax/2.0.1/jquery.pjax.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $(document).pjax('a[data-pjax]', '#main-container');
+  });
+</script>
 {% block javascript %}
 {% endblock %}
 </body>
