@@ -167,7 +167,7 @@
     </li>
     <li class="nav-item {% if isOperationActive %}menu-is-opening menu-open{% endif %}">
       <a data-pjax href="#" class="nav-link {% if isOperationActive %}active{% endif %}">
-        <i class="nav-icon ion-document-text"></i>
+        <i class="nav-icon ion-ios-folder-outline"></i>
         <p>
           Opérations
           <i class="right ion-chevron-right"></i>
@@ -187,5 +187,32 @@
       </ul>
     </li>
     {% endif %}
+    <!-- Suggestion -->
+    <li class="nav-item ">
+      <a data-pjax href="#" class="nav-link ">
+        <i class="nav-icon ion-ios-pulse"></i>
+        <p>
+          Statistiques
+          <i class="right ion-chevron-right"></i>
+        </p>
+      </a>
+      <ul class="nav nav-treeview">
+        <li class="nav-item">
+          <a data-pjax href="/statistiques" class="nav-link {% if currentRoute == 'statistiques' %}active{% endif %}">
+            <p>Statistiques des courriers </p>
+          </a>
+        </li>
+         <li class="nav-item">
+          <a data-pjax href="/statistiques" class="nav-link {% if currentRoute == 'statistiques' %}active{% endif %}">
+            <p>Statistiques des entreprises </p>
+          </a>
+        </li>
+         <li class="nav-item">
+          <a data-pjax href="/statistiques" class="nav-link {% if currentRoute == 'statistiques' %}active{% endif %}">
+            <p>Statistiques des opérations </p>
+          </a>
+        </li>
+      </ul>
+    </li>
   </ul>
 </nav>

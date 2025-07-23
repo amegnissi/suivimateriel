@@ -6,11 +6,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <html lang="fr">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
+    <link rel="icon" type="image/png" href="{{ asset('favicon.ico') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('/favicon-16x16.png') }}">
     <title> 
-    {% block title %}
-				Accueil
-			{% endblock %} | E-SUIVI - Gestion des matériels et courriers
+    {% block title %}Accueil{% endblock %}
+    {% if block('title') is defined and block('title') != '' %} | {% endif %}
+             E-SUIVI - Gestion des matériels et courriers
      </title>
 
     <!-- Google Font: Source Sans Pro 

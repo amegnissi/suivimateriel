@@ -46,9 +46,7 @@
         <div class="row align-items-center justify-content-between">
             <div class="col-md-6 col-sm-12">
                 <div class="d-flex align-items-center gap-2">
-                    {% if icon %}
-                        <i class="{{ icon }} fs-4 opacity-75"></i>
-                    {% endif %}
+                   
                     <h4 class="mb-0 fw-bold">{{ title }}</h4>
                 </div>
                  {% if breadcrumb_t is defined %}
@@ -75,12 +73,8 @@
     {% for label, messages in app.flashes %}
         {% for message in messages %}
             <div class="alert alert-{{ label }} alert-dismissible text-white fade show" role="alert">
-                <span class="alert-icon align-middle">
-                    <span class="material-symbols-rounded text-md">
-                        thumb_up_off_alt
-                    </span>
-                </span>
-                <span class="alert-text"><strong>{{ label|capitalize }}!</strong> {{ message }}</span>
+                
+                <span class="alert-text"><strong>{{ label|capitalize }}, </strong> {{ message }}</span>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

@@ -3,8 +3,17 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.png') }}">
-    <title>{% block title %}Material Dashboard{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{{ asset('favicon.ico') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('/favicon-16x16.png') }}">
+    <title>
+            {% block title %}
+				Dashboard
+			{% endblock %} 
+            {% if block('title') is defined and block('title') != '' %} | {% endif %}
+             E-SUIVI - Gestion des matériels et courriers
+     </title>
     
     <!-- Fonts and Icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900">
@@ -14,6 +23,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0">
     <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.2.0') }}" rel="stylesheet">
     
+    <link rel="manifest" href="/site.webmanifest">
     {% block stylesheets %}{% endblock %}
 </head>
 <body class="g-sidenav-show bg-gray-100">

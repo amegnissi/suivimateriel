@@ -14,12 +14,12 @@
             <div class="card __cadr-default">
                 <div class="card-header">
                     <h3 class="card-title ">
-                        <i class="fas fa-edit"></i> Détails de courrier
+                        <i class="fas fa fa-edit"></i> Détails de courrier
                     </h3>
                 </div>
                 <!-- /.card-header -->
-                <div class="card-body table-responsive">
-                    <table class="table table-bordered table-striped__ table-hover text-nowrap table-valign-middle">
+                <div class="table-responsive">
+                    <table class="table table-striped__ table-hover text-nowrap table-valign-middle">
                         <tbody>
 
                         <tr>
@@ -69,7 +69,7 @@
                             <td>
                                 {% if courrier.url %}
                                     <a
-                                            class="btn btn-info btn-sm" href="{{ app.request.schemeAndHttpHost ~ courrier.fichier
+                                            class="btn btn-sm" href="{{ app.request.schemeAndHttpHost ~ courrier.fichier
                                     }} "
                                             target="_blank">
 
@@ -93,14 +93,15 @@
                         <div class="float-end">
                             <a class="btn btn-primary" type="button" href="{{ path('app_courrier_index') }}">
                                 <i class="fa fa-arrow-left"></i>
-                                Retour á la liste des courriers
+                                Retour à la liste des courriers
                             </a>
 
-                            <a class="btn btn-default bg-gradient-orange" href="{{ path('app_courrier_edit',
+                            <a class="btn btn-default" href="{{ path('app_courrier_edit',
                                 {'id':courrier.id})
                             }}">
                                 <i class="fas fa-edit"></i>
-                                Modifier le courrier</a>
+                                Modifier le courrier
+                            </a>
 
                         </div>
                     {% endblock %}
