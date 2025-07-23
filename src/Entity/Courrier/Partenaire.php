@@ -2,7 +2,7 @@
 
 namespace App\Entity\Courrier;
 
-use App\Repository\courrier\PartenaireRepository;
+use App\Repository\Courrier\PartenaireRepository;
 use App\Traits\AttributsCommunsTraits;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

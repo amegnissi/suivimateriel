@@ -8,8 +8,10 @@ use App\Entity\Courrier\Statut;
 use App\Entity\Employe;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class AffectationsCourrierType extends AbstractType
 {
@@ -21,6 +23,23 @@ class AffectationsCourrierType extends AbstractType
 //            ])
             ->add('dateLimiteTraitement', null, [
                 'widget' => 'single_text',
+            ])
+            ->add('fichier', FileType::class, [
+                'label' => 'Fichier (PDF file)',
+                'mapped' => false,
+                'required' => true,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '5024k',
+                        'mimeTypes' => [
+                            'application/pdf',
+                            'application/x-pdf',
+                            'application/msword',
+                            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez revoir le format du document joint pdf, word',
+                    ])
+                ],
             ])
 
 //            ->add('destinataire', EntityType::class, [

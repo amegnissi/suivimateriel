@@ -45,10 +45,10 @@ class RechercheCourrierType extends AbstractType
             ])
             ->add('partenaire', EntityType::class, [
                 'class' => Partenaire::class,
-                'query_builder' => function (PrioriteRepository $repo) {
-                    return $repo->createQueryBuilder('m')
-                        ->in('m.estSorti = false');
-                },
+//                'query_builder' => function (PrioriteRepository $repo) {
+//                    return $repo->createQueryBuilder('m')
+//                        ->in('m.estSorti = false');
+//                },
                 'choice_label' => 'NomOuRaisonSocial',
                 'placeholder' => "Sélectionnez un partenaire",
                 'required' => false,

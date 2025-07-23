@@ -95,12 +95,17 @@
                                 <i class="fa fa-arrow-left"></i>
                                 Retour á la liste des courriers
                             </a>
+                            <a class="btn btn-primary" type="button" href="{{ path('app_courrier_index') }}">
+                                <i class="fa fa-arrow-left"></i>
+                                Retour á la liste des courriers
+                            </a>
 
                             <a class="btn btn-default bg-gradient-orange" href="{{ path('app_courrier_edit',
                                 {'id':courrier.id})
                             }}">
                                 <i class="fas fa-edit"></i>
                                 Modifier le courrier</a>
+
 
                         </div>
                     {% endblock %}

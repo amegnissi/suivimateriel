@@ -6,7 +6,7 @@ namespace App\Controller\Courrier;
 
 use App\Data\RechercheData;
 use App\Form\Courrier\RechercheCourrierType;
-use App\Repository\courrier\CourrierRepository;
+use App\Repository\Courrier\CourrierRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

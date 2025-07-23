@@ -1,4 +1,4 @@
-{% extends 'baseC.html.twig' %}
+{% extends 'base-dashboard.html.twig' %}
 {% block title %}Courrier{% endblock %}
 {% block breadcrumb %}Courrier{% endblock %}
 
@@ -38,7 +38,8 @@
                                     {% endif %}
                                 </div>
                                 <div class="col-sm-1">
-                                    <a href="{{ path('app_courrier_show', {'id': courrier.id}) }}" class="btn btn-primary btn-sm">
+                                    <a href="{{ path('app_courrier_show', {'id': courrier.id}) }}" class="btn
+                                    btn-primary btn-sm">
                                         <i class="fa fa-eye"></i>
                                     </a>
                                 </div>
@@ -52,6 +53,7 @@
                             <th>Etat</th>
                             <th>Date affectation</th>
                             <th>Date limite de traitement</th>
+                            <th>Date traitement</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -69,6 +71,8 @@
                                     {% endif %}
                                 </td>
                                 <td>{{ affectation.dateLimiteTraitement ? affectation.dateLimiteTraitement|date('d-m-Y') : 'N/A' }}</td>
+                                <td>{{ affectation.dateTraitement ? affectation.dateTraitement|date('d-m-Y') :
+                                    'N/A' }}</td>
                                 <td>{{ affectation.dateAffectation ?  affectation.dateAffectation |date('d-m-Y') : 'N/A'}}</td>
                             </tr>
                         {% endfor %}

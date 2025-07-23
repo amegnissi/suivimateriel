@@ -4,7 +4,7 @@ namespace App\Controller\Courrier;
 
 use App\Entity\Courrier\NatureCourrier;
 use App\Form\Courrier\NatureCourrierType;
-use App\Repository\courrier\NatureCourrierRepository;
+use App\Repository\Courrier\NatureCourrierRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

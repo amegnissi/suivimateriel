@@ -5,14 +5,14 @@
 {% block  breadcrumb_t %} Gestion des courriers{% endblock %}
 {% block table_titre %}Liste des courriers{% endblock %}
  {% block otherbtn %}
-   
+
     <a href="{{ path('app_courrier_new') }}" class="btn btn-secondary align-center ">
         <i class="ion-archive"></i> Nouveau courrier arrivé
     </a>
      <a href="{{ path('app_courrier_depart_new') }}" class="btn btn-primary align-center ">
         <i class="ion-paper-airplane"></i>  Nouveau courrier départ
     </a>
-    
+
 {% endblock %}
 
 {% block tableContent %}
@@ -71,6 +71,20 @@
 
                 <td class="align-middle text-center">
                     <div class="common-align gap-2 justify-content-start">
+                        {% if courrier.typeCourrier.code == "ARRIVEE" %}
+                            <a  href="{{ path('app_affectation_courrier_agent', {'id': courrier.id}) }}" class="btn
+                                     btn-sm"
+                                title="Affecter le courrier a un agent">
+                                <i class="fas fa-reply"></i>
+                            </a>
+                            {% if courrier.affectations | length > 0 %}
+                                <a  href="{{ path('app_affectation_courrier_affectation', {'id': courrier.id}) }}" class="btn
+                                     btn-sm"
+                                    title="Liste des affectations du courrier">
+                                    <i class="fa fa-align-justify"></i>
+                                </a>
+                                {% endif %}
+                        {% endif %}
                         <a href="{{ path('app_courrier_show', {'id': courrier.id}) }}" class="btn  btn-sm">
                             <i class="fa fa-eye"></i>
                         </a>

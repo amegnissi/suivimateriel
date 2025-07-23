@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Courrier;
 
 use App\Repository\TypeAffectationRepository;
-use App\traits\AttributsCommunsTraits;
+use App\Traits\AttributsCommunsTraits;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 

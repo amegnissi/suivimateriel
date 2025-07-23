@@ -11,6 +11,9 @@
 {% set currentRoute = app.request.attributes.get('_route') %}
 {% set currentRoute = app.request.attributes.get('_route') %}
 {% set isCourrierActive = currentRoute starts with 'app_courrier_' %}
+{% set  sesion_modules = app.session.get('__modules__') %}
+{#{% dump(app.session.get('__modules__')) %}#}
+
 <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
@@ -21,7 +24,7 @@
                 <p>Tableau de Bord</p>
             </a>
         </li>
-
+        {%  if sesion_modules == 'COURRIER'%}
         <li class="nav-item {% if isCourrierActive %}menu-is-opening menu-open{% endif %}">
             <a data-pjax href="#" class="nav-link {% if isCourrierActive %}active{% endif %}">
                 <i class="nav-icon ion-email"></i>
@@ -31,6 +34,11 @@
                 </p>
             </a>
             <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a data-pjax href="{{ path('app_affectation_courrier_affectation_agent') }}" class="nav-link">
+                        <p>Mes affectations</p>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a data-pjax href="{{ path('app_courrier_index') }}" class="nav-link {% if currentRoute == 'app_courrier_index' %}active{% endif %}">
                         <p>Liste des courriers</p>
@@ -46,7 +54,7 @@
                         <i class="fa fa-plus"></i> <p>Ajouter un courrier arrivé</p>
                     </a>
                 </li>
-                
+
                 <li class="nav-item">
                     <a data-pjax href="{{ path('app_courrier_recherche') }}" class="nav-link {% if currentRoute == 'app_courrier_recherche' %}active{% endif %}">
                         <p>Recherche courriers</p>
@@ -59,7 +67,7 @@
                 </li>
             </ul>
         </li>
-
+        {% else %}
         <li class="nav-item">
             <a data-pjax href="{{ path('entreprise_index') }}" class="nav-link {% if currentRoute == 'entreprise_index' %}active{% endif %}">
                 <i class="nav-icon ion-briefcase"></i>
@@ -134,7 +142,7 @@
                 <p>Affectations</p>
             </a>
         </li>
-      
+
         {% if app.user and is_granted('IS_AUTHENTICATED_FULLY') %}
             {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_PDG') %}
                 <li class="nav-separator">
@@ -169,6 +177,6 @@
                 <p>Départs Employés</p>
             </a>
         </li>
-
+        {% endif %}
     </ul>
 </nav>

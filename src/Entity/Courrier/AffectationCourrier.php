@@ -44,6 +44,15 @@ class AffectationCourrier
     #[ORM\ManyToOne(inversedBy: 'affectations')]
     private ?Statut $statut = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dateTraitement = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $ObservationsTraitement = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $fichierTraitement = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -153,6 +162,42 @@ class AffectationCourrier
     public function setStatut(?Statut $statut): static
     {
         $this->statut = $statut;
+
+        return $this;
+    }
+
+    public function getDateTraitement(): ?\DateTimeInterface
+    {
+        return $this->dateTraitement;
+    }
+
+    public function setDateTraitement(?\DateTimeInterface $dateTraitement): static
+    {
+        $this->dateTraitement = $dateTraitement;
+
+        return $this;
+    }
+
+    public function getObservationsTraitement(): ?string
+    {
+        return $this->ObservationsTraitement;
+    }
+
+    public function setObservationsTraitement(?string $ObservationsTraitement): static
+    {
+        $this->ObservationsTraitement = $ObservationsTraitement;
+
+        return $this;
+    }
+
+    public function getFichierTraitement(): ?string
+    {
+        return $this->fichierTraitement;
+    }
+
+    public function setFichierTraitement(?string $fichierTraitement): static
+    {
+        $this->fichierTraitement = $fichierTraitement;
 
         return $this;
     }

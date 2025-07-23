@@ -5,8 +5,7 @@ namespace App\Form\Courrier;
 use App\Entity\Courrier\Courrier;
 use App\Entity\Courrier\NatureCourrier;
 use App\Entity\Courrier\Partenaire;
-use App\Entity\Courrier\Statut;
-use App\Entity\Courrier\TypeCourrier;
+
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;

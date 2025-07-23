@@ -27,6 +27,9 @@ class DashboardController extends AbstractController
                           AssuranceRepository $assuranceRepository, TypeMaterielRepository $typeMaterielRepository,PaginatorInterface $paginator):
     Response
     {
+        $session = $request->getSession();
+        $session->set('__modules__', 'MATERIEL');
+
         // Récupération des statistiques
 
         $totalMateriels = $materielRepository->count([]);
@@ -137,13 +140,17 @@ class DashboardController extends AbstractController
     }
     #[Route('/demarrage', name: 'demarrage')]
 
-    public function demmarrage(){
+    public function demarrage(Request $request): Response{
+        $session = $request->getSession();
+        $session->remove('__modules__');
         return $this->render('demarrage.html.twig');
     }
 
     #[Route('/dashboard/courrier', name: 'app_dashboard_courrier')]
-    public function dashbooardCourrier(): Response
+    public function dashbooardCourrier(Request $request): Response
     {
+        $session = $request->getSession();
+        $session->set('__modules__', 'COURRIER');
         return $this->render('dashboard_courrier.html.twig', []);
     }
 }

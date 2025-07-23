@@ -10,6 +10,9 @@ use App\Form\Courrier\AffectationsCourrierType;
 use App\Repository\Courrier\AffectationCourrierRepository;
 use App\Repository\Courrier\StatutRepository;
 use App\Repository\EmployeRepository;
+use App\Service\FileUploader;
+use DateTime;
+use Doctrine\DBAL\Types\DateType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,7 +40,7 @@ class AffectationsCourrierController extends AbstractController
                 $affectationCourrier->setCourrier($courrier);
                 $affectationCourrier->setTraite(false);
                 $affectationCourrier->setStatut($statutAffectee);
-                $affectationCourrier->setDateAffectation(new \DateTime());
+                $affectationCourrier->setDateAffectation(new DateTime());
 
                 $entityManager->persist($affectationCourrier);
                 $entityManager->flush();
@@ -55,7 +58,17 @@ class AffectationsCourrierController extends AbstractController
             'agents' => $employeRepository->findAll(),
         ]);
     }
+    #[Route('/agent/show/courrier/{id}', name: 'app_courrier_affectation_show', methods: ['GET'])]
+    public function show(Courrier $courrier,AffectationCourrierRepository $affectationCourrierRepository): Response
+    {
+        $affectation = $affectationCourrierRepository->findOneBy(['courrier' => $courrier,'destinataire' =>
+            $this->getUser()->getEmploye()]);
+        return $this->render('courrier/showDestinataire.html.twig', [
+            'courrier' => $courrier,
+            'affectation' => $affectation
 
+        ]);
+    }
     #[Route('/liste-affectation/{id}', name: 'app_affectation_courrier_affectation')]
     public function listeAffectationParCourrier(Courrier $courrier): Response
     {
@@ -75,5 +88,45 @@ class AffectationsCourrierController extends AbstractController
         return $this->render('courrier/affectation/liste_affectation_utilisateur.html.twig', [
             'affectations' => $mesAffectations,
         ]);
+    }
+
+    #[Route('/traiter/{id}', name: 'app_courrier_affectation_traiter', methods: ['GET', 'POST'])]
+    public function traiterAffection(Request $request, AffectationCourrier $affectationCourrier, AffectationCourrierRepository
+    $affectationCourrierRepository, FileUploader $fileUploader,StatutRepository $statutRepository,
+                                     EntityManagerInterface $entityManager): Response{
+
+        $statutTraitee = $statutRepository->findOneBy(array('code' => 'TRAITEE'));
+        $form = $this->createForm(AffectationsCourrierType::class, $affectationCourrier);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()  && $form->isValid()) {
+
+            $affectationCourrier->setDateTraitement(new DateTime());
+            $affectationCourrier->setStatut($statutTraitee);
+            $affectationCourrier->setRecu(true);
+            $affectationCourrier->setTraite(true);
+            $affectationCourrier->setObservationsTraitement($affectationCourrier->getObservation());
+            if($form->get('fichier')){
+                $filename = $affectationCourrier->getCourrier()->getReferenceInterne()."_".$this->getUser()
+                        ->getEmploye()->getFullname();
+//                $fileUploader->remove($filename,'courriers');
+                $fichier = $form->get('fichier')->getData();
+                $fichier = $fileUploader->upload($fichier,$filename,'courriers');
+                $affectationCourrier->setFichierTraitement($fichier);
+            }
+
+            $entityManager->persist($affectationCourrier);
+            $entityManager->flush();
+            $this->addFlash('success', 'Traitement effectuer avec success');
+            return $this->redirectToRoute('app_affectation_courrier_affectation_agent', [
+
+            ]);
+
+        }
+        return $this->render('courrier/affectation/traitement_courrier.html.twig', array(
+            'affectation' => $affectationCourrier,
+            'form' => $form->createView(),
+        ));
+
     }
 }

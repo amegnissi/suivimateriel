@@ -1,0 +1,127 @@
+{% extends 'base-dashboard.html.twig' %}
+
+{% block title %}Courrier{% endblock %}
+{% block breadcrumb %}Courrier{% endblock %}
+{% block  breadcrumb_item %} Courrier{% endblock %}
+{% block  breadcrumb_t %} Gestion des courriers{% endblock %}
+{% block table_titre %}Details du courrier{% endblock %}
+{% block btntitle %}Details courrier{% endblock %}
+
+{% block content %}
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-edit"></i>
+                                Traitement d'affectation
+
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <a class="btn btn-primary" href="{{ path('app_courrier_index') }}" style="margin-bottom: 10px ;">
+                                    <i class="fa fa-backward"></i>
+                                    Retour aux courriers
+                                </a>
+                            </div>
+                            <div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label"
+                                                       for="appbundle_aff_type_annotation">Courrier à traiter (*)
+                                                </label>
+                                                {#{{ form_widget(form.typeannotation, {'attr' : {'class' : ' form-control select2 form-control custom-select '}}) }}#}
+                                                <input class="form-control" value="{{ affectation.courrier.reference }} - ( Réf. interne : {{ affectation.courrier.referenceInterne }} )" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+
+                                {#{% include ':default/includes:tab_courriers_structure_mere.html.twig' %}#}
+                                {{ form_start(form) }}
+                                {#{{ form_widget(form) }}#}
+                                <div id="pagetraitement">
+
+                                    <div id="pagetraitementdroite">
+
+{#                                        <div class="col-md-12">#}
+{#                                            <div class="form-group">#}
+{#                                                <label class="control-label" for="appbundle_aff_ovservationsTraitement">Observations du traitement (*)#}
+
+{#                                                </label>#}
+{#                                                <div	class="row g-2"	id="structuretechnique_ajout">#}
+{#                                                    <div	class="col-sm-12">#}
+{#                                                        <main>#}
+{#                                                            <div	class="toolbar-container"></div>#}
+{#                                                            <div	id="editor" class="border"></div>#}
+{#                                                        </main>#}
+{#                                                    </div>#}
+{#                                                </div>#}
+
+{#                                                {{ form_widget(form.observation, {'attr' : {'class' : ' form-control ','hidden':true}}) }}#}
+{#                                                <span class="text-danger">{{ form_errors(form.observation) }}</span>#}
+{#                                            </div>#}
+{#                                        </div>#}
+                                        <div class="col-md-12 mb-3">
+                                            <div class="form-group">
+                                                {{ form_row(form.observation) }}
+{#                                                <span class="text-danger">{{ form_errors(form.observation) }}</span>#}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="control-label" for="appbundle_aff_cheminPJRecepteur">
+                                                Veuillez choisir le fichier numérique du courrier relatif au traitement (word ou pdf)
+                                                (*)
+                                            </label>
+
+                                            {{ form_widget(form.fichier) }}
+                                            <br>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <br>
+                                {# {{ form_rest(form) }}#}
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <div
+                                                    class="form-group">
+                                                {#<input  id ="envoyer" type="submit" value="Enregistrer"/>#}
+                                                <button  type="submit" class="btn btn-primary bg-green"> Enregistrerh</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{ form_end(form) }}
+{#                                {{ form_end(form, {'render_rest': false}) }}#}
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block javascript %}
+
+<script src="{{ asset('/adminlte/assets/ckeditordocument/ckeditor.js') }}"></script>
+<script>
+
+
+	</script>
+
+{% endblock %}
