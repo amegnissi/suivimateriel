@@ -250,7 +250,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.pjax/2.0.1/jquery.pjax.min.js"></script>
 <script>
   $(document).ready(function () {
-    $(document).pjax('a[data-pjax]', '#main-container');
+    // Cible uniquement le conteneur principal 
+    $(document).pjax('a[data-pjax]', '.content-wrapper', {
+      timeout: 1000,
+      scrollTo: false 
+    });
+
+    // Exemple d'action une fois chargé 
+    console.log('PJAX is ready');
   });
 </script>
 {% block javascript %}
