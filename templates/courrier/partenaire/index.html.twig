@@ -6,7 +6,7 @@
 {% block table_titre %}Liste des partenaires{% endblock %}
 {% block btntitle %}Ajouter un partenaire{% endblock %}
 
-{% block btnpath %}{{ path('app_courrier_partenaire_new') }}{% endblock %}
+{% block btnpath %}{{ path('app_partenaire_new') }}{% endblock %}
 
 {% block tableContent %}
         <thead>
@@ -28,10 +28,10 @@
 
                 <td class="align-middle text-center">
                     <div class="common-align gap-2 justify-content-start">
-                        <a href="{{ path('app_courrier_partenaire_show', {'id': partenaire.id}) }}" class="btn btn-sm">
+                        <a href="{{ path('app_partenaire_show', {'id': partenaire.id}) }}" class="btn btn-sm">
                             <i class="fa fa-eye"></i>
                         </a>
-                        <a href="{{ path('app_courrier_partenaire_edit', {'id': partenaire.id}) }}" class="btn  btn-sm">
+                        <a href="{{ path('app_partenaire_edit', {'id': partenaire.id}) }}" class="btn  btn-sm">
                             <i class="far fa-edit"></i>
                         </a>
                     </div>

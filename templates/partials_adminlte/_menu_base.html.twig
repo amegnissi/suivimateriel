@@ -3,7 +3,7 @@
 {% set isCourrierActive = currentRoute starts with 'app_courrier_' or currentRoute == 'app_affectation_courrier_affectation_agent' %}
 {% set isRessourceHumaineActive = currentRoute in ['postes_index', 'employes_index', 'depart_employe_index'] %}
 {% set isMaterielActive = currentRoute in ['types_materiels_index', 'materiels_index', 'sortie_materiels_index', 'maintenances_index'] %}
-{% set isGestionActive = currentRoute in ['entreprise_index', 'app_courrier_partenaire_index', 'societe_service_index', 'lieux_affectation_index', 'affectations_index', 'marques_index'] %}
+{% set isGestionActive = currentRoute in ['entreprise_index', 'app_partenaires_index', 'societe_service_index', 'lieux_affectation_index', 'affectations_index', 'marques_index'] %}
 {% set isOperationActive = currentRoute in ['type_assurance_index', 'assurances_index'] %}
 
 <nav class="mt-2">
@@ -147,7 +147,7 @@
         </li>
         {% if app.user and is_granted('IS_AUTHENTICATED_FULLY') and (is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_PDG')) %}
         <li class="nav-item">
-          <a data-pjax href="{{ path('app_courrier_partenaire_index') }}" class="nav-link {% if currentRoute == 'app_courrier_partenaire_index' %}active{% endif %}">
+          <a data-pjax href="{{ path('app_partenaires_index') }}" class="nav-link {% if currentRoute == 'app_partenaires_index' %}active{% endif %}">
             <p>Partenaires</p>
           </a>
         </li>

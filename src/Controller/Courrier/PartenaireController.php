@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/courriers/partenaire')]
 final class PartenaireController extends AbstractController
 {
-    #[Route(name: 'app_courrier_partenaire_index', methods: ['GET'])]
+    #[Route(name: 'app_partenaires_index', methods: ['GET'])]
     public function index(PartenaireRepository $partenaireRepository): Response
     {
         return $this->render('courrier/partenaire/index.html.twig', [
@@ -24,7 +24,7 @@ final class PartenaireController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_courrier_partenaire_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'app_partenaire_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $partenaire = new Partenaire();
@@ -35,7 +35,7 @@ final class PartenaireController extends AbstractController
             $entityManager->persist($partenaire);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_courrier_partenaire_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_partenaires_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('courrier/partenaire/new.html.twig', [
@@ -45,7 +45,7 @@ final class PartenaireController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_courrier_partenaire_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_partenaire_show', methods: ['GET'])]
     public function show(Partenaire $partenaire, CourrierRepository $courrierRepository): Response
     {
         return $this->render('courrier/partenaire/show.html.twig', [
@@ -57,7 +57,7 @@ final class PartenaireController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_courrier_partenaire_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'app_partenaire_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Partenaire $partenaire, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(PartenaireType::class, $partenaire);
@@ -66,7 +66,7 @@ final class PartenaireController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_courrier_partenaire_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_partenaires_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('courrier/partenaire/edit.html.twig', [
@@ -76,7 +76,7 @@ final class PartenaireController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_courrier_partenaire_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'app_partenaire_delete', methods: ['POST'])]
     public function delete(Request $request, Partenaire $partenaire, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$partenaire->getId(), $request->getPayload()->getString('_token'))) {
@@ -84,6 +84,6 @@ final class PartenaireController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_courrier_partenaire_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_partenaires_index', [], Response::HTTP_SEE_OTHER);
     }
 }

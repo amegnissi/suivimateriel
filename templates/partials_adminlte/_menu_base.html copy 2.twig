@@ -3,7 +3,7 @@
     'app_courrier_index',
     'app_courrier_depart_new',
     'app_courrier_new',
-    'app_courrier_partenaire_index',
+    'app_partenaires_index',
     'app_courrier_recherche',
     'app_courrier_nature_index'
 ] %}
@@ -67,7 +67,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a data-pjax href="{{ path('app_courrier_partenaire_index') }}" class="nav-link {% if currentRoute == 'app_courrier_partenaire_index' %}active{% endif %}">
+            <a data-pjax href="{{ path('app_partenaires_index') }}" class="nav-link {% if currentRoute == 'app_partenaires_index' %}active{% endif %}">
                 <i class="nav-icon ion-pull-request"></i>
                 <p>Partenaires</p>
             </a>
