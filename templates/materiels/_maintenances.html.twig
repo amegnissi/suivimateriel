@@ -1,0 +1,38 @@
+<table class="table table-bordered table-striped__ table-hover text-nowrap table-valign-middle">
+    <thead>
+    <tr>
+        <th>Date maintenance</th>
+        <th>Type de maintenance</th>
+        <th>Agent/Structure responsable</th>
+        <th>Actions réalisées</th>
+        <th>Cout</th>
+        <th></th>
+    </tr>
+    </thead>
+    {% for maintenance in maintenances %}
+        <tbody>
+        <tr>
+            <td>{{ maintenance.dateIntervention | date('d/m/Y') }}</td>
+            <td> {{ maintenance.typeMaintenance.libelle }}</td>
+            <td> {{ maintenance.technicien }}</td>
+            <td> {{ maintenance.actionsRealisees }}</td>
+            <td> {{ maintenance.cout }}</td>
+            <td>
+                <a href="{{ path('maintenances_show', {'id': maintenance.id}) }}" class="btn btn-sm">
+                    <i class="fa fa-eye"></i>
+                </a>
+                <a href="#"
+                   class="btn btn-sm">
+                    <i class="fas fa-edit"></i>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    {% else %}
+        <tr>
+            <td rowspan="2">Aucun maintenance</td>
+        </tr>
+    {% endfor %}
+
+</table>
+

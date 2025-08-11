@@ -3,7 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Maintenance;
+use App\Entity\Materiel;
+use App\Form\MaintenancePlanificationType;
+use App\Form\MaintenanceSimpleType;
 use App\Form\MaintenanceType;
+use App\Repository\TypeMaintenanceRepository;
 use App\Service\ExportService;
 use App\Repository\MaterielRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,7 +30,7 @@ class MaintenanceController extends BaseController
         if ($redirect = $this->checkEntreprise($entityManager)) {
             return $redirect;
         }
-        
+
         $query = $maintenanceRepository->createQueryBuilder('e')
             ->getQuery();
 
@@ -34,7 +38,7 @@ class MaintenanceController extends BaseController
         $pagination = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1), // Page actuelle
-            10 // Nombre d'éléments par page
+            20 // Nombre d'éléments par page
         );
 
         return $this->render('maintenances/index.html.twig', [
@@ -84,48 +88,168 @@ class MaintenanceController extends BaseController
     }
 
     #[Route('/new', name: 'maintenances_create', methods: ['GET', 'POST'])]
-    public function create(Request $request, EntityManagerInterface $entityManager, MaterielRepository $materielRepository): Response 
+    public function create(Request $request, EntityManagerInterface $entityManager, MaterielRepository $materielRepository): Response
     {
         if ($redirect = $this->checkEntreprise($entityManager)) {
             return $redirect;
         }
-        
+
         $maintenance = new Maintenance();
         $form = $this->createForm(MaintenanceType::class, $maintenance);
         $form->handleRequest($request);
-    
+
         if ($form->isSubmitted() && $form->isValid()) {
             $materiel = $maintenance->getMateriel();
             if (!$materiel) {
                 $this->addFlash('error', 'Veuillez sélectionner un matériel.');
                 return $this->redirectToRoute('maintenances_create');
             }
-    
+
             // Vérifier l'entreprise et le kilométrage
             $entreprise = $materiel->getEntreprise();
             if ($entreprise) {
                 $kilometrageActuel = $maintenance->getKilometrageActuel();
                 $kilometrageIntervalle = $entreprise->getKilometrage();
-    
+
                 if ($kilometrageActuel !== null && $kilometrageIntervalle !== null) {
                     $maintenance->setKilometragePrevisionnel($kilometrageActuel + $kilometrageIntervalle);
                 }
             }
-    
+
             // Mettre le matériel en maintenance
             $materiel->setStatut(2); // 2 = En maintenance
             $entityManager->persist($materiel);
             $entityManager->persist($maintenance);
             $entityManager->flush();
-    
+
             $this->addFlash('success', 'Maintenance enregistrée avec succès.');
             return $this->redirectToRoute('maintenances_index');
         }
-    
+
         return $this->render('maintenances/create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route('/materiel/{id}/new', name: 'maintenances_create_materiel', methods: ['GET', 'POST'])]
+    public function materielMaintenance(Request $request, Materiel $materiel,EntityManagerInterface $entityManager, MaterielRepository
+    $materielRepository): Response
+    {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+
+        $maintenance = new Maintenance();
+        $maintenance->setMateriel($materiel);
+        $maintenance->setPlanifie(false);
+        $form = $this->createForm(MaintenanceSimpleType::class, $maintenance);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $materiel = $maintenance->getMateriel();
+            if (!$materiel) {
+                $this->addFlash('error', 'Veuillez sélectionner un matériel.');
+                return $this->redirectToRoute('maintenances_create');
+            }
+
+
+
+            // Mettre le matériel en maintenance
+            $materiel->setStatut(2); // 2 = En maintenance
+            $entityManager->persist($materiel);
+            $entityManager->persist($maintenance);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Maintenance enregistrée avec succès.');
+            return $this->redirectToRoute('maintenances_index');
+        }
+
+        return $this->render('maintenances/create_maintenance.html.twig', [
+            'form' => $form->createView(),
+            'materiel' => $materiel
+        ]);
+    }
+
+    #[Route('/planifie/{id}/new', name: 'maintenances_planification_effectue', methods: ['GET', 'POST'])]
+    public function planifie(Request $request, Maintenance $maintenance,EntityManagerInterface $entityManager,
+                           MaterielRepository
+                                                $materielRepository): Response
+    {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+
+
+        $maintenance->setPlanifie(false);
+        $materiel = $maintenance->getMateriel();
+        $form = $this->createForm(MaintenanceSimpleType::class, $maintenance);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $materiel = $maintenance->getMateriel();
+            if (!$materiel) {
+                $this->addFlash('error', 'Veuillez sélectionner un matériel.');
+                return $this->redirectToRoute('maintenances_create');
+            }
+
+
+
+            // Mettre le matériel en maintenance
+            $materiel->setStatut(1); // 2 = En maintenance
+            $entityManager->persist($materiel);
+            $entityManager->persist($maintenance);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Maintenance enregistrée avec succès.');
+            return $this->redirectToRoute('maintenances_index');
+        }
+
+        return $this->render('maintenances/create_maintenance.html.twig', [
+            'form' => $form->createView(),
+            'materiel' => $materiel
+        ]);
+    }
+
+    #[Route('/planification/materiel/{id}/new', name: 'maintenances_planification_materiel', methods: ['GET', 'POST'])]
+    public function maintenancePlanification(Request $request, Materiel $materiel,EntityManagerInterface $entityManager,
+                           MaterielRepository $materielRepository, TypeMaintenanceRepository $typeMaintenanceRepository): Response
+    {
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+
+        $maintenance = new Maintenance();
+        $maintenance->setMateriel($materiel);
+        $maintenance->setPlanifie(true);
+//        $maintenance->setTypeMaintenance($typeMaintenanceRepository->find(1));
+        $form = $this->createForm(MaintenancePlanificationType::class, $maintenance);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $materiel = $maintenance->getMateriel();
+            if (!$materiel) {
+                $this->addFlash('error', 'Veuillez sélectionner un matériel.');
+                return $this->redirectToRoute('maintenances_create');
+            }
+
+
+
+            // Mettre le matériel en maintenance
+          //  $materiel->setStatut(2); // 2 = En maintenance
+            $entityManager->persist($materiel);
+            $entityManager->persist($maintenance);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Maintenance enregistrée avec succès.');
+            return $this->redirectToRoute('materiels_show',['id' => $materiel->getId()]);
+        }
+
+        return $this->render('maintenances/create_maintenance.html.twig', [
+            'form' => $form->createView(),
+            'materiel' => $materiel
+        ]);
+    }
+
 
     #[Route('/{id}', name: 'maintenances_show', methods: ['GET'])]
     public function show(Maintenance $maintenance): Response
@@ -141,14 +265,14 @@ class MaintenanceController extends BaseController
         if ($redirect = $this->checkEntreprise($entityManager)) {
             return $redirect;
         }
-        
+
         $materiel = $maintenance->getMateriel();
         if ($materiel) {
             $materiel->setStatut(1); // 1 = Disponible après maintenance
             $entityManager->persist($materiel);
         }
         $maintenance->setStatut(1);
-        
+
         $entityManager->flush();
 
         $this->addFlash('success', 'Maintenance terminée et matériel remis en service.');

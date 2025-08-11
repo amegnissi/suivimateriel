@@ -1,0 +1,16 @@
+{% extends 'base_formulaire.html.twig' %}
+{% block title %}Emploie & Ressources{% endblock %}
+{% block breadcrumb %}Emploie & Ressources{% endblock %}
+{% block  breadcrumb_item %} Emploie {% endblock %}
+{% block  breadcrumb_t %} Gestion des caisse{% endblock %}
+{% block form_titre %}Ajouter une nouvelle caisse{% endblock %}
+{% block formContent %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+        });
+    </script>
+{% endblock %}

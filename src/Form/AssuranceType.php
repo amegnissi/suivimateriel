@@ -52,7 +52,12 @@ class AssuranceType extends AbstractType
                     'placeholder' => 'Sélectionner un matériel',
                     'choices' => $form->getData()->getMateriels(),
                     'choice_label' => function (Materiel $materiel) {
-                        return $materiel->getMarque()->getLibelle() . ' - ' . $materiel->getImmatriculation();
+                    if ($materiel->getMarque()) {
+                        return $materiel->getMarque()->getLibelle(). ' - ' . $materiel->getImmatriculation();
+                    } else {
+                        return $materiel->getName(). ' - ' .$materiel->getCode();
+                    }
+
                     },
                 ]);
             }

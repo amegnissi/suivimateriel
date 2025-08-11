@@ -51,7 +51,8 @@ class AffectationType extends AbstractType
                         ->where('a.id IS NULL');
                 },
                 'choice_label' => function (Materiel $materiel) {
-                    return $materiel->getMarque()->getLibelle(). ' - ' . $materiel->getImmatriculation();
+                   // return $materiel->getMarque()->getLibelle(). ' - ' . $materiel->getImmatriculation();
+                    return $materiel->getName().' - '.$materiel->getType()->getLibelle();
                 },
                 'attr' => ['class' => 'select2'], // Ajout de Select2
                 'label' => 'Matériel',

@@ -1,0 +1,344 @@
+{#{% extends 'base_table.html.twig' %}#}
+{#{% block title %}Emploie & Ressources{% endblock %}#}
+{#{% block breadcrumb %}Emploie & Ressources{% endblock %}#}
+{#{% block  breadcrumb_item %} Emploie {% endblock %}#}
+{#{% block  breadcrumb_t %} Gestion des Emploie{% endblock %}#}
+{#{% block table_titre %}Liste des empoies{% endblock %}#}
+{# {% block otherbtn %}#}
+
+{#     <a href="{{ path('app_emploie_emploie_new') }}" class="btn btn-secondary align-center ">#}
+{#         Ajoute un Emploie#}
+{#     </a>#}
+
+{# {% endblock %}#}
+
+{#{% block tableContent %}#}
+{#        <thead>#}
+{#            <tr>#}
+{#                <th>Id</th>#}
+{#                <th>Libelle</th>#}
+{#                <th>actions</th>#}
+{#            </tr>#}
+{#        </thead>#}
+{#        <tbody>#}
+{#        {% for emploie in emploies %}#}
+{#            <tr>#}
+{#                <td>{{ emploie.id }}</td>#}
+{#                <td>{{ emploie.libelle }}</td>#}
+{#                <td>#}
+{#                    <a href="{{ path('app_emploie_emploie_show', {'id': emploie.id}) }}">show</a>#}
+{#                    <a href="{{ path('app_emploie_emploie_edit', {'id': emploie.id}) }}">edit</a>#}
+{#                </td>#}
+{#            </tr>#}
+{#        {% else %}#}
+{#            <tr>#}
+{#                <td colspan="3">no records found</td>#}
+{#            </tr>#}
+{#        {% endfor %}#}
+{#        </tbody>#}
+{#{% endblock %}#}
+
+{% extends 'base_table.html.twig' %}
+{% block title %}Emploie & Ressources{% endblock %}
+{% block breadcrumb %}Emploie & Ressources{% endblock %}
+{% block  breadcrumb_item %} Emploie {% endblock %}
+{% block  breadcrumb_t %} Gestion des Emploie{% endblock %}
+{% block table_titre %}Liste des empoies{% endblock %}
+
+{% block otherbtn %}
+    <button type="button" class="btn btn-secondary align-center" id="btn-add-emploie">
+        Ajouter un Emploie
+    </button>
+{% endblock %}
+
+{% block tableContent %}
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Libelle</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody id="emploies-tbody">
+    {% for emploie in emploies %}
+        <tr data-emploie-id="{{ emploie.id }}">
+            <td>{{ emploie.id }}</td>
+            <td>{{ emploie.libelle }}</td>
+            <td class="align-middle text-center">
+                <div class="common-align gap-2 justify-content-start">
+                <a href="{{ path('app_emploie_emploie_show', {'id': emploie.id}) }}" class="btn btn-info btn-sm">
+                    <i class="fa fa-eye"></i>
+                </a>
+                <button type="button" class="btn btn-warning btn-sm btn-edit-emploie" data-emploie-id="{{ emploie.id }}">
+                    <i class="far fa-edit"></i>
+                    </button>
+                    <form method="post"  class="d-inline" action="{{ path('app_emploie_emploie_delete', {'id': emploie.id}) }}"
+                          onsubmit="return confirm
+('Are you sure you want to delete this item?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ emploie.id) }}">
+                        <button class="btn btn-danger btn-sm">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </form>
+
+                </div>
+            </td>
+        </tr>
+    {% else %}
+        <tr id="no-records-row">
+            <td colspan="3">Aucun enregistrement trouvé</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    <!-- Modal pour l'ajout d'emploi -->
+    <div class="modal fade" id="emploieModal" tabindex="-1" aria-labelledby="emploieModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="emploieModalLabel">Ajouter un Emploi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modal-form-content">
+                    <!-- Le contenu du formulaire sera chargé ici -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block javascript %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configuration et éléments DOM
+            const config = {
+                elements: {
+                    btnAddEmploie: document.getElementById('btn-add-emploie'),
+                    modalFormContent: document.getElementById('modal-form-content'),
+                    emploiesTbody: document.getElementById('emploies-tbody'),
+                    modalTitle: document.getElementById('emploieModalLabel')
+                },
+                modal: new bootstrap.Modal(document.getElementById('emploieModal')),
+                state: {
+                    isEditMode: false,
+                    currentEmploieId: null
+                },
+                urls: {
+                    modalForm: '{{ path('app_emploie_emploie_modal_form') }}',
+                    modalEditForm: '{{ path('app_emploie_emploie_modal_edit_form', {'id': '__ID__'}) }}',
+                    showEmploie: '{{ path('app_emploie_emploie_show', {'id': '__ID__'}) }}'
+                }
+            };
+
+            // Initialisation des événements
+            initEventListeners(config);
+
+            /**
+             * Initialise tous les écouteurs d'événements
+             */
+            function initEventListeners(config) {
+                // Événement pour l'ajout
+                config.elements.btnAddEmploie.addEventListener('click', () => {
+                    openModal(config, false);
+                });
+
+                // Événement pour la modification (délégation d'événement)
+                document.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('btn-edit-emploie')) {
+                        const emploieId = e.target.getAttribute('data-emploie-id');
+                        openModal(config, true, emploieId);
+                    }
+                });
+            }
+
+            /**
+             * Ouvre le modal pour ajout ou modification
+             */
+            function openModal(config, isEdit, emploieId = null) {
+                config.state.isEditMode = isEdit;
+                config.state.currentEmploieId = emploieId;
+
+                // Mise à jour du titre du modal
+                config.elements.modalTitle.textContent = isEdit ? 'Modifier un Emploi' : 'Ajouter un Emploi';
+
+                // URL à utiliser
+                const url = isEdit
+                    ? config.urls.modalEditForm.replace('__ID__', emploieId)
+                    : config.urls.modalForm;
+
+                // Chargement du formulaire
+                loadModalForm(config, url);
+            }
+
+            /**
+             * Charge le formulaire dans le modal
+             */
+            function loadModalForm(config, url) {
+                fetch(url)
+                    .then(response => response.text())
+                    .then(html => {
+                        config.elements.modalFormContent.innerHTML = html;
+                        config.modal.show();
+                        attachFormSubmitEvent(config);
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors du chargement du formulaire:', error);
+                        showAlert('Erreur lors du chargement du formulaire', 'danger');
+                    });
+            }
+
+            /**
+             * Attache l'événement de soumission au formulaire
+             */
+            function attachFormSubmitEvent(config) {
+                const form = config.elements.modalFormContent.querySelector('form');
+                if (form) {
+                    form.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        handleFormSubmission(config, form);
+                    });
+                }
+            }
+
+            /**
+             * Gère la soumission du formulaire
+             */
+            function handleFormSubmission(config, form) {
+                const formData = new FormData(form);
+
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        handleFormResponse(config, data);
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la soumission:', error);
+                        showAlert('Erreur lors de la soumission du formulaire', 'danger');
+                    });
+            }
+
+            /**
+             * Gère la réponse du formulaire
+             */
+            function handleFormResponse(config, data) {
+                if (data.success) {
+                    // Fermer le modal
+                    config.modal.hide();
+
+                    // Afficher un message de succès
+                    showAlert(data.message, 'success');
+
+                    // Mettre à jour le tableau
+                    updateTable(config, data.emploie);
+                } else {
+                    // Gestion des erreurs
+                    handleFormErrors(config, data);
+                }
+            }
+
+            /**
+             * Met à jour le tableau après succès
+             */
+            function updateTable(config, emploie) {
+                if (config.state.isEditMode) {
+                    updateRowInTable(config, emploie);
+                } else {
+                    addRowToTable(config, emploie);
+                    removeNoRecordsRow();
+                }
+            }
+
+            /**
+             * Gère les erreurs de formulaire
+             */
+            function handleFormErrors(config, data) {
+                if (data.form) {
+                    config.elements.modalFormContent.innerHTML = data.form;
+                    attachFormSubmitEvent(config);
+                }
+
+                if (data.errors && data.errors.length > 0) {
+                    showAlert(data.errors.join('<br>'), 'danger');
+                }
+            }
+
+            /**
+             * Met à jour une ligne existante dans le tableau
+             */
+            function updateRowInTable(config, emploie) {
+                const row = document.querySelector(`tr[data-emploie-id="${emploie.id}"]`);
+                if (row) {
+                    row.innerHTML = createRowHTML(config, emploie);
+                }
+            }
+
+            /**
+             * Ajoute une nouvelle ligne au tableau
+             */
+            function addRowToTable(config, emploie) {
+                const newRow = document.createElement('tr');
+                newRow.setAttribute('data-emploie-id', emploie.id);
+                newRow.innerHTML = createRowHTML(config, emploie);
+                config.elements.emploiesTbody.appendChild(newRow);
+            }
+
+            /**
+             * Crée le HTML pour une ligne de tableau
+             */
+            function createRowHTML(config, emploie) {
+                const showUrl = config.urls.showEmploie.replace('__ID__', emploie.id);
+                return `
+                <td>${emploie.id}</td>
+                <td>${emploie.libelle}</td>
+                <td>
+                    <a href="${showUrl}" class="btn btn-info btn-sm">Voir</a>
+                    <button type="button" class="btn btn-warning btn-sm btn-edit-emploie" data-emploie-id="${emploie.id}">Modifier</button>
+                </td>
+            `;
+            }
+
+            /**
+             * Supprime la ligne "Aucun enregistrement"
+             */
+            function removeNoRecordsRow() {
+                const noRecordsRow = document.getElementById('no-records-row');
+                if (noRecordsRow) {
+                    noRecordsRow.remove();
+                }
+            }
+
+            /**
+             * Affiche une alerte
+             */
+            function showAlert(message, type) {
+                const alertDiv = document.createElement('div');
+                alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+                alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
+
+                // Insérer l'alerte avant le tableau
+                const tableContainer = document.querySelector('.table-responsive');
+                if (tableContainer) {
+                    tableContainer.parentNode.insertBefore(alertDiv, tableContainer);
+                }
+
+                // Supprimer l'alerte après 5 secondes
+                setTimeout(() => {
+                    if (alertDiv.parentNode) {
+                        alertDiv.remove();
+                    }
+                }, 5000);
+            }
+        });
+    </script>
+{% endblock %}

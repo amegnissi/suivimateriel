@@ -1,0 +1,25 @@
+<table class="table table-bordered table-striped__ table-hover text-nowrap table-valign-middle">
+        <thead>
+        <tr>
+            <th>Employe</th>
+            <th>Date affectation</th>
+            {#<th>Date fin affectation</th>
+                              <th>Etat</th>
+                            <th> Statut</th>#}
+        </tr>
+        </thead>
+        {% for affectation in materiel.affectations %}
+            <tbody>
+            <tr>
+                <td>{{ affectation.employe.fullName }}</td>
+                <td> {{ affectation.dateAffectation | date('d/m/Y') }}</td>
+
+            </tr>
+            </tbody>
+        {% else %}
+            <tr>
+                <td rowspan="2">Aucun employe affecté</td>
+            </tr>
+        {% endfor %}
+
+    </table>

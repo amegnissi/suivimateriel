@@ -1,0 +1,91 @@
+{% if sesion_modules == 'COURRIER' %}
+<li class="nav-item {% if isCourrierActive %}menu-is-opening menu-open{% endif %}">
+    <a data-pjax href="#" class="nav-link {% if isCourrierActive %}active{% endif %}">
+        <i class="nav-icon ion-email"></i>
+        <p>
+            Courriers
+            <i class="right ion-chevron-right"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a data-pjax href="{{ path('app_affectation_courrier_affectation_agent') }}" class="nav-link">
+                <p>Mes affectations</p>
+            </a>
+        </li>
+    </ul>
+</li>
+{% else %}
+    <li class="nav-item">
+        <a data-pjax href="{{ path('types_materiels_index') }}"
+           class="nav-link {% if currentRoute == 'types_materiels_index' %}active{% endif %}">
+            <i class="nav-icon ion-cube"></i>
+            <p>Types materiels</p>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a data-pjax href="{{ path('materiels_index') }}"
+           class="nav-link {% if currentRoute == 'materiels_index' %}active{% endif %}">
+            <i class="nav-icon ion-gear-a"></i>
+            <p>Matériels</p>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a data-pjax href="{{ path('sortie_materiels_index') }}"
+           class="nav-link {% if currentRoute == 'sortie_materiels_index' %}active{% endif %}">
+            <i class="nav-icon ion-refresh"></i>
+            <p>Sortie de matériels</p>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a data-pjax href="{{ path('societe_service_index') }}"
+           class="nav-link {% if currentRoute == 'societe_service_index' %}active{% endif %}">
+            <i class="nav-icon ion-person-stalker"></i>
+            <p>Clients</p>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a data-pjax href="{{ path('lieux_affectation_index') }}"
+           class="nav-link {% if currentRoute == 'lieux_affectation_index' %}active{% endif %}">
+            <i class="nav-icon ion-location"></i>
+            <p>Lieux / Services</p>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a data-pjax href="{{ path('affectations_index') }}"
+           class="nav-link {% if currentRoute == 'affectations_index' %}active{% endif %}">
+            <i class="nav-icon ion-shuffle"></i>
+            <p>Affectations</p>
+        </a>
+    </li>
+
+
+    <li class="nav-separator">
+        <hr class="my-2" style="border-color: rgba(255, 255, 255, 0.4);"/>
+    </li>
+    <li class="nav-item">
+        <a data-pjax href="{{ path('maintenances_index') }}" class="nav-link">
+            <i class="nav-icon ion-wrench"></i>
+            <p>Maintenance</p>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a data-pjax href="{{ path('type_assurance_index') }}" class="nav-link">
+            <i class="nav-icon ion-clipboard"></i>
+            <p>Types d'opérations</p>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a data-pjax href="{{ path('assurances_index') }}" class="nav-link">
+            <i class="nav-icon ion-document-text"></i>
+            <p>Opérations</p>
+        </a>
+    </li>
+{% endif %}

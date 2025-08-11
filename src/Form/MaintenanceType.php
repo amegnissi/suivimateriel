@@ -32,7 +32,11 @@ class MaintenanceType extends AbstractType
                         ->setParameter('statut', 2); // Exclure les matériels déjà en maintenance
                 },
                 'choice_label' => function (Materiel $materiel) {
-                    return $materiel->getMarque()->getLibelle() . ' - ' . $materiel->getImmatriculation();
+                    if ($materiel->getMarque()) {
+                        return $materiel->getMarque()->getLibelle(). ' - ' . $materiel->getImmatriculation();
+                    } else {
+                        return $materiel->getName(). ' - ' .$materiel->getCode();
+                    }
                 },
                 'placeholder' => 'Sélectionnez un matériel',
                 'label' => 'Matériel concerné',

@@ -36,9 +36,10 @@ class AssuranceRepository extends ServiceEntityRepository
 
         $qb = $this->createQueryBuilder('a')
 //            ->select('a as op','COUNT(a) as total', 'type.libelle as typeoperation','type.id as idtype','a.id as id')
-            ->select('a as op','COUNT(a) as total', 'type.libelle as typeoperation', 'type.id as idtype')
+            ->select('a as op','COUNT(a) as total', 'type.libelle as typeoperation', 'type.id as idtype','a.id as id')
             ->leftJoin('a.typeAssurance','type')
-            ->groupBy('type.id', 'type.libelle','a')
+            ->groupBy('type.id')
+//            ->groupBy('type.id', 'type.libelle','a')
 //            ->groupBy('type.id', 'type.libelle','op','a.id','a')
             ->where('a.dateFin <= :dateSeuil')
             ->andWhere('a.estRenouvelle = false')
@@ -79,5 +80,36 @@ class AssuranceRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getResult();
 
+    }
+
+    public function findLatestByMateriel($materiel,$type=null)
+    {
+        return $this->createQueryBuilder('a')
+            ->leftJoin('a.typeAssurance','type')
+            ->where('a.vehicule = :materiel')
+//            ->andWhere('type.libelle = :type')
+            ->setParameter('materiel', $materiel)
+//            ->setParameter('type', $type)
+            ->orderBy('a.dateFin', 'DESC')
+//            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult()
+//            ->getOneOrNullResult()
+;
+    }
+
+    public function findAssuranceByMateriel($materiel,$type)
+    {
+        return $this->createQueryBuilder('a')
+            ->select('a.dateDebut as debut','a.dateFin as fin')
+            ->leftJoin('a.typeAssurance','type')
+            ->where('a.vehicule = :materiel')
+            ->andWhere('type.libelle = :type')
+            ->setParameter('materiel', $materiel)
+            ->setParameter('type', $type)
+            ->orderBy('a.dateFin', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

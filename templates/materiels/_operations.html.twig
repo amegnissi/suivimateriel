@@ -1,0 +1,54 @@
+<table class="table table-bordered table-striped__ table-hover text-nowrap table-valign-middle">
+    <thead>
+    <tr>
+        <th>N°</th>
+        <th>Type operation</th>
+        <th>Date de Début</th>
+        <th>Date d'Expiration</th>
+        <th>Montant(FCFA)</th>
+        <th>Statut</th>
+        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for assurance in assurances.liste %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ assurance.typeAssurance.libelle ?? '-' | capitalize }}</td>
+            <td>{{ assurance.dateDebut|date('d/m/Y') }}</td>
+            <td>{{ assurance.dateFin|date('d/m/Y') }}</td>
+            <td>
+                {{ assurance.montantPaye ? (assurance.montantPaye|number_format(0, '.', ' ') ~ ' FCFA') : '-' }}
+            </td>
+            <td class="align-middle text-center">
+                {% if assurance.dateFin and assurance.dateFin|date('Y-m-d') < "now"|date('Y-m-d') %}
+                    <span class="badge bg-danger text-white">⏳ Expirée</span>
+                {% else %}
+                    <span class="badge bg-success">✅ Encours</span>
+                {% endif %}
+            </td>
+            <td class="align-middle text-center">
+                {% if assurance.dateFin and assurance.dateFin|date('Y-m-d') < "now"|date('Y-m-d') %}
+                    <a href="{{ path('assurances_renew', {'id': assurance.id}) }}" class="btn btn-sm"
+                       title="Renouveler">
+                        <i class="fas fa-reply"></i>
+                    </a>
+                {% else %}
+
+                    <a href="{{ path('assurances_edit', {'id': assurance.id}) }}" class="btn  btn-sm"
+                       title="Modifier">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                {% endif %}
+                {#                <a href="{{ path('assurances_show', {'id': assurance.id}) }}" class="btn btn-info btn-sm">Voir</a> #}
+                {#                <a href="{{ path('assurances', {'id': assurance.id}) }}" #}
+                {#                   class="btn btn-default btn-sm">Modifier</a> #}
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="6" class="text-center text-secondary">Aucune assurance trouvée.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

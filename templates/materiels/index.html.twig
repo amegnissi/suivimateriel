@@ -59,6 +59,16 @@
                        class="btn btn-sm">
                         <i class="fas fa-edit"></i>
                     </a>
+                    {% if materiel.type.libelle == 'Véhicule' %}
+                        <a href="{{ path('assurances_new_vehicule', {'id': materiel.id}) }}"
+                           class="btn btn-sm">
+                            <i class="fas fa-umbrella"></i>
+                        </a>
+                    {% endif %}
+                    <a href="{{ path('maintenances_create_materiel', {'id': materiel.id}) }}"
+                       class="btn btn-sm">
+                        <i class="fas fa-key"></i>
+                    </a>
                 </div>
             </td>
         </tr>

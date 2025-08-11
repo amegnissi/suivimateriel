@@ -21,12 +21,12 @@
                                         <div class="common-align">
                                             <div>
                                                 {% if entreprise.logo %}
-                                                    <img id="output" src="{{ asset('uploads/' ~ entreprise.logo) }}"
+                                                    <img id="output" src="{{ asset('uploads/entreprise/' ~ entreprise.logo) }}"
                                                          alt="Profile Image">
                                                 {% else %}
                                                     <img id="output" src="{{ asset('cuba/assets/images/user-card/5.jpg') }}" alt="Profile Image">
                                                 {% endif %}
-                                                <input type="file" accept="image/*" onchange="loadFile(event)">
+
                                                 <div class="icon-wrapper" id="cancelButton"><i
                                                             class="icofont icofont-error"></i></div>
                                                 <div class="icon-wrapper"><i class="icofont icofont-pencil-alt-5"></i></div>

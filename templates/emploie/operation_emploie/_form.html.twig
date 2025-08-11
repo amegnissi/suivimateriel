@@ -1,0 +1,19 @@
+{{ form_start(form) }}
+<div class="row">
+    <div class="col-md-4">{{ form_row(form.reference) }}</div>
+    <div class="col-md-4"> {{ form_row(form.dateOperation) }}</div>
+    <div class="col-md-4"> {{ form_row(form.designation) }}</div>
+</div>
+<div class="row">
+    <div class="col-md-6">{{ form_row(form.annee) }}</div>
+    <div class="col-md-6"> {{ form_row(form.mois) }}</div>
+
+<div class="row">
+    <div class="col-md-4">{{ form_row(form.montantAPayer) }}</div>
+    <div class="col-md-4"> {{ form_row(form.retenue) }}</div>
+    <div class="col-md-4"> {{ form_row(form.netAPayer) }}</div>
+    <div class="col-md-12"> {{ form_row(form.caisse) }}</div>
+</div>
+{{ form_widget(form) }}
+{#    <button class="btn">{{ button_label|default('Save') }}</button> #}
+{# {{ form_end(form) }} #}

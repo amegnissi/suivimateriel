@@ -89,6 +89,57 @@ class Materiel
     #[ORM\Column(nullable: true)]
     private ?int $delaiVisiteTechnique = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $statutMateriel = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $puissance = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $capacite = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $typeMoteur = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $processeur = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $disqueDur = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $capaciteDisqueDur = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $OS = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $typeImprimante = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $vitesseImpression = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $PPM = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $resolutionImpression = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $connectivite = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $frequence = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $memoireRAM = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $name = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $coutAcquisition = null;
+
     public function __construct()
     {
         $this->affectations = new ArrayCollection();
@@ -379,6 +430,210 @@ class Materiel
     public function setDelaiVisiteTechnique(?int $delaiVisiteTechnique): static
     {
         $this->delaiVisiteTechnique = $delaiVisiteTechnique;
+
+        return $this;
+    }
+
+    public function getStatutMateriel(): ?string
+    {
+        return $this->statutMateriel;
+    }
+
+    public function setStatutMateriel(?string $statutMateriel): static
+    {
+        $this->statutMateriel = $statutMateriel;
+
+        return $this;
+    }
+
+    public function getPuissance(): ?string
+    {
+        return $this->puissance;
+    }
+
+    public function setPuissance(?string $puissance): static
+    {
+        $this->puissance = $puissance;
+
+        return $this;
+    }
+
+    public function getCapacite(): ?string
+    {
+        return $this->capacite;
+    }
+
+    public function setCapacite(?string $capacite): static
+    {
+        $this->capacite = $capacite;
+
+        return $this;
+    }
+
+    public function getTypeMoteur(): ?string
+    {
+        return $this->typeMoteur;
+    }
+
+    public function setTypeMoteur(?string $typeMoteur): static
+    {
+        $this->typeMoteur = $typeMoteur;
+
+        return $this;
+    }
+
+    public function getProcesseur(): ?string
+    {
+        return $this->processeur;
+    }
+
+    public function setProcesseur(?string $processeur): static
+    {
+        $this->processeur = $processeur;
+
+        return $this;
+    }
+
+    public function getDisqueDur(): ?string
+    {
+        return $this->disqueDur;
+    }
+
+    public function setDisqueDur(?string $disqueDur): static
+    {
+        $this->disqueDur = $disqueDur;
+
+        return $this;
+    }
+
+    public function getCapaciteDisqueDur(): ?string
+    {
+        return $this->capaciteDisqueDur;
+    }
+
+    public function setCapaciteDisqueDur(?string $capaciteDisqueDur): static
+    {
+        $this->capaciteDisqueDur = $capaciteDisqueDur;
+
+        return $this;
+    }
+
+    public function getOS(): ?string
+    {
+        return $this->OS;
+    }
+
+    public function setOS(?string $OS): static
+    {
+        $this->OS = $OS;
+
+        return $this;
+    }
+
+    public function getTypeImprimante(): ?string
+    {
+        return $this->typeImprimante;
+    }
+
+    public function setTypeImprimante(?string $typeImprimante): static
+    {
+        $this->typeImprimante = $typeImprimante;
+
+        return $this;
+    }
+
+    public function getVitesseImpression(): ?string
+    {
+        return $this->vitesseImpression;
+    }
+
+    public function setVitesseImpression(?string $vitesseImpression): static
+    {
+        $this->vitesseImpression = $vitesseImpression;
+
+        return $this;
+    }
+
+    public function getPPM(): ?string
+    {
+        return $this->PPM;
+    }
+
+    public function setPPM(?string $PPM): static
+    {
+        $this->PPM = $PPM;
+
+        return $this;
+    }
+
+    public function getResolutionImpression(): ?string
+    {
+        return $this->resolutionImpression;
+    }
+
+    public function setResolutionImpression(?string $resolutionImpression): static
+    {
+        $this->resolutionImpression = $resolutionImpression;
+
+        return $this;
+    }
+
+    public function getConnectivite(): ?string
+    {
+        return $this->connectivite;
+    }
+
+    public function setConnectivite(?string $connectivite): static
+    {
+        $this->connectivite = $connectivite;
+
+        return $this;
+    }
+
+    public function getFrequence(): ?float
+    {
+        return $this->frequence;
+    }
+
+    public function setFrequence(?float $frequence): static
+    {
+        $this->frequence = $frequence;
+
+        return $this;
+    }
+
+    public function getMemoireRAM(): ?float
+    {
+        return $this->memoireRAM;
+    }
+
+    public function setMemoireRAM(?float $memoireRAM): static
+    {
+        $this->memoireRAM = $memoireRAM;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): static
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getCoutAcquisition(): ?float
+    {
+        return $this->coutAcquisition;
+    }
+
+    public function setCoutAcquisition(?float $coutAcquisition): static
+    {
+        $this->coutAcquisition = $coutAcquisition;
 
         return $this;
     }

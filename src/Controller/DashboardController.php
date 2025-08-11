@@ -153,4 +153,17 @@ class DashboardController extends AbstractController
         $session->set('__modules__', 'COURRIER');
         return $this->render('dashboard_courrier.html.twig', []);
     }
+
+    #[Route('/gpac/contact', name: 'app_contact')]
+    public function contact(Request $request): Response
+    {
+
+        return $this->render('dashboard_courrier.html.twig', []);
+    }
+    #[Route('/gpac/contact', name: 'app_contact')]
+    public function contac1(Request $request): Response
+    {
+
+        return $this->render('dashboard_courrier.html.twig', []);
+    }
 }

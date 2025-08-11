@@ -22,7 +22,7 @@
                             <th>Employe</th>
                             <th>Email</th>
                             <th>Login</th>
-                            <th>Actif</th>
+{#                            <th>Actif</th>#}
                             <th>Actions</th>
                         </tr>
                         </thead>
@@ -37,16 +37,16 @@
                                         <span class="badge bg-secondary">{{ role }}</span>
                                     {% endfor %}
                                 </td>
-                                <td>
-                                    {% if user.employe %}
-                                        {{ user.employe.prenom }} {{ user.employe.nom }}
-                                    {% else %}
-                                        <span class="text-muted">Aucun</span>
-                                    {% endif %}
-                                </td>
+    {#                                <td>#}
+    {#                                    {% if user.employe %}#}
+    {#                                        {{ user.employe.prenom }} {{ user.employe.nom }}#}
+    {#                                    {% else %}#}
+    {#                                        <span class="text-muted">Aucun</span>#}
+    {#                                    {% endif %}#}
+    {#                                </td>#}
                                 <td>
                                     <div class="btn-group btn-group-sm">
-                                        <a href="#"
+                                        <a href="{{ path('app_admin_user_edit', {'id': user.id}) }}"
                                            class="btn btn-outline-primary"
                                            title="Modifier">
                                             <i class="fas fa-edit"></i>

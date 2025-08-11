@@ -1,0 +1,49 @@
+{% if sesion_modules == 'COURRIER' %}
+<li class="nav-item {% if isCourrierActive %}menu-is-opening menu-open{% endif %}">
+    <a data-pjax href="#" class="nav-link {% if isCourrierActive %}active{% endif %}">
+        <i class="nav-icon ion-email"></i>
+        <p>
+            Courriers
+            <i class="right ion-chevron-right"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a data-pjax href="{{ path('app_affectation_courrier_affectation_agent') }}" class="nav-link">
+                <p>Mes affectations</p>
+            </a>
+        </li>
+    </ul>
+</li>
+{% else %}
+    <li class="nav-item">
+        <a data-pjax href="{{ path('entreprise_index') }}" class="nav-link {% if currentRoute == 'entreprise_index' %}active{% endif %}">
+            <i class="nav-icon ion-briefcase"></i>
+            <p>Entreprise</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a data-pjax href="{{ path('postes_index') }}" class="nav-link {% if currentRoute == 'postes_index' %}active{% endif %}">
+            <i class="nav-icon ion-person-add"></i>
+            <p>Postes</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a data-pjax href="{{ path('employes_index') }}" class="nav-link {% if currentRoute == 'employes_index' %}active{% endif %}">
+            <i class="nav-icon ion-ios-people"></i>
+            <p>Employés</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a data-pjax href="{{ path('depart_employe_index') }}" class="nav-link">
+            <i class="nav-icon ion-arrow-return-right"></i>
+            <p>Départs Employés</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a data-pjax href="{{ path('app_admin_user') }}" class="nav-link">
+            <i class="nav-icon ion-arrow-return-right"></i>
+            <p>Utilisateurs</p>
+        </a>
+    </li>
+{% endif %}

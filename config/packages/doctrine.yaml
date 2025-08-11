@@ -30,6 +30,12 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity/Courrier'
                 prefix: 'App\Entity\Courrier'
                 alias: App
+            Emploie:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Entity/Emploie'
+                prefix: 'App\Entity\Emploie'
+                alias: App
         controller_resolver:
             auto_mapping: false
         dql:

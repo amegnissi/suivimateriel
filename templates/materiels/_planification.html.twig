@@ -1,0 +1,26 @@
+<table class="table table-bordered table-striped__ table-hover text-nowrap table-valign-middle">
+    <thead>
+    <tr>
+        <th>N°</th>
+        <th>Type operation</th>
+        <th>Date prévue </th>
+        <th>Actions prévues s</th>
+        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for planification in planifications %}
+    <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ planification.typeMaintenance ? planification.typeMaintenance.libelle : 'Aucun type de maintenance'  }}</td>
+        <td>{{ planification.datePlanification | date('d/m/Y') }}</td>
+        <td>{{ planification.actionsRealisees }}</td>
+        <td>
+            <a href="{{ path('maintenances_planification_effectue',{'id':planification.id}) }}">
+            effectuer la maintenance </a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+

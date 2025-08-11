@@ -72,6 +72,7 @@
                 <td class="align-middle text-center">
                     <div class="common-align gap-2 justify-content-start">
                         {% if courrier.typeCourrier.code == "ARRIVEE" %}
+                            {%  if is_granted('ROLE_SECRETAIRE') %}
                             <a  href="{{ path('app_affectation_courrier_agent', {'id': courrier.id}) }}" class="btn
                                      btn-sm"
                                 title="Affecter le courrier a un agent">
@@ -83,6 +84,7 @@
                                     title="Liste des affectations du courrier">
                                     <i class="fa fa-align-justify"></i>
                                 </a>
+                                {% endif %}
                                 {% endif %}
                         {% endif %}
                         <a href="{{ path('app_courrier_show', {'id': courrier.id}) }}" class="btn  btn-sm">

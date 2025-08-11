@@ -1,0 +1,45 @@
+{%  if sesion_modules == 'COURRIER' %}
+    <li class="nav-item {% if isCourrierActive %}menu-is-opening menu-open{% endif %}">
+    <a data-pjax href="#" class="nav-link {% if isCourrierActive %}active{% endif %}">
+        <i class="nav-icon ion-email"></i>
+        <p>
+            Courriers
+            <i class="right ion-chevron-right"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a data-pjax href="{{ path('app_affectation_courrier_affectation_agent') }}" class="nav-link">
+                <p>Mes affectations</p>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a data-pjax href="{{ path('app_courrier_index') }}" class="nav-link {% if currentRoute == 'app_courrier_index' %}active{% endif %}">
+                <p>Liste des courriers</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a data-pjax href="{{ path('app_courrier_depart_new') }}" class="nav-link">
+                <i class="fa fa-plus"></i> <p>Ajouter un courrier départ</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a data-pjax href="{{ path('app_courrier_new') }}" class="nav-link">
+                <i class="fa fa-plus"></i> <p>Ajouter un courrier arrivé</p>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a data-pjax href="{{ path('app_courrier_recherche') }}" class="nav-link {% if currentRoute == 'app_courrier_recherche' %}active{% endif %}">
+                <p>Recherche courriers</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a data-pjax href="{{ path('app_courrier_nature_index') }}" class="nav-link {% if currentRoute == 'app_courrier_nature_index' %}active{% endif %}">
+                <p>Nature des courriers</p>
+            </a>
+        </li>
+    </ul>
+</li>
+{% endif %}

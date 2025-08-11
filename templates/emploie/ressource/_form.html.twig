@@ -1,0 +1,14 @@
+{{ form_start(form) }}
+<div class="row">
+    <div class="col-md-4">{{ form_row(form.reference) }}</div>
+    <div class="col-md-4"> {{ form_row(form.annee) }}</div>
+    <div class="col-md-4"> {{ form_row(form.mois) }}</div>
+</div>
+<div class="row">
+    <div class="col-md-4">{{ form_row(form.sourcesPaiement) }}</div>
+    <div class="col-md-4"> {{ form_row(form.montantPris) }}</div>
+    <div class="col-md-4"> {{ form_row(form.montantRestant) }}</div>
+</div>
+    {{ form_widget(form) }}
+{#    <button class="btn">{{ button_label|default('Save') }}</button>#}
+{#{{ form_end(form) }}#}

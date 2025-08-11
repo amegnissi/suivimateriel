@@ -7,13 +7,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title> 
+    <title>
     {% block title %}
 				Accueil
 			{% endblock %} | E-SUIVI - Gestion des matériels et courriers
      </title>
 
-    <!-- Google Font: Source Sans Pro 
+    <!-- Google Font: Source Sans Pro
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,13 +21,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Google Font: Inter, SUSE, Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=SUSE:ital,wght@0,400;0,600;0,700&display=swap" rel="stylesheet">
-    
+
     <!-- Font Awesome Icons  -->
-    <link rel="stylesheet" href="{{ asset('adminlte/plugins/fontawesome-free/css/all.min.css') }}">   
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    
+
     <!-- Theme style -->
-    
+
 
     {% block css %}
         <style>
@@ -68,7 +68,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" data-widget="pushmenu" href="#" role="button">
-                    <i class="icon ion-navicon-round"></i> 
+                    <i class="icon ion-navicon-round"></i>
                 </a>
             </li>
         </ul>
@@ -82,7 +82,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <span class="visually-hidden">messages non lus</span>
         </span>
       </a>
-      
+
       <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
         <li>
           <a href="#" class="dropdown-item d-flex align-items-center">
@@ -138,6 +138,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <li>
           <ul class="list-unstyled mb-0">
             <li><a href="#" class="dropdown-item"><i class="icon ion-person"></i> Mon Profil</a></li>
+            <li><a href="{{ path('account_password_user') }}" class="dropdown-item"><i class="icon ion-settings"></i> Changer de mot de
+                    passe</a></li>
             <li><a href="#" class="dropdown-item"><i class="icon ion-gear-a"></i> Paramètres</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a href="{{ path('app_logout') }}" class="dropdown-item text-danger"><i class="icon ion-log-out"></i> Déconnexion</a></li>
@@ -206,9 +208,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 
-        
+
         {# templates/partials_adminlte/_breadcrumb.html.twig #}
-       
+
 
         <!-- /.content-header -->
 
@@ -243,7 +245,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <!-- jQuery -->
 <script src="{{ asset('adminlte/plugins/jquery/jquery.js') }}"></script>
-<!-- Bootstrap 5 
+<!-- Bootstrap 5
 <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.js') }}"></script>-->
 <!-- Bootstrap JS (avec Popper.js) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

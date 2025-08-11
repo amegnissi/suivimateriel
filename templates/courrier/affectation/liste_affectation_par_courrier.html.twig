@@ -70,10 +70,12 @@
                                         <small class="badge badge-warning">En attente</small>
                                     {% endif %}
                                 </td>
+                                <td>{{ affectation.dateAffectation ?  affectation.dateAffectation |date('d-m-Y') : 'N/A'}}
+
+                                    </td>
                                 <td>{{ affectation.dateLimiteTraitement ? affectation.dateLimiteTraitement|date('d-m-Y') : 'N/A' }}</td>
                                 <td>{{ affectation.dateTraitement ? affectation.dateTraitement|date('d-m-Y') :
                                     'N/A' }}</td>
-                                <td>{{ affectation.dateAffectation ?  affectation.dateAffectation |date('d-m-Y') : 'N/A'}}</td>
                             </tr>
                         {% endfor %}
                         </tbody>

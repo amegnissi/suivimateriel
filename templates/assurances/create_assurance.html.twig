@@ -1,0 +1,22 @@
+{% extends 'base_formulaire.html.twig' %}
+{% block title %}Operations{% endblock %}
+{% block breadcrumb %}Operations{% endblock %}
+{% block  breadcrumb_item %} Operations{% endblock %}
+{% block  breadcrumb_t %} Gestion des Operations{% endblock %}
+{% block form_titre %}Ajouter une nouvelle operation pour {{ materiel.name }}{% endblock %}
+{% block formContent %}
+    {{ form_start(form) }}
+        <div class="row">
+
+            <div class="col-md-6">{{ form_row(form.typeAssurance) }}</div>
+            <div class="col-md-6">{{ form_row(form.montantPaye) }}</div>
+            <div class="col-md-6">{{ form_row(form.dateDebut) }}</div>
+            <div class="col-md-6">{{ form_row(form.dateFin) }}</div>
+
+
+        </div>
+    {{ form_widget(form) }}
+
+
+{% endblock %}
+

@@ -12,7 +12,6 @@ use App\Repository\Courrier\StatutRepository;
 use App\Repository\EmployeRepository;
 use App\Service\FileUploader;
 use DateTime;
-use Doctrine\DBAL\Types\DateType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

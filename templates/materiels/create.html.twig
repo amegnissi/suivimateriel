@@ -14,56 +14,127 @@
         <div class="col-md-6">
             {{ form_row(form.type) }}
         </div>
+        <div class="col-md-6">
+            {{ form_row(form.name) }}
+        </div>
 
+
+        <div class="col-md-6">
+            {{ form_row(form.date_acquisition) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.coutAcquisition) }}
+        </div>
         <div class="col-md-6">
             {{ form_row(form.numeroSerie) }}
         </div>
         <div class="col-md-6">
-            {{ form_row(form.date_acquisition) }}
+            {{ form_row(form.statutMateriel) }}
         </div>
+
     </div>
     <div id="vehicule">
-        {% for child in form %}
-            {% if child.vars.name not in ['type', 'numeroSerie','numeroSerie', 'date_acquisition', '_token'] and not child.rendered%}
-                <div class="mb-3 conditional-field">
-                    {{ form_label(child) }}
-                    {{ form_widget(child, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(child) }}
-                </div>
-            {% endif %}
-        {% endfor %}
-{#    <div class="row" >#}
-{#        <div class="col-md-6">#}
-{#            {{ form_row(form.marque) }}#}
-{#        </div>#}
-{#        <div class="col-md-6">#}
-{#            {{ form_row(form.modele) }}#}
-{#        </div>#}
-{#        <div class="col-md-6">#}
-{#            {{ form_row(form.immatriculation) }}#}
-{#        </div>#}
-{#        <div class="col-md-6">#}
-{#            {{ form_row(form.kilometrage) }}#}
-{#        </div>#}
-{#        <div class="col-md-4">#}
-{#            {{ form_row(form.delaiAssurance) }}#}
-{#        </div>#}
-{#        <div class="col-md-4">#}
-{#            {{ form_row(form.delaiTVM) }}#}
-{#        </div>#}
-{#        <div class="col-md-4">#}
-{#            {{ form_row(form.delaiVisiteTechnique) }}#}
-{#        </div>#}
+{#        {% for child in form %}#}
+{#            {% if child.vars.name not in ['type', 'numeroSerie','numeroSerie', 'date_acquisition', '_token'] and not child.rendered%}#}
+{#                <div class="mb-3 conditional-field">#}
+{#                    {{ form_label(child) }}#}
+{#                    {{ form_widget(child, {'attr': {'class': 'form-control'}}) }}#}
+{#                    {{ form_errors(child) }}#}
+{#                </div>#}
+{#            {% endif %}#}
+{#        {% endfor %}#}
 
-{#    </div>#}
+    <div class="row" >
+        <div class="col-md-6">
+            {{ form_row(form.marque) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.modele) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.immatriculation) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.kilometrage) }}
+        </div>
+        <div class="col-md-4">
+            {{ form_row(form.delaiAssurance) }}
+        </div>
+        <div class="col-md-4">
+            {{ form_row(form.delaiTVM) }}
+        </div>
+        <div class="col-md-4">
+            {{ form_row(form.delaiVisiteTechnique) }}
+        </div>
+        <div class="col-md-4">
+            {{ form_row(form.typeMoteur) }}
+        </div>
+        <div class="col-md-4">
+            {{ form_row(form.puissance) }}
+        </div>
+        <div class="col-md-4">
+            {{ form_row(form.capacite) }}
+        </div>
+
     </div>
-    {{ form_end(form) }}
+    </div>
+
+<div id="ordinateur">
+    <div class="row" >
+        <div class="col-md-4">
+            {{ form_row(form.processeur) }}
+        </div>
+        <div class="col-md-4">
+            {{ form_row(form.frequence) }}
+        </div>
+        <div class="col-md-4">
+            {{ form_row(form.memoireRAM) }}
+        </div>
+        <div class="col-md-4">
+            {{ form_row(form.disqueDur) }}
+        </div>
+        <div class="col-md-4">
+            {{ form_row(form.capaciteDisqueDur) }}
+        </div>
+        <div class="col-md-4">
+            {{ form_row(form.OS) }}
+        </div>
+    </div>
+</div>
+
+    <div id="imprimante">
+        <div class="row">
+            <div class="col-md-4">
+                {{ form_row(form.typeImprimante) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.vitesseImpression) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.PPM) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.resolutionImpression) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.connectivite) }}
+            </div>
+        </div>
+    </div>
+<div class="row" >
+    <div class="col-md-6">
+        {{ form_row(form.libelle) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_row(form.imageFile) }}
+    </div>
+</div>
 
 {% endblock %}
 
 {% block javascript %}
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+/*document.addEventListener('DOMContentLoaded', function() {
     const typeBolSelect = document.getElementById('materiel_type');
     const conditionalFields = document.getElementById('vehicule');
 console.log(conditionalFields);
@@ -104,31 +175,49 @@ console.log(conditionalFields);
             conditionalFields.innerHTML = '';
         }
     });
-});
-//
-//     document.addEventListener('DOMContentLoaded', function () {
-//         const serviceSelect = document.getElementById('materiel_type');
-//         const chambreContainer = document.getElementById('vehicule');
-//
-//         function toggleChambreField() {
-//             const selectedText = serviceSelect.options[serviceSelect.selectedIndex].text.toLowerCase();
-// console.log(selectedText);
-//             if (selectedText.includes('véhicule')) {
-//                 chambreContainer.style.display = 'block';
-//             } else {
-//                 chambreContainer.style.display = 'none';
-//                 // Optionally clear chambre selection
-//                 const chambreSelect = chambreContainer.querySelector('select');
-//                 if (chambreSelect) {
-//                     chambreSelect.value = '';
-//                 }
-//             }
-//         }
-//
-//         serviceSelect.addEventListener('change', toggleChambreField);
-//
+});*/
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const serviceSelect = document.getElementById('materiel_type');
+         const chambreContainer = document.getElementById('vehicule');
+    const ordinateurContainer = document.getElementById('ordinateur');
+    const imprimanteContainer = document.getElementById('imprimante');
+         function toggleChambreField() {
+             const selectedText = serviceSelect.options[serviceSelect.selectedIndex].text.toLowerCase();
+ console.log(selectedText);
+             if (selectedText.includes('véhicule')) {
+                 chambreContainer.style.display = 'block';
+    ordinateurContainer.style.display = 'none';
+    imprimanteContainer.style.display = 'none';
+
+             }
+             else if ((selectedText.includes('ordinateur de bureau')) || (selectedText.includes('ordinateur portatif'))) {
+    chambreContainer.style.display = 'none';
+    ordinateurContainer.style.display = 'block';
+    imprimanteContainer.style.display = 'none';
+}
+    else if ((selectedText.includes('imprimante'))) {
+    chambreContainer.style.display = 'none';
+    ordinateurContainer.style.display = 'none';
+    imprimanteContainer.style.display = 'block';
+}
+             else {
+                 chambreContainer.style.display = 'none';
+    ordinateurContainer.style.display = 'none';
+    imprimanteContainer.style.display = 'none';
+                 // Optionally clear chambre selection
+                 const chambreSelect = chambreContainer.querySelector('select');
+                 if (chambreSelect) {
+                     chambreSelect.value = '';
+                 }
+             }
+         }
+
+        serviceSelect.addEventListener('change', toggleChambreField);
+
 //         // Initial check on page load
-//         toggleChambreField();
-//     });
+         toggleChambreField();
+    });
 </script>
 {% endblock %}

@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\Materiel;
 use App\Repository\MaterielRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -67,5 +69,26 @@ class AjaxController extends AbstractController
             'controller_name' => 'AjaxController',
         ]);
     }
+    #[Route(path: '/image/materiel/{id}/', name: 'ajax_materiel_image')]
+    public function getMaterielImage(Materiel $materiel): JsonResponse
+    {
+        $imagePath = $materiel->getImageFilename();
+        $defaultImage = 'images/default-image.jpg';
+        if($materiel->getImageFilename()) {
+            return $this->json([
+                'imageUrl' => '/uploads/materiels/'.$materiel->getImageFilename()
+            ]);
+        }
+//        'uploads/materiels/' ~ materiel.imageFilename
+//
+//        if ($imagePath && file_exists($this->uploadDir.'/'.$imagePath)) {
+//            return $this->json([
+//                'imageUrl' => '/uploads/'.$imagePath
+//            ]);
+//        }
 
+        return $this->json([
+            'imageUrl' => '/uploads/materiels/' ?: $defaultImage
+        ]);
+    }
 }

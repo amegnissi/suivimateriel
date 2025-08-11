@@ -41,20 +41,22 @@ class RegistrationFormType extends AbstractType
             ->add('roles',ChoiceType::class,[
                 'multiple' => true,
                 'choices' => [
+                    'SUPER_ADMIN' => 'ROLE_SUPER_ADMIN',
                     'ADMIN' => 'ROLE_ADMIN',
-                    'MATERIEL' => 'ROLE_MATERIEL',
-                    'COURRIER' => 'ROLE_COURRIER',
+                    'SECRETAIRE' => 'ROLE_SECRETAIRE',
+                    'LOGISTIQUE' => 'ROLE_LOGISTIQUE',
+                    'ACCUEIL' => 'ROLE_ACCUEIL',
                 ],
                 'label'=>'Rôle de l\'utilisateur'
             ])
-            ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'You should agree to our terms.',
-                    ]),
-                ],
-            ])
+//            ->add('agreeTerms', CheckboxType::class, [
+//                'mapped' => false,
+//                'constraints' => [
+//                    new IsTrue([
+//                        'message' => 'You should agree to our terms.',
+//                    ]),
+//                ],
+//            ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller

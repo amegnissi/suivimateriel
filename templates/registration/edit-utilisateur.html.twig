@@ -1,0 +1,51 @@
+{% extends 'base-dashboard.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header bg-info-subtle">
+            <h5> <strong>Modification</strong></h5>
+        </div>
+        {{ form_start(registrationForm) }}
+        <div class="card-body">
+            {{ form_errors(registrationForm) }}
+            <div class="row">
+
+                <div class="col-md-6"> {{ form_row(registrationForm.email) }}</div>
+                <div class="col-md-6"> {{ form_row(registrationForm.plainPassword, {
+                        label: 'Password'
+                    }) }}</div>
+            </div>
+            <div class="col-md-6"> {{ form_row(registrationForm.roles) }}</div>
+
+
+
+            {#            {{ form_row(registrationForm.agreeTerms) }}#}
+
+            {#            <button type="submit" class="btn">Register</button>#}
+
+        </div>
+        <div class="card-footer">
+            {#                        {% block footerBtn %}#}
+            <div class="float-end">
+                <a class="btn btn-secondary" type="button" href="{% block btnretour %}{% endblock %}">
+                    <i class="ri-arrow-left-line align-bottom me-1"></i>
+                    {% block retourtext %}{% endblock %}</a>
+
+                <button class="btn btn-success" type="submit">
+                    <i class="ri-check-double-fill align-bottom me-1"></i>
+                    {% block btn_label %} Enregistrer{% endblock %}
+                </button>
+                <button class="btn btn-warning" type="reset" value="Annuler"><i
+                            class="ri-close-fill align-bottom me-1"></i> Annuler
+                </button>
+            </div>
+
+            {#                        {% endblock %}#}
+
+
+        </div>
+        {{ form_end(registrationForm) }}
+    </div>
+{% endblock %}

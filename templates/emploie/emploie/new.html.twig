@@ -1,0 +1,14 @@
+{% extends 'base_formulaire.html.twig' %}
+{% block title %}Emploie & Ressources{% endblock %}
+{% block breadcrumb %}Emploie & Ressources{% endblock %}
+{% block  breadcrumb_item %} Emploie {% endblock %}
+{% block  breadcrumb_t %} Gestion des Emploie{% endblock %}
+{% block table_titre %}Ajoute un Emploie{% endblock %}
+{% block form_titre%} Ajouter un Emploie{% endblock %}
+{% block formContent %}
+
+
+    {{ include('Emploie/emploie/_form.html.twig') }}
+
+
+{% endblock %}

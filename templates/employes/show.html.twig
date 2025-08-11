@@ -195,12 +195,12 @@
                                 <div class="common-align">
                                     <div>
                                         {% if employe.photo %}
-                                            <img id="output" src="{{ asset('uploads/' ~ employe.photo) }}"
+                                            <img id="output" src="{{ asset('uploads/employes' ~ employe.photo) }}"
                                                  alt="Profile Image">
                                         {% else %}
                                             <img id="output" src="{{ asset('cuba/assets/images/dashboard-11/user/12.jpg') }}" alt="Profile Image">
                                         {% endif %}
-                                        <input type="file" accept="image/*" onchange="loadFile(event)">
+                                       
                                         <div class="icon-wrapper" id="cancelButton"><i
                                                     class="icofont icofont-error"></i></div>
                                         <div class="icon-wrapper"><i class="icofont icofont-pencil-alt-5"></i></div>

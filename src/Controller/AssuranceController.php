@@ -9,6 +9,7 @@ use App\Entity\TypeAssurance;
 use App\Entity\TypeMateriel;
 use App\Form\AssuranceRenewType;
 use App\Form\AssuranceType;
+use App\Form\AssuranceVehiculeType;
 use App\Form\TypeAssuranceType;
 use App\Service\ExportService;
 use App\Repository\MaterielRepository;
@@ -224,6 +225,43 @@ class AssuranceController extends BaseController
         ]);
     }
 
+    #[Route('/assurance-vehicule/{id}', name: 'assurances_new_vehicule', methods: ['GET', 'POST'])]
+    public function operationsVehicule(Request $request, Materiel $materiel, EntityManagerInterface $entityManager, MaterielRepository
+    $materielRepository): Response
+    {
+        // Vérifier si l'entreprise existe
+        if ($redirect = $this->checkEntreprise($entityManager)) {
+            return $redirect;
+        }
+
+        // Récupérer l'entité Entreprise
+        $entreprise = $entityManager->getRepository(Entreprise::class)->findOneBy([]);
+
+        // Vérifier si les délais sont définis dans l'entreprise
+        if (!$entreprise || !$entreprise->getDelaiAssurance() || !$entreprise->getDelaiVisiteTechnique() || !$entreprise->getDelaiTVM()) {
+            $this->addFlash('danger', 'Les délais pour l\'assurance, la visite technique ou le TVM ne sont pas définis dans l\'entreprise.');
+            return $this->redirectToRoute('materiels_show', ['id' => $materiel->getId()]);
+        }
+
+        $assurance = new Assurance();
+        $form = $this->createForm(AssuranceVehiculeType::class, $assurance);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $assurance->setMateriel($materiel);
+            $entityManager->persist($assurance);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Opération enregistrée avec succès.');
+            return $this->redirectToRoute('materiels_show', ['id' => $materiel->getId()]);
+        }
+
+        return $this->render('assurances/create_assurance.html.twig', [
+            'form' => $form->createView(),
+            'materiel' => $materiel
+        ]);
+    }
+
     #[Route('/{id}', name: 'assurances_show', methods: ['GET'])]
     public function show(Assurance $assurance): Response
     {
@@ -252,7 +290,7 @@ class AssuranceController extends BaseController
 
         $type = $request->get('type');
         $ids = [];
-        $data = $assuranceRepository->findAssurancesExpirantParTypes(0, $typeAssurance);
+        $data = $assuranceRepository->findAssurancesExpirantParTypes(30, $typeAssurance);
         foreach ($data as $item) {
             $ids[] = $item['id'];
         }

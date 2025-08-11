@@ -1,87 +1,193 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-dashboard.html.twig' %}
 
-{% block title %}Détails d'un Matériel{% endblock %}
-
-{% block breadcrumb %}MATERIELS > DETAILS{% endblock %}
-
+{% block title %}Materiel{% endblock %}
+{% block breadcrumb %}Materiel{% endblock %}
+{% block  breadcrumb_item %} Courrier{% endblock %}
+{% block  breadcrumb_t %} Gestion des materiels{% endblock %}
+{% block table_titre %}Dtails Materiel{% endblock %}
+{% block btntitle %}Détails d'un materiel{% endblock %}
 {% block content %}
-    
-    <div class="container-fluid py-4">
-        <div class="page-header min-height-300 border-radius-xl mt-4" 
-            style="background-image: url('{{ asset('assets/img/material-background.jpg') }}');">
-            <span class="mask bg-gradient-dark opacity-6"></span>
-        </div>
-
-        <div class="card card-body mx-3 mx-md-4 mt-n6">
-            <div class="row gx-4 mb-2">
-                <div class="col-auto">
-                    <div class="avatar avatar-xl position-relative">
-                        {% if materiel.imageFilename  %}
-                            <img src="{{ asset('uploads/materiels/' ~ employe.imageFilename ) }}" class="w-100 border-radius-lg shadow-sm" alt="Photo du matériel">
-                        {% else %}
-                            <img src="{{ asset('assets/img/car.png') }}" class="w-100 border-radius-lg shadow-sm" alt="Photo du matériel">
+    <div class="row">
+        <div class="col-12">
+            <div class="card __cadr-default">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div>
+                        <h3 class="card-title">
+                            Matériel : {{ materiel.marque ? materiel.marque.libelle : materiel.name }}
+                            - {{ materiel.immatriculation }}
+                        </h3>
+                        {% if materiel.modele %}
+                            <br>
+                            <p class="mb-0 font-weight-normal text-sm">Modèle
+                                : {{ materiel.modele | default('Non spécifié') }}</p>
                         {% endif %}
                     </div>
-                </div>
-                <div class="col-auto my-auto">
-                    <div class="h-100">
-                        <h5 class="mb-1">{{ materiel.marque.libelle }} - {{ materiel.immatriculation | default('Immatriculation Non attribuée') }}</h5>
-                        <p class="mb-0 font-weight-normal text-sm">Modèle : {{ materiel.modele | default('Non spécifié') }}</p>
+                    <div class="btn-group">
+                        <a href="" class="btn btn-primary btn-sm">
+                            <i class="fas fa-edit"></i> Modifier
+                        </a>
+                        <a href=""
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce matériel ?')">
+                            <i class="fas fa-trash"></i> Supprimer
+                        </a>
+                        <a href="{{ path('maintenances_planification_materiel', {'id': materiel.id}) }}"
+                           class="btn btn-warning btn-sm">
+                            <i class="fas fa-trash"></i> Planifier une maintenance
+                        </a>
                     </div>
                 </div>
-                <div class="col-auto ms-auto d-flex align-items-center">
-                    <a href="{{ path('materiels_index') }}" class="btn btn-outline-secondary">
-                        <i class="material-symbols-rounded">arrow_back</i> Retour
-                    </a>
-                </div>
-            </div>
+                <div class="card-body table-responsive">
+                    <div class="row">
+                        <div class="col-md-4">
+                            {% if materiel.imageFilename %}
+                                <img src="{{ asset('uploads/materiels/' ~ materiel.imageFilename ) }}"
+                                     class="w-100 border-radius-lg shadow-sm" alt="Photo du matériel">
+                            {% else %}
+                                <img src="{{ asset('assets/img/car.png') }}" class="w-100 border-radius-lg shadow-sm"
+                                     alt="Photo du matériel">
+                            {% endif %}
+                        </div>
+                        <div class="col-md-8">
+                            <table class="table table-bordered table-striped__ table-hover text-nowrap table-valign-middle">
+                                <tbody>
+                                <tr>
+                                    <th>Type :</th>
+                                    <td> {{ materiel.type.libelle }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Numéro de Série</th>
+                                    <td>{{ materiel.numeroSerie | default('Non spécifié') }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Date d'Acquisition :</th>
+                                    <td>{{ materiel.dateAcquisition ? materiel.dateAcquisition|date('d/m/Y') : 'Non spécifié' }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Statut :</th>
+                                    <td>{% if materiel.statut == 0 %}
+                                            <span class="badge bg-gradient-secondary">Non Affecté (NA)</span>
+                                        {% elseif materiel.statut == 1 %}
+                                            <span class="badge bg-gradient-info">Affecté (A)</span>
+                                        {% elseif materiel.statut == 3 %}
+                                            <span class="badge bg-gradient-warning">NA / En Maintenance </span>
+                                        {% elseif materiel.statut == 2 %}
+                                            <span class="badge bg-gradient-success">A / En Maintenance </span>
+                                        {% endif %}</td>
+                                </tr>
+                                {% if materiel.affectations | length > 0 %}
+                                    <tr>
+                                        <th>Derniére affectation :</th>
+                                        {% set index = (materiel.affectations | length) - 1 %}
+                                        <td>{{ materiel.affectations[index].employe.fullName }}
+                                            dèpuis {{ materiel.affectations[index].dateAffectation | date('d/m/Y') }}</td>
+                                    </tr>
+                                {% endif %}
+                                {% if assurances is not null or assurances is not empty %}
+                                    <tr>
+                                        <th>Prochaine visite technique :</th>
 
-            <div class="row">
-                <div class="col-12 col-xl-6">
-                    <div class="card card-plain h-100">
-                        <div class="card-header pb-0 p-3">
-                            <h6 class="mb-0">Caractéristiques du Matériel</h6>
-                        </div>
-                        <div class="card-body p-3">
-                            <ul class="list-group">
-                                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Numéro de Série :</strong> &nbsp; {{ materiel.numeroSerie | default('Non spécifié') }}</li>
-                                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Type :</strong> &nbsp; {{ materiel.type.libelle | default('Non spécifié') }}</li>
-                                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Statut :</strong> &nbsp; 
-                                    {% if materiel.statut == 0 %}
-                                        <span class="badge bg-gradient-secondary">Non Affecté (NA)</span>
-                                    {% elseif materiel.statut == 1 %}
-                                        <span class="badge bg-gradient-info">Affecté (A)</span>
-                                    {% elseif materiel.statut == 3 %}
-                                        <span class="badge bg-gradient-warning">NA / En Maintenance </span>
-                                    {% elseif materiel.statut == 2 %}
-                                        <span class="badge bg-gradient-success">A / En Maintenance </span>
-                                    {% endif %}
-                                </li>
-                                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Date d'Acquisition :</strong> &nbsp; {{ materiel.dateAcquisition ? materiel.dateAcquisition|date('d/m/Y') : 'Non spécifié' }}</li>
-                            </ul>
+                                        <td>
+                                           {{assurances.visiteTechnique ? assurances.visiteTechnique.fin|date('d/m/Y') :
+                                           'Pas de visite technique effectuée ' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Date paiement TVM :</th>
+
+                                        <td> {{assurances.tvm ? assurances.tvm.debut|date('d/m/Y') :
+                                            'Pas de visite technique effectuée ' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Prochaine assurance:</th>
+
+                                        <td> {{assurances.assurance ? assurances.assurance.fin|date('d/m/Y') :
+                                            'Pas de visite technique effectuée ' }}</td>
+                                    </tr>
+                                {% endif %}
+
+
+                                </tbody>
+
+                            </table>
                         </div>
                     </div>
+
+
                 </div>
-                <div class="col-12 col-xl-6">
-                    <div class="card card-plain h-100">
-                        <div class="card-header pb-0 p-3">
-                            <h6 class="mb-0">Employé qui utilise ce matériel</h6>
+                {#                <div class="card-footer"> #}
+                {#                    <div class="float-end"> #}
+                {#                        <a href="{{ path('types_materiels_edit', { 'id': typeMateriel.id }) }}" class="btn btn-default">Modifier</a> #}
+                {#                        <form action="{{ path('types_materiels_delete', {'id': typeMateriel.id}) }}" method="POST" class="d-inline"> #}
+                {#                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ typeMateriel.id) }}"> #}
+                {#                            <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce type de matériel ?');">Supprimer</button> #}
+                {#                        </form> #}
+
+                {#                        <a href="{{ path('types_materiels_index') }}" class="btn btn-secondary">Retour</a> #}
+                {#                    </div> #}
+
+
+                {#                </div> #}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-primary card-outline card-tabs">
+                <div class="card-header p-0 pt-1 border-bottom-0">
+                    <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="custom-tabs-three-home-tab" data-bs-toggle="pill"
+                               href="#affectation"
+                               role="tab" aria-controls="custom-tabs-three-home" aria-selected="true">Historique des
+                                affectations</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button type="button" class="nav-link" id="custom-tabs-three-profile-tab" data-bs-toggle="pill"
+                               href="#maintenance" role="tab" aria-controls="custom-tabs-three-profile"
+                               aria-selected="false">Historique des maintenances</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="custom-tabs-three-messages-tab" data-bs-toggle="pill"
+                               href="#planife" role="tab"
+                               aria-controls="custom-tabs-three-messages" aria-selected="false">Maintenances
+                                planifiées</a>
+                        </li>
+                        {% if materiel.type.libelle == 'Véhicule' %}
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="custom-tabs-three-messages-tab" data-bs-toggle="pill"
+                                   href="#assurances" role="tab"
+                                   aria-controls="custom-tabs-three-messages" aria-selected="false">Assurances
+                                   </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content" id="custom-tabs-three-tabContent">
+                        <div class="tab-pane fade show active" id="affectation" role="tabpanel"
+                             aria-labelledby="custom-tabs-three-home-tab">
+                            {{ include('materiels/_affectations.html.twig') }}
                         </div>
-                        <div class="card-body p-3">
-                            <ul class="list-group">
-                                {% for affectation in materiel.affectations %}
-                                    <li class="list-group-item border-0 ps-0 text-sm">
-                                        <strong class="text-dark">{{ affectation.employe.nom }} {{ affectation.employe.prenom }}</strong> - {{ affectation.dateAffectation | date('d/m/Y') }}
-                                    </li>
-                                {% else %}
-                                    <li class="list-group-item border-0 ps-0 text-sm">Aucun employé affecté</li>
-                                {% endfor %}
-                            </ul>
+                        <div class="tab-pane fade" id="maintenance" role="tabpanel"
+                             aria-labelledby="custom-tabs-three-profile-tab">
+                                                        {{ include('materiels/_maintenances.html.twig') }}
                         </div>
+                        <div class="tab-pane fade" id="planife" role="tabpanel"
+                             aria-labelledby="custom-tabs-three-messages-tab">
+                            {{ include('materiels/_planification.html.twig') }}
+                        </div>
+                        {% if materiel.type.libelle == 'Véhicule' %}
+                            <div class="tab-pane fade" id="assurances" role="tabpanel"
+                                 aria-labelledby="custom-tabs-three-messages-tab">
+                                                            {{ include('materiels/_operations.html.twig') }}
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 
 {% endblock %}

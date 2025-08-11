@@ -1,0 +1,36 @@
+{% extends 'base_table.html.twig' %}
+{% block title %}Emploie & Ressources{% endblock %}
+{% block breadcrumb %}Emploie & Ressources{% endblock %}
+{% block  breadcrumb_item %} Emploie {% endblock %}
+{% block  breadcrumb_t %} Gestion des caisse{% endblock %}
+{% block table_titre %}Liste des caisses{% endblock %}
+{% block btntitle %}Ajouter une caisse{% endblock %}
+{#{% block btnpath %}{{ path('ca') }}{% endblock %}#}
+
+{% block tableContent %}
+        <thead>
+            <tr>
+                <th></th>
+                <th>Libelle</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for caisse in caisses %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ caisse.libelle }}</td>
+                <td class="align-middle text-center">
+                    <div class="common-align gap-2 justify-content-start">
+                    <a href="{{ path('app_emploie_caisse_show', {'id': caisse.id}) }}">show</a>
+                    <a href="{{ path('app_emploie_caisse_edit', {'id': caisse.id}) }}">edit</a>
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+{% endblock %}

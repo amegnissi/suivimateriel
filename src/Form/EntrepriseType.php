@@ -24,7 +24,7 @@ class EntrepriseType extends AbstractType
                 'attr' => ['class' => 'form-control']
             ])
             ->add('sigle', TextType::class, [
-                'label' => 'SIGLE',
+                'label' => 'Sigle',
                 'required' => false,
                 'attr' => ['class' => 'form-control']
             ])

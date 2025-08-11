@@ -28,14 +28,37 @@
 {#        </div>#}
 
 {#    </div>#}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12">{{ form_row(form.typemateriel) }}</div>
+                <div class="col-md-12">{{ form_row(form.vehicule) }}</div>
+                <div class="col-md-12">{{ form_row(form.typeAssurance) }}</div>
+                <div class="col-md-6">{{ form_row(form.montantPaye) }}</div>
+                <div class="col-md-6">{{ form_row(form.dateDebut) }}</div>
+                <div class="col-md-6">{{ form_row(form.dateFin) }}</div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="text-center mb-3">
+                <img id="materiel-image" src="{{ asset('images/default-image.jpg') }}"
+                     class="img-fluid rounded"
+                     style="max-height: 300px; width: auto;"
+                     alt="Image du matériel">
+            </div>
+        </div>
+    </div>
     {{ form_widget(form) }}
 
 
 {% endblock %}
 {% block javascript %}
 <script>
+    const vehiculeSelect = document.getElementById('assurance_vehicule');
+    const imageElement = document.getElementById('materiel-image');
     var $assurance_typemateriel = $("#assurance_typemateriel")
     var $token = $("#assurance__token")
+
 
     $assurance_typemateriel.change(function ()
     {
@@ -50,97 +73,52 @@
         )
     })
     })
-</script>
-<script>
-    $(document).ready(function() {
-    $('.select2').select2();
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const imageElement = document.getElementById('materiel-image');
+    if (!imageElement) {
+    console.error('Élément image non trouvé');
+    return;
+}
+
+    // Délégation d'événements sur le formulaire parent
+    document.querySelector('form[name="assurance"]').addEventListener('change', function(event) {
+    if (event.target && event.target.id === 'assurance_vehicule') {
+    console.log('Changement détecté sur le select vehicule');
+    loadMaterielImage(event.target.value);
+}
 });
 
-    class LinkedSelect {
+    // Fonction pour charger l'image
+    async function loadMaterielImage(materielId) {
+    console.log('Chargement image pour le matériel ID:', materielId);
+    if (!materielId) {
+    imageElement.src = '{{ asset('images/default-image.jpg') }}';
+            return;
+        }
 
-    /**
-     * @param {HTMLSelectElement} $select
-     */
-    constructor($select) {
-    this.$select = $select
-    this.$target = document.querySelector(this.$select.dataset.target)
-    this.$placeholder = this.$target.firstElementChild
-    //  this.onChange = debounce(this.onChange.bind(this), 500)
-    this.onChange = this.onChange.bind(this)
-    this.$loader = null
-    this.cache = {}
-    this.$select.addEventListener('change', this.onChange)
-}
+        try {
+            const response = await fetch(`/ajax/image/materiel/${materielId}/`);
+            if (!response.ok) throw new Error('Erreur réseau');
 
-    /**
-     * Se déclenche au changement de valeur d'un select
-     * @param {Event} e
-     */
-    onChange(e) {
-    if (e.target.value === '0') {
+            const data = await response.json();
+            console.log('Données reçues:', data);
 
-    return
-}
+            imageElement.src = data.imageUrl || '{{ asset('images/default-image.jpg') }}';
+            imageElement.style.display = 'block';
+        } catch (error) {
+            console.error('Erreur:', error);
+            imageElement.src = '{{ asset('images/default-image.jpg') }}';
+        }
+    }
 
-    this.loadOptions(e.target.value, (options) => {
-    this.$target.innerHTML = options
-    this.$target.insertBefore(this.$placeholder, this.$target.firstChild)
-    this.$target.selectedIndex = 0
-    this.$target.style.display = null
-
-})
-}
-
-    /**
-     * Charge les options à partir du serveur (ou du cache)
-     * @param {string} id
-     * @param callback
-     */
-    loadOptions(id, callback) {
-    if (this.cache[id]) {
-    callback(this.cache[id])
-    return
-}
-    this.showLoader()
-    let request = new XMLHttpRequest()
-    request.open('GET', this.$select.dataset.source.replace('id', id), true)
-    request.onload = () => {
-    if (request.status >= 200 && request.status < 400) {
-    let data = JSON.parse(request.responseText)
-    let options = data.reduce(function (acc, option) {
-    return acc + '<option value="' + option.value + '">' + option.label + '</option>'
-}, '')
-    this.cache[id] = options
-    this.hideLoader()
-    callback(options)
-} else {
-    alert('Impossible de charger la liste')
-}
-}
-    request.onerror = function () {
-    alert('Impossible de charger la liste')
-}
-    request.send()
-}
-
-    showLoader() {
-    this.$loader = document.createTextNode('Chargement...')
-    this.$target.parentNode.appendChild(this.$loader)
-}
-
-    hideLoader() {
-    if (this.$loader !== null) {
-    this.$loader.parentNode.removeChild(this.$loader)
-    this.$loader = null
-}
-}
-
-}
-
-    let $selects = document.querySelectorAll('.linked-select')
-    $selects.forEach(function ($select) {
-    new LinkedSelect($select)
-
-})
+    // Pour les cas où le select est déjà rempli au chargement
+    const initialVehicule = document.getElementById('assurance_vehicule');
+    if (initialVehicule && initialVehicule.value) {
+        loadMaterielImage(initialVehicule.value);
+    }
+});
 </script>
+
 {% endblock %}

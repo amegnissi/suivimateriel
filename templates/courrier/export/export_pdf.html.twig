@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Export Opérations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Google Font: Inter, SUSE, Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=SUSE:ital,wght@0,400;0,600;0,700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons  -->
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/fontawesome-free/css/all.min.css') }}">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
+    <link rel="stylesheet" href="{{ absolute_url(asset('adminlte/css/adminlte.css')) }}">
+    <link rel="stylesheet" href="{{ absolute_url(asset('adminlte/css/base.css')) }}">
+    <link rel="stylesheet" href="{{ absolute_url(asset('adminlte/css/dashboard.css')) }}">
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; }
+        table { width: 75%; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 5px; }
+        th { background-color: #f2f2f2; }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #2c3e50;
+            width: 30%;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 18px;
+            color: #2c3e50;
+        }
+        /* Pied de page */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+            font-size: 10px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+<div class="row">
+
+    <div class="col-sm-8 offset-sm-2">
+        <div class="card __cadr-default">
+            <div class="card-header">
+                <h3 class="card-title ">
+                   Ticket de courrier
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive">
+                <table class="table table-bordered table-striped__ table-hover text-nowrap table-valign-middle">
+                    <tbody>
+
+                    <tr>
+                        <th>Référence du courrier</th>
+                        <td>{{ courrier.reference }}</td>
+                    </tr>
+                    <tr>
+                        <th>Référence interne</th>
+                        <td>{{ courrier.referenceInterne }}</td>
+                    </tr>
+                    <tr>
+                        <th>Objet</th>
+                        <td>{{ courrier.objet }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nature</th>
+                        <td>{{ courrier.nature.libelle }}</td>
+                    </tr>
+                    <tr>
+                        {% set nature = ' Expédteurs - Destinataires' %}
+
+                        {% if  courrier.typeCourrier.code =='ARRIVEE' %}
+                            {% set nature =' Expédteurs ' %}
+                        {% elseif   courrier.typeCourrier.code == 'DEPART'%}
+                            {% set nature = ' Destinataires '%}
+                        {% else %}
+                            {% set nature = ' Expédteurs - Destinataires' %}
+                        {% endif %}
+                        <th>{{ nature }}</th>
+                        <td>{{ courrier.partenaire.nomOuRaisonSocial }}</td>
+                    </tr>
+                    <tr>
+                        <th>Signataire</th>
+                        <td>{{ courrier.signataire }}</td>
+                    </tr>
+                    <tr>
+
+                        <th>Date {{ courrier.typeCourrier.libelle }}</th>
+                        <td>{{ courrier.dateArivee ? courrier.dateArivee|date('Y-m-d') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Date de Signature</th>
+                        <td>{{ courrier.dateSignature ? courrier.dateSignature|date('Y-m-d') : '' }}</td>
+                    </tr>
+
+
+
+                    </tbody>
+                </table>
+
+            </div>
+
+            <div class="footer">
+                Document généré le {{ "now"|date("d/m/Y H:i") }}
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+</body>
+</html>

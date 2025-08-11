@@ -13,7 +13,7 @@
     <tr>
         <th class="col">N°</th>
         <th class="col">Nom de la Marque</th>
-        <th class="col">Est un Véhicule ?</th>
+
         <th class="col">Matériels Associés</th>
         <th class="col text-center">Actions</th>
     </tr>
@@ -23,15 +23,15 @@
         <tr>
             <td>{{ loop.index }}</td>
             <td>{{ marque.libelle ?: 'N/A' }}</td>
-            <td>
-                {% if marque.estVehicule is not null %}
-                    <span class="badge badge-{{ marque.estVehicule ? 'info' : 'success' }}">
-                                                    {{ marque.estVehicule ? 'Oui' : 'Non' }}
-                                                </span>
-                {% else %}
-                    <span class="badge badge-secondary">Non Défini</span>
-                {% endif %}
-            </td>
+{#            <td>#}
+{#                {% if marque.estVehicule is not null %}#}
+{#                    <span class="badge badge-{{ marque.estVehicule ? 'info' : 'success' }}">#}
+{#                                                    {{ marque.estVehicule ? 'Oui' : 'Non' }}#}
+{#                                                </span>#}
+{#                {% else %}#}
+{#                    <span class="badge badge-secondary">Non Défini</span>#}
+{#                {% endif %}#}
+{#            </td>#}
             <td class="align-middle text-center text-xs font-weight-bold">{{ marque.materiels|length ?: 0 }}</td>
             <td class="align-middle text-center">
                 <div class="common-align gap-2 justify-content-start">

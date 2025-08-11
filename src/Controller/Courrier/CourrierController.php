@@ -6,6 +6,7 @@ use App\Entity\Courrier\Courrier;
 use App\Form\Courrier\CourrierType;
 use App\Repository\Courrier\CourrierRepository;
 use App\Repository\Courrier\TypeCourrierRepository;
+use App\Service\ExportService;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,14 +17,14 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/courrier')]
 final class CourrierController extends AbstractController
 {
-    
+
     #[Route(name: 'app_courrier_index', methods: ['GET'])]
     public function index(CourrierRepository $courrierRepository): Response
     {
-        
+
         return $this->render('courrier/index.html.twig', [
             'courriers' => $courrierRepository->findAll(),
-            
+
         ]);
     }
 
@@ -53,7 +54,7 @@ final class CourrierController extends AbstractController
             'courrier' => $courrier,
             'form' => $form,
             'titre'=> 'Nouveau courrier départ',
-            
+
         ]);
     }
 
@@ -76,23 +77,43 @@ final class CourrierController extends AbstractController
             $entityManager->persist($courrier);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_courrier_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_courrier_ticket', ['id' => $courrier->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('courrier/new.html.twig', [
             'courrier' => $courrier,
             'form' => $form,
             'titre'=> 'Nouveau courrier arrivé',
-            
+
         ]);
     }
 
+    #[Route('/ticket-courrier/{id}', name: 'app_courrier_ticket', methods: ['GET'])]
+    public function recshow(Courrier $courrier): Response
+    {
+        return $this->render('courrier/showRecap.html.twig', [
+            'courrier' => $courrier,
+
+        ]);
+    }
+
+    #[Route('/export-pdf/{id}', name: 'app_courrier_ticket_export_pdf')]
+    public function exportPdf(Courrier $courrier, ExportService $exportService): Response
+    {
+        // Récupérer les opérations
+        $name =$courrier->getReferenceInterne();
+
+        // Utilisation du service ExportService pour exporter en PDF
+        return $exportService->exportPdf('courrier/export/export_pdf.html.twig', [
+            'courrier' => $courrier
+        ],  $name.'.pdf');
+    }
     #[Route('/{id}', name: 'app_courrier_show', methods: ['GET'])]
     public function show(Courrier $courrier): Response
     {
         return $this->render('courrier/show.html.twig', [
             'courrier' => $courrier,
-            
+
         ]);
     }
 
@@ -111,7 +132,7 @@ final class CourrierController extends AbstractController
         return $this->render('courrier/edit.html.twig', [
             'courrier' => $courrier,
             'form' => $form,
-            
+
         ]);
     }
 

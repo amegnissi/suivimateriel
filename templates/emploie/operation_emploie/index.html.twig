@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}OperationEmploie index{% endblock %}
+
+{% block body %}
+    <h1>OperationEmploie index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Reference</th>
+                <th>DateOperation</th>
+                <th>MontantAPayer</th>
+                <th>Retenue</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for operation_emploie in operation_emploies %}
+            <tr>
+                <td>{{ operation_emploie.id }}</td>
+                <td>{{ operation_emploie.reference }}</td>
+                <td>{{ operation_emploie.dateOperation ? operation_emploie.dateOperation|date('Y-m-d') : '' }}</td>
+                <td>{{ operation_emploie.montantAPayer }}</td>
+                <td>{{ operation_emploie.retenue }}</td>
+                <td>
+                    <a href="{{ path('app_emploie_operation_emploie_show', {'id': operation_emploie.id}) }}">show</a>
+                    <a href="{{ path('app_emploie_operation_emploie_edit', {'id': operation_emploie.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_emploie_operation_emploie_new') }}">Create new</a>
+{% endblock %}

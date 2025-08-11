@@ -6,6 +6,8 @@ use App\Entity\Marque;
 use App\Entity\Materiel;
 use App\Entity\Entreprise;
 use App\Form\MaterielType;
+use App\Repository\AssuranceRepository;
+use App\Repository\MaintenanceRepository;
 use App\Service\ExportService;
 use App\Repository\MaterielRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,7 +29,7 @@ class MaterielController extends BaseController
         if ($redirect = $this->checkEntreprise($entityManager)) {
             return $redirect;
         }
-        
+
         $query = $materielRepository->createQueryBuilder('e')
             ->getQuery();
 
@@ -35,9 +37,9 @@ class MaterielController extends BaseController
         $pagination = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1), // Page actuelle
-            10 // Nombre d'éléments par page
+            50 // Nombre d'éléments par page
         );
-        
+
         return $this->render('materiels/index.html.twig', [
             'pagination' => $pagination,
         ]);
@@ -47,12 +49,12 @@ class MaterielController extends BaseController
     public function exportExcel(MaterielRepository $materielRepository, ExportService $exportService): Response
     {
         $materiels = $materielRepository->findAll();
-    
+
         $headers = [
-            'N°', 'Marque', 'Modèle', 'Immatriculation', 'Numéro de série', 'Type', 
+            'N°', 'Marque', 'Modèle', 'Immatriculation', 'Numéro de série', 'Type',
             'Date d\'acquisition', 'Lieu d\'affectation', 'Statut'
         ];
-    
+
         // Préparer les données à exporter
         $data = [];
         foreach ($materiels as $index => $materiel) {
@@ -68,14 +70,14 @@ class MaterielController extends BaseController
                 count($materiel->getAffectations()) > 0 ? 'Affecté' : 'Non Affecté',
             ];
         }
-    
+
         // Utilisation du service ExportService
         return $exportService->exportExcel($data, $headers, 'materiels.xlsx');
     }
 
     #[Route('/export-pdf', name: 'materiels_export_pdf')]
     public function exportPdf(MaterielRepository $materielRepository, ExportService $exportService): Response
-    {    
+    {
         $materiels = $materielRepository->findAll();
 
         // Utilisation du service ExportService
@@ -90,7 +92,7 @@ class MaterielController extends BaseController
         if ($redirect = $this->checkEntreprise($entityManager)) {
             return $redirect;
         }
-        
+
         $materiel = new Materiel();
         $materiel->setStatut(0); // Définir le statut par défaut à 0 (Non Affecté)
         $form = $this->createForm(MaterielType::class, $materiel);
@@ -134,7 +136,7 @@ class MaterielController extends BaseController
             ->where('m.estVehicule = true')
             ->getQuery()
             ->getResult();
-            
+
         // Conversion en tableau simple
         $marquesVehicules = array_map(fn($marque) => $marque['id'], $marquesVehicules);
 
@@ -146,10 +148,34 @@ class MaterielController extends BaseController
     }
 
     #[Route('/{id}', name: 'materiels_show', methods: ['GET'])]
-    public function show(Materiel $materiel): Response
+    public function show(Materiel $materiel,MaintenanceRepository $maintenanceRepository,AssuranceRepository $assuranceRepository):
+    Response
     {
+        $maintenances = $maintenanceRepository->findBy(['materiel' => $materiel,'planifie' => false]);
+//        dd($maintenances);
+        $assurances = null;
+        if($materiel->getType()->getLibelle() === 'Véhicule'){
+//            $assurances = $assuranceRepository->findLatestByMateriel($materiel,'tvm');
+//            $tvm = $assuranceRepository->findAssuranceByMateriel($materiel,'tvm');
+//            $assur = $assuranceRepository->findAssuranceByMateriel($materiel,'assurance');
+//            $visite = $assuranceRepository->findAssuranceByMateriel($materiel,'visite_technique');
+//
+//            dd($tvm,$assur,$visite);
+//
+            $assurances = [
+                'liste' => $assuranceRepository->findLatestByMateriel($materiel, 'tvm'),
+                'tvm' => $assuranceRepository->findAssuranceByMateriel($materiel, 'tvm'),
+                'assurance' => $assuranceRepository->findAssuranceByMateriel($materiel, 'assurance'),
+                'visiteTechnique' => $assuranceRepository->findAssuranceByMateriel($materiel, 'visite_technique')
+            ];
+        }
+
+        $planifications = $maintenanceRepository->findBy(['materiel' => $materiel,'planifie'=>true]);
         return $this->render('materiels/show.html.twig', [
             'materiel' => $materiel,
+            'maintenances' => $maintenances,
+            'assurances' => $assurances,
+            'planifications' => $planifications
         ]);
     }
 
@@ -159,7 +185,7 @@ class MaterielController extends BaseController
         if ($redirect = $this->checkEntreprise($entityManager)) {
             return $redirect;
         }
-        
+
         $form = $this->createForm(MaterielType::class, $materiel);
         $form->handleRequest($request);
 
@@ -182,7 +208,7 @@ class MaterielController extends BaseController
         if ($redirect = $this->checkEntreprise($entityManager)) {
             return $redirect;
         }
-        
+
         if ($this->isCsrfTokenValid('delete'.$materiel->getId(), $request->request->get('_token'))) {
             $entityManager->remove($materiel);
             $entityManager->flush();

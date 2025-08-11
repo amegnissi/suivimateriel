@@ -1,0 +1,49 @@
+{% extends 'base_formulaire.html.twig' %}
+{% block title %}Emploie{% endblock %}
+{% block breadcrumb %}Emploie{% endblock %}
+{% block  breadcrumb_item %} Ressources{% endblock %}
+{% block  breadcrumb_t %} Emploie & Ressources{% endblock %}
+{% block form_titre %}Nouvel emploie{% endblock %}
+{% block formContent %}
+
+    {{ include('emploie/operation_emploie/_form.html.twig') }}
+
+
+{% endblock %}
+{% block javascript %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const montantInput = document.querySelector("#operation_emploie_montantAPayer");
+    const retenueInput = document.querySelector("#operation_emploie_retenue");
+    const netInput = document.querySelector("#operation_emploie_netAPayer");
+    const caisseSelect = document.querySelector("#operation_emploie_caisse");
+
+    function updateFields() {
+    const montant = parseFloat(montantInput.value) || 0;
+    const retenue = parseFloat(retenueInput.value) || 0;
+    const net = montant - retenue;
+
+    // Calcul du net à payer
+    netInput.value = net >= 0 ? net.toFixed(2) : 0;
+
+    // Activation/Désactivation de la caisse
+    if (retenue > montant) {
+    caisseSelect.disabled = false; // Actif
+} else {
+    caisseSelect.disabled = true; // Grisé
+    caisseSelect.value = ""; // Reset
+}
+}
+
+    // Force le grisé au chargement
+    caisseSelect.disabled = true;
+
+    // Événements sur les champs
+    montantInput.addEventListener("input", updateFields);
+    retenueInput.addEventListener("input", updateFields);
+
+    // Calcul initial au chargement (au cas où des valeurs existent déjà)
+    updateFields();
+});
+</script>
+{% endblock %}

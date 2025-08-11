@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}OperationEmploie{% endblock %}
+
+{% block body %}
+    <h1>OperationEmploie</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ operation_emploie.id }}</td>
+            </tr>
+            <tr>
+                <th>Reference</th>
+                <td>{{ operation_emploie.reference }}</td>
+            </tr>
+            <tr>
+                <th>DateOperation</th>
+                <td>{{ operation_emploie.dateOperation ? operation_emploie.dateOperation|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>MontantAPayer</th>
+                <td>{{ operation_emploie.montantAPayer }}</td>
+            </tr>
+            <tr>
+                <th>Retenue</th>
+                <td>{{ operation_emploie.retenue }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_emploie_operation_emploie_index') }}">back to list</a>
+
+    <a href="{{ path('app_emploie_operation_emploie_edit', {'id': operation_emploie.id}) }}">edit</a>
+
+    {{ include('emploie/operation_emploie/_delete_form.html.twig') }}
+{% endblock %}

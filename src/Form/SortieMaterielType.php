@@ -25,7 +25,11 @@ class SortieMaterielType extends AbstractType
                         ->where('m.estSorti = false');
                 },
                 'choice_label' => function (Materiel $materiel) {
+                if ($materiel->getMarque()) {
                     return $materiel->getMarque()->getLibelle(). ' - ' . $materiel->getImmatriculation();
+                } else {
+                    return $materiel->getName(). ' - ' .$materiel->getCode();
+                }
                 },
                 'attr' => ['class' => 'form-control'],
             ])

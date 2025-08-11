@@ -1,0 +1,13 @@
+{% extends 'base_formulaire.html.twig' %}
+{% block title %}Maintenances{% endblock %}
+
+{% block breadcrumb %}Maintenances{% endblock %}
+{% block  breadcrumb_item %}Maintenances{% endblock %}
+{% block  breadcrumb_t %} Gestion des Maintenances{% endblock %}
+
+{% block form_titre %}Ajouter une maintenance{% endblock %}
+{% block formContent %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+{% endblock %}

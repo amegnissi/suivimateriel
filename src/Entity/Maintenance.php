@@ -41,7 +41,22 @@ class Maintenance
     private ?Materiel $materiel = null;
 
     #[ORM\Column(type: 'boolean')]
-    private bool $statut = false; // Nouveau champ : false = en cours, true = terminé
+    private bool $statut = false;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $technicien = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $actionsRealisees = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $piecesUtilisees = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $planifie = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTime $datePlanification = null; // Nouveau champ : false = en cours, true = terminé
 
     public function getId(): ?int
     {
@@ -150,5 +165,65 @@ class Maintenance
     public function isStatut(): ?bool
     {
         return $this->statut;
+    }
+
+    public function getTechnicien(): ?string
+    {
+        return $this->technicien;
+    }
+
+    public function setTechnicien(?string $technicien): static
+    {
+        $this->technicien = $technicien;
+
+        return $this;
+    }
+
+    public function getActionsRealisees(): ?string
+    {
+        return $this->actionsRealisees;
+    }
+
+    public function setActionsRealisees(?string $actionsRealisees): static
+    {
+        $this->actionsRealisees = $actionsRealisees;
+
+        return $this;
+    }
+
+    public function getPiecesUtilisees(): ?string
+    {
+        return $this->piecesUtilisees;
+    }
+
+    public function setPiecesUtilisees(?string $piecesUtilisees): static
+    {
+        $this->piecesUtilisees = $piecesUtilisees;
+
+        return $this;
+    }
+
+    public function isPlanifie(): ?bool
+    {
+        return $this->planifie;
+    }
+
+    public function setPlanifie(?bool $planifie): static
+    {
+        $this->planifie = $planifie;
+
+        return $this;
+    }
+
+    public function getDatePlanification(): ?\DateTime
+    {
+        return $this->datePlanification;
+    }
+
+    public function setDatePlanification(?\DateTime $datePlanification): static
+    {
+        $this->datePlanification = $datePlanification;
+
+        return $this;
     }
 }

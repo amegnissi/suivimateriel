@@ -4,8 +4,8 @@ namespace App\Controller\Courrier;
 
 use App\Entity\Courrier\Partenaire;
 use App\Form\Courrier\PartenaireType;
-use App\Repository\courrier\CourrierRepository;
-use App\Repository\courrier\PartenaireRepository;
+use App\Repository\Courrier\CourrierRepository;
+use App\Repository\Courrier\PartenaireRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
