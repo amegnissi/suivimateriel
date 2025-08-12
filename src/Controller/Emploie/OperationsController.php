@@ -18,6 +18,7 @@ class OperationsController extends AbstractController
         return $this->render('emploie/operations/index.html.twig',[
             'ressources' => $ressourceRepository->findAll(),
             'operation_emploies' => $operationEmploieRepository->findAll(),
+            'sommes'=>$operationEmploieRepository->getTotalRetenue(),
         ]);
     }
 }

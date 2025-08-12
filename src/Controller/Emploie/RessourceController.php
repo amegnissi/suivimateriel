@@ -4,7 +4,10 @@ namespace App\Controller\Emploie;
 
 use App\Entity\Emploie\Ressource;
 use App\Form\Emploie\RessourceType;
+use App\Repository\Emploie\OperationEmploieRepository;
 use App\Repository\Emploie\RessourceRepository;
+use App\Service\UniqueIdentifierGenerator;
+use App\Traits\InsertionReferenceTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +17,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/emploie/operations/ressources')]
 final class RessourceController extends AbstractController
 {
+    use InsertionReferenceTrait;
     #[Route(name: 'app_emploie_ressource_index', methods: ['GET'])]
     public function index(RessourceRepository $ressourceRepository): Response
     {
@@ -23,16 +27,28 @@ final class RessourceController extends AbstractController
     }
 
     #[Route('/new', name: 'app_emploie_ressource_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, OperationEmploieRepository
+    $operationEmploieRepository,RessourceRepository $ressourceRepository,UniqueIdentifierGenerator $uniqueIdentifierGenerator): Response
     {
         $ressource = new Ressource();
         $ressource->setMois((int) date('n'));
         $ressource->setAnnee((int) date('Y'));
-        $form = $this->createForm(RessourceType::class, $ressource);
 
+        $form = $this->createForm(RessourceType::class, $ressource);
+        $total = $operationEmploieRepository->getTotalMontantAPayer();
+        $totalPris = $ressourceRepository->getTotalMontantPris();
+        $sommes = $operationEmploieRepository->getTotalRetenue();
+        $reste = $sommes['difference'] - $totalPris;
+
+        $form->get('totalMontant')->setData($reste);
+
+        $identifier = $uniqueIdentifierGenerator->generateUniqueIdentifier(Ressource::class, 'referenceSysteme', 'RSC');
+
+        $form->get('referenceManuel')->setData($identifier);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->insertion($identifier,$ressource,$form);
             $entityManager->persist($ressource);
             $entityManager->flush();
 
@@ -42,6 +58,7 @@ final class RessourceController extends AbstractController
         return $this->render('emploie/ressource/new.html.twig', [
             'ressource' => $ressource,
             'form' => $form,
+            'totalRessource' => $reste
         ]);
     }
 

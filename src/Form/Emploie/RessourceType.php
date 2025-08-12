@@ -3,12 +3,16 @@
 namespace App\Form\Emploie;
 
 use App\Entity\Emploie\Ressource;
+use App\Form\ApplicationType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class RessourceType extends AbstractType
+class RessourceType extends ApplicationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -35,8 +39,17 @@ class RessourceType extends AbstractType
             ])
             ->add('sourcesPaiement')
             ->add('montantPris')
-            ->add('montantRestant')
-            ->add('reference')
+            ->add('montantRestant',IntegerType::class,[
+                'attr' => ['readonly' => true],
+
+            ])
+            ->add('totalMontant',HiddenType::class,[
+                'mapped' => false,
+                'attr' => ['readonly' => true],
+            ])
+            ->add('referenceManuel',TextType::class,$this->getConfiguration('Reference ','Reference',[
+                'required' => false,
+            ]))
         ;
     }
 

@@ -19,20 +19,21 @@
     const caisseSelect = document.querySelector("#operation_emploie_caisse");
 
     function updateFields() {
-    const montant = parseFloat(montantInput.value) || 0;
-    const retenue = parseFloat(retenueInput.value) || 0;
-    const net = montant - retenue;
+    let montant = parseFloat(montantInput.value) || 0;
+    let retenue = parseFloat(retenueInput.value) || 0;
+
+    // Empêcher que la retenue soit > montant
+    if (retenue > montant) {
+    retenue = montant;
+    retenueInput.value = montant;
+}
 
     // Calcul du net à payer
-    netInput.value = net >= 0 ? net.toFixed(2) : 0;
+    const net = montant - retenue;
+    netInput.value = net >= 0 ? net : 0;
 
-    // Activation/Désactivation de la caisse
-    if (retenue > montant) {
-    caisseSelect.disabled = false; // Actif
-} else {
-    caisseSelect.disabled = true; // Grisé
-    caisseSelect.value = ""; // Reset
-}
+    // Activer ou désactiver la caisse
+    caisseSelect.disabled = (retenue <= 0);
 }
 
     // Force le grisé au chargement

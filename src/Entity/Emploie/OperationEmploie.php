@@ -3,6 +3,8 @@
 namespace App\Entity\Emploie;
 
 use App\Repository\Emploie\OperationEmploieRepository;
+use App\Traits\NomMoisTraits;
+use App\Traits\ReferenceTraits;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -14,8 +16,8 @@ class OperationEmploie
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $reference = null;
+    use ReferenceTraits;
+    use NomMoisTraits;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTime $dateOperation = null;
@@ -32,28 +34,20 @@ class OperationEmploie
     #[ORM\Column(nullable: true)]
     private ?float $retenue = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $mois = null;
-
     #[ORM\Column]
     private ?int $annee = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $autorisation = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $motifAutorisation = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getReference(): ?string
-    {
-        return $this->reference;
-    }
-
-    public function setReference(?string $reference): static
-    {
-        $this->reference = $reference;
-
-        return $this;
-    }
 
     public function getDateOperation(): ?\DateTime
     {
@@ -115,18 +109,6 @@ class OperationEmploie
         return $this;
     }
 
-    public function getMois(): ?int
-    {
-        return $this->mois;
-    }
-
-    public function setMois(?int $mois): static
-    {
-        $this->mois = $mois;
-
-        return $this;
-    }
-
     public function getAnnee(): ?int
     {
         return $this->annee;
@@ -135,6 +117,30 @@ class OperationEmploie
     public function setAnnee(int $annee): static
     {
         $this->annee = $annee;
+
+        return $this;
+    }
+
+    public function getAutorisation(): ?string
+    {
+        return $this->autorisation;
+    }
+
+    public function setAutorisation(?string $autorisation): static
+    {
+        $this->autorisation = $autorisation;
+
+        return $this;
+    }
+
+    public function getMotifAutorisation(): ?string
+    {
+        return $this->motifAutorisation;
+    }
+
+    public function setMotifAutorisation(?string $motifAutorisation): static
+    {
+        $this->motifAutorisation = $motifAutorisation;
 
         return $this;
     }

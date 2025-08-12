@@ -3,6 +3,9 @@
 namespace App\Entity\Emploie;
 
 use App\Repository\Emploie\RessourceRepository;
+use App\Traits\NomMoisTraits;
+use App\Traits\ReferenceTraits;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RessourceRepository::class)]
@@ -12,9 +15,8 @@ class Ressource
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $mois = null;
+    use ReferenceTraits;
+    use NomMoisTraits;
 
     #[ORM\Column(nullable: true)]
     private ?int $annee = null;
@@ -28,49 +30,20 @@ class Ressource
     #[ORM\Column(nullable: true)]
     private ?float $montantRestant = null;
 
+
+
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $reference = null;
+    private ?string $autorisation = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $motifAutorisation = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTime $dateOperation = null;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getMois(): ?int
-    {
-        return $this->mois;
-    }
-
-    public function setMois(?int $mois): static
-    {
-        $this->mois = $mois;
-
-        return $this;
-    }
-
-    public function getNomMois(): ?string
-    {
-        $moisChoices = array_flip(self::getMoisChoices());
-
-        return $moisChoices[$this->mois] ?? null;
-    }
-
-    public static function getMoisChoices(): array
-    {
-        return [
-            'Janvier' => 1,
-            'Février' => 2,
-            'Mars' => 3,
-            'Avril' => 4,
-            'Mai' => 5,
-            'Juin' => 6,
-            'Juillet' => 7,
-            'Août' => 8,
-            'Septembre' => 9,
-            'Octobre' => 10,
-            'Novembre' => 11,
-            'Décembre' => 12,
-        ];
     }
 
     public function getAnnee(): ?int
@@ -121,14 +94,40 @@ class Ressource
         return $this;
     }
 
-    public function getReference(): ?string
+
+
+    public function getAutorisation(): ?string
     {
-        return $this->reference;
+        return $this->autorisation;
     }
 
-    public function setReference(?string $reference): static
+    public function setAutorisation(?string $autorisation): static
     {
-        $this->reference = $reference;
+        $this->autorisation = $autorisation;
+
+        return $this;
+    }
+
+    public function getMotifAutorisation(): ?string
+    {
+        return $this->motifAutorisation;
+    }
+
+    public function setMotifAutorisation(?string $motifAutorisation): static
+    {
+        $this->motifAutorisation = $motifAutorisation;
+
+        return $this;
+    }
+
+    public function getDateOperation(): ?\DateTime
+    {
+        return $this->dateOperation;
+    }
+
+    public function setDateOperation(?\DateTime $dateOperation): static
+    {
+        $this->dateOperation = $dateOperation;
 
         return $this;
     }

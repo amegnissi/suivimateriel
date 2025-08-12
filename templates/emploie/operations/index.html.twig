@@ -50,22 +50,37 @@
                             <th>#</th>
                             <th>Date</th>
                             <th>Reference</th>
-
+                            <th>Annee</th>
+                            <th>Mois</th>
+                            <th>designation</th>
                             <th>Montant à payer</th>
                             <th>Retenue à faire</th>
                             <th>Montant net</th>
+                            <th>Caisse</th>
                             <th>actions</th>
                         </tr>
                         </thead>
                         <tbody>
+                        {% set montantAPayer = 0 %}
+                        {% set montantRetenue = 0 %}
+                        {% set totalmontantNet = 0 %}
                         {% for operation_emploie in operation_emploies %}
+                            {% set montantAPayer = montantAPayer + operation_emploie.montantAPayer %}
+                            {% set montantRetenue = montantRetenue + operation_emploie.retenue %}
+                            {% set totalmontantNet = totalmontantNet + ( montantAPayer - montantRetenue) %}
                             <tr>
                                 <td>{{ loop.index }}</td>
-                                <td>{{ operation_emploie.reference }}</td>
                                 <td>{{ operation_emploie.dateOperation ? operation_emploie.dateOperation|date('Y-m-d') : '' }}</td>
-                                <td>{{ operation_emploie.montantAPayer }}</td>
-                                <td>{{ operation_emploie.retenue }}</td>
-                                <td>{{ operation_emploie.montantAPayer -operation_emploie.retenue }}</td>
+                                <td>{{ operation_emploie.referenceManuel }}</td>
+                                <td>{{ operation_emploie.annee }}</td>
+                                <td>{{ operation_emploie.mois }}</td>
+                                <td>{{ operation_emploie.designation.libelle }}</td>
+
+                                <td>{{ operation_emploie.montantAPayer |number_format(0, ',', ' ')}}</td>
+                                <td>{{ operation_emploie.retenue |number_format(0, ',', ' ')}}</td>
+                                <td>{{ (operation_emploie.montantAPayer -operation_emploie.retenue) |number_format(0,
+                                        ',', ' ') }}</td>
+                                <td>{{ operation_emploie.caisse ?operation_emploie.caisse.libelle : '' }}</td>
                                 <td>
                                     <a href="{{ path('app_emploie_operation_emploie_show', {'id': operation_emploie.id}) }}">show</a>
                                     <a href="{{ path('app_emploie_operation_emploie_edit', {'id': operation_emploie.id}) }}">edit</a>
@@ -73,10 +88,20 @@
                             </tr>
                         {% else %}
                             <tr>
-                                <td colspan="6">no records found</td>
+                                <td colspan="11">no records found</td>
                             </tr>
                         {% endfor %}
                         </tbody>
+                        <tfoot>
+                        <tr>
+                            <th colspan="6" class="text-right"><span class="font-weight-bold text-end float-end">
+                                    Total:</span> </th>
+                            <th>{{ sommes['totalMontantAPayer'] |number_format(0, ',', ' ')}}</th>
+                            <th>{{ sommes['totalRetenues'] |number_format(0, ',', ' ')}}</th>
+                            <th>{{ sommes['difference'] |number_format(0, ',', ' ')}}</th>
+                            <th></th>
+                        </tr>
+                        </tfoot>
                     </table>
 
 
@@ -113,8 +138,7 @@
                 </div>
                 <div class="card-body table-responsive">
 
-                    <table
-                            id="example2"
+                    <table id="example2"
                             class="table table-bordered table-striped__ table-hover text-nowrap table-valign-middle">
                         <thead>
                         <tr>
@@ -125,7 +149,6 @@
                             <th>Sources de paiement</th>
                             <th>Montant pris</th>
                             <th>Reste a chercher</th>
-
                             <th>actions</th>
                         </tr>
                         </thead>
@@ -133,12 +156,12 @@
                         {% for ressource in ressources %}
                             <tr>
                                 <td>{{loop.index}}</td>
-                                <td>{{ ressource.reference }}</td>
+                                <td>{{ ressource.referenceManuel }}</td>
                                 <td>{{ ressource.annee }}</td>
                                 <td>{{ ressource.nomMois }}</td>
                                 <td>{{ ressource.sourcesPaiement }}</td>
-                                <td>{{ ressource.montantPris }}</td>
-                                <td>{{ ressource.montantRestant }}</td>
+                                <td>{{ ressource.montantPris |number_format(0, ',', ' ')}}</td>
+                                <td>{{ ressource.montantRestant |number_format(0, ',', ' ') }}</td>
                                 <td>
                                     <a href="{{ path('app_emploie_ressource_show', {'id': ressource.id}) }}">show</a>
                                     <a href="{{ path('app_emploie_ressource_edit', {'id': ressource.id}) }}">edit</a>

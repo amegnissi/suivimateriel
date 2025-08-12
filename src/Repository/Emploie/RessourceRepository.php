@@ -40,4 +40,12 @@ class RessourceRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function getTotalMontantPris(): ?float
+    {
+        return $this->createQueryBuilder('r')
+            ->select('SUM(r.montantPris) as total')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

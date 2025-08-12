@@ -5,14 +5,16 @@ namespace App\Form\Emploie;
 use App\Entity\Emploie\Caisse;
 use App\Entity\Emploie\Emploie;
 use App\Entity\Emploie\OperationEmploie;
+use App\Form\ApplicationType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class OperationEmploieType extends AbstractType
+class OperationEmploieType extends ApplicationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -27,7 +29,6 @@ class OperationEmploieType extends AbstractType
             range(2020, $currentYear + 10)
         );
         $builder
-            ->add('reference')
             ->add('dateOperation')
             ->add('mois', ChoiceType::class, [
                 'choices' => $moisChoices,
@@ -47,6 +48,7 @@ class OperationEmploieType extends AbstractType
                  'attr' => ['id' => 'net_a_payer', 'readonly' => true]
             ])
             ->add('retenue',IntegerType::class,[
+                'required' => false,
                 'attr' => ['id' => 'retenue']
             ])
             ->add('designation', EntityType::class, [
@@ -60,6 +62,9 @@ class OperationEmploieType extends AbstractType
                 'label' => 'Caisse Bénéficiaire',
                 'attr' => ['id' => 'caisse_beneficiaire']
             ])
+            ->add('referenceManuel',TextType::class,$this->getConfiguration('Reference ','Reference',[
+                'required' => false,
+            ]))
         ;
     }
 

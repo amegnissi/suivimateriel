@@ -40,4 +40,47 @@ class OperationEmploieRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    /**
+     * Calcule la somme totale des montants à payer
+     *
+     * @return float|null
+     */
+    public function getTotalMontantAPayer(): ?float
+    {
+        return $this->createQueryBuilder('o')
+            ->select('SUM(o.montantAPayer) as total')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * Retourne un tableau contenant les totaux des montants à payer, des retenues et la différence
+     *
+     * @return array{
+     *     totalMontantAPayer: float,
+     *     totalRetenues: float,
+     *     difference: float
+     * }|null
+     */
+    public function getTotalRetenue(): array
+    {
+        $result = $this->createQueryBuilder('o')
+            ->select([
+                'COALESCE(SUM(o.montantAPayer), 0) as totalMontantAPayer',
+                'COALESCE(SUM(o.retenue), 0) as totalRetenues'
+            ])
+            ->getQuery()
+            ->getSingleResult();
+
+        $totalMontantAPayer = (float) $result['totalMontantAPayer'];
+        $totalRetenues = (float) $result['totalRetenues'];
+        $difference = $totalMontantAPayer - $totalRetenues;
+
+        return [
+            'totalMontantAPayer' => $totalMontantAPayer,
+            'totalRetenues' => $totalRetenues,
+            'difference' => $difference
+        ];
+    }
 }

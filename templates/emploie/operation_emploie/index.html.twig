@@ -37,5 +37,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_emploie_operation_emploie_new') }}">Create new</a>
+    <a href="{{ path('app_emploie_operation_emploie_new') }}" class="btn btn-primary mb-3">Créer une nouvelle opération</a>
+
+    <div class="alert alert-info mt-4">
+        <h4>Total des montants à payer : {{ total_montant_apayer|number_format(2, ',', ' ') }} FCFA</h4>
+    </div>
 {% endblock %}

@@ -5,8 +5,36 @@
 {% block  breadcrumb_t %} Emploie & Ressources{% endblock %}
 {% block form_titre %}Nouvelle Ressources {% endblock %}
 {% block formContent %}
-
+{{ totalRessource }}
     {{ include('emploie/ressource/_form.html.twig') }}
 
 
+{% endblock %}
+{% block javascript %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const montantInput = document.querySelector("#ressource_totalMontant");
+    const retenueInput = document.querySelector("#ressource_montantPris");
+    const netInput = document.querySelector("#ressource_montantRestant");
+
+    function updateFields() {
+    const montant = parseFloat(montantInput.value) || 0;
+    const retenue = parseFloat(retenueInput.value) || 0;
+    const net = montant - retenue;
+
+    // Calcul du net à payer
+    netInput.value = net >= 0 ? net : 0;
+
+}
+
+
+
+    // Événements sur les champs
+    montantInput.addEventListener("input", updateFields);
+    retenueInput.addEventListener("input", updateFields);
+
+    // Calcul initial au chargement (au cas où des valeurs existent déjà)
+    updateFields();
+});
+</script>
 {% endblock %}
