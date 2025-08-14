@@ -154,6 +154,14 @@ class DashboardController extends AbstractController
         return $this->render('dashboard_courrier.html.twig', []);
     }
 
+    #[Route('/dashboard/ressource', name: 'app_dashboard_ressource')]
+    public function dashbooardRessource(Request $request): Response
+    {
+        $session = $request->getSession();
+        $session->set('__modules__', 'RESSOURCE');
+        return $this->render('dashboard_ressource.html.twig', []);
+    }
+
     #[Route('/gpac/contact', name: 'app_contact')]
     public function contact(Request $request): Response
     {

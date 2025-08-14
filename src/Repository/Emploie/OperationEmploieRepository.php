@@ -83,4 +83,11 @@ class OperationEmploieRepository extends ServiceEntityRepository
             'difference' => $difference
         ];
     }
+
+    public function demandeAutorisations(){
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.autorisation IS NOT NULL')
+            ->getQuery()
+            ->getResult();
+    }
 }

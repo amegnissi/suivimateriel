@@ -1,0 +1,29 @@
+{% extends 'base_formulaire.html.twig' %}
+{% block title %}Emploie & Ressources{% endblock %}
+{% block breadcrumb %}Emploieh & Ressources{% endblock %}
+{% block  breadcrumb_item %} Emploie {% endblock %}
+{% block  breadcrumb_t %} Gestion des Emploie{% endblock %}
+{% block table_titre %}Ajoute un Emploie{% endblock %}
+{% block form_titre%} Demande d'autorisation de modification{% endblock %}
+
+{% block savebtn %}Faire la demande{% endblock %}
+    {% block formContent %}
+        <div class="table-responsive">
+            <table class="table">
+                <tbody>
+                <tr>
+                    <td>Reference</td>
+                    <td> <strong>{{ emploie.referenceManuel }}</strong> </td>
+                    <td>Periode</td>
+                    <td> <strong>{{ emploie.nomMois }} {{ emploie.annee }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+{% endblock %}
+
+

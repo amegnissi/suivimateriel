@@ -1,0 +1,37 @@
+<div class="table-responsive">
+    <table class="table">
+        <tbody>
+        <tr>
+            <td>Reference</td>
+            <td> <strong>{{ emploie.referenceManuel }}</strong> </td>
+            <td>Periode</td>
+            <td> <strong>{{ emploie.nomMois }} {{ emploie.annee }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+{% if is_edit is defined and is_edit %}
+    {{ form_start(form, {'action': path('app_emploie_operations_autorisation_modification', {'id': emploie.id}), 'method': 'POST'}) }}
+{% else %}
+    {{ form_start(form, {'action': path('app_emploie_emploie_new'), 'method': 'POST'}) }}
+{% endif %}
+
+<div class="mb-3">
+{#    {{ form_label(form.libelle, 'Libellé', {'label_attr': {'class': 'form-label'}}) }}#}
+    {{ form_row(form.motifAutorisation, {'attr': {'class': 'form-control'}}) }}
+{#    {{ form_errors(form.libelle) }}#}
+</div>
+
+{# Inclure les autres champs de votre formulaire ici selon votre EmploieType #}
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+    {% if is_edit is defined and is_edit %}
+        <button type="submit" class="btn btn-primary">Modifier</button>
+    {% else %}
+        <button type="submit" class="btn btn-primary">Sauvegarder</button>
+    {% endif %}
+</div>
+
+{{ form_rest(form) }}
+{{ form_end(form) }}

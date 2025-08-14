@@ -54,7 +54,7 @@
 {% block tableContent %}
     <thead>
     <tr>
-        <th>Id</th>
+        <th>#</th>
         <th>Libelle</th>
         <th>Actions</th>
     </tr>
@@ -62,7 +62,7 @@
     <tbody id="emploies-tbody">
     {% for emploie in emploies %}
         <tr data-emploie-id="{{ emploie.id }}">
-            <td>{{ emploie.id }}</td>
+            <td>{{ loop.index }}</td>
             <td>{{ emploie.libelle }}</td>
             <td class="align-middle text-center">
                 <div class="common-align gap-2 justify-content-start">

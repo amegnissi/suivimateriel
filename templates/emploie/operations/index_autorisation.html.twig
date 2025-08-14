@@ -24,19 +24,10 @@
                     <div class="row g-4 align-items-center">
                         <div class="col-sm">
                             <h3 class="card-title mb-0">
-                                Liste des emploies
+                                Liste des demandes d'autorisations
                             </h3>
                         </div>
-                        <div class="col-sm-auto">
-                            <div class="d-flex flex-wrap align-items-start gap-2">
-                                <a data-pjax href="{{ path('app_emploie_operation_emploie_new') }}" class="btn btn-primary btn-sm">
-                                    <i class="fa fa-plus"></i>  Ajouter une emploie
-                                </a>
 
-                                {#                                {% block autresbtn %}{% endblock %}#}
-                            </div>
-
-                        </div>
 
                     </div>
                 </div>
@@ -50,13 +41,9 @@
                             <th>#</th>
                             <th>Date</th>
                             <th>Reference</th>
-                            <th>Annee</th>
-                            <th>Mois</th>
-                            <th>designation</th>
-                            <th>Montant à payer</th>
-                            <th>Retenue à faire</th>
-                            <th>Montant net</th>
-                            <th>Caisse</th>
+                            <th>Periode</th>
+                            <th>Motif</th>
+                            <th>Statut</th>
                             <th>actions</th>
                         </tr>
                         </thead>
@@ -72,57 +59,17 @@
                                 <td>{{ loop.index }}</td>
                                 <td>{{ operation_emploie.dateOperation ? operation_emploie.dateOperation|date('Y-m-d') : '' }}</td>
                                 <td>{{ operation_emploie.referenceManuel }}</td>
-                                <td>{{ operation_emploie.annee }}</td>
-                                <td>{{ operation_emploie.mois }}</td>
-                                <td>{{ operation_emploie.designation.libelle }}</td>
-
-                                <td>{{ operation_emploie.montantAPayer |number_format(0, ',', ' ')}}</td>
-                                <td>{{ operation_emploie.retenue |number_format(0, ',', ' ')}}</td>
-                                <td>{{ (operation_emploie.montantAPayer -operation_emploie.retenue) |number_format(0,
-                                        ',', ' ') }}</td>
-                                <td>{{ operation_emploie.caisse ?operation_emploie.caisse.libelle : '' }}</td>
+                                <td>{{ operation_emploie.Nommois ~ ' ' ~ operation_emploie.annee }}</td>
+                                <td>{{ operation_emploie.motifAutorisation }}</td>
+                               <td>{{ operation_emploie.autorisation }}</td>
                                 <td class="align-middle text-center">
-
                                     <div class="common-align gap-2 justify-content-start">
-                                        {% set path ='#' %}
-                                        {%  if  not is_granted('ROLE_SUPER_ADMIN') %}
-                                            {% if operation_emploie.autorisation == null or operation_emploie.autorisation == 'modification_secretaire' %}
-                                                {% set path = path
-                                                    ('app_emploie_operations_autorisation_modification',{'id':
-                                                        operation_emploie.id}) %}
-                                                <button type="button" class="btn btn-warning btn-sm btn-edit-emploie"
-                                                        data-emploie-id="{{
-                                                        operation_emploie.id }}">
-                                                    <i class="far fa-edit"></i>
-                                                </button>
 
-{#                                                {{ path('app_emploie_operation_emploie_edit', {'id': operation_emploie.id}) }}#}
-                                            {% endif %}
-                                            {% if operation_emploie.autorisation == 'autorisation_acceptee' %}
-                                                {% set path = path
-                                                    ('app_emploie_operations_autorisation_modification',{'id':
-                                                        operation_emploie.id}) %}
-                                                <a  class="btn btn-success btn-sm" href="{{ path
-                                                    ('app_emploie_operation_emploie_edit', {'id':
-                                                    operation_emploie.id}) }}">
-                                                    <i class="fas fa-pencil-alt"></i>
-                                                </a>
+                                    <a href="{{ path('app_emploie_demandes_autorisations_actions', {'id': operation_emploie
+                                    .id}) }}" title="Autoriser">
+                                        <i class="fas fa-eye" style="color: green;" ></i>
+                                       </a>
 
-                                                {#                                                {{ path('app_emploie_operation_emploie_edit', {'id': operation_emploie.id}) }}#}
-                                            {% endif %}
-                                            {% if operation_emploie.autorisation == 'demande_modification' %}
-
-                                                <a  class="btn btn-warning btn-sm" href="#" title="En attente
-                                                d'autorisation">
-                                                    <i class="fas fa-circle-notch fa-spin"></i>
-                                                </a>
-
-                                                {#                                                {{ path('app_emploie_operation_emploie_edit', {'id': operation_emploie.id}) }}#}
-                                            {% endif %}
-                                        {% endif %}
-
-{#                                    <a href="{{ path('app_emploie_operation_emploie_show', {'id': operation_emploie.id}) }}">show</a>#}
-{#                                    <a href="{{ path('app_emploie_operation_emploie_edit', {'id': operation_emploie.id}) }}">edit</a>#}
                                     </div>
                                 </td>
                             </tr>
@@ -132,16 +79,7 @@
                             </tr>
                         {% endfor %}
                         </tbody>
-                        <tfoot>
-                        <tr>
-                            <th colspan="6" class="text-right"><span class="font-weight-bold text-end float-end">
-                                    Total:</span> </th>
-                            <th>{{ sommes['totalMontantAPayer'] |number_format(0, ',', ' ')}}</th>
-                            <th>{{ sommes['totalRetenues'] |number_format(0, ',', ' ')}}</th>
-                            <th>{{ sommes['difference'] |number_format(0, ',', ' ')}}</th>
-                            <th></th>
-                        </tr>
-                        </tfoot>
+
                     </table>
 
 
@@ -152,76 +90,76 @@
         </div>
     </div>
 
-    <div class="row">
+{#    <div class="row">#}
 
-        <div class="col-sm-12">
-            <div class="card__cadr-default">
-                <div class="card-header">
-                    <div class="row g-4 align-items-center">
-                        <div class="col-sm">
-                            <h3 class="card-title mb-0">
-                                Liste des operations
-                            </h3>
-                        </div>
-                        <div class="col-sm-auto">
-                            <div class="d-flex flex-wrap align-items-start gap-2">
-                                <a data-pjax href="{{ path('app_emploie_ressource_new') }}" class="btn btn-primary btn-sm">
-                                    <i class="fa fa-plus"></i>  Ajouter une ressource
-                                </a>
+{#        <div class="col-sm-12">#}
+{#            <div class="card__cadr-default">#}
+{#                <div class="card-header">#}
+{#                    <div class="row g-4 align-items-center">#}
+{#                        <div class="col-sm">#}
+{#                            <h3 class="card-title mb-0">#}
+{#                                Liste des operations#}
+{#                            </h3>#}
+{#                        </div>#}
+{#                        <div class="col-sm-auto">#}
+{#                            <div class="d-flex flex-wrap align-items-start gap-2">#}
+{#                                <a data-pjax href="{{ path('app_emploie_ressource_new') }}" class="btn btn-primary btn-sm">#}
+{#                                    <i class="fa fa-plus"></i>  Ajouter une ressource#}
+{#                                </a>#}
 
 {#                                {% block autresbtn %}{% endblock %}#}
-                            </div>
+{#                            </div>#}
 
-                        </div>
+{#                        </div>#}
 
-                    </div>
-                </div>
-                <div class="card-body table-responsive">
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="card-body table-responsive">#}
 
-                    <table id="example2"
-                            class="table table-bordered table-striped__ table-hover text-nowrap table-valign-middle">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Reference</th>
-                            <th>Annee</th>
-                            <th>Mois</th>
-                            <th>Sources de paiement</th>
-                            <th>Montant pris</th>
-                            <th>Reste a chercher</th>
-                            <th>actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for ressource in ressources %}
-                            <tr>
-                                <td>{{loop.index}}</td>
-                                <td>{{ ressource.referenceManuel }}</td>
-                                <td>{{ ressource.annee }}</td>
-                                <td>{{ ressource.nomMois }}</td>
-                                <td>{{ ressource.sourcesPaiement }}</td>
-                                <td>{{ ressource.montantPris |number_format(0, ',', ' ')}}</td>
-                                <td>{{ ressource.montantRestant |number_format(0, ',', ' ') }}</td>
-                                <td>
-                                    <a href="{{ path('app_emploie_ressource_show', {'id': ressource.id}) }}">show</a>
-                                    <a href="{{ path('app_emploie_ressource_edit', {'id': ressource.id}) }}">edit</a>
-                                </td>
-                            </tr>
-                        {% else %}
-                            <tr>
-                                <td colspan="8">no records found</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+{#                    <table id="example2"#}
+{#                            class="table table-bordered table-striped__ table-hover text-nowrap table-valign-middle">#}
+{#                        <thead>#}
+{#                        <tr>#}
+{#                            <th>#</th>#}
+{#                            <th>Reference</th>#}
+{#                            <th>Annee</th>#}
+{#                            <th>Mois</th>#}
+{#                            <th>Sources de paiement</th>#}
+{#                            <th>Montant pris</th>#}
+{#                            <th>Reste a chercher</th>#}
+{#                            <th>actions</th>#}
+{#                        </tr>#}
+{#                        </thead>#}
+{#                        <tbody>#}
+{#                        {% for ressource in ressources %}#}
+{#                            <tr>#}
+{#                                <td>{{loop.index}}</td>#}
+{#                                <td>{{ ressource.referenceManuel }}</td>#}
+{#                                <td>{{ ressource.annee }}</td>#}
+{#                                <td>{{ ressource.nomMois }}</td>#}
+{#                                <td>{{ ressource.sourcesPaiement }}</td>#}
+{#                                <td>{{ ressource.montantPris |number_format(0, ',', ' ')}}</td>#}
+{#                                <td>{{ ressource.montantRestant |number_format(0, ',', ' ') }}</td>#}
+{#                                <td>#}
+{#                                    <a href="{{ path('app_emploie_ressource_show', {'id': ressource.id}) }}">show</a>#}
+{#                                    <a href="{{ path('app_emploie_ressource_edit', {'id': ressource.id}) }}">edit</a>#}
+{#                                </td>#}
+{#                            </tr>#}
+{#                        {% else %}#}
+{#                            <tr>#}
+{#                                <td colspan="8">no records found</td>#}
+{#                            </tr>#}
+{#                        {% endfor %}#}
+{#                        </tbody>#}
+{#                    </table>#}
 
 
-                </div>
-                <!-- /.card-body -->
-            </div>
+{#                </div>#}
+{#                <!-- /.card-body -->#}
+{#            </div>#}
 
-        </div>
-    </div>
+{#        </div>#}
+{#    </div>#}
 
     <!-- Modal pour l'ajout d'emploi -->
     <div class="modal fade" id="emploieModal" tabindex="-1" aria-labelledby="emploieModalLabel" aria-hidden="true">

@@ -39,7 +39,9 @@
                 <div class="float-end">
 
 
-                    <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i> Enregistrer</button>
+                    <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i> {% block savebtn
+                        %}Enregistrer{%
+                            endblock %}</button>
                     <a href="{% block annuler %}{% endblock %}" class="btn btn-default" type="reset" value="Annuler"><i
                                 class="fa
                     fa-times"></i> Annuler

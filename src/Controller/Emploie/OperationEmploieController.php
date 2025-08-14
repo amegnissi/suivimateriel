@@ -3,6 +3,7 @@
 namespace App\Controller\Emploie;
 
 use App\Entity\Emploie\OperationEmploie;
+use App\Enum\OperationsStatut;
 use App\Form\Emploie\OperationEmploieType;
 use App\Repository\Emploie\OperationEmploieRepository;
 use App\Service\UniqueIdentifierGenerator;
@@ -75,9 +76,18 @@ final class OperationEmploieController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // on recupere le role de l'utilisateur
+            $role = $this->getUser()->getRoles()[0];
+//            dd($role);
+            if($role == "ROLE_SECRETAIRE"){
+                $operationEmploie->setAutorisation(OperationsStatut::MODIFICATION_SECRETAIRE);
+
+            } elseif ($role == "ROLE_SUPER_ADMIN") {
+                $operationEmploie->setAutorisation(OperationsStatut::MODIFICATION_DG);
+            }
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_emploie_operation_emploie_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_emploie_operations_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('emploie/operation_emploie/edit.html.twig', [

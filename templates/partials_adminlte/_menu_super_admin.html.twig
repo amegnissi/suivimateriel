@@ -1,4 +1,4 @@
-{% if sesion_modules == 'COURRIER' %}
+{#{% if sesion_modules == 'COURRIER'  %}#}
 
 {#    <li class="nav-item {% if isCourrierActive %}menu-is-opening menu-open{% endif %}">#}
 {#        <a data-pjax href="#" class="nav-link {% if isCourrierActive %}active{% endif %}">#}
@@ -57,7 +57,7 @@
 {#    </li>#}
     {% include 'partials_adminlte/_menu_secretaire.html.twig' %}
 
-{% else %}
+{#{% else %}#}
     <li class="nav-item">
         <a data-pjax href="{{ path('entreprise_index') }}"
            class="nav-link {% if currentRoute == 'entreprise_index' %}active{% endif %}">
@@ -178,4 +178,4 @@
             <p>Utilisateurs</p>
         </a>
     </li>
-{% endif %}
+{#{% endif %}#}

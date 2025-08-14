@@ -1,0 +1,126 @@
+{% extends 'base_table.html.twig' %}
+{% block title %}Emploie & Ressources{% endblock %}
+{% block breadcrumb %}Emploie & Ressources{% endblock %}
+{% block  breadcrumb_item %} Emploie {% endblock %}
+{% block  breadcrumb_t %} Gestion des caisse{% endblock %}
+{% block table_titre %}Liste des caisses{% endblock %}
+{% block btntitle %}Ajouter une caisse{% endblock %}
+{% block content %}
+    <div class="row">
+
+        <div class="col-sm-12">
+            <div class="card __cadr-default">
+                <div class="card-header">
+                    <h3 class="card-title ">
+                        <i class="fas fa-edit"></i> Emploie
+                    </h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body table-responsive">
+                    <table class="table table-bordered table-striped__ table-hover text-nowrap table-valign-middle">
+                        <tbody>
+
+                        <tr>
+                            <th>Référence de l'emploi</th>
+                            <td>{{ emploie.referenceManuel }}</td>
+                        </tr>
+                        <tr>
+                            <th>date </th>
+                            <td>{{ emploie.dateOperation ? emploie.dateOperation|date('Y-m-d') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Periode </th>
+                            <td>{{ emploie.nomMois }} {{ emploie.annee }}</td>
+                        </tr>
+                        <tr>
+                            <th>Motif de la modification</th>
+                            <td>{{ emploie.motifAutorisation }}</td>
+                        </tr>
+                        <tr>
+                            <th>Statut de la demande</th>
+                            <td>{{ emploie.autorisation }}</td>
+                        </tr>
+                        <tr>
+                            <th>designation</th>
+                            <td>{{ emploie.designation.libelle }}</td>
+                        </tr>
+                        <tr>
+                            <th>Montant à payer</th>
+                            <td>{{ emploie.montantAPayer }}</td>
+                        </tr>
+                        <tr>
+                            <th>Retenue</th>
+                            <td>{{ emploie.retenue }}</td>
+                        </tr>
+                        <tr>
+
+                            <th>Montant net</th>
+                            <td>{{ emploie.montantAPayer - emploie.retenue }}</td>
+                        </tr>
+                        {% if emploie.caisse %}
+                        <tr>
+                            <th>Caisse</th>
+                            <td>{{ emploie.caisse.libelle }}</td>
+                        </tr>
+                        {% endif %}
+
+                        </tbody>
+                    </table>
+
+                </div>
+                <!-- /.card-body -->
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <div class="card-footer">
+                    {% block footerBtn %}
+                        <div class="float-end">
+                            {% if emploie.autorisation  =='demande_modification'%}
+                            <a class="btn btn-primary" type="button" href="{{ path
+                                ('app_emploie_demandes_autorisations_statut',{'id':emploie.id,'statut':'YES'}) }}">
+                                <i class="fa fa-check"></i>
+                               Autoriser
+                            </a>
+                                <a class="btn btn-default bg-gradient-orange" type="button" href="{{ path
+                                    ('app_emploie_demandes_autorisations_statut',{'id':emploie.id,'statut':'NO'}) }}">
+                                    <i class="fa fa-ban"></i>
+                                    Refuser
+                                </a>
+                                {%  elseif emploie.autorisation  =='autorisation_refusee' %}
+                                    <a class="btn btn-primary" type="button" href="{{ path
+                                        ('app_emploie_demandes_autorisations_statut',{'id':emploie.id,'statut':'YES'}) }}">
+                                        <i class="fa fa-check"></i>
+                                        Autoriser
+                                    </a>
+                                {%  elseif emploie.autorisation  =='autorisation_acceptee' %}
+                                    <a class="btn btn-default bg-gradient-orange" type="button" href="{{ path
+                                        ('app_emploie_demandes_autorisations_statut',{'id':emploie.id,'statut':'NO'}) }}">
+                                        <i class="fa fa-ban"></i>
+                                        Annuler l'autorisation
+                                    </a>
+                            {% endif %}
+                            <a class="btn btn-primary" type="button" href="{{ path
+                                ('app_emploie_operation_emploie_edit',{'id':emploie.id}) }}">
+                                <i class="fa fa-check"></i>
+                                Modifier
+                            </a>
+
+                        </div>
+
+                    {% endblock %}
+
+
+                </div>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+    {#    <a href="{{ path('app_courrier_courrier_index') }}">back to list</a> #}
+
+    {#    <a href="{{ path('app_courrier_courrier_edit', {'id': courrier.id}) }}">edit</a> #}
+
+    {#    {{ include('courrier/courrier/_delete_form.html.twig') }} #}
+{% endblock %}
