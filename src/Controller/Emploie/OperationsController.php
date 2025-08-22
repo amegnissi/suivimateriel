@@ -9,8 +9,10 @@ use App\Enum\OperationsStatut;
 use App\Form\Emploie\DemandeModificationEmploieType;
 use App\Repository\Emploie\OperationEmploieRepository;
 use App\Repository\Emploie\RessourceRepository;
+use App\Service\ExportService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,13 +20,63 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class OperationsController extends AbstractController
 {
-    #[Route('/operations/index', name: 'app_emploie_operations_index', methods: ['GET'])]
-    public function index(RessourceRepository $ressourceRepository,OperationEmploieRepository $operationEmploieRepository): Response
+    #[Route('/operations/index', name: 'app_emploie_operations_index', methods: ['GET','POST'])]
+    public function index(Request $request,RessourceRepository $ressourceRepository,OperationEmploieRepository
+    $operationEmploieRepository): Response
     {
+
+        $moisChoices = [
+            'Janvier' => 1, 'Février' => 2, 'Mars' => 3, 'Avril' => 4,
+            'Mai' => 5, 'Juin' => 6, 'Juillet' => 7, 'Août' => 8,
+            'Septembre' => 9, 'Octobre' => 10, 'Novembre' => 11, 'Décembre' => 12,
+        ];
+        $currentYear = (int) date('Y');
+        $anneeChoices = array_combine(
+            range(2020, $currentYear + 10),
+            range(2020, $currentYear + 10)
+        );
+        $form = $this->createFormBuilder(null, [
+
+        ])
+            ->add('mois', ChoiceType::class, [
+                'choices' => $moisChoices,
+                'label' => 'Mois',
+                'placeholder' => 'Choisissez un mois',
+            ])
+            ->add('annee', ChoiceType::class, [
+                'choices' => $anneeChoices,
+                'label' => 'Année',
+                'placeholder' => 'Choisissez une année',
+            ])
+            ->getForm();
+
+
+        $form->get('mois')->setData((int) date('n'));
+        $form->get('annee')->setData((int) date('Y'));
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $mois = $form->get('mois')->getData();
+            $annee = $form->get('annee')->getData();
+
+//            dd( $mois,$annee );
+            return $this->render('emploie/operations/index.html.twig',[
+                'ressources' => $ressourceRepository->getRessourcePeriode($mois,$annee),
+                'operation_emploies' => $operationEmploieRepository->getOperationEmploiePeriode($mois,$annee),
+                'sommes'=>$operationEmploieRepository->getTotalRetenue($mois,$annee),
+                'form' => $form->createView(),
+                'mois'=>$mois,
+                'annee'=>$annee
+            ]);
+
+        }
+
         return $this->render('emploie/operations/index.html.twig',[
             'ressources' => $ressourceRepository->findAll(),
             'operation_emploies' => $operationEmploieRepository->findAll(),
             'sommes'=>$operationEmploieRepository->getTotalRetenue(),
+            'form' => $form->createView(),
+            'mois'=>(int) date('n'),
+            'annee'=>(int) date('Y')
         ]);
     }
 
@@ -148,5 +200,27 @@ class OperationsController extends AbstractController
     public function modification(Request $request, OperationEmploie $operationEmploie,EntityManagerInterface $entityManager): Response
     {
         return $this->renderModalForm(new OperationEmploie(), false);
+    }
+
+    #[Route('/export-pdf-emploie/', name: 'app_emploie_printf')]
+    public function exportPdf(Request $request, OperationEmploieRepository $operationEmploieRepository, ExportService $exportService):
+    Response
+    {
+        $mois = (int)$request->query->get('mois');
+        $annee = (int)$request->get('annee');
+        $emploies= $operationEmploieRepository->findAll();
+       // dd($mois, $annee);
+        if ($mois && $annee) {
+            $emploies=  $operationEmploieRepository->getOperationEmploiePeriode($mois, $annee);
+        }
+
+        // Récupérer les opérations
+        $name ='emploie';
+      //  $name =$courrier->getReferenceInterne();
+
+        // Utilisation du service ExportService pour exporter en PDF
+        return $exportService->exportPdf('emploie/export/emploie.html.twig', [
+            'operation_emploies' => $emploies,
+        ],  $name.'.pdf');
     }
 }

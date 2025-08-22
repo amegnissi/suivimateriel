@@ -38,7 +38,8 @@ final class RessourceController extends AbstractController
         $total = $operationEmploieRepository->getTotalMontantAPayer();
         $totalPris = $ressourceRepository->getTotalMontantPris();
         $sommes = $operationEmploieRepository->getTotalRetenue();
-        $reste = $sommes['difference'] - $totalPris;
+//        $reste = $sommes['difference'] - $totalPris;
+        $reste = $total - $totalPris;
 
         $form->get('totalMontant')->setData($reste);
 

@@ -20,6 +20,34 @@
 
         <div class="col-sm-12">
             <div class="card__cadr-default">
+                <div class="card-body table-responsive">
+                    {{ form_start(form) }}
+                    <div class="row">
+                    <div class="col-sm-2">
+                        {{ form_widget(form.mois) }}
+                    </div>
+                    <div class="col-sm-2">
+                        {{ form_widget(form.annee) }}
+                    </div>
+                        <div class="col-sm-3">
+                            {{ form_widget(form) }}
+                            <button  type="submit" class="btn btn-primary btn-sm">{{ button_label|default('filtrer') }}</button>
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- /.card-body -->
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-sm-12">
+            <div class="card__cadr-default">
                 <div class="card-header">
                     <div class="row g-4 align-items-center">
                         <div class="col-sm">
@@ -32,6 +60,9 @@
                                 <a data-pjax href="{{ path('app_emploie_operation_emploie_new') }}" class="btn btn-primary btn-sm">
                                     <i class="fa fa-plus"></i>  Ajouter une emploie
                                 </a>
+{#                                <a data-pjax href="{{ path('app_emploie_printf') }}{% if mois is not null and annee is not null %}?mois={{ mois }}&annee={{ annee }}{% endif %}" class="btn btn-primary btn-sm">#}
+{#                                    <i class="fa fa-print"></i>  Imprimer#}
+{#                                </a>#}
 
                                 {#                                {% block autresbtn %}{% endblock %}#}
                             </div>

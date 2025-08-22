@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Repository\AffectationRepository;
 use App\Repository\AssuranceRepository;
+use App\Repository\Emploie\OperationEmploieRepository;
+use App\Repository\Emploie\RessourceRepository;
 use App\Repository\EmployeRepository;
 use App\Repository\MaintenanceRepository;
 use App\Repository\MaterielRepository;
@@ -155,11 +157,17 @@ class DashboardController extends AbstractController
     }
 
     #[Route('/dashboard/ressource', name: 'app_dashboard_ressource')]
-    public function dashbooardRessource(Request $request): Response
+    public function dashbooardRessource(Request $request,RessourceRepository $ressourceRepository,
+                                        OperationEmploieRepository $operationEmploieRepository): Response
     {
         $session = $request->getSession();
         $session->set('__modules__', 'RESSOURCE');
-        return $this->render('dashboard_ressource.html.twig', []);
+        $totalPris = $ressourceRepository->getTotalMontantPris();
+        $sommes = $operationEmploieRepository->getTotalMontantAPayer();
+        return $this->render('dashboard_ressource.html.twig', [
+            'ressources' => $totalPris,
+            'emploie' => $sommes,
+        ]);
     }
 
     #[Route('/gpac/contact', name: 'app_contact')]

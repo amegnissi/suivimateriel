@@ -48,4 +48,15 @@ class RessourceRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    public function getRessourcePeriode($mois, $annee) {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.mois = :mois')
+            ->andWhere('r.annee = :annee')
+            ->setParameter('mois', $mois)
+            ->setParameter('annee', $annee)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

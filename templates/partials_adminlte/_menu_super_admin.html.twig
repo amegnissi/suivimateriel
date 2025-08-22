@@ -58,6 +58,7 @@
     {% include 'partials_adminlte/_menu_secretaire.html.twig' %}
 
 {#{% else %}#}
+{% if sesion_modules == 'MATERIEL'  %}
     <li class="nav-item">
         <a data-pjax href="{{ path('entreprise_index') }}"
            class="nav-link {% if currentRoute == 'entreprise_index' %}active{% endif %}">
@@ -178,4 +179,4 @@
             <p>Utilisateurs</p>
         </a>
     </li>
-{#{% endif %}#}
+{% endif %}

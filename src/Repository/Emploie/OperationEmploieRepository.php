@@ -63,24 +63,28 @@ class OperationEmploieRepository extends ServiceEntityRepository
      *     difference: float
      * }|null
      */
-    public function getTotalRetenue(): array
+    public function getTotalRetenue($mois=null,$annee=null): array
     {
-        $result = $this->createQueryBuilder('o')
+        $queryBuilder = $this->createQueryBuilder('o')
             ->select([
                 'COALESCE(SUM(o.montantAPayer), 0) as totalMontantAPayer',
                 'COALESCE(SUM(o.retenue), 0) as totalRetenues'
-            ])
-            ->getQuery()
-            ->getSingleResult();
+            ]);
+            
+        if($mois && $annee){
+            $queryBuilder
+                ->andWhere('o.mois = :mois')
+                ->andWhere('o.annee = :annee')
+                ->setParameter('mois', $mois)
+                ->setParameter('annee', $annee);
+        }
 
-        $totalMontantAPayer = (float) $result['totalMontantAPayer'];
-        $totalRetenues = (float) $result['totalRetenues'];
-        $difference = $totalMontantAPayer - $totalRetenues;
-
+        $result = $queryBuilder->getQuery()->getSingleResult();
+        
         return [
-            'totalMontantAPayer' => $totalMontantAPayer,
-            'totalRetenues' => $totalRetenues,
-            'difference' => $difference
+            'totalMontantAPayer' => (float)$result['totalMontantAPayer'],
+            'totalRetenues' => (float)$result['totalRetenues'],
+            'difference' => (float)$result['totalMontantAPayer'] - (float)$result['totalRetenues']
         ];
     }
 
@@ -89,5 +93,16 @@ class OperationEmploieRepository extends ServiceEntityRepository
             ->andWhere('o.autorisation IS NOT NULL')
             ->getQuery()
             ->getResult();
+    }
+
+    public function getOperationEmploiePeriode($mois, $annee) {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.mois = :mois')
+            ->andWhere('o.annee = :annee')
+            ->setParameter('mois', $mois)
+            ->setParameter('annee', $annee)
+            ->getQuery()
+            ->getResult()
+            ;
     }
 }

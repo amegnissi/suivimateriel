@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Export Opérations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Google Font: Inter, SUSE, Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=SUSE:ital,wght@0,400;0,600;0,700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons  -->
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/fontawesome-free/css/all.min.css') }}">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
+    <link rel="stylesheet" href="{{ absolute_url(asset('adminlte/css/adminlte.css')) }}">
+    <link rel="stylesheet" href="{{ absolute_url(asset('adminlte/css/base.css')) }}">
+    <link rel="stylesheet" href="{{ absolute_url(asset('adminlte/css/dashboard.css')) }}">
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; }
+        table { width: 75%; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 5px; }
+        th { background-color: #f2f2f2; }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #2c3e50;
+            width: 30%;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 18px;
+            color: #2c3e50;
+        }
+        /* Pied de page */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+            font-size: 10px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+
+        <div class="col-sm-8 offset-sm-2">
+            <div class="card __cadr-default">
+                <div class="card-header">
+                    <h3 class="card-title ">
+                        Liste des emploies
+                    </h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body table-responsive">
+                    <table class="table table-bordered table-striped__ table-hover text-nowrap table-valign-middle">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Date</th>
+                                <th>Reference</th>
+                                <th>Annee</th>
+                                <th>Mois</th>
+                                <th>designation</th>
+                                <th>Montant à payer</th>
+                                <th>Retenue à faire</th>
+                                <th>Montant net</th>
+                                <th>Caisse</th>
+                                <th>actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% set montantAPayer = 0 %}
+                            {% set montantRetenue = 0 %}
+                            {% set totalmontantNet = 0 %}
+                            {% for operation_emploie in operation_emploies %}
+                                {% set montantAPayer = montantAPayer + operation_emploie.montantAPayer %}
+                                {% set montantRetenue = montantRetenue + operation_emploie.retenue %}
+                                {% set totalmontantNet = totalmontantNet + ( montantAPayer - montantRetenue) %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ operation_emploie.dateOperation ? operation_emploie.dateOperation|date('Y-m-d') : '' }}</td>
+                                    <td>{{ operation_emploie.referenceManuel }}</td>
+                                    <td>{{ operation_emploie.annee }}</td>
+                                    <td>{{ operation_emploie.mois }}</td>
+                                    <td>{{ operation_emploie.designation.libelle }}</td>
+
+                                    <td>{{ operation_emploie.montantAPayer |number_format(0, ',', ' ')}}</td>
+                                    <td>{{ operation_emploie.retenue |number_format(0, ',', ' ')}}</td>
+                                    <td>{{ (operation_emploie.montantAPayer -operation_emploie.retenue) |number_format(0,
+                                            ',', ' ') }}</td>
+                                    <td>{{ operation_emploie.caisse ?operation_emploie.caisse.libelle : '' }}</td>
+                                    <td class="align-middle text-center">
+
+                                        <div class="common-align gap-2 justify-content-start">
+                                            {% set path ='#' %}
+                                            {%  if  not is_granted('ROLE_SUPER_ADMIN') %}
+                                                {% if operation_emploie.autorisation == null or operation_emploie.autorisation == 'modification_secretaire' %}
+                                                    {% set path = path
+                                                        ('app_emploie_operations_autorisation_modification',{'id':
+                                                            operation_emploie.id}) %}
+                                                    <button type="button" class="btn btn-warning btn-sm btn-edit-emploie"
+                                                            data-emploie-id="{{
+                                                            operation_emploie.id }}">
+                                                        <i class="far fa-edit"></i>
+                                                    </button>
+
+                                                    {#                                                {{ path('app_emploie_operation_emploie_edit', {'id': operation_emploie.id}) }}#}
+                                                {% endif %}
+                                                {% if operation_emploie.autorisation == 'autorisation_acceptee' %}
+                                                    {% set path = path
+                                                        ('app_emploie_operations_autorisation_modification',{'id':
+                                                            operation_emploie.id}) %}
+                                                    <a  class="btn btn-success btn-sm" href="{{ path
+                                                        ('app_emploie_operation_emploie_edit', {'id':
+                                                            operation_emploie.id}) }}">
+                                                        <i class="fas fa-pencil-alt"></i>
+                                                    </a>
+
+                                                    {#                                                {{ path('app_emploie_operation_emploie_edit', {'id': operation_emploie.id}) }}#}
+                                                {% endif %}
+                                                {% if operation_emploie.autorisation == 'demande_modification' %}
+
+                                                    <a  class="btn btn-warning btn-sm" href="#" title="En attente
+                                                d'autorisation">
+                                                        <i class="fas fa-circle-notch fa-spin"></i>
+                                                    </a>
+
+                                                    {#                                                {{ path('app_emploie_operation_emploie_edit', {'id': operation_emploie.id}) }}#}
+                                                {% endif %}
+                                            {% endif %}
+
+                                            {#                                    <a href="{{ path('app_emploie_operation_emploie_show', {'id': operation_emploie.id}) }}">show</a>#}
+                                            {#                                    <a href="{{ path('app_emploie_operation_emploie_edit', {'id': operation_emploie.id}) }}">edit</a>#}
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="11">no records found</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th colspan="6" class="text-right"><span class="font-weight-bold text-end float-end">
+                                    Total:</span> </th>
+                                <th>{{ sommes['totalMontantAPayer'] |number_format(0, ',', ' ')}}</th>
+                                <th>{{ sommes['totalRetenues'] |number_format(0, ',', ' ')}}</th>
+                                <th>{{ sommes['difference'] |number_format(0, ',', ' ')}}</th>
+                                <th></th>
+                            </tr>
+                            </tfoot>
+                        </table>
+
+
+
+                </div>
+
+                <div class="footer">
+                    Document généré le {{ "now"|date("d/m/Y H:i") }}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
