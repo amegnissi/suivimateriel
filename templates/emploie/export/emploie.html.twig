@@ -82,7 +82,6 @@
                                 <th>Retenue à faire</th>
                                 <th>Montant net</th>
                                 <th>Caisse</th>
-                                <th>actions</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -98,7 +97,7 @@
                                     <td>{{ operation_emploie.dateOperation ? operation_emploie.dateOperation|date('Y-m-d') : '' }}</td>
                                     <td>{{ operation_emploie.referenceManuel }}</td>
                                     <td>{{ operation_emploie.annee }}</td>
-                                    <td>{{ operation_emploie.mois }}</td>
+                                    <td>{{ operation_emploie.nomMois }}</td>
                                     <td>{{ operation_emploie.designation.libelle }}</td>
 
                                     <td>{{ operation_emploie.montantAPayer |number_format(0, ',', ' ')}}</td>
@@ -106,50 +105,7 @@
                                     <td>{{ (operation_emploie.montantAPayer -operation_emploie.retenue) |number_format(0,
                                             ',', ' ') }}</td>
                                     <td>{{ operation_emploie.caisse ?operation_emploie.caisse.libelle : '' }}</td>
-                                    <td class="align-middle text-center">
 
-                                        <div class="common-align gap-2 justify-content-start">
-                                            {% set path ='#' %}
-                                            {%  if  not is_granted('ROLE_SUPER_ADMIN') %}
-                                                {% if operation_emploie.autorisation == null or operation_emploie.autorisation == 'modification_secretaire' %}
-                                                    {% set path = path
-                                                        ('app_emploie_operations_autorisation_modification',{'id':
-                                                            operation_emploie.id}) %}
-                                                    <button type="button" class="btn btn-warning btn-sm btn-edit-emploie"
-                                                            data-emploie-id="{{
-                                                            operation_emploie.id }}">
-                                                        <i class="far fa-edit"></i>
-                                                    </button>
-
-                                                    {#                                                {{ path('app_emploie_operation_emploie_edit', {'id': operation_emploie.id}) }}#}
-                                                {% endif %}
-                                                {% if operation_emploie.autorisation == 'autorisation_acceptee' %}
-                                                    {% set path = path
-                                                        ('app_emploie_operations_autorisation_modification',{'id':
-                                                            operation_emploie.id}) %}
-                                                    <a  class="btn btn-success btn-sm" href="{{ path
-                                                        ('app_emploie_operation_emploie_edit', {'id':
-                                                            operation_emploie.id}) }}">
-                                                        <i class="fas fa-pencil-alt"></i>
-                                                    </a>
-
-                                                    {#                                                {{ path('app_emploie_operation_emploie_edit', {'id': operation_emploie.id}) }}#}
-                                                {% endif %}
-                                                {% if operation_emploie.autorisation == 'demande_modification' %}
-
-                                                    <a  class="btn btn-warning btn-sm" href="#" title="En attente
-                                                d'autorisation">
-                                                        <i class="fas fa-circle-notch fa-spin"></i>
-                                                    </a>
-
-                                                    {#                                                {{ path('app_emploie_operation_emploie_edit', {'id': operation_emploie.id}) }}#}
-                                                {% endif %}
-                                            {% endif %}
-
-                                            {#                                    <a href="{{ path('app_emploie_operation_emploie_show', {'id': operation_emploie.id}) }}">show</a>#}
-                                            {#                                    <a href="{{ path('app_emploie_operation_emploie_edit', {'id': operation_emploie.id}) }}">edit</a>#}
-                                        </div>
-                                    </td>
                                 </tr>
                             {% else %}
                                 <tr>

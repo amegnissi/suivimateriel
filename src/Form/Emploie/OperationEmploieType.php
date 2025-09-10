@@ -9,6 +9,7 @@ use App\Form\ApplicationType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -29,22 +30,27 @@ class OperationEmploieType extends ApplicationType
             range(2020, $currentYear + 10)
         );
         $builder
-            ->add('dateOperation')
-            ->add('mois', ChoiceType::class, [
-                'choices' => $moisChoices,
-                'label' => 'Mois',
-                'placeholder' => 'Choisissez un mois',
+            ->add('dateOperation',DateType::class,[
+                'label' => 'Date de l\'opération',
+                'required'=>true
             ])
-            ->add('annee', ChoiceType::class, [
-                'choices' => $anneeChoices,
-                'label' => 'Année',
-                'placeholder' => 'Choisissez une année',
-            ])
+            // ->add('mois', ChoiceType::class, [
+            //     'choices' => $moisChoices,
+            //     'label' => 'Mois',
+            //     'placeholder' => 'Choisissez un mois',
+            // ])
+            // ->add('annee', ChoiceType::class, [
+            //     'choices' => $anneeChoices,
+            //     'label' => 'Année',
+            //     'placeholder' => 'Choisissez une année',
+            // ])
             ->add('montantAPayer',IntegerType::class,[
-                'attr' => ['id' => 'montant_a_payer']
+                'attr' => ['id' => 'montant_a_payer'],
+                'label' => 'Montant à payer',
             ])
             ->add('netAPayer',IntegerType::class,[
                 'mapped' => false,
+                'label' => 'Net à payer',
                  'attr' => ['id' => 'net_a_payer', 'readonly' => true]
             ])
             ->add('retenue',IntegerType::class,[
@@ -54,15 +60,17 @@ class OperationEmploieType extends ApplicationType
             ->add('designation', EntityType::class, [
                 'class' => Emploie::class,
                 'choice_label' => 'libelle',
-                'label' => 'Designation'
+                'placeholder' => 'Choisissez une designation',
+                'label' => 'Désignation'
             ])
             ->add('caisse', EntityType::class, [
                 'class' => Caisse::class,
                 'choice_label' => 'libelle',
+                'placeholder' => 'Choisissez une caisse',
                 'label' => 'Caisse Bénéficiaire',
                 'attr' => ['id' => 'caisse_beneficiaire']
             ])
-            ->add('referenceManuel',TextType::class,$this->getConfiguration('Reference ','Reference',[
+            ->add('referenceManuel',TextType::class,$this->getConfiguration('Référence ','référence',[
                 'required' => false,
             ]))
         ;

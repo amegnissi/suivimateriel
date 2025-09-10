@@ -5,9 +5,15 @@
     <div class="col-md-4"> {{ form_row(form.mois) }}</div>
 </div>
 <div class="row">
-    <div class="col-md-4">{{ form_row(form.sourcesPaiement) }}</div>
-    <div class="col-md-4"> {{ form_row(form.montantPris) }}</div>
-    <div class="col-md-4"> {{ form_row(form.montantRestant) }}</div>
+     <div class="col-md-3"> {{ form_row(form.montantPris) }}</div>
+     <div class="col-md-3">{{ form_row(form.totalEmploie) }}</div>
+    <div class="col-md-3">{{ form_row(form.totalRessources) }}</div>
+    <div class="col-md-3"> {{ form_row(form.montantRestant) }}</div>
+   
+    
+</div>
+<div class="row">
+ <div class="col-md-12">{{ form_row(form.sourcesPaiement) }}</div>
 </div>
     {{ form_widget(form) }}
 {#    <button class="btn">{{ button_label|default('Save') }}</button>#}

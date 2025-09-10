@@ -46,16 +46,16 @@
                         </tr>
                         <tr>
                             <th>Montant à payer</th>
-                            <td>{{ emploie.montantAPayer }}</td>
+                            <td>{{ emploie.montantAPayer |number_format(0,',', ' ')}}</td>
                         </tr>
                         <tr>
                             <th>Retenue</th>
-                            <td>{{ emploie.retenue }}</td>
+                            <td>{{ emploie.retenue |number_format(0,',', ' ') }}</td>
                         </tr>
                         <tr>
 
                             <th>Montant net</th>
-                            <td>{{ emploie.montantAPayer - emploie.retenue }}</td>
+                            <td>{{ (emploie.montantAPayer - emploie.retenue) |number_format(0,',', ' ')}}</td>
                         </tr>
                         {% if emploie.caisse %}
                         <tr>

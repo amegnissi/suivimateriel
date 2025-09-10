@@ -70,8 +70,9 @@
                     <i class="fa fa-eye"></i>
                 </a>
                 <button type="button" class="btn btn-warning btn-sm btn-edit-emploie" data-emploie-id="{{ emploie.id }}">
-                    <i class="far fa-edit"></i>
-                    </button>
+{#                    <i class="far fa-edit">o</i>#}
+{#                    edit#}
+                </button>
                     <form method="post"  class="d-inline" action="{{ path('app_emploie_emploie_delete', {'id': emploie.id}) }}"
                           onsubmit="return confirm
 ('Are you sure you want to delete this item?');">

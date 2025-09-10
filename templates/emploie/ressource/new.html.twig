@@ -3,9 +3,9 @@
 {% block breadcrumb %}Ressources{% endblock %}
 {% block  breadcrumb_item %} Ressources{% endblock %}
 {% block  breadcrumb_t %} Emploie & Ressources{% endblock %}
-{% block form_titre %}Nouvelle Ressources {% endblock %}
+{% block form_titre %}Nouvelle Ressource {% endblock %}
 {% block formContent %}
-{{ totalRessource }}
+
     {{ include('emploie/ressource/_form.html.twig') }}
 
 
@@ -23,7 +23,8 @@
     const net = montant - retenue;
 
     // Calcul du net à payer
-    netInput.value = net >= 0 ? net : 0;
+    // netInput.value = net >= 0 ? net : 0;
+    netInput.value = net 
 
 }
 

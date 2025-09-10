@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -38,8 +39,22 @@ class RessourceType extends ApplicationType
                 'placeholder' => 'Choisissez une année',
             ])
             ->add('sourcesPaiement')
-            ->add('montantPris')
-            ->add('montantRestant',IntegerType::class,[
+            ->add('montantPris',NumberType::class,[
+               'label'=> 'Montant à approvisionner ', 
+            ])
+             ->add('totalRessources',NumberType::class,[
+                'label'=> 'Total des ressources',
+                 'attr' => ['readonly' => true
+                ],
+                 'mapped'=> false
+             ])
+            ->add('totalEmploie',NumberType::class,[
+                'label'=> 'Total des emplois',
+                'attr' => ['readonly' => true],
+                 'mapped'=> false,
+            ])
+            ->add('montantRestant',NumberType::class,[
+                'label'=> 'Solde des operations',
                 'attr' => ['readonly' => true],
 
             ])

@@ -2,10 +2,26 @@
     <table class="table">
         <tbody>
         <tr>
-            <td>Reference</td>
+            <td>Référence</td>
             <td> <strong>{{ emploie.referenceManuel }}</strong> </td>
-            <td>Periode</td>
-            <td> <strong>{{ emploie.nomMois }} {{ emploie.annee }}</td>
+            <td>Période</td>
+            <td> <strong>{{ emploie.nomMois }} {{ emploie.annee }}</strong></td>
+        </tr>
+        <tr>
+            <td>Désignation</td>
+            <td> <strong>{{ emploie.designation.libelle }}</strong> </td>
+            <td>Retenue</td>
+            <td> <strong>{{ emploie.retenue }}</strong></td>
+
+        </tr>
+        <tr>
+            <td>Montant de l'emploi</td>
+            <td colspan="3" class="text-center"> <strong>{{ emploie.montantAPayer |number_format(0,',', ' ') }}
+                </strong></td>
+        </tr>
+        <tr>
+            <td >Caisse retenue</td>
+            <td colspan="3"> <strong>{{ emploie.caisse.libelle }}</strong></td>
         </tr>
         </tbody>
     </table>
@@ -27,7 +43,7 @@
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
     {% if is_edit is defined and is_edit %}
-        <button type="submit" class="btn btn-primary">Modifier</button>
+        <button type="submit" class="btn btn-success">Valider ma demande</button>
     {% else %}
         <button type="submit" class="btn btn-primary">Sauvegarder</button>
     {% endif %}

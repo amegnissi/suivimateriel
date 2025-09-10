@@ -39,11 +39,12 @@ final class OperationEmploieController extends AbstractController
         $operationEmploie = new OperationEmploie();
         $operationEmploie->setMois((int) date('n'));
         $operationEmploie->setAnnee((int) date('Y'));
+        $operationEmploie->setDateOperation(new \DateTime());
 
         $form = $this->createForm(OperationEmploieType::class, $operationEmploie);
         $identifier = $uniqueIdentifierGenerator->generateUniqueIdentifier(OperationEmploie::class, 'referenceSysteme', 'EMP');
 
-        $form->get('referenceManuel')->setData($identifier);
+        $form->get('referenceManuel')->setData(modelData: $identifier);
 
         $form->handleRequest($request);
 

@@ -42,6 +42,8 @@ final class RessourceController extends AbstractController
         $reste = $total - $totalPris;
 
         $form->get('totalMontant')->setData($reste);
+       $form->get('totalEmploie')->setData($total);
+        $form->get('totalRessources')->setData($totalPris);
 
         $identifier = $uniqueIdentifierGenerator->generateUniqueIdentifier(Ressource::class, 'referenceSysteme', 'RSC');
 

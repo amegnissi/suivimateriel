@@ -28,8 +28,7 @@ class AutorisationController extends AbstractController
     }
 
     #[Route('/demande-autorisations/{id}', name: 'app_emploie_demandes_autorisations_actions', methods: ['GET'])]
-    public function indexAutorisation(Request $request,RessourceRepository $ressourceRepository, OperationEmploie
-    $emploie, OperationEmploieRepository $operationEmploieRepository, EntityManagerInterface $entityManager): Response
+    public function indexAutorisation(Request $request, OperationEmploie $emploie, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(DemandeModificationEmploieType::class, $emploie);
         $form->handleRequest($request);
@@ -52,8 +51,7 @@ class AutorisationController extends AbstractController
 //        ]);
     }
     #[Route('/reponse-autorisations/{id}/{statut}', name: 'app_emploie_demandes_autorisations_statut', methods: ['GET'])]
-    public function reponseAutorisation(Request $request,RessourceRepository $ressourceRepository, OperationEmploie
-                                              $emploie, OperationEmploieRepository $operationEmploieRepository, EntityManagerInterface $entityManager): Response
+    public function reponseAutorisation(Request $request, OperationEmploie $emploie,EntityManagerInterface $entityManager): Response
     {
         $statut = $request->get('statut');
         if($statut == 'YES'){
