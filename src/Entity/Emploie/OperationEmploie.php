@@ -43,6 +43,9 @@ class OperationEmploie
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $motifAutorisation = null;
 
+    #[ORM\ManyToOne(inversedBy: 'operationEmploies')]
+    private ?Periode $periode = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -141,6 +144,18 @@ class OperationEmploie
     public function setMotifAutorisation(?string $motifAutorisation): static
     {
         $this->motifAutorisation = $motifAutorisation;
+
+        return $this;
+    }
+
+    public function getPeriode(): ?Periode
+    {
+        return $this->periode;
+    }
+
+    public function setPeriode(?Periode $periode): static
+    {
+        $this->periode = $periode;
 
         return $this;
     }

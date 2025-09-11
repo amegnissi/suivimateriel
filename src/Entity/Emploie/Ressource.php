@@ -41,6 +41,9 @@ class Ressource
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTime $dateOperation = null;
 
+    #[ORM\ManyToOne(inversedBy: 'ressource')]
+    private ?Periode $periode = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -128,6 +131,18 @@ class Ressource
     public function setDateOperation(?\DateTime $dateOperation): static
     {
         $this->dateOperation = $dateOperation;
+
+        return $this;
+    }
+
+    public function getPeriode(): ?Periode
+    {
+        return $this->periode;
+    }
+
+    public function setPeriode(?Periode $periode): static
+    {
+        $this->periode = $periode;
 
         return $this;
     }
