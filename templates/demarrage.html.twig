@@ -6,92 +6,174 @@
 {% endblock %}
 
 {% block body %}
-<!-- Navbar -->
+    <!-- Navbar -->
     {% include "partials/navbar.html.twig" with {
         has_logo:'Yes',
         bg_navbar:'bg-start-nav'
     } %}
-<!-- /.navbar -->
+    <!-- /.navbar -->
 
-<div id="main-login">
+    <div id="main-login">
 
-<div class="container justify-content-center align-items-center d-flex flex-column">
-<h1 class="text-suse px-2 px-md-0 text-center  my-4"> Bienvenue sur E-SUIVI </h1>
-		<div class="middle bg-none w-100 row  align-items-center shadow-sm">
-			<div class="col-md-6 order-2 order-md-1 border-r-1 border-end pb-4">
-               <div class="p-md-3 pb-md-4">
+        <div class="container justify-content-center align-items-center d-flex flex-column">
+            <h1 class="text-suse px-2 px-md-0 text-center  my-4"> Bienvenue sur E-SUIVI </h1>
+            <div class="middle bg-none w-100 row  align-items-center shadow-sm">
+                <div class="col-md-6 order-2 order-md-1 border-r-1 border-end pb-4">
+                    <div class="p-md-3 pb-md-4">
 
                         <a data-pjax href="{{ path('dashboard') }}" class="text-inherit">
                             <h3 class="fw-bold mb-0 text-center text-md-start">Suivi du matériel</h3>
                         </a>
                         <p class="mb-3 text-muted text-center text-md-start">
-                        Gérez et localisez vos équipements avec précision.
+                            Gérez et localisez vos équipements avec précision.
                         </p>
                         <div class="card-img-start">
-                        <a data-pjax href="{{ path('dashboard') }}">
-                            <div class="">
-                                <img class="card-img-top" src="{{ asset('data/app/suivi_start.jpg')}}" alt="Suivi de matériel"/>
-                            </div>
-                        </a>
+                            <a data-pjax href="{{ path('dashboard') }}">
+                                <div class="">
+                                    <img class="card-img-top" src="{{ asset('data/app/suivi_start.jpg') }}"
+                                         alt="Suivi de matériel"/>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 </div>
-			</div>
-			<div class="col-md-6 order-1 order-md-2 pb-md-4" >
-                <div class="py-3 py-md-3 px-md-4 ">
+                <div class="col-md-6 order-1 order-md-2 pb-md-4">
+                    <div class="py-3 py-md-3 px-md-4 ">
 
                         <a href="{{ path('app_dashboard_courrier') }}" class="text-inherit">
                             <h3 class="fw-bold mb-0 text-center text-md-start">Suivi des courriers</h3>
-                            </a>
-                        <p class="mb-3 text-muted text-center text-md-start">  Suivez et organisez vos courriers facilement.
-    </p>
-                    <div class="card-img-start">
-                        <a href="{{ path('app_dashboard_courrier') }}">
-                            <img class="card-img-top" src="{{ asset('data/app/courrier_start.jpeg') }}" alt="Courrier" />
                         </a>
+                        <p class="mb-3 text-muted text-center text-md-start"> Suivez et organisez vos courriers
+                            facilement.
+                        </p>
+                        <div class="card-img-start">
+                            <a href="{{ path('app_dashboard_courrier') }}">
+                                <img class="card-img-top" src="{{ asset('data/app/courrier_start.jpeg') }}"
+                                     alt="Courrier"/>
+                            </a>
+                        </div>
                     </div>
                 </div>
-			</div>
-            <div class="col-md-6 order-1 order-md-2 pb-md-4" >
-                <div class="py-3 py-md-3 px-md-4 ">
+                <div class="col-md-6 order-1 order-md-2 pb-md-4">
+                    <div class="py-3 py-md-3 px-md-4 ">
 
-                    <a href="{{ path('app_dashboard_courrier') }}" class="text-inherit">
-                        <h3 class="fw-bold mb-0 text-center text-md-start">Suivi des emplois & ressourcess</h3>
-                    </a>
-                    <p class="mb-3 text-muted text-center text-md-start">  Suivez vos ressources facilement.
-                    </p>
-                    <div class="card-img-start">
-                        <a href="{{ path('app_dashboard_ressource') }}">
-                            <img class="card-img-top" src="{{ asset('data/app/ressource.jpg') }}" alt="Courrier" />
+                        <a href="{{ path('app_dashboard_courrier') }}" class="text-inherit">
+                            <h3 class="fw-bold mb-0 text-center text-md-start">Suivi des emplois & ressourcess</h3>
                         </a>
+                        <p class="mb-3 text-muted text-center text-md-start"> Suivez vos ressources facilement.
+                        </p>
+                        <div class="card-img-start">
+                            {#                        <a href="{{ path('app_dashboard_ressource') }}"> #}
+                            <button href="#" class="btn btn-outline-primary btn-sm"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modal-edit-prix"
+                            >
+                                <img class="card-img-top" src="{{ asset('data/app/ressource.jpg') }}" alt="Courrier"/>
+                                {#                        </a> #}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {#            {% dump(__module__) %} #}
+
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center mt-3">
+
+                <div class="col-12 order-3 text-center mt-3">
+                    <div class="foter-menu login-footer text-center">
+
+                        <a href="/contact">Nous contacter</a>
+                        <a href="/terms">Conditions d'utilisation</a>
+                        <a href="/guide">Guide d'utilisation</a>
+                        <span class=" text-xs">© 2023–{{ "now"|date("Y") }} E-SUIVI : Gestion des matériels et courriers</span>
                     </div>
                 </div>
             </div>
-{#			{% dump(__module__) %}#}
+        </div>
+    </div>
 
-		</div>
-	</div>
-</div>
-<div class="container-fluid">
-	<div class="row justify-content-center">
-		<div class="col-md-6 text-center mt-3">
+    <!-- End #main -->
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+        <i class="fas fa-arrow-up-short"></i>
+    </a>
 
-			<div class="col-12 order-3 text-center mt-3">
-				<div class="foter-menu login-footer text-center">
+    <div class="modal fade" id="modal-edit-prix" tabindex="-1" aria-hidden="true" data-bs-backdrop="false">
+        <div class="modal-dialog modal-dialog-centered">
+            {#            {{ form_start(form) }} #}
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Exercice</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <table class="table table-striped">
+{#                                    <thead>#}
+{#                                    <tr>#}
+{#                                        <th> Exercices</th>#}
+{#                                    </tr>#}
+{#                                    </thead>#}
+                                    <tbody>
+                                    {% for  exercice in exercices %}
+                                    <tr>
+                                        <td>
+                                            <input type="radio" id="exercice_{{ exercice.id }}" name="exercice_{{ exercice.id }}" value="{{
+                                            exercice.annee }}">
 
-					<a href="/contact" >Nous contacter</a>
-					<a href="/terms" >Conditions d'utilisation</a>
-					<a href="/guide" >Guide d'utilisation</a>
-					<span class=" text-xs">© 2023–{{ "now"|date("Y") }} E-SUIVI : Gestion des matériels et courriers</span>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+                                        </td>
+                                        <td> {{ exercice.annee }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-5">
+                                <button type="button" class="btn btn-success btn-block btn-sm" style="margin-top: .5rem;
+                                width: 100%;"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modal-exercice"><i class="fa fa-plus"></i>
+                                Nouveau</button>
+                                <a href="{{ path('app_dashboard_ressource') }}" class="btn btn-primary btn-block btn-sm" style="margin-top:
+                                .5rem; width: 100%;"><i class="fas fa-upload"></i>
+                                Charger</a>
+                                <button type="button" class="btn btn-danger btn-block btn-sm" style="margin-top:
+                                .5rem;  width: 100%;"><i class="fa fa-times"></i> Fermer</button>
+                            </div>
+                        </div>
+                    </div>
 
-<!-- End #main -->
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center">
-    <i class="fas fa-arrow-up-short"></i>
-</a>
 
+                </div>
+            </div>
+            {#            {{ form_end(form) }} #}
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-exercice" tabindex="-1" aria-hidden="true" data-bs-backdrop="false">
+        <div class="modal-dialog modal-dialog-centered">
+                        {{ form_start(form) }}
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Exercice</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+
+                    {{ form_widget(form) }}
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-success">Enregistrer</button>
+                </div>
+            </div>
+                        {{ form_end(form) }}
+        </div>
+    </div>
 
 {% endblock %}

@@ -2,8 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Emploie\Exercice;
+use App\Entity\Emploie\Periode;
+use App\Form\Emploie\ExerciceType;
 use App\Repository\AffectationRepository;
 use App\Repository\AssuranceRepository;
+use App\Repository\Emploie\ExerciceRepository;
+use App\Repository\Emploie\MoisRepository;
 use App\Repository\Emploie\OperationEmploieRepository;
 use App\Repository\Emploie\RessourceRepository;
 use App\Repository\EmployeRepository;
@@ -12,6 +17,7 @@ use App\Repository\MaterielRepository;
 use App\Repository\TypeAssuranceRepository;
 use App\Repository\TypeMaterielRepository;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -142,10 +148,37 @@ class DashboardController extends AbstractController
     }
     #[Route('/demarrage', name: 'demarrage')]
 
-    public function demarrage(Request $request): Response{
+    public function demarrage(Request $request, ExerciceRepository $exerciceRepository,EntityManagerInterface
+    $entityManager,MoisRepository $moisRepository ): Response{
         $session = $request->getSession();
         $session->remove('__modules__');
-        return $this->render('demarrage.html.twig');
+        $exercices = $exerciceRepository->findBy([],['annee'=>'desc']);
+        $exercice = new Exercice();
+        $form = $this->createForm(ExerciceType::class, $exercice);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $mois = $moisRepository->findAll();
+            foreach ($mois as $month) {
+                $periode = new Periode();
+                $periode->setExercice( $exercice);
+                $periode->setMois($month);
+                $periode->setIsCloture(false);
+                $periode->setIsArchive(false);
+
+                $entityManager->persist($periode);
+            }
+            $entityManager->persist($exercice);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_dashboard_ressource', [], Response::HTTP_SEE_OTHER);
+        }
+
+
+        return $this->render('demarrage.html.twig',[
+            'exercices'=> $exercices,
+            'form' => $form,
+        ]);
     }
 
     #[Route('/dashboard/courrier', name: 'app_dashboard_courrier')]
