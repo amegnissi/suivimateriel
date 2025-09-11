@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="GPAC" uploadOnCheckin="6607dcf9-9a38-44db-94db-b84a908416e4" remoteFilesAllowedToDisappearOnAutoupload="false">
+  <component name="PublishConfigData" serverName="GPAC" persistUploadOnCheckin="false" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
       <paths name="GPAC">
         <serverdata>
@@ -17,6 +17,5 @@
         </serverdata>
       </paths>
     </serverData>
-    <option name="myUploadOnCheckinName" value="GPAC" />
   </component>
 </project>
