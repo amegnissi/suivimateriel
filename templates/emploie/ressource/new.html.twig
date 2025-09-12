@@ -13,18 +13,23 @@
 {% block javascript %}
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+
     const montantInput = document.querySelector("#ressource_totalMontant");
+    // console.log(montantInput)
     const retenueInput = document.querySelector("#ressource_montantPris");
     const netInput = document.querySelector("#ressource_montantRestant");
 
+    // const valeurOriginale = parseFloat(netInput);
     function updateFields() {
     const montant = parseFloat(montantInput.value) || 0;
     const retenue = parseFloat(retenueInput.value) || 0;
-    const net = montant - retenue;
+    const nets =  Math.abs(montant ) - retenue;
+    // const net =  montant - retenue;
+    // const net =  montant - retenue;
 
     // Calcul du net à payer
     // netInput.value = net >= 0 ? net : 0;
-    netInput.value = net 
+    netInput.value = nets
 
 }
 
@@ -36,6 +41,33 @@
 
     // Calcul initial au chargement (au cas où des valeurs existent déjà)
     updateFields();
+
+ const input = document.getElementById('ressource_totalMontant');
+ const inputw = document.getElementById('ressource_montantRestant');
+
+    // Fonction pour mettre à jour la couleur
+    function mettreAJourCouleur() {
+      const valeur = parseFloat(input.value);
+      const valeurs = parseFloat(inputw.value);
+
+
+      if (!isNaN(valeur)) {
+        const valeurAbsolue = Math.abs(valeur );
+    input.value = valeurAbsolue;
+        if (valeur > 0) {
+    inputw.style.backgroundColor = 'green';
+        } else if (valeur < 0) {
+          inputw.style.backgroundColor = 'red';
+        } else {
+    inputw.style.backgroundColor = ''; // neutre
+        }
+      } else {
+        inputw.style.backgroundColor = ''; // valeur non numérique
+      }
+    // input.value =nets
+    }
+     // Exécution au chargement de la page
+    window.addEventListener('DOMContentLoaded', mettreAJourCouleur);
 });
 </script>
 {% endblock %}

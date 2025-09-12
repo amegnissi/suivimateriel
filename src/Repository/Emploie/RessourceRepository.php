@@ -41,20 +41,24 @@ class RessourceRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    public function getTotalMontantPris(): ?float
+    public function getTotalMontantPris($periode): ?float
     {
         return $this->createQueryBuilder('r')
             ->select('SUM(r.montantPris) as total')
+            ->where('r.periode = :periode')
+            ->setParameter('periode', $periode)
             ->getQuery()
             ->getSingleScalarResult();
     }
 
-    public function getRessourcePeriode($mois, $annee) {
+    public function getRessourcePeriode($periode,$mois, $annee) {
         return $this->createQueryBuilder('r')
+            ->where('r.periode = :periode')
             ->andWhere('r.mois = :mois')
             ->andWhere('r.annee = :annee')
             ->setParameter('mois', $mois)
             ->setParameter('annee', $annee)
+            ->setParameter('periode', $periode)
             ->getQuery()
             ->getResult()
             ;

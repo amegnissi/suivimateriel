@@ -15,20 +15,24 @@
 {% block content %}
 
     <!-- /.container-fluid -->
+    {% if  (totalPris - st) > 0  %}
+    <div class="alert alert-success alert-dismissible mb-3">
 
-    <div class="row mb-3">
 
-        <div class="col-sm-12">
-            <div class="card__cadr-default">
-            <h1>   {{ sommes['difference'] |number_format(0, ',', ' ') }} <h1/>
-
-                <!-- /.card-body -->
-            </div>
-
-        </div>
+                  <h3> {{ (totalPris - st ) |number_format(0, ',', ' ') }}</h3>
     </div>
+    {% else %}
+     <div class="alert alert-danger alert-dismissible mb-3">
 
-    <div class="row">
+
+                  <h3 class="center"> {{( st - totalPris) |number_format(0, ',', ' ') }}</h3>
+    </div>
+    {% endif %}
+
+
+
+
+    <div class="row mt-2">
 
         <div class="col-sm-12">
             <div class="card__cadr-default">
@@ -60,7 +64,20 @@
 
         <div class="col-sm-12">
             <div class="card__cadr-default">
-            <h2>  Tableau mensuel des ressources et emploies <h1/>
+            <div class="card-header">
+                    <div class="row g-4 align-items-center">
+                        <div class="col-sm">
+ <h3>  {{ labelPeriode }}</h3>
+                        </div>
+                        <div class="col-sm-auto">
+
+                        <a href="{{ path('app_emploie_operation_emploie_cloture', {'id': periode})  }}" class="btn btn-secondary btn-sm btn-edit-lock">
+                        <i class="fa fa-unlock" aria-hidden="true"></i> Cloturer</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
                 <!-- /.card-body -->
             </div>
@@ -179,11 +196,7 @@
 
                                                 {#                                                {{ path('app_emploie_operation_emploie_edit', {'id': operation_emploie.id}) }}#}
                                             {% endif %}
-                                            <button type="button" class="btn btn-primary btn-sm btn-edit-lock"
-                                                       >
-                                                   <i class="fa fa-unlock" aria-hidden="true"></i>
 
-                                            </button>
            {#                              {% endif %} #}
 
 {#                                    <a href="{{ path('app_emploie_operation_emploie_show', {'id': operation_emploie.id}) }}">show</a>#}

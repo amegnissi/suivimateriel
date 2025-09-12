@@ -5,6 +5,9 @@ namespace App\Controller\Emploie;
 use App\Entity\Emploie\Ressource;
 use App\Form\Emploie\RessourceType;
 use App\Repository\Emploie\OperationEmploieRepository;
+use App\Repository\Emploie\ExerciceRepository;
+use App\Repository\Emploie\MoisRepository;
+use App\Repository\Emploie\PeriodeRepository;
 use App\Repository\Emploie\RessourceRepository;
 use App\Service\UniqueIdentifierGenerator;
 use App\Traits\InsertionReferenceTrait;
@@ -28,22 +31,25 @@ final class RessourceController extends AbstractController
 
     #[Route('/new', name: 'app_emploie_ressource_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, OperationEmploieRepository
-    $operationEmploieRepository,RessourceRepository $ressourceRepository,UniqueIdentifierGenerator $uniqueIdentifierGenerator): Response
+    $operationEmploieRepository,RessourceRepository $ressourceRepository,UniqueIdentifierGenerator $uniqueIdentifierGenerator,PeriodeRepository $periodeRepository,MoisRepository $moisRepository,ExerciceRepository $exerciceRepository): Response
     {
+        $session = $request->getSession();
+        $periode = $session->get('selected_periode_id');
+        $p =  $periodeRepository->find($periode);
         $ressource = new Ressource();
-        $ressource->setMois((int) date('n'));
-        $ressource->setAnnee((int) date('Y'));
+        $ressource->setMois((int) $p->getMois()->getId());
+        $ressource->setAnnee((int) $p->getExercice()->getAnnee());
 
         $form = $this->createForm(RessourceType::class, $ressource);
-        $total = $operationEmploieRepository->getTotalMontantAPayer();
-        $totalPris = $ressourceRepository->getTotalMontantPris();
-        $sommes = $operationEmploieRepository->getTotalRetenue();
+        $total = $operationEmploieRepository->getTotalMontantAPayer($periode);
+        $totalPris = $ressourceRepository->getTotalMontantPris($periode);
+        $sommes = $operationEmploieRepository->getTotalRetenue($periode);
 //        $reste = $sommes['difference'] - $totalPris;
-        $reste = $total - $totalPris;
+        $reste =  $totalPris - $total;
 
-        $form->get('totalMontant')->setData($reste);
+        $form->get('totalMontant')->setData(( $reste));
        $form->get('totalEmploie')->setData($total);
-        $form->get('totalRessources')->setData($totalPris);
+        $form->get('totalRessources')->setData(abs($totalPris));
 
         $identifier = $uniqueIdentifierGenerator->generateUniqueIdentifier(Ressource::class, 'referenceSysteme', 'RSC');
 
@@ -51,7 +57,13 @@ final class RessourceController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $montantAppro = $form->get('montantPris')->getData();
+            $reste =  ($totalPris +  $montantAppro  ) - $total;
+//            dd($reste);
             $this->insertion($identifier,$ressource,$form);
+            $ressource->setPeriode( $p);
+            $ressource->setMontantRestant( $reste);
             $entityManager->persist($ressource);
             $entityManager->flush();
 
@@ -61,7 +73,7 @@ final class RessourceController extends AbstractController
         return $this->render('emploie/ressource/new.html.twig', [
             'ressource' => $ressource,
             'form' => $form,
-            'totalRessource' => $reste
+            'totalRessource' =>abs( $reste)
         ]);
     }
 

@@ -5,8 +5,10 @@ namespace App\Controller\Emploie;
 use App\Entity\Emploie\Exercice;
 use App\Form\Emploie\ExerciceType;
 use App\Repository\Emploie\ExerciceRepository;
+use App\Repository\Emploie\PeriodeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -77,5 +79,23 @@ final class ExerciceController extends AbstractController
         }
 
         return $this->redirectToRoute('app_emploie_exercice_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/periodes/popup/{id}', name: 'periodes_popup')]
+    public function periodesPopup(Exercice $exercice, PeriodeRepository $periodeRepository): Response
+    {
+
+        $periodes = $periodeRepository->findBy(['exercice'=>$exercice]);
+        $data = [];
+        foreach ($periodes as $item) {
+            $data[] = [
+            'id' => $item->getId(),
+//                'libelle'=> $item->getMois()->getLibelle().' '.'2025'
+             'libelle' => $item->getMois()->getLibelle() .' '.$item->getExercice()->getAnnee()
+//            'unite' => $paa->getProduit()->getUnite(),
+//            'prix' => $prix,
+        ];
+        }
+        return new JsonResponse($data);
     }
 }

@@ -7,7 +7,10 @@ namespace App\Controller\Emploie;
 use App\Entity\Emploie\OperationEmploie;
 use App\Enum\OperationsStatut;
 use App\Form\Emploie\DemandeModificationEmploieType;
+use App\Repository\Emploie\ExerciceRepository;
+use App\Repository\Emploie\MoisRepository;
 use App\Repository\Emploie\OperationEmploieRepository;
+use App\Repository\Emploie\PeriodeRepository;
 use App\Repository\Emploie\RessourceRepository;
 use App\Service\ExportService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,9 +25,10 @@ class OperationsController extends AbstractController
 {
     #[Route('/operations/index', name: 'app_emploie_operations_index', methods: ['GET','POST'])]
     public function index(Request $request,RessourceRepository $ressourceRepository,OperationEmploieRepository
-    $operationEmploieRepository): Response
+    $operationEmploieRepository,MoisRepository $moisRepository, ExerciceRepository $exerciceRepository,PeriodeRepository $periodeRepository): Response
     {
-
+        $session = $request->getSession();
+        $periode = $session->get('selected_periode_id');
         $moisChoices = [
             'Janvier' => 1, 'Février' => 2, 'Mars' => 3, 'Avril' => 4,
             'Mai' => 5, 'Juin' => 6, 'Juillet' => 7, 'Août' => 8,
@@ -50,7 +54,10 @@ class OperationsController extends AbstractController
             ])
             ->getForm();
 
-
+            $m = $moisRepository->findOneBy(['libelle'=>'Septembre']);
+            $y = $exerciceRepository->findOneBy(['annee'=> $currentYear]);
+            $period = $periodeRepository->find($periode );
+//            $periode = $periodeRepository->findOneBy(['exercice'=> $y,'mois'=>  $m]);
         $form->get('mois')->setData((int) date('n'));
         $form->get('annee')->setData((int) date('Y'));
         $form->handleRequest($request);
@@ -60,23 +67,31 @@ class OperationsController extends AbstractController
 
 //            dd( $mois,$annee );
             return $this->render('emploie/operations/index.html.twig',[
-                'ressources' => $ressourceRepository->getRessourcePeriode($mois,$annee),
-                'operation_emploies' => $operationEmploieRepository->getOperationEmploiePeriode($mois,$annee),
-                'sommes'=>$operationEmploieRepository->getTotalRetenue($mois,$annee),
+                'ressources' => $ressourceRepository->getRessourcePeriode($periode,$mois,$annee),
+                'operation_emploies' => $operationEmploieRepository->getOperationEmploiePeriode($periode,$mois,$annee),
+                'sommes'=>$operationEmploieRepository->getTotalRetenue($periode,$mois,$annee),
                 'form' => $form->createView(),
                 'mois'=>$mois,
                 'annee'=>$annee
             ]);
 
         }
-
+         $totalPris = $ressourceRepository->getTotalMontantPris($periode);
+        $st = $operationEmploieRepository->getTotalMontantAPayer($periode);
+        $p = $periodeRepository->find($periode);
+//        $titre = $periodeRepository->find($periode)->getMois()->getLibelle().' '.$periodeRepository->find($periode)->getExercice()->getAnnee();
+        $titre = 'Tableau mensuel des ressources et emploies du mois de'.$p->getMois()->getLibelle().' '.$p->getExercice()->getAnnee() ;
         return $this->render('emploie/operations/index.html.twig',[
-            'ressources' => $ressourceRepository->findAll(),
-            'operation_emploies' => $operationEmploieRepository->findAll(),
-            'sommes'=>$operationEmploieRepository->getTotalRetenue(),
+            'ressources' => $ressourceRepository->findBy(['periode'=>$periode]),
+            'operation_emploies' => $operationEmploieRepository->findBy(['periode'=>$periode]),
+            'sommes'=>$operationEmploieRepository->getTotalRetenue($periode),
             'form' => $form->createView(),
             'mois'=>(int) date('n'),
-            'annee'=>(int) date('Y')
+            'annee'=>(int) date('Y'),
+            'periode'=>$periode,
+            'totalPris'=>$totalPris,
+            'st'=>$st,
+            'labelPeriode'=>$titre
         ]);
     }
 

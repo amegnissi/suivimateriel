@@ -4,12 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Emploie\Exercice;
 use App\Entity\Emploie\Periode;
+use App\Form\Emploie\Exercice2Type;
 use App\Form\Emploie\ExerciceType;
 use App\Repository\AffectationRepository;
 use App\Repository\AssuranceRepository;
 use App\Repository\Emploie\ExerciceRepository;
 use App\Repository\Emploie\MoisRepository;
 use App\Repository\Emploie\OperationEmploieRepository;
+use App\Repository\Emploie\PeriodeRepository;
 use App\Repository\Emploie\RessourceRepository;
 use App\Repository\EmployeRepository;
 use App\Repository\MaintenanceRepository;
@@ -19,8 +21,10 @@ use App\Repository\TypeMaterielRepository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -155,8 +159,9 @@ class DashboardController extends AbstractController
         $exercices = $exerciceRepository->findBy([],['annee'=>'desc']);
         $exercice = new Exercice();
         $form = $this->createForm(ExerciceType::class, $exercice);
-        $form->handleRequest($request);
 
+
+        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $mois = $moisRepository->findAll();
             foreach ($mois as $month) {
@@ -178,6 +183,7 @@ class DashboardController extends AbstractController
         return $this->render('demarrage.html.twig',[
             'exercices'=> $exercices,
             'form' => $form,
+
         ]);
     }
 
@@ -191,15 +197,22 @@ class DashboardController extends AbstractController
 
     #[Route('/dashboard/ressource', name: 'app_dashboard_ressource')]
     public function dashbooardRessource(Request $request,RessourceRepository $ressourceRepository,
-                                        OperationEmploieRepository $operationEmploieRepository): Response
+                                        OperationEmploieRepository $operationEmploieRepository, PeriodeRepository $periodeRepository):
+    Response
     {
         $session = $request->getSession();
         $session->set('__modules__', 'RESSOURCE');
-        $totalPris = $ressourceRepository->getTotalMontantPris();
-        $sommes = $operationEmploieRepository->getTotalMontantAPayer();
+        $periode = $session->get('selected_periode_id');
+//        dd( $periode );
+        $totalPris = $ressourceRepository->getTotalMontantPris($periode);
+        $sommes = $operationEmploieRepository->getTotalMontantAPayer($periode);
+        $p =$periodeRepository->find($periode);
+
+        $periodeLabel = 'Exercice '.$p->getExercice()->getAnnee().' du mois '.$p->getMois()->getLibelle() .' ' ;
         return $this->render('dashboard_ressource.html.twig', [
             'ressources' => $totalPris,
             'emploie' => $sommes,
+            'periodeLabel'=> $periodeLabel
         ]);
     }
 
@@ -215,4 +228,29 @@ class DashboardController extends AbstractController
 
         return $this->render('dashboard_courrier.html.twig', []);
     }
+    #[Route('/api/save-selection', name: 'api_save_selection', methods: ['POST'])]
+    public function saveSelection(Request $request, SessionInterface $session): JsonResponse
+    {
+        // Validation basique (ajoute guards Symfony si besoin, e.g., Validator)
+        $data = json_decode($request->getContent(), true);
+        if (!isset( $data['periodeId'])  || !is_numeric($data['periodeId'])) {
+            return new JsonResponse(['success' => false, 'message' => 'Données invalides'], Response::HTTP_BAD_REQUEST);
+        }
+
+        // Stockage en session (persistant pour l'utilisateur connecté)
+        $session->set('selected_periode_id', (int) $data['periodeId']);
+        $session->set('__modules__', 'RESSOURCE');
+
+        return new JsonResponse([
+            'success' => true,
+            'message' => 'Sélection sauvegardée',
+            'redirect_url' => $this->generateUrl('app_dashboard_ressource'),
+            'data' => [
+                'periodeId' => $session->get('selected_periode_id'),
+
+            ]
+        ]);
+    }
+
+
 }

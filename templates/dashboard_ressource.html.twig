@@ -16,6 +16,11 @@
 {% block content %}
     <section class="content">
         <div class="container-fluid">
+            <div class="callout callout-success">
+                <h5>{{ periodeLabel }}</h5>
+
+
+            </div>
             <!-- Small boxes (Stat box) -->
             <div class="row">
                 {% set couleurs = ['text-bg-primary','bg-success', 'bg-warning', 'bg-light','bg-lightblue','bg-navy',
@@ -59,14 +64,15 @@
                  <div class="col-lg-3 col-6">
                     <!-- small box -->
                     {% if (emploie - ressources )> 0 %}
-                     <div class="small-box bg-success">
-                    {% else %}
                      <div class="small-box bg-danger">
+
+                    {% else %}
+                         <div class="small-box bg-success">
                     {% endif %}
-                   
+
                         <div class="inner">
                             <p>Soldes des operations</p>
-                            <h3>{{ (emploie - ressources )  |number_format(0, ',', ' ') }}</h3>
+                            <h3>{{ (emploie - ressources ) |abs |number_format(0, ',', ' ') }}</h3>
 
 
                         </div>
@@ -80,7 +86,7 @@
                     fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-               
+
 
             </div>
 

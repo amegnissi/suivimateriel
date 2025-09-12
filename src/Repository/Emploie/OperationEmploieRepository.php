@@ -46,10 +46,12 @@ class OperationEmploieRepository extends ServiceEntityRepository
      *
      * @return float|null
      */
-    public function getTotalMontantAPayer(): ?float
+    public function getTotalMontantAPayer($periode): ?float
     {
         return $this->createQueryBuilder('o')
             ->select('SUM(o.montantAPayer) as total')
+            ->where('o.periode = :periode')
+            ->setParameter('periode', $periode)
             ->getQuery()
             ->getSingleScalarResult();
     }
@@ -63,24 +65,29 @@ class OperationEmploieRepository extends ServiceEntityRepository
      *     difference: float
      * }|null
      */
-    public function getTotalRetenue($mois=null,$annee=null): array
+    public function getTotalRetenue($periode,$mois=null,$annee=null): array
     {
         $queryBuilder = $this->createQueryBuilder('o')
             ->select([
                 'COALESCE(SUM(o.montantAPayer), 0) as totalMontantAPayer',
                 'COALESCE(SUM(o.retenue), 0) as totalRetenues'
-            ]);
-            
+            ])
+            ->where('o.periode = :periode')
+            ->setParameter('periode', $periode)
+        ;
+
         if($mois && $annee){
             $queryBuilder
+
                 ->andWhere('o.mois = :mois')
                 ->andWhere('o.annee = :annee')
                 ->setParameter('mois', $mois)
+
                 ->setParameter('annee', $annee);
         }
 
         $result = $queryBuilder->getQuery()->getSingleResult();
-        
+
         return [
             'totalMontantAPayer' => (float)$result['totalMontantAPayer'],
             'totalRetenues' => (float)$result['totalRetenues'],
@@ -95,12 +102,14 @@ class OperationEmploieRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function getOperationEmploiePeriode($mois, $annee) {
+    public function getOperationEmploiePeriode($periode,$mois, $annee) {
         return $this->createQueryBuilder('o')
+            ->where('o.periode = :periode')
             ->andWhere('o.mois = :mois')
             ->andWhere('o.annee = :annee')
             ->setParameter('mois', $mois)
             ->setParameter('annee', $annee)
+            ->setParameter('periode', $periode)
             ->getQuery()
             ->getResult()
             ;

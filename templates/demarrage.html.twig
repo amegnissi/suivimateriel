@@ -101,7 +101,8 @@
         <i class="fas fa-arrow-up-short"></i>
     </a>
 
-    <div class="modal fade" id="modal-edit-prix" tabindex="-1" aria-hidden="true" data-bs-backdrop="false">
+    <div class="modal fade" id="{{ modal_id ?? 'modal-edit-prix' }}" tabindex="-1" aria-hidden="true"
+         data-bs-backdrop="false">
         <div class="modal-dialog modal-dialog-centered">
             {#            {{ form_start(form) }} #}
             <div class="modal-content">
@@ -114,38 +115,54 @@
                         <div class="row">
                             <div class="col-md-7">
                                 <table class="table table-striped">
-{#                                    <thead>#}
-{#                                    <tr>#}
-{#                                        <th> Exercices</th>#}
-{#                                    </tr>#}
-{#                                    </thead>#}
+                                    <thead>
+                                    <tr>
+                                        <th> Exercices</th>
+                                    </tr>
+                                    </thead>
                                     <tbody>
                                     {% for  exercice in exercices %}
-                                    <tr>
-                                        <td>
-                                            <input type="radio" id="exercice_{{ exercice.id }}" name="exercice_{{ exercice.id }}" value="{{
-                                            exercice.annee }}">
+                                        <tr>
+                                            <td>
+                                                <input type="radio" id="exercice_{{ exercice.id }}"
+                                                       class="exercice-radio"
+                                                       name="exercice_selected"
+                                                       value="{{ exercice.id }}"
+                                                       data-annee="{{ exercice.id }}"
+                                                >
 
-                                        </td>
-                                        <td> {{ exercice.annee }}</td>
-                                    </tr>
+                                            </td>
+                                            <td> {{ exercice.annee }}</td>
+                                        </tr>
                                     {% endfor %}
                                     </tbody>
                                 </table>
+
+
                             </div>
                             <div class="col-md-5">
                                 <button type="button" class="btn btn-success btn-block btn-sm" style="margin-top: .5rem;
                                 width: 100%;"
                                         data-bs-toggle="modal"
                                         data-bs-target="#modal-exercice"><i class="fa fa-plus"></i>
-                                Nouveau</button>
-                                <a href="{{ path('app_dashboard_ressource') }}" class="btn btn-primary btn-block btn-sm" style="margin-top:
-                                .5rem; width: 100%;"><i class="fas fa-upload"></i>
-                                Charger</a>
+                                    Nouveau
+                                </button>
+                                <button type="button" class="btn btn-primary btn-block
+                                btn-sm charger-btn" style="margin-top:
+                                .5rem; width: 100%;"
+                                        {#                                        data-target-modal="{{ periode_modal_id ?? 'modal-periode' }}" #}
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modal-periode"
+                                >
+                                    <i class="fas fa-upload"></i>
+                                    Charger
+                                </button>
                                 <button type="button" class="btn btn-danger btn-block btn-sm" style="margin-top:
-                                .5rem;  width: 100%;"><i class="fa fa-times"></i> Fermer</button>
+                                .5rem;  width: 100%;"><i class="fa fa-times"></i> Fermer
+                                </button>
                             </div>
                         </div>
+
                     </div>
 
 
@@ -157,7 +174,7 @@
 
     <div class="modal fade" id="modal-exercice" tabindex="-1" aria-hidden="true" data-bs-backdrop="false">
         <div class="modal-dialog modal-dialog-centered">
-                        {{ form_start(form) }}
+            {{ form_start(form) }}
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Exercice</h5>
@@ -172,8 +189,287 @@
                     <button type="submit" class="btn btn-success">Enregistrer</button>
                 </div>
             </div>
-                        {{ form_end(form) }}
+            {{ form_end(form) }}
         </div>
     </div>
 
+    <div class="modal fade" id="modal-periode" tabindex="-1" aria-hidden="true" data-bs-backdrop="false">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Periode</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="periode-body">
+                    <div class="text-center">
+                        <p>Sélectionnez un exercice pour charger les périodes.</p>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-success selectionner-btn">Selectionner</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascript %}
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+    let selectedExerciceId = null; // Variable globale pour stocker la sélection
+
+    // Gestion de la sélection radio exercice
+    document.querySelectorAll('.exercice-radio').forEach(radio => {
+    radio.addEventListener('change', async function() {
+    selectedExerciceId = this.value;
+    console.log(`Exercice sélectionné: ${selectedExerciceId}`); // Debug optionnel
+
+    const targetModalId = this.dataset.targetModal;
+    // const bodyId = `${targetModalId.replace('modal-', '')}-body`; // e.g., 'periode-body'
+    // const bodyId = `${targetModalId.replace('modal-', '')}-body`; // e.g., 'periode-body'
+    const modalBody = document.getElementById('periode-body');
+
+    try {
+    // Appel AJAX simple avec fetch
+    const boundFetch = window.fetch.bind(window);
+    const response =  await fetch(`/emploie/exercice/periodes/popup/${selectedExerciceId}`);
+    if (!response.ok) {
+    throw new Error('Erreur lors du chargement des périodes');
+}
+    const periodes =  await response.json();
+
+    // Génération dynamique du tableau (template inline pour concision)
+    let tableHtml = `
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Sélection</th>
+                                            <th>Périodes</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                `;
+    periodes.forEach((periode, index) => {
+    tableHtml += `
+                        <tr>
+                            <td><input type="radio" name="periode_selected" value="${periode.id}" class="periode-radio"></td>
+                            <td>${periode.libelle || periode.id} <!-- Adapter selon entité --></td>
+                        </tr>
+                    `;
+});
+    tableHtml += `
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+    modalBody.innerHTML = tableHtml;
+
+
+} catch (error) {
+    console.error('Erreur AJAX:', error);
+    modalBody.innerHTML = '<div class="alert alert-danger">Erreur de chargement.</div>';
+}
+});
+});
+
+//     // Gestion du bouton "Charger" : AJAX pour charger périodes
+//     document.querySelectorAll('.charger-btn').forEach(btn => {
+//     btn.addEventListener('click', async function() {
+//     if (!selectedExerciceId) {
+//     alert('Veuillez sélectionner un exercice.');
+//     return;
+// }
+//
+//     const targetModalId = this.dataset.targetModal;
+//     const bodyId = `${targetModalId.replace('modal-', '')}-body`; // e.g., 'periode-body'
+//     // const bodyId = `${targetModalId.replace('modal-', '')}-body`; // e.g., 'periode-body'
+//     const modalBody = document.getElementById('modal-periode');
+//
+//     try {
+//     // Appel AJAX simple avec fetch
+//     const boundFetch = window.fetch.bind(window);
+//     const response = await fetch(`/emploie/exercice/periodes/popup/${selectedExerciceId}`);
+//     if (!response.ok) {
+//     throw new Error('Erreur lors du chargement des périodes');
+// }
+//     const periodes = await response.json();
+//
+//     // Génération dynamique du tableau (template inline pour concision)
+//     let tableHtml = `
+//                     <div class="container">
+//                         <div class="row">
+//                             <div class="col-md-12">
+//                                 <table class="table table-striped">
+//                                     <thead>
+//                                         <tr>
+//                                             <th>Sélection</th>
+//                                             <th>Périodes</th>
+//                                         </tr>
+//                                     </thead>
+//                                     <tbody>
+//                 `;
+//     periodes.forEach((periode, index) => {
+//     tableHtml += `
+//                         <tr>
+//                             <td><input type="radio" name="periode_selected" value="${periode.id}" class="periode-radio"></td>
+//                             <td>${periode.nom || periode.id} <!-- Adapter selon entité --></td>
+//                         </tr>
+//                     `;
+// });
+//     tableHtml += `
+//                                     </tbody>
+//                                 </table>
+//                             </div>
+//                         </div>
+//                     </div>
+//                 `;
+//
+//     modalBody.innerHTML = tableHtml;
+//
+//     // Active le bouton "Selectionner" après chargement
+//     const selectionnerBtn = document.querySelector('.selectionner-btn');
+//     if (selectionnerBtn) {
+//     selectionnerBtn.disabled = false;
+// }
+//
+//     // Ouvre le modal
+//     console.log(targetModalId); // Debug optionnel
+//     // const modal = new bootstrap.Modal(document.getElementById(targetModalId));
+//     const modals = new bootstrap.Modal(document.getElementById('modal-exercice'));
+//     modals.hide();
+//
+//     const modalElement = document.getElementById(targetModalId);
+//     // const modal = new bootstrap.Modal(modalElement);
+//     const modal = new bootstrap.Modal(modalElement);
+//     modal.show();
+//
+// } catch (error) {
+//     console.error('Erreur AJAX:', error);
+//     modalBody.innerHTML = '<div class="alert alert-danger">Erreur de chargement.</div>';
+// }
+// });
+// });
+
+    // Gestion du bouton "Nouveau" (ex: ouvre un autre modal, à étendre si besoin)
+    document.querySelectorAll('.nouveau-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+    // Logique pour nouveau exercice (e.g., data-bs-toggle="modal" data-bs-target="#modal-nouveau")
+    console.log('Ouverture modal nouveau exercice');
+});
+});
+
+    // Gestion du bouton "Fermer" (ferme le modal parent)
+    document.querySelectorAll('.fermer-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+    const modal = bootstrap.Modal.getInstance(document.querySelector('.modal.show'));
+    modal?.hide();
+});
+});
+
+    // Optionnel : Gestion sélection période (ex: après clic sur "Selectionner")
+    document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('selectionner-btn')) {
+    const selectedPeriode = document.querySelector('input[name="periode_selected"]:checked');
+    if (selectedPeriode) {
+    const periodeData = {
+    periodeId: selectedPeriode.value,
+}
+    console.log(`Période sélectionnée: ${selectedPeriode.value}`);
+    // Ici : Appel AJAX pour charger les données prix, ou submit form
+    // e.g., window.location.href = `/edit-prix/${selectedExerciceId}/${selectedPeriode.value}`;
+    fetch('{{ path("api_save_selection") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(periodeData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // alert('Commande enregistrée avec succès ! Numéro: ' + data.orderId);
+                    // Réinitialiser le formulaire
+                     if (data.redirect_url) {
+                        window.location.href = data.redirect_url;
+
+                    } else {
+                        // Redirection par défaut
+
+                        window.location.href = '/'; // Ajustez selon votre route
+                    }
+
+                } else {
+                    alert('Erreur: ' + data.error);
+                }
+            })
+
+    } else {
+    alert('Veuillez sélectionner une période.');
+}
+}
+});
+// });
+
+//     document.addEventListener('click', function(e) {
+//     if (e.target.matches('.selectionner-btn')) {
+//     const selectedPeriode = document.querySelector('input[name="periode_selected"]:checked');
+//     if (selectedPeriode) {
+//     window.selectedPeriodeId = selectedPeriode.value; // Garde la globale client-side si besoin (e.g., pour UI locale)
+//     console.log(`Période sélectionnée: ${window.selectedPeriodeId} (Exercice: ${window.selectedExerciceId})`);
+//
+//     // Nouvel AJAX POST pour notifier le serveur (stockage en session)
+//     // const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content'); // Token Symfony
+//     fetch('/api/save-selection', {
+//     method: 'POST',
+//     headers: {
+//     'Content-Type': 'application/json',
+// },
+//     body: JSON.stringify({
+//     exerciceId: window.selectedExerciceId,
+//     periodeId: window.selectedPeriodeId
+// })
+// })
+//     .then(response => {
+//     if (!response.ok) {
+//     throw new Error(`Erreur HTTP: ${response.status}`);
+// }
+//     return response.json();
+// })
+//     .then(data => {
+//     console.log('Sélection sauvegardée côté serveur:', data); // e.g., { success: true, message: 'OK' }
+//     // Optionnel : Dispatch event pour UI updates
+//     const event = new CustomEvent('periodeSelected', {
+//     detail: { exerciceId: window.selectedExerciceId, periodeId: window.selectedPeriodeId }
+// });
+//     document.dispatchEvent(event);
+// })
+//     .catch(error => {
+//     console.error('Erreur envoi au serveur:', error);
+//     alert('Erreur de sauvegarde. Réessayez.');
+// });
+//
+//     // Ferme le modal
+// //     const modalEl = e.target.closest('.modal');
+// //     if (modalEl) {
+// //     const modal = bootstrap.Modal.getInstance(modalEl);
+// //     modal?.hide();
+// // }
+// } else {
+//     alert('Veuillez sélectionner une période.');
+// }
+// }
+// });
+})
+ </script>
+//
 {% endblock %}
