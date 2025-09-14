@@ -7,7 +7,7 @@
     <!-- DataTables -->
 
 {% endblock %}
-{% block title %}  Liste des Emploie & Ressources clôturées{% endblock %}
+{% block title %}  Liste des Emploie & Ressources archivées{% endblock %}
 {% block breadcrumb %}Clo{% endblock %}
 {% block  breadcrumb_item %} Emploie & Ressources{% endblock %}
 {% block  breadcrumb_t %} Emploie & Ressources{% endblock %}
@@ -256,13 +256,11 @@
                              data-bs-parent="#accordion{{ annee }}">
 
                             <div class="accordion-body p-0">
-                                <div class="d-flex justify-content-end p-3">
-                                    <button class="btn btn-sm btn-primary me-2 btn-exporter"
-                                            data-product-periode="{{ excercies.id }}"
-                                            data-target="#collapse{{ annee
-                                    }}-{{ loop.index }}">Archiver</button>
+{#                                <div class="d-flex justify-content-end p-3">#}
+{#                                    <button class="btn btn-sm btn-primary me-2 btn-exporter"  data-target="#collapse{{ annee#}
+{#                                    }}-{{ loop.index }}">Archiver</button>#}
 {#                                    <button class="btn btn-sm btn-secondary">Imprimer</button>#}
-                                </div>
+{#                                </div>#}
                                 {# === Tableau des emplois === #}
                                 <h3 class="card-title m-3">Tableau des emplois
 
@@ -288,12 +286,10 @@
                                         {% set montantAPayer = 0 %}
                                         {% set montantRetenue = 0 %}
                                         {% for operation_emploie in excercies.operationEmploies %}
-                                            {% if operation_emploie.isclotured %}
+                                            {% if  operation_emploie.isArchive %}
                                                 {% set montantAPayer = montantAPayer + operation_emploie.montantAPayer %}
                                                 {% set montantRetenue = montantRetenue + operation_emploie.retenue %}
-                                                <tr class="emploi-row"
-                                                    data-product-id="{{ operation_emploie.id }}"
-                                                    data-product-periode="{{ operation_emploie.periode.id }}">
+                                                <tr class="emploi-row" data-product-id="{{ operation_emploie.id }}">
                                                     <td>{{ loop.index }}</td>
                                                     <td>{{ operation_emploie.dateOperation ? operation_emploie.dateOperation|date('Y-m-d') }}</td>
                                                     <td>{{ operation_emploie.referenceManuel }}</td>
@@ -336,7 +332,7 @@
                                         {% set montantPris = 0 %}
                                         {% set montantRestant = 0 %}
                                         {% for ressource in excercies.ressource %}
-                                            {% if ressource.isclotured %}
+                                            {% if ressource.isArchive %}
                                                 {% set montantPris = montantPris + ressource.montantPris %}
                                                 {% set montantRestant = montantRestant + ressource.montantRestant %}
                                                 <tr class="ressource-row" data-product-id="{{ ressource.id }}">
@@ -374,8 +370,6 @@
         button.addEventListener("click", function () {
             // Récupérer l'ID du collapse lié au bouton
             const targetSelector = this.getAttribute("data-target");
-            const periode = this.getAttribute("data-product-periode");
-
             const collapseElement = document.querySelector(targetSelector);
 
             if (!collapseElement) return;
@@ -388,7 +382,6 @@
                 .map(row => row.getAttribute("data-product-id"));
 
             const operationData2 = {
-                'periodeId':periode,
                 ressources: Array.from(collapseElement.querySelectorAll(".ressource-row"))
                     .map(row => ({ id: row.getAttribute("data-product-id") })),
                 emplois: Array.from(collapseElement.querySelectorAll(".emploi-row"))

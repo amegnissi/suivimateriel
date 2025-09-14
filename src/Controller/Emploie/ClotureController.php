@@ -35,6 +35,25 @@ class ClotureController extends AbstractController
         ]);
     }
 
+    #[Route('/liste-operations-archive', name: 'app_emploie_demandes_autorisations_archive', methods: ['GET'])]
+    public function archives(PeriodeRepository $periodeRepository,RessourceRepository $ressourceRepository,
+                          OperationEmploieRepository
+                                            $operationEmploieRepository): Response
+    {
+        $excerciesCloturees = $periodeRepository->findBy(['isArchive'=>true]);
+        $grouped = [];
+        foreach ($excerciesCloturees as $excercice) {
+            $annee = $excercice->getExercice()->getAnnee();
+            if (!isset($grouped[$annee])) {
+                $grouped[$annee] = [];
+            }
+            $grouped[$annee][] = $excercice;
+        }
+        return $this->render('emploie/cloture/liste_excercice_archive.html.twig', [
+            'excerciesCloturees' =>$grouped
+        ]);
+    }
+
     #[Route('/operations-cloture', name: 'app_emploie_demandes_cloture', methods: ['GET', 'POST'])]
     public function clotureOperations(Request                    $request, RessourceRepository $ressourceRepository, PeriodeRepository $periodeRepository,
                                       OperationEmploieRepository $operationEmploieRepository, EntityManagerInterface $entityManager): JsonResponse
@@ -47,6 +66,7 @@ class ClotureController extends AbstractController
             $periode = $periodeRepository->find((int)$data['periodeId']);
 
             if ($periode) {
+                $periode = $periodeRepository->find((int)$data['periodeId']);
                 $periode->setIsCloture(true);
                 $entityManager->persist($periode);
 
@@ -74,4 +94,46 @@ class ClotureController extends AbstractController
             ], Response::HTTP_BAD_REQUEST);
         }
     }
+
+    #[Route('/operations-archive', name: 'app_emploie_operation_archive', methods: ['GET', 'POST'])]
+    public function archiveOperations(Request                    $request, RessourceRepository $ressourceRepository,
+                                PeriodeRepository $periodeRepository,
+                                      OperationEmploieRepository $operationEmploieRepository, EntityManagerInterface $entityManager): JsonResponse
+    {
+
+        try {
+            $data = json_decode($request->getContent(), true);
+//            dd($data);
+//            dd($data['periodeId']);
+            $periode = $periodeRepository->find((int)$data['periodeId']);
+
+            if ($periode) {
+                $periode->setIsArchive(true);
+                $entityManager->persist($periode);
+
+                foreach ($data['ressources'] as $itemData) {
+                    $ressource = $ressourceRepository->find($itemData['id']);
+                    $ressource->setIsArchive(true);
+                    $entityManager->persist($ressource);
+                }
+
+                foreach ($data['emplois'] as $itemData) {
+                    $operationEmploie = $operationEmploieRepository->find($itemData['id']);
+                    $operationEmploie->setIsArchive(true);
+                    $entityManager->persist($operationEmploie);
+                }
+                $entityManager->flush();
+            }
+            return new JsonResponse([
+                'success' => true,
+                'message' => 'Commande enregistrée avec succès',
+                'redirect_url' => $this->generateUrl('app_emploie_demandes_autorisations_index')
+            ]);
+        } catch (\Exception $e) {
+            return new JsonResponse([
+                'error' => 'Invalid JSON',
+            ], Response::HTTP_BAD_REQUEST);
+        }
+    }
+
 }

@@ -49,6 +49,9 @@ class OperationEmploie
     #[ORM\Column(nullable: true)]
     private ?bool $isClotured = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isArchive = false;
+
     public function __construct()
     {
         $this->isClotured = false;
@@ -176,6 +179,18 @@ class OperationEmploie
     public function setIsClotured(?bool $isClotured): static
     {
         $this->isClotured = $isClotured;
+
+        return $this;
+    }
+
+    public function isArchive(): ?bool
+    {
+        return $this->isArchive;
+    }
+
+    public function setIsArchive(?bool $isArchive): static
+    {
+        $this->isArchive = $isArchive;
 
         return $this;
     }
