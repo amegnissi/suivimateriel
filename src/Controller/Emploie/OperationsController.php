@@ -23,9 +23,8 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class OperationsController extends AbstractController
 {
-    #[Route('/operations/index', name: 'app_emploie_operations_index', methods: ['GET','POST'])]
-    public function index(Request $request,RessourceRepository $ressourceRepository,OperationEmploieRepository
-    $operationEmploieRepository,MoisRepository $moisRepository, ExerciceRepository $exerciceRepository,PeriodeRepository $periodeRepository): Response
+    #[Route('/operations/index', name: 'app_emploie_operations_index', methods: ['GET', 'POST'])]
+    public function index(Request $request, RessourceRepository $ressourceRepository, OperationEmploieRepository $operationEmploieRepository, MoisRepository $moisRepository, ExerciceRepository $exerciceRepository, PeriodeRepository $periodeRepository): Response
     {
         $session = $request->getSession();
         $periode = $session->get('selected_periode_id');
@@ -34,7 +33,7 @@ class OperationsController extends AbstractController
             'Mai' => 5, 'Juin' => 6, 'Juillet' => 7, 'Août' => 8,
             'Septembre' => 9, 'Octobre' => 10, 'Novembre' => 11, 'Décembre' => 12,
         ];
-        $currentYear = (int) date('Y');
+        $currentYear = (int)date('Y');
         $anneeChoices = array_combine(
             range(2020, $currentYear + 10),
             range(2020, $currentYear + 10)
@@ -54,51 +53,60 @@ class OperationsController extends AbstractController
             ])
             ->getForm();
 
-            $m = $moisRepository->findOneBy(['libelle'=>'Septembre']);
-            $y = $exerciceRepository->findOneBy(['annee'=> $currentYear]);
-            $period = $periodeRepository->find($periode );
+//            $m = $moisRepository->findOneBy(['libelle'=>'Septembre']);
+//            $y = $exerciceRepository->findOneBy(['annee'=> $currentYear]);
+
 //            $periode = $periodeRepository->findOneBy(['exercice'=> $y,'mois'=>  $m]);
-        $form->get('mois')->setData((int) date('n'));
-        $form->get('annee')->setData((int) date('Y'));
+        $form->get('mois')->setData((int)date('n'));
+        $form->get('annee')->setData((int)date('Y'));
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $mois = $form->get('mois')->getData();
             $annee = $form->get('annee')->getData();
-
+            $period = $periodeRepository->findOneBy(['exercice' => 7, 'mois' => 2025]);
+            dd($mois, $annee, $period);
+            $totalPris = $ressourceRepository->getTotalMontantPris($period);
+            $st = $operationEmploieRepository->getTotalMontantAPayer($period);
 //            dd( $mois,$annee );
-            return $this->render('emploie/operations/index.html.twig',[
-                'ressources' => $ressourceRepository->getRessourcePeriode($periode,$mois,$annee),
-                'operation_emploies' => $operationEmploieRepository->getOperationEmploiePeriode($periode,$mois,$annee),
-                'sommes'=>$operationEmploieRepository->getTotalRetenue($periode,$mois,$annee),
+            $titre = 'Tableau mensuel des ressources et emploies du mois de ' . $mois . ' ' . $annee;
+            return $this->render('emploie/operations/index.html.twig', [
+                'ressources' => $ressourceRepository->getRessourcePeriode($periode, $mois, $annee),
+                'operation_emploies' => $operationEmploieRepository->getOperationEmploiePeriode($periode, $mois, $annee),
+                'sommes' => $operationEmploieRepository->getTotalRetenue($periode, $mois, $annee),
                 'form' => $form->createView(),
-                'mois'=>$mois,
-                'annee'=>$annee
+                'mois' => $mois,
+                'annee' => $annee,
+                'totalPris' => $totalPris,
+                'st' => $st,
+                'labelPeriode' => $titre,
+                'periode' => $period->getId(),
             ]);
 
         }
-         $totalPris = $ressourceRepository->getTotalMontantPris($periode);
+        $totalPris = $ressourceRepository->getTotalMontantPris($periode);
         $st = $operationEmploieRepository->getTotalMontantAPayer($periode);
         $p = $periodeRepository->find($periode);
 //        $titre = $periodeRepository->find($periode)->getMois()->getLibelle().' '.$periodeRepository->find($periode)->getExercice()->getAnnee();
-        $titre = 'Tableau mensuel des ressources et emploies du mois de'.$p->getMois()->getLibelle().' '.$p->getExercice()->getAnnee() ;
-        return $this->render('emploie/operations/index.html.twig',[
-            'ressources' => $ressourceRepository->findBy(['periode'=>$periode]),
-            'operation_emploies' => $operationEmploieRepository->findBy(['periode'=>$periode]),
-            'sommes'=>$operationEmploieRepository->getTotalRetenue($periode),
+        $titre = 'Tableau mensuel des ressources et emploies du mois de ' . $p->getMois()->getLibelle() . ' '
+            . $p->getExercice()->getAnnee();
+        return $this->render('emploie/operations/index.html.twig', [
+            'ressources' => $ressourceRepository->findBy(['periode' => $periode,'isClotured'=>false]),
+            'operation_emploies' => $operationEmploieRepository->findBy(['periode' => $periode,'isClotured'=>false]),
+            'sommes' => $operationEmploieRepository->getTotalRetenue($periode),
             'form' => $form->createView(),
-            'mois'=>(int) date('n'),
-            'annee'=>(int) date('Y'),
-            'periode'=>$periode,
-            'totalPris'=>$totalPris,
-            'st'=>$st,
-            'labelPeriode'=>$titre
+            'mois' => (int)date('n'),
+            'annee' => (int)date('Y'),
+            'periode' => $periode,
+            'totalPris' => $totalPris,
+            'st' => $st,
+            'labelPeriode' => $titre
         ]);
     }
 
     #[Route('/operations/autorisation_modification/{id}', name: 'app_emploie_operations_autorisation_modification',
-        methods: ['GET','POST'])]
-    public function autorisatioModification(Request $request,OperationEmploie $operationEmploie,OperationEmploieRepository
-    $operationEmploieRepository,EntityManagerInterface $entityManager): Response
+        methods: ['GET', 'POST'])]
+    public function autorisatioModification(Request $request, OperationEmploie $operationEmploie, OperationEmploieRepository $operationEmploieRepository, EntityManagerInterface $entityManager): Response
     {
 
         $form = $this->createForm(DemandeModificationEmploieType::class, $operationEmploie);
@@ -117,11 +125,7 @@ class OperationsController extends AbstractController
 //        ]);
         return $this->handleEmploieForm($request, $entityManager, $operationEmploie, false);
     }
-    #[Route('/{id}/modal-form', name: 'app_emploie_modification_modal_edit_form', methods: ['GET'])]
-    public function modalEditForm(OperationEmploie $emploie): Response
-    {
-        return $this->renderModalForm($emploie, true);
-    }
+
     /**
      * Fonction privée pour gérer le formulaire d'emploi (ajout/modification)
      */
@@ -155,20 +159,6 @@ class OperationsController extends AbstractController
         return $this->render($template, [
             'emploie' => $emploie,
             'form' => $form,
-        ]);
-    }
-
-    /**
-     * Fonction privée pour rendre le formulaire modal
-     */
-    private function renderModalForm(OperationEmploie $emploie, bool $isEdit): Response
-    {
-        $form = $this->createForm(DemandeModificationEmploieType::class, $emploie);
-
-        return $this->render('emploie/emploie/_autorisation_form_modal.html.twig', [
-            'form' => $form->createView(),
-            'emploie' => $emploie,
-            'is_edit' => $isEdit
         ]);
     }
 
@@ -212,7 +202,27 @@ class OperationsController extends AbstractController
         ]);
     }
 
-    public function modification(Request $request, OperationEmploie $operationEmploie,EntityManagerInterface $entityManager): Response
+    #[Route('/{id}/modal-form', name: 'app_emploie_modification_modal_edit_form', methods: ['GET'])]
+    public function modalEditForm(OperationEmploie $emploie): Response
+    {
+        return $this->renderModalForm($emploie, true);
+    }
+
+    /**
+     * Fonction privée pour rendre le formulaire modal
+     */
+    private function renderModalForm(OperationEmploie $emploie, bool $isEdit): Response
+    {
+        $form = $this->createForm(DemandeModificationEmploieType::class, $emploie);
+
+        return $this->render('emploie/emploie/_autorisation_form_modal.html.twig', [
+            'form' => $form->createView(),
+            'emploie' => $emploie,
+            'is_edit' => $isEdit
+        ]);
+    }
+
+    public function modification(Request $request, OperationEmploie $operationEmploie, EntityManagerInterface $entityManager): Response
     {
         return $this->renderModalForm(new OperationEmploie(), false);
     }
@@ -223,19 +233,19 @@ class OperationsController extends AbstractController
     {
         $mois = (int)$request->query->get('mois');
         $annee = (int)$request->get('annee');
-        $emploies= $operationEmploieRepository->findAll();
-       // dd($mois, $annee);
+        $emploies = $operationEmploieRepository->findAll();
+        // dd($mois, $annee);
         if ($mois && $annee) {
-            $emploies=  $operationEmploieRepository->getOperationEmploiePeriode($mois, $annee);
+            $emploies = $operationEmploieRepository->getOperationEmploiePeriode($mois, $annee);
         }
 
         // Récupérer les opérations
-        $name ='emploie';
-      //  $name =$courrier->getReferenceInterne();
+        $name = 'emploie';
+        //  $name =$courrier->getReferenceInterne();
 
         // Utilisation du service ExportService pour exporter en PDF
         return $exportService->exportPdf('emploie/export/emploie.html.twig', [
             'operation_emploies' => $emploies,
-        ],  $name.'.pdf');
+        ], $name . '.pdf');
     }
 }

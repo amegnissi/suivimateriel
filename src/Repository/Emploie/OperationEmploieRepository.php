@@ -51,6 +51,7 @@ class OperationEmploieRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('o')
             ->select('SUM(o.montantAPayer) as total')
             ->where('o.periode = :periode')
+            ->andWhere('o.isClotured = false')
             ->setParameter('periode', $periode)
             ->getQuery()
             ->getSingleScalarResult();
@@ -73,6 +74,7 @@ class OperationEmploieRepository extends ServiceEntityRepository
                 'COALESCE(SUM(o.retenue), 0) as totalRetenues'
             ])
             ->where('o.periode = :periode')
+            ->andWhere('o.isClotured = false')
             ->setParameter('periode', $periode)
         ;
 
@@ -107,6 +109,7 @@ class OperationEmploieRepository extends ServiceEntityRepository
             ->where('o.periode = :periode')
             ->andWhere('o.mois = :mois')
             ->andWhere('o.annee = :annee')
+            ->andWhere('o.isClotured = false')
             ->setParameter('mois', $mois)
             ->setParameter('annee', $annee)
             ->setParameter('periode', $periode)

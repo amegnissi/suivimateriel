@@ -203,6 +203,10 @@ class DashboardController extends AbstractController
         $session = $request->getSession();
         $session->set('__modules__', 'RESSOURCE');
         $periode = $session->get('selected_periode_id');
+        if(!$periode){
+            return $this->redirectToRoute('demarrage', [], Response::HTTP_SEE_OTHER);
+
+        }
 //        dd( $periode );
         $totalPris = $ressourceRepository->getTotalMontantPris($periode);
         $sommes = $operationEmploieRepository->getTotalMontantAPayer($periode);

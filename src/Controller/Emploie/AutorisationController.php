@@ -23,7 +23,7 @@ class AutorisationController extends AbstractController
         return $this->render('emploie/operations/index_autorisation.html.twig',[
             'ressources' => $ressourceRepository->findAll(),
             'operation_emploies' => $operationEmploieRepository->demandeAutorisations(),
-            'sommes'=>$operationEmploieRepository->getTotalRetenue(),
+//            'sommes'=>$operationEmploieRepository->getTotalRetenue(),
         ]);
     }
 

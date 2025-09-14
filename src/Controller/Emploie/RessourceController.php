@@ -35,6 +35,10 @@ final class RessourceController extends AbstractController
     {
         $session = $request->getSession();
         $periode = $session->get('selected_periode_id');
+        if(!$periode){
+            return $this->redirectToRoute('demarrage', [], Response::HTTP_SEE_OTHER);
+
+        }
         $p =  $periodeRepository->find($periode);
         $ressource = new Ressource();
         $ressource->setMois((int) $p->getMois()->getId());

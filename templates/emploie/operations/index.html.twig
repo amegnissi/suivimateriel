@@ -32,33 +32,33 @@
 
 
 
-    <div class="row mt-2">
+{#    <div class="row mt-2">#}
 
-        <div class="col-sm-12">
-            <div class="card__cadr-default">
-                <div class="card-body table-responsive">
-                    {{ form_start(form) }}
-                    <div class="row">
-                    <div class="col-sm-2">
-                        {{ form_widget(form.mois) }}
-                    </div>
-                    <div class="col-sm-2">
-                        {{ form_widget(form.annee) }}
-                    </div>
-                        <div class="col-sm-3">
-                            {{ form_widget(form) }}
-                            <button  type="submit" class="btn btn-primary btn-sm">{{ button_label|default('filtrer') }}</button>
-                            {{ form_end(form) }}
-                        </div>
-                    </div>
+{#        <div class="col-sm-12">#}
+{#            <div class="card__cadr-default">#}
+{#                <div class="card-body table-responsive">#}
+{#                    {{ form_start(form) }}#}
+{#                    <div class="row">#}
+{#                    <div class="col-sm-2">#}
+{#                        {{ form_widget(form.mois) }}#}
+{#                    </div>#}
+{#                    <div class="col-sm-2">#}
+{#                        {{ form_widget(form.annee) }}#}
+{#                    </div>#}
+{#                        <div class="col-sm-3">#}
+{#                            {{ form_widget(form) }}#}
+{#                            <button  type="submit" class="btn btn-primary btn-sm">{{ button_label|default('filtrer') }}</button>#}
+{#                            {{ form_end(form) }}#}
+{#                        </div>#}
+{#                    </div>#}
 
 
-                </div>
-                <!-- /.card-body -->
-            </div>
+{#                </div>#}
+{#                <!-- /.card-body -->#}
+{#            </div>#}
 
-        </div>
-    </div>
+{#        </div>#}
+{#    </div>#}
 
 <div class="row mb-3 mt-5">
 
@@ -71,8 +71,9 @@
                         </div>
                         <div class="col-sm-auto">
 
-                        <a href="{{ path('app_emploie_operation_emploie_cloture', {'id': periode})  }}" class="btn btn-secondary btn-sm btn-edit-lock">
-                        <i class="fa fa-unlock" aria-hidden="true"></i> Cloturer</a>
+{#                        <a href="{{ path('app_emploie_operation_emploie_cloture', {'id': periode})  }}" class="btn btn-secondary btn-sm btn-edit-lock">#}
+                        <button  class="btn  btn-secondary btn-sm btn-edit-lock archiveBtn">
+                        <i class="fa fa-unlock" aria-hidden="true"></i> Clôturer</button>
                         </div>
                     </div>
                 </div>
@@ -143,12 +144,15 @@
                             {% set montantAPayer = montantAPayer + operation_emploie.montantAPayer %}
                             {% set montantRetenue = montantRetenue + operation_emploie.retenue %}
                             {% set totalmontantNet = totalmontantNet + ( montantAPayer - montantRetenue) %}
-                            <tr>
+                            <tr
+                                    class="emploi-row"
+                                    data-product-id="{{ operation_emploie.id }}"
+                            >
                                 <td>{{ loop.index }}</td>
                                 <td>{{ operation_emploie.dateOperation ? operation_emploie.dateOperation|date('Y-m-d') : '' }}</td>
                                 <td>{{ operation_emploie.referenceManuel }}</td>
                                 <td>{{ operation_emploie.annee }}</td>
-                                <td>{{ operation_emploie.mois }}</td>
+                                <td>{{ operation_emploie.nomMois }}</td>
                                 <td>{{ operation_emploie.designation.libelle }}</td>
 
                                 <td>{{ operation_emploie.montantAPayer |number_format(0, ',', ' ')}}</td>
@@ -276,7 +280,9 @@
                         {% for ressource in ressources %}
                          {% set montantPris = montantPris +  ressource.montantPris%}
                         {% set montantRestant = montantRestant + ressource.montantRestant %}
-                            <tr>
+                            <tr class="ressource-row"
+                                data-product-id="{{ ressource.id }}"
+                            >
                                 <td>{{loop.index}}</td>
                                 <td>{{ ressource.referenceManuel }}</td>
                                 <td>{{ ressource.annee }}</td>
@@ -368,6 +374,18 @@
 	</script>
  <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const ressourceRows = document.querySelectorAll(".ressource-row");
+            const emploiRows = document.querySelectorAll(".emploi-row");
+            let ressourceIds = Array.from(ressourceRows).map(row => row.dataset.productId);
+            let emploiIds = Array.from(emploiRows).map(row => row.dataset.productId);
+            let periodeId ={{ periode }}
+             console.log(ressourceIds);
+             console.log(periodeId);
+
+             const ressources = Array.from(ressourceRows).map(row => ({
+                     id: row.dataset.productId
+}                       ));
+
             // Configuration et éléments DOM
             const config = {
                 elements: {
@@ -407,6 +425,14 @@
                         openModal(config, true, emploieId);
                     }
                 });
+
+                document.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('archiveBtn')) {
+                      clotureOperation()
+                    }
+                });
+
+
             }
 
             /**
@@ -595,6 +621,56 @@
                         alertDiv.remove();
                     }
                 }, 5000);
+            }
+
+            function clotureOperation(){
+            // let ressourceIds = Array.from(ressourceRows).map(row => row.dataset.productId);
+            // let emploiIds = Array.from(emploiRows).map(row => row.dataset.productId);
+             const operationData = {
+                         periodeId: periodeId,
+                         ressources: Array.from(ressourceRows).map(row => ({
+                                    id: Number(row.dataset.productId)
+                                  })),
+                         emplois: Array.from(emploiRows).map(row => ({
+                                    id: Number(row.dataset.productId)
+                                  }))
+                }
+
+             fetch('{{ path("app_emploie_demandes_cloture") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(operationData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // alert('Commande enregistrée avec succès ! Numéro: ');
+                    // Réinitialiser le formulaire
+                     if (data.redirect_url) {
+                        window.location.href = data.redirect_url;
+                    } else {
+                        // Redirection par défaut
+                        window.location.href = '/'; // Ajustez selon votre route
+                    }
+
+                } else {
+                    alert('Erreur: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                // alert('Erreur lors de l\'enregistrement de la commande');
+            })
+            .finally(() => {
+                // Réactiver le bouton
+                archiveBtn.disabled = false;
+                // checkoutBtn.innerHTML = originalText;
+            });
+
+
+
             }
         });
     </script>

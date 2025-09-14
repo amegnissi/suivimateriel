@@ -28,19 +28,19 @@ class RessourceType extends ApplicationType
             range(2020, $currentYear + 10)
         );
         $builder
-            ->add('mois', ChoiceType::class, [
-                'choices' => $moisChoices,
-                'label' => 'Mois',
-                'placeholder' => 'Choisissez un mois',
-            ])
-            ->add('annee', ChoiceType::class, [
-                'choices' => $anneeChoices,
-                'label' => 'Année',
-                'placeholder' => 'Choisissez une année',
-            ])
+//            ->add('mois', ChoiceType::class, [
+//                'choices' => $moisChoices,
+//                'label' => 'Mois',
+//                'placeholder' => 'Choisissez un mois',
+//            ])
+//            ->add('annee', ChoiceType::class, [
+//                'choices' => $anneeChoices,
+//                'label' => 'Année',
+//                'placeholder' => 'Choisissez une année',
+//            ])
             ->add('sourcesPaiement')
             ->add('montantPris',NumberType::class,[
-               'label'=> 'Montant à approvisionner ', 
+               'label'=> 'Montant à approvisionner ',
             ])
              ->add('totalRessources',NumberType::class,[
                 'label'=> 'Total des ressources',

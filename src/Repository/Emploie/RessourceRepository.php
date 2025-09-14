@@ -46,6 +46,7 @@ class RessourceRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('r')
             ->select('SUM(r.montantPris) as total')
             ->where('r.periode = :periode')
+            ->andWhere('r.isClotured = false')
             ->setParameter('periode', $periode)
             ->getQuery()
             ->getSingleScalarResult();
@@ -56,6 +57,7 @@ class RessourceRepository extends ServiceEntityRepository
             ->where('r.periode = :periode')
             ->andWhere('r.mois = :mois')
             ->andWhere('r.annee = :annee')
+            ->andWhere('r.isClotured = false')
             ->setParameter('mois', $mois)
             ->setParameter('annee', $annee)
             ->setParameter('periode', $periode)

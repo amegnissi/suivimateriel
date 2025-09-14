@@ -219,7 +219,10 @@
 {% block javascript %}
 <script>
 
+
+
     document.addEventListener('DOMContentLoaded', function() {
+
     let selectedExerciceId = null; // Variable globale pour stocker la sélection
 
     // Gestion de la sélection radio exercice
@@ -232,7 +235,8 @@
     // const bodyId = `${targetModalId.replace('modal-', '')}-body`; // e.g., 'periode-body'
     // const bodyId = `${targetModalId.replace('modal-', '')}-body`; // e.g., 'periode-body'
     const modalBody = document.getElementById('periode-body');
-
+    const chargerBtn = document.querySelector('.charger-btn');
+    chargerBtn.disabled = true;
     try {
     // Appel AJAX simple avec fetch
     const boundFetch = window.fetch.bind(window);
@@ -274,6 +278,9 @@
 
     modalBody.innerHTML = tableHtml;
 
+    if (chargerBtn) {
+    chargerBtn.disabled = false;
+ }
 
 } catch (error) {
     console.error('Erreur AJAX:', error);
@@ -364,7 +371,7 @@
     document.querySelectorAll('.nouveau-btn').forEach(btn => {
     btn.addEventListener('click', function() {
     // Logique pour nouveau exercice (e.g., data-bs-toggle="modal" data-bs-target="#modal-nouveau")
-    console.log('Ouverture modal nouveau exercice');
+  //  console.log('Ouverture modal nouveau exercice');
 });
 });
 

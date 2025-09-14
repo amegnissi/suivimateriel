@@ -1,0 +1,356 @@
+{% extends 'base-dashboard.html.twig' %}
+{% block css %}
+
+    <link rel="stylesheet"
+          href="{{ asset('adminlte/plugins/datatables/datatables.css') }}">
+
+    <!-- DataTables -->
+
+{% endblock %}
+{% block title %}  Liste des Emploie & Ressources clôturées{% endblock %}
+{% block breadcrumb %}Clo{% endblock %}
+{% block  breadcrumb_item %} Emploie & Ressources{% endblock %}
+{% block  breadcrumb_t %} Emploie & Ressources{% endblock %}
+
+{# {% block breadcrumb %}{% endblock %} #}
+{# {% block  breadcrumb_item %}{% endblock %} #}
+{# {% block  breadcrumb_t %} {% endblock %} #}
+{% block content %}
+{#    <div class="card-body border-bottom-dashed border-bottom">#}
+{#        <div class="card-body p-2">#}
+
+{#            <div class="accordion mt-4" id="accordionConsommations">#}
+{#                {% for annee, excercices in excerciesCloturees %}#}
+{#                    <h3>Exercice : {{ annee }}</h3>#}
+{#                    <div class="accordion-item">#}
+{#                        <h2 class="accordion-header" id="heading{{ annee }}-{{ loop.index }}">#}
+{#                            <button class="accordion-button {{ not loop.first ? 'collapsed' }}"#}
+{#                                    type="button"#}
+{#                                    data-bs-toggle="collapse"#}
+{#                                    data-bs-target="#collapse{{ annee }}-{{ loop.index }}"#}
+{#                                    aria-expanded="{{ loop.first ? 'true' : 'false' }}"#}
+{#                                    aria-controls="collapse{{ annee }}-{{ loop.index }}">#}
+{#                                {{ excercies.mois.libelle }}#}
+{#                            </button>#}
+{#                        </h2>#}
+{#                        <div id="collapse{{ annee }}-{{ loop.index }}" class="accordion-collapse collapse {{ loop.first ? 'show' }}"#}
+{#                             aria-labelledby="heading{{ annee }}-{{ loop.index }}"#}
+{#                             data-bs-parent="#accordion{{ annee }}">#}
+{#                            <h3 class="card-title  m-3">#}
+{#                                Tableau des emploies#}
+{#                            </h3>#}
+{#                            <div class="accordion-body p-0">#}
+{#                                <div class="p-3">#}
+{#                                    <table#}
+{#                                            id="example1"#}
+{#                                            class="table table-bordered table-striped__ table-hover text-nowrap table-valign-middle">#}
+{#                                        <thead>#}
+{#                                        <tr>#}
+{#                                            <th>#</th>#}
+{#                                            <th>Date</th>#}
+{#                                            <th>Reference</th>#}
+{#                                            <th>Annee</th>#}
+{#                                            <th>Mois</th>#}
+{#                                            <th>Designation</th>#}
+{#                                            <th>Montant à payer</th>#}
+{#                                            <th>Retenue à faire</th>#}
+
+{#                                            <th>Caisses retenues</th>#}
+{#                                            <th>Montant net</th>#}
+{#                                            <th>actions</th>#}
+{#                                        </tr>#}
+{#                                        </thead>#}
+{#                                        <tbody>#}
+{#                                        {% set montantAPayer = 0 %}#}
+{#                                        {% set montantRetenue = 0 %}#}
+{#                                        {% set totalmontantNet = 0 %}#}
+{#                                        {% for operation_emploie in excercies.operationEmploies %}#}
+{#                                            {% if  operation_emploie.isclotured == true %}#}
+{#                                                {% set montantAPayer = montantAPayer + operation_emploie.montantAPayer %}#}
+{#                                                {% set montantRetenue = montantRetenue + operation_emploie.retenue %}#}
+{#                                                {% set totalmontantNet = totalmontantNet + ( montantAPayer - montantRetenue) %}#}
+{#                                                <tr#}
+{#                                                        class="emploi-row"#}
+{#                                                        data-product-id="{{ operation_emploie.id }}"#}
+{#                                                >#}
+{#                                                    <td>{{ loop.index }}</td>#}
+{#                                                    <td>{{ operation_emploie.dateOperation ? operation_emploie.dateOperation|date('Y-m-d') : '' }}</td>#}
+{#                                                    <td>{{ operation_emploie.referenceManuel }}</td>#}
+{#                                                    <td>{{ operation_emploie.annee }}</td>#}
+{#                                                    <td>{{ operation_emploie.nomMois }}</td>#}
+{#                                                    <td>{{ operation_emploie.designation.libelle }}</td>#}
+
+{#                                                    <td>{{ operation_emploie.montantAPayer |number_format(0, ',', ' ') }}</td>#}
+{#                                                    <td>{{ operation_emploie.retenue |number_format(0, ',', ' ') }}</td>#}
+
+{#                                                    <td>{{ operation_emploie.caisse ?operation_emploie.caisse.libelle : '' }}</td>#}
+{#                                                    <td>{{ (operation_emploie.montantAPayer -operation_emploie.retenue) |number_format(0,#}
+{#                                                            ',', ' ') }}</td>#}
+
+{#                                                    <td class="align-middle text-center">#}
+
+{#                                                        <div class="common-align gap-2 justify-content-start">#}
+{#                                                            {% set path ='#' %}#}
+{#                                                            #}{#     {%  if  not is_granted('ROLE_SUPER_ADMIN') %} #}
+{#                                                            {% if operation_emploie.autorisation == null or operation_emploie.autorisation == 'modification_secretaire' %}#}
+{#                                                                {% set path = path#}
+{#                                                                    ('app_emploie_operations_autorisation_modification',{'id':#}
+{#                                                                        operation_emploie.id}) %}#}
+{#                                                                <button type="button"#}
+{#                                                                        class="btn btn-warning btn-sm btn-edit-emploie"#}
+{#                                                                        data-emploie-id="{{ operation_emploie.id }}">#}
+{#                                                                    <i class="far fa-edit"></i>#}
+{#                                                                </button>#}
+
+{#                                                                #}{#                                                {{ path('app_emploie_operation_emploie_edit', {'id': operation_emploie.id}) }} #}
+{#                                                            {% endif %}#}
+{#                                                            {% if operation_emploie.autorisation == 'autorisation_acceptee' %}#}
+{#                                                                {% set path = path#}
+{#                                                                    ('app_emploie_operations_autorisation_modification',{'id':#}
+{#                                                                        operation_emploie.id}) %}#}
+{#                                                                <a class="btn btn-success btn-sm" href="{{ path#}
+{#                                                                    ('app_emploie_operation_emploie_edit', {'id':#}
+{#                                                                        operation_emploie.id}) }}">#}
+{#                                                                    <i class="fas fa-pencil-alt"></i>#}
+{#                                                                </a>#}
+
+{#                                                                #}{#                                                {{ path('app_emploie_operation_emploie_edit', {'id': operation_emploie.id}) }} #}
+{#                                                            {% endif %}#}
+{#                                                            {% if operation_emploie.autorisation == 'demande_modification' %}#}
+
+{#                                                                <a class="btn btn-warning btn-sm" href="#" title="En attente#}
+{#                                                d'autorisation">#}
+{#                                                                    <i class="fas fa-circle-notch fa-spin"></i>#}
+{#                                                                </a>#}
+
+{#                                                                #}{#                                                {{ path('app_emploie_operation_emploie_edit', {'id': operation_emploie.id}) }} #}
+{#                                                            {% endif %}#}
+
+{#                                                            #}{#                              {% endif %} #}
+
+{#                                                            #}{#                                    <a href="{{ path('app_emploie_operation_emploie_show', {'id': operation_emploie.id}) }}">show</a> #}
+{#                                                            #}{#                                    <a href="{{ path('app_emploie_operation_emploie_edit', {'id': operation_emploie.id}) }}">edit</a> #}
+{#                                                        </div>#}
+{#                                                    </td>#}
+{#                                                </tr>#}
+{#                                            {% else %}#}
+{#                                                <tr>#}
+{#                                                    <td colspan="11">no records found</td>#}
+{#                                                </tr>#}
+{#                                            {% endif %}#}
+{#                                        {% endfor %}#}
+{#                                        </tbody>#}
+{#                                        <tfoot>#}
+{#                                        #}{#                                    <tr> #}
+{#                                        #}{#                                        <th colspan="6" class="text-right"><span class="font-weight-bold text-end float-end"> #}
+{#                                        #}{#                                    Total:</span> </th> #}
+{#                                        #}{#                                        <th>{{ sommes['totalMontantAPayer'] |number_format(0, ',', ' ')}}</th> #}
+{#                                        #}{#                                        <th>{{ sommes['totalRetenues'] |number_format(0, ',', ' ')}}</th> #}
+{#                                        #}{#                                        <th>{{ sommes['difference'] |number_format(0, ',', ' ')}}</th> #}
+{#                                        #}{#                                        <th></th> #}
+{#                                        #}{#                                    </tr> #}
+{#                                        </tfoot>#}
+{#                                    </table>#}
+{#                                    #}{#                                <div class="p-3 d-flex justify-content-between align-items-center"> #}
+{#                                    #}{#                                    <strong>Montant : {{ consommation.montant|number_format(0, ',', ' ') }} F CFA</strong> #}
+{#                                    #}{#                                    <a href="" #}
+{#                                    #}{#                                       class="btn btn-sm {{ consommation.estPaye ? 'btn-outline-success disabled' : 'btn-success' }}"> #}
+{#                                    #}{#                                        <i class="ri-bank-card-line me-1"></i> #}
+{#                                    #}{#                                       #}
+{#                                    #}{#                                    </a> #}
+{#                                    #}{#                                </div> #}
+{#                                </div>#}
+
+{#                                <div class="p-3">#}
+{#                                    <h3 class="card-title  m-3">#}
+{#                                        Tableau des ressources#}
+{#                                    </h3>#}
+{#                                    <table id="example2"#}
+{#                                           class="table table-bordered table-striped__ table-hover text-nowrap table-valign-middle">#}
+{#                                        <thead>#}
+{#                                        <tr>#}
+{#                                            <th>#</th>#}
+{#                                            <th>Reference</th>#}
+{#                                            <th>Annee</th>#}
+{#                                            <th>Mois</th>#}
+{#                                            <th>Sources de paiement</th>#}
+{#                                            <th>Montant provisionne</th>#}
+{#                                            <th>Solde des operations</th>#}
+{#                                        </tr>#}
+{#                                        </thead>#}
+{#                                        <tbody>#}
+{#                                        {% set montantPris = 0 %}#}
+{#                                        {% set montantRestant = 0 %}#}
+{#                                        {% for ressource in excercies.ressource %}#}
+{#                                            {% if ressource.isclotured == true %}#}
+{#                                                {% set montantPris = montantPris +  ressource.montantPris %}#}
+{#                                                {% set montantRestant = montantRestant + ressource.montantRestant %}#}
+{#                                                <tr class="ressource-row"#}
+{#                                                    data-product-id="{{ ressource.id }}"#}
+{#                                                >#}
+{#                                                    <td>{{ loop.index }}</td>#}
+{#                                                    <td>{{ ressource.referenceManuel }}</td>#}
+{#                                                    <td>{{ ressource.annee }}</td>#}
+{#                                                    <td>{{ ressource.nomMois }}</td>#}
+{#                                                    <td>{{ ressource.sourcesPaiement }}</td>#}
+{#                                                    <td>{{ ressource.montantPris |number_format(0, ',', ' ') }}</td>#}
+{#                                                    {% if ressource.montantRestant > 0 %}#}
+{#                                                    <td style='background-color: green; color: white'>#}
+{#                                                        {% else %}#}
+{#                                                    <td style='background-color: red;'>#}
+{#                                                        {% endif %}#}
+{#                                                        {{ ressource.montantRestant |number_format(0, ',', ' ') }}</td>#}
+{#                                                </tr>#}
+{#                                            {% else %}#}
+{#                                                <tr>#}
+{#                                                    <td colspan="8">no records found</td>#}
+{#                                                </tr>#}
+{#                                            {% endif %}#}
+{#                                        {% endfor %}#}
+{#                                        </tbody>#}
+{#                                        <tfoot>#}
+{#                                        <tr>#}
+{#                                            <th colspan="5" class="text-right"><span#}
+{#                                                        class="font-weight-bold text-end float-end">#}
+{#                                    Total:</span></th>#}
+{#                                            <th>{{ montantPris|number_format(0, ',', ' ') }}</th>#}
+{#                                            <th>{{ montantRestant |number_format(0, ',', ' ') }}</th>#}
+
+{#                                        </tr>#}
+{#                                        </tfoot>#}
+{#                                    </table>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                {% else %}#}
+{#                    <div class="alert alert-info mt-3">Aucune consommation enregistrée pour ce séjour.</div>#}
+{#                {% endfor %}#}
+{#            </div>#}
+
+{#        </div>#}
+{#    </div>#}
+    <div class="accordion mt-5" id="accordionConsommations">
+        {% for annee, excercices in excerciesCloturees %}
+            <h3>Exercice : {{ annee }}</h3>
+
+            <div class="accordion" id="accordion{{ annee }}">
+                {% for excercies in excercices %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading{{ annee }}-{{ loop.index }}">
+                            <button class="accordion-button {{ not loop.first ? 'collapsed' }}"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapse{{ annee }}-{{ loop.index }}"
+                                    aria-expanded="{{ loop.first ? 'true' : 'false' }}"
+                                    aria-controls="collapse{{ annee }}-{{ loop.index }}">
+                                {{ excercies.mois.libelle }}
+                            </button>
+                        </h2>
+
+                        <div id="collapse{{ annee }}-{{ loop.index }}"
+                             class="accordion-collapse collapse {{ loop.first ? 'show' }}"
+                             aria-labelledby="heading{{ annee }}-{{ loop.index }}"
+                             data-bs-parent="#accordion{{ annee }}">
+
+                            <div class="accordion-body p-0">
+
+                                {# === Tableau des emplois === #}
+                                <h3 class="card-title m-3">Tableau des emplois</h3>
+                                <div class="p-3">
+                                    <table class="table table-bordered table-hover text-nowrap">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Date</th>
+                                            <th>Référence</th>
+                                            <th>Année</th>
+                                            <th>Mois</th>
+                                            <th>Désignation</th>
+                                            <th>Montant à payer</th>
+                                            <th>Retenue</th>
+                                            <th>Caisse</th>
+                                            <th>Montant net</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% set montantAPayer = 0 %}
+                                        {% set montantRetenue = 0 %}
+                                        {% for operation_emploie in excercies.operationEmploies %}
+                                            {% if operation_emploie.isclotured %}
+                                                {% set montantAPayer = montantAPayer + operation_emploie.montantAPayer %}
+                                                {% set montantRetenue = montantRetenue + operation_emploie.retenue %}
+                                                <tr class="emploi-row" data-product-id="{{ operation_emploie.id }}">
+                                                    <td>{{ loop.index }}</td>
+                                                    <td>{{ operation_emploie.dateOperation ? operation_emploie.dateOperation|date('Y-m-d') }}</td>
+                                                    <td>{{ operation_emploie.referenceManuel }}</td>
+                                                    <td>{{ operation_emploie.annee }}</td>
+                                                    <td>{{ operation_emploie.nomMois }}</td>
+                                                    <td>{{ operation_emploie.designation.libelle }}</td>
+                                                    <td>{{ operation_emploie.montantAPayer|number_format(0, ',', ' ') }}</td>
+                                                    <td>{{ operation_emploie.retenue|number_format(0, ',', ' ') }}</td>
+                                                    <td>{{ operation_emploie.caisse ? operation_emploie.caisse.libelle }}</td>
+                                                    <td>{{ (operation_emploie.montantAPayer - operation_emploie.retenue)|number_format(0, ',', ' ') }}</td>
+                                                    <td class="text-center">
+                                                        {# actions boutons ici #}
+                                                    </td>
+                                                </tr>
+                                            {% endif %}
+                                        {% else %}
+                                            <tr><td colspan="11">Aucun emploi trouvé</td></tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                {# === Tableau des ressources === #}
+                                <h3 class="card-title m-3">Tableau des ressources</h3>
+                                <div class="p-3">
+                                    <table class="table table-bordered table-hover text-nowrap">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Référence</th>
+                                            <th>Année</th>
+                                            <th>Mois</th>
+                                            <th>Source de paiement</th>
+                                            <th>Montant provisionné</th>
+                                            <th>Solde des opérations</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% set montantPris = 0 %}
+                                        {% set montantRestant = 0 %}
+                                        {% for ressource in excercies.ressource %}
+                                            {% if ressource.isclotured %}
+                                                {% set montantPris = montantPris + ressource.montantPris %}
+                                                {% set montantRestant = montantRestant + ressource.montantRestant %}
+                                                <tr class="ressource-row" data-product-id="{{ ressource.id }}">
+                                                    <td>{{ loop.index }}</td>
+                                                    <td>{{ ressource.referenceManuel }}</td>
+                                                    <td>{{ ressource.annee }}</td>
+                                                    <td>{{ ressource.nomMois }}</td>
+                                                    <td>{{ ressource.sourcesPaiement }}</td>
+                                                    <td>{{ ressource.montantPris|number_format(0, ',', ' ') }}</td>
+                                                    <td style="background-color: {{ ressource.montantRestant > 0 ? 'green' : 'red' }}; color: white">
+                                                        {{ ressource.montantRestant|number_format(0, ',', ' ') }}
+                                                    </td>
+                                                </tr>
+                                            {% endif %}
+                                        {% else %}
+                                            <tr><td colspan="7">Aucune ressource trouvée</td></tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

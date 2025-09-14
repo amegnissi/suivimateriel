@@ -44,6 +44,14 @@ class Ressource
     #[ORM\ManyToOne(inversedBy: 'ressource')]
     private ?Periode $periode = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isClotured = null;
+
+    public function __construct()
+    {
+        $this->isClotured = false;
+
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -143,6 +151,18 @@ class Ressource
     public function setPeriode(?Periode $periode): static
     {
         $this->periode = $periode;
+
+        return $this;
+    }
+
+    public function isClotured(): ?bool
+    {
+        return $this->isClotured;
+    }
+
+    public function setIsClotured(?bool $isClotured): static
+    {
+        $this->isClotured = $isClotured;
 
         return $this;
     }

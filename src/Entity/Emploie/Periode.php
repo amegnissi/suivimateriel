@@ -41,6 +41,8 @@ class Periode
 
     public function __construct()
     {
+        $this->isCloture = false;
+        $this->isArchive = false;
         $this->ressource = new ArrayCollection();
         $this->operationEmploies = new ArrayCollection();
     }
